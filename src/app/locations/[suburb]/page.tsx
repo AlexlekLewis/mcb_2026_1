@@ -83,7 +83,7 @@ export default async function LocationPage({ params }: Props) {
             title={`Curtains and Blinds ${suburb.name}`}
             subtitle={`Premium Window Furnishings for ${suburb.name} Homes`}
             heroImage="/assets/curtain_hero.png" // Could rotate this based on suburb index if we had more images
-            description={`Elevate your home in ${suburb.name} with our range of custom made curtains, blinds, and shutters. We bring the showroom to you.`}
+            description={`Elevate your home in ${suburb.name} with our range of custom made curtains, blinds, and shutters. We come to you with samples.`}
             features={features}
             types={types}
             ctaText="Book Free Measure"

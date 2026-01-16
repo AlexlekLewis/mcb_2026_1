@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { ChevronDown, Menu, Phone, ShoppingCart, Search, X } from "lucide-react";
+import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
@@ -70,7 +70,7 @@ export function Navbar() {
                 {/* Top Bar (Promo) */}
                 {!isScrolled && (
                     <div className="absolute top-0 left-0 right-0 -mt-10 h-10 bg-mcb-charcoal text-white flex items-center justify-center text-xs tracking-widest uppercase font-medium">
-                        End of Financial Year Sale - Up to 40% Off Motorisation
+                        New Year Sale - Up to 40% Off Motorisation
                     </div>
                 )}
 
@@ -166,19 +166,16 @@ export function Navbar() {
                             ))}
                         </div>
 
-                        {/* Actions */}
-                        <div className="hidden lg:flex items-center gap-6">
-                            <a href="tel:1300732319" className={cn("flex items-center gap-2 font-medium transition-colors hover:text-mcb-terracotta", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
-                                <Phone size={18} />
-                                <span className="hidden xl:inline">1300 732 319</span>
+                        <div className="hidden lg:flex items-center gap-4 shrink-0">
+                            <a href="tel:1300732319" className={cn("flex items-center gap-2 font-medium transition-colors hover:text-mcb-terracotta whitespace-nowrap shrink-0", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
+                                <Phone size={18} className="shrink-0" />
+                                <span className="whitespace-nowrap">1300&nbsp;732&nbsp;319</span>
                             </a>
                             <button className={cn("hover:text-mcb-terracotta transition-colors", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
                                 <Search size={20} />
                             </button>
-                            <button className={cn("hover:text-mcb-terracotta transition-colors", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
-                                <ShoppingCart size={20} />
-                            </button>
-                            <Link href="/quote" className="bg-mcb-terracotta text-white px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl">
+
+                            <Link href="/quote" className="bg-mcb-terracotta text-white px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
                                 Book Quote
                             </Link>
                         </div>

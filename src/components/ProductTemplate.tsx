@@ -7,6 +7,7 @@ import { ArrowRight, Check, Star, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GoogleReviewsWidget } from "./GoogleReviewsWidget";
 import { ProcessTimeline } from "./ProcessTimeline";
+import { PaymentOptions } from "./PaymentOptions";
 
 interface ProductFeature {
     title: string;
@@ -158,6 +159,11 @@ export function ProductTemplate({
                             </div>
                         </div>
                     ))}
+                </div>
+
+                {/* Payment Options Integration */}
+                <div className="max-w-4xl mx-auto mt-16">
+                    <PaymentOptions />
                 </div>
             </section>
 

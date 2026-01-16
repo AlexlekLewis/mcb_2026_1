@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/motorisation',
         '/contact',
         '/about',
-        '/showroom',
+
         '/projects',
         '/locations',
     ]

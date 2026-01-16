@@ -29,7 +29,7 @@ export const metadata: Metadata = {
         url: '/assets/og-image.jpg', // Ensure this asset exists or is created
         width: 1200,
         height: 630,
-        alt: 'Modern Curtains and Blinds Showroom',
+        alt: 'Modern Curtains and Blinds',
       },
     ],
   },

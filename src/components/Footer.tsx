@@ -45,11 +45,12 @@ export function Footer() {
                         <h4 className="font-serif text-lg mb-6 text-mcb-clay-light">Company</h4>
                         <ul className="space-y-4 text-stone-300">
                             <li><Link href="/about" className="hover:text-white transition-colors">Our Story</Link></li>
-                            <li><Link href="/showroom" className="hover:text-white transition-colors">Visit Showroom</Link></li>
                             <li><Link href="/projects" className="hover:text-white transition-colors">Project Gallery</Link></li>
                             <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
                             <li><Link href="/consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
                             <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
+                            <li><Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
+                            <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
                         </ul>
                     </div>
 
@@ -59,7 +60,7 @@ export function Footer() {
                         <ul className="space-y-4 text-stone-300">
                             <li className="flex items-start gap-3">
                                 <MapPin className="text-mcb-terracotta mt-1 shrink-0" size={18} />
-                                <span>Preston, Victoria, Australia</span>
+                                <span>Melbourne, Victoria, Australia <br />(We come to you)</span>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone className="text-mcb-terracotta" size={18} />
@@ -77,8 +78,12 @@ export function Footer() {
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-stone-500">
                     <p>© {new Date().getFullYear()} Modern Curtains and Blinds. Australian Made & Owned.</p>
                     <div className="flex gap-6">
-                        <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-                        <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+                        <a href="https://facebook.com/moderncurtains" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                            <Facebook size={20} />
+                        </a>
+                        <a href="https://instagram.com/moderncurtains" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                            <Instagram size={20} />
+                        </a>
                     </div>
                 </div>
             </div>

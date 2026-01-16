@@ -211,11 +211,36 @@ export default function QuoteForm() {
         });
     };
 
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus("loading");
+
+        try {
+            const res = await fetch("/api/quote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            if (res.ok) {
+                setStatus("success");
+                // Reset form optionally, or redirect
+            } else {
+                setStatus("error");
+            }
+        } catch (error) {
+            console.error(error);
+            setStatus("error");
+        }
     };
 
     return (
@@ -269,208 +294,230 @@ export default function QuoteForm() {
                             Get a Free Quote
                         </h1>
                         <p className="text-stone-500 text-lg">
-                            Tell us about your project and we'll bring the showroom to you.
+                            Tell us about your project and we'll bring our samples to you.
                         </p>
                     </div>
 
-                    <form className="space-y-8">
-                        {/* Personal Details */}
-                        <div className="space-y-6">
-                            <h3 className="text-lg font-medium text-stone-800 border-b border-stone-200 pb-2">
-                                1. Your Details
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <InputField
-                                    icon={<User className="w-5 h-5 text-stone-400" />}
-                                    label="First Name"
-                                    name="firstName"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
-                                    placeholder="Jane"
-                                />
-                                <InputField
-                                    icon={<User className="w-5 h-5 text-stone-400" />}
-                                    label="Last Name"
-                                    name="lastName"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                    placeholder="Doe"
-                                />
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <InputField
-                                    icon={<Mail className="w-5 h-5 text-stone-400" />}
-                                    label="Email"
-                                    name="email"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="jane@example.com"
-                                />
-                                <InputField
-                                    icon={<Phone className="w-5 h-5 text-stone-400" />}
-                                    label="Phone"
-                                    name="phone"
-                                    type="tel"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    placeholder="0400 000 000"
-                                />
-                            </div>
-                            <InputField
-                                icon={<MapPin className="w-5 h-5 text-stone-400" />}
-                                label="Suburb"
-                                name="suburb"
-                                value={formData.suburb}
-                                onChange={handleChange}
-                                placeholder="Richmond, VIC"
-                            />
-                        </div>
-
-                        {/* Project Details */}
-                        <div className="space-y-6">
-                            <h3 className="text-lg font-medium text-stone-800 border-b border-stone-200 pb-2">
-                                2. Project Details
-                            </h3>
-
-                            <div className="space-y-3">
-                                <label className="block text-sm font-medium text-stone-700">
-                                    What products are you interested in?
-                                </label>
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                    {productOptions.map((product) => (
-                                        <button
-                                            key={product}
-                                            type="button"
-                                            onClick={() => handleProductToggle(product)}
-                                            className={cn(
-                                                "flex items-center justify-center py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200 border",
-                                                formData.products.includes(product)
-                                                    ? "bg-stone-800 text-white border-stone-800 shadow-md transform scale-[1.02]"
-                                                    : "bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:bg-stone-50"
-                                            )}
-                                        >
-                                            {product}
-                                        </button>
-                                    ))}
+                    <AnimatePresence mode="wait">
+                        {status === "success" ? (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="text-center py-12"
+                            >
+                                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <Check className="w-10 h-10 text-green-600" />
                                 </div>
-                            </div>
-
-                            <AnimatePresence>
-                                {showWindowCount && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: "auto" }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        className="space-y-3 overflow-hidden"
-                                    >
-                                        <label className="block text-sm font-medium text-stone-700">
-                                            How many windows or doors?
-                                        </label>
-                                        <div className="flex flex-wrap gap-4">
-                                            {windowOptions.map((option) => (
-                                                <label
-                                                    key={option}
-                                                    className={cn(
-                                                        "flex items-center gap-2 cursor-pointer py-2 px-4 rounded-full border transition-all",
-                                                        formData.windowCount === option
-                                                            ? "bg-stone-100 border-stone-400 ring-1 ring-stone-400"
-                                                            : "bg-white border-stone-200 hover:border-stone-300"
-                                                    )}
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        name="windowCount"
-                                                        value={option}
-                                                        checked={formData.windowCount === option}
-                                                        onChange={handleChange}
-                                                        className="text-stone-800 focus:ring-stone-500"
-                                                        required={showWindowCount}
-                                                    />
-                                                    <span className="text-sm text-stone-700">{option}</span>
-                                                </label>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Additional Info */}
-                        <div className="space-y-6">
-                            <h3 className="text-lg font-medium text-stone-800 border-b border-stone-200 pb-2">
-                                3. Final Touches
-                            </h3>
-
-                            <div className="space-y-2">
-                                <label className="block text-sm font-medium text-stone-700">
-                                    How did you hear about us?
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        name="referral"
-                                        value={formData.referral}
+                                <h3 className="text-3xl font-serif text-stone-800 mb-4">Quote Received!</h3>
+                                <p className="text-stone-600 text-lg max-w-md mx-auto">
+                                    Thank you, {formData.firstName}. We'll be in touch shortly to arrange your free measure and quote.
+                                </p>
+                            </motion.div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-8">
+                                {/* Personal Details */}
+                                <div className="space-y-6">
+                                    <h3 className="text-lg font-medium text-stone-800 border-b border-stone-200 pb-2">
+                                        1. Your Details
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <InputField
+                                            icon={<User className="w-5 h-5 text-stone-400" />}
+                                            label="First Name"
+                                            name="firstName"
+                                            value={formData.firstName}
+                                            onChange={handleChange}
+                                            placeholder="Jane"
+                                        />
+                                        <InputField
+                                            icon={<User className="w-5 h-5 text-stone-400" />}
+                                            label="Last Name"
+                                            name="lastName"
+                                            value={formData.lastName}
+                                            onChange={handleChange}
+                                            placeholder="Doe"
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <InputField
+                                            icon={<Mail className="w-5 h-5 text-stone-400" />}
+                                            label="Email"
+                                            name="email"
+                                            type="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder="jane@example.com"
+                                        />
+                                        <InputField
+                                            icon={<Phone className="w-5 h-5 text-stone-400" />}
+                                            label="Phone"
+                                            name="phone"
+                                            type="tel"
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                            placeholder="0400 000 000"
+                                        />
+                                    </div>
+                                    <InputField
+                                        icon={<MapPin className="w-5 h-5 text-stone-400" />}
+                                        label="Suburb"
+                                        name="suburb"
+                                        value={formData.suburb}
                                         onChange={handleChange}
-                                        className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 appearance-none text-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-transparent transition-all"
-                                    >
-                                        <option value="">Select an option</option>
-                                        {referralOptions.map(opt => (
-                                            <option key={opt} value={opt}>{opt}</option>
-                                        ))}
-                                    </select>
-                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none" />
-                                </div>
-                                <AnimatePresence>
-                                    {formData.referral === "Referral" && (
-                                        <motion.div
-                                            initial={{ opacity: 0, height: 0 }}
-                                            animate={{ opacity: 1, height: "auto" }}
-                                            exit={{ opacity: 0, height: 0 }}
-                                            className="overflow-hidden pt-2"
-                                        >
-                                            <InputField
-                                                label="Who referred you?"
-                                                name="referrerName"
-                                                value={(formData as any).referrerName}
-                                                onChange={handleChange}
-                                                placeholder="Enter their name"
-                                                icon={<User className="w-5 h-5 text-stone-400" />}
-                                            />
-                                            <p className="text-xs text-stone-500 mt-1 ml-1">
-                                                Please let us know so we can reach out and thank them!
-                                            </p>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="block text-sm font-medium text-stone-700">
-                                    Additional Message
-                                </label>
-                                <div className="relative">
-                                    <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-stone-400" />
-                                    <textarea
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        className="w-full bg-white border border-stone-200 rounded-xl pl-12 pr-4 py-3 min-h-[120px] text-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-transparent transition-all resize-y"
-                                        placeholder="Any specific requirements or questions?"
+                                        placeholder="Richmond, VIC"
                                     />
                                 </div>
-                            </div>
-                        </div>
 
-                        <button
-                            type="submit"
-                            className="w-full bg-stone-900 text-white font-medium text-lg py-4 rounded-2xl hover:bg-stone-800 transform hover:scale-[1.01] transition-all shadow-lg hover:shadow-xl"
-                        >
-                            Request Free Quote
-                        </button>
-                        <p className="text-center text-xs text-stone-400 mt-4">
-                            We respect your privacy. Your details are safe with us.
-                        </p>
-                    </form>
+                                {/* Project Details */}
+                                <div className="space-y-6">
+                                    <h3 className="text-lg font-medium text-stone-800 border-b border-stone-200 pb-2">
+                                        2. Project Details
+                                    </h3>
+
+                                    <div className="space-y-3">
+                                        <label className="block text-sm font-medium text-stone-700">
+                                            What products are you interested in?
+                                        </label>
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                            {productOptions.map((product) => (
+                                                <button
+                                                    key={product}
+                                                    type="button"
+                                                    onClick={() => handleProductToggle(product)}
+                                                    className={cn(
+                                                        "flex items-center justify-center py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200 border",
+                                                        formData.products.includes(product)
+                                                            ? "bg-stone-800 text-white border-stone-800 shadow-md transform scale-[1.02]"
+                                                            : "bg-white text-stone-600 border-stone-200 hover:border-stone-400 hover:bg-stone-50"
+                                                    )}
+                                                >
+                                                    {product}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <AnimatePresence>
+                                        {showWindowCount && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0 }}
+                                                animate={{ opacity: 1, height: "auto" }}
+                                                exit={{ opacity: 0, height: 0 }}
+                                                className="space-y-3 overflow-hidden"
+                                            >
+                                                <label className="block text-sm font-medium text-stone-700">
+                                                    How many windows or doors?
+                                                </label>
+                                                <div className="flex flex-wrap gap-4">
+                                                    {windowOptions.map((option) => (
+                                                        <label
+                                                            key={option}
+                                                            className={cn(
+                                                                "flex items-center gap-2 cursor-pointer py-2 px-4 rounded-full border transition-all",
+                                                                formData.windowCount === option
+                                                                    ? "bg-stone-100 border-stone-400 ring-1 ring-stone-400"
+                                                                    : "bg-white border-stone-200 hover:border-stone-300"
+                                                            )}
+                                                        >
+                                                            <input
+                                                                type="radio"
+                                                                name="windowCount"
+                                                                value={option}
+                                                                checked={formData.windowCount === option}
+                                                                onChange={handleChange}
+                                                                className="text-stone-800 focus:ring-stone-500"
+                                                                required={showWindowCount}
+                                                            />
+                                                            <span className="text-sm text-stone-700">{option}</span>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+
+                                {/* Additional Info */}
+                                <div className="space-y-6">
+                                    <h3 className="text-lg font-medium text-stone-800 border-b border-stone-200 pb-2">
+                                        3. Final Touches
+                                    </h3>
+
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-stone-700">
+                                            How did you hear about us?
+                                        </label>
+                                        <div className="relative">
+                                            <select
+                                                name="referral"
+                                                value={formData.referral}
+                                                onChange={handleChange}
+                                                className="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 appearance-none text-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-transparent transition-all"
+                                            >
+                                                <option value="">Select an option</option>
+                                                {referralOptions.map(opt => (
+                                                    <option key={opt} value={opt}>{opt}</option>
+                                                ))}
+                                            </select>
+                                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none" />
+                                        </div>
+                                        <AnimatePresence>
+                                            {formData.referral === "Referral" && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, height: 0 }}
+                                                    animate={{ opacity: 1, height: "auto" }}
+                                                    exit={{ opacity: 0, height: 0 }}
+                                                    className="overflow-hidden pt-2"
+                                                >
+                                                    <InputField
+                                                        label="Who referred you?"
+                                                        name="referrerName"
+                                                        value={(formData as any).referrerName}
+                                                        onChange={handleChange}
+                                                        placeholder="Enter their name"
+                                                        icon={<User className="w-5 h-5 text-stone-400" />}
+                                                    />
+                                                    <p className="text-xs text-stone-500 mt-1 ml-1">
+                                                        Please let us know so we can reach out and thank them!
+                                                    </p>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="block text-sm font-medium text-stone-700">
+                                            Additional Message
+                                        </label>
+                                        <div className="relative">
+                                            <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-stone-400" />
+                                            <textarea
+                                                name="message"
+                                                value={formData.message}
+                                                onChange={handleChange}
+                                                className="w-full bg-white border border-stone-200 rounded-xl pl-12 pr-4 py-3 min-h-[120px] text-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-transparent transition-all resize-y"
+                                                placeholder="Any specific requirements or questions?"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={status === "loading"}
+                                    className="w-full bg-stone-900 text-white font-medium text-lg py-4 rounded-2xl hover:bg-stone-800 disabled:opacity-70 disabled:cursor-not-allowed transform hover:scale-[1.01] active:scale-[0.99] transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                                >
+                                    {status === "loading" ? "Sending Request..." : "Request Free Quote"}
+                                </button>
+                                {status === "error" && (
+                                    <p className="text-red-500 text-center text-sm">Something went wrong. Please try calling us instead.</p>
+                                )}
+                                <p className="text-center text-xs text-stone-400 mt-4">
+                                    We respect your privacy. Your details are safe with us.
+                                </p>
+                            </form>
+                        )}
+                    </AnimatePresence>
                 </motion.div>
             </div>
         </section>

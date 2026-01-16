@@ -7,7 +7,7 @@ const steps = [
     {
         icon: ClipboardList,
         title: "1. Free Measure & Quote",
-        description: "We bring the showroom to you. Our experts measure your windows and provide advice on the best fabrics and styles."
+        description: "We bring samples to you. Our experts measure your windows and provide advice on the best fabrics and styles."
     },
     {
         icon: Hammer,

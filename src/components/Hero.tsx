@@ -32,7 +32,7 @@ const SLIDES = [
         type: "image",
         src: "/assets/roller_blind_hero.png",
         headline: "Motorisation Sale.",
-        subhead: "Up to 40% Off Motorised Roller Blinds. End of Financial Year Special.",
+        subhead: "Up to 40% Off Motorised Roller Blinds. New Year Special.",
         cta: "View Offers",
         href: "/blinds",
         align: "right",
