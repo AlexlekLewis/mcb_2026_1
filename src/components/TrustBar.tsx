@@ -1,7 +1,8 @@
-import { ShieldCheck, Award, ThumbsUp, MapPin } from "lucide-react";
+import { ShieldCheck, Award, ThumbsUp, MapPin, Home } from "lucide-react";
 
 const TRUST_ITEMS = [
     { icon: MapPin, label: "Australian Made", sub: "Locally Manufactured" },
+    { icon: Home, label: "Designed for your home", sub: "Your space, Your Style, Your Fit" },
     { icon: ShieldCheck, label: "5-Year Warranty", sub: "On All Products" },
     { icon: Award, label: "Price Match", sub: "Guaranteed Value" },
 ];
