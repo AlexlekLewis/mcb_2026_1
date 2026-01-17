@@ -2,35 +2,36 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
-    try {
-        const body = await request.json();
-        const {
-            firstName,
-            lastName,
-            email,
-            phone,
-            suburb,
-            products,
-            windowCount,
-            referral,
-            referrerName,
-            message,
-        } = body;
+  try {
+    const body = await request.json();
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      suburb,
+      products,
+      windowCount,
+      referral,
+      referrerName,
+      message,
+    } = body;
 
-        // 1. Create a Transporter
-        // Note: You must configure these env vars in .env.local
-        const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST || 'smtp.gmail.com',
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            },
-        });
+    // 1. Create a Transporter
+    // Note: You must configure these env vars in .env.local
+    const port = Number(process.env.SMTP_PORT) || 587;
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: port,
+      secure: port === 465, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
-        // 2. Format the Email Content
-        const htmlContent = `
+    // 2. Format the Email Content
+    const htmlContent = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e5e7eb; border-radius: 8px;">
         <h2 style="color: #1c1917; border-bottom: 2px solid #e6d5c3; padding-bottom: 10px;">New Quote Request</h2>
         
@@ -62,24 +63,28 @@ export async function POST(request: Request) {
       </div>
     `;
 
-        // 3. Send Email
-        // If no env vars are set, we just log it in dev
-        if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-            console.log("Mock Email Sent:", htmlContent);
-            return NextResponse.json({ message: "Mock email processed (Env vars missing)" }, { status: 200 });
-        }
+    // 3. Send Email
+    // If no env vars are set, we just log it in dev
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.warn("⚠️ SMTP Credentials missing. Logging mock email instead.");
+      if (!process.env.SMTP_USER) console.warn("❌ Missing SMTP_USER");
+      if (!process.env.SMTP_PASS) console.warn("❌ Missing SMTP_PASS");
 
-        await transporter.sendMail({
-            from: `"MCB Website" <${process.env.SMTP_USER}>`, // sender address
-            to: process.env.ADMIN_EMAIL || process.env.SMTP_USER, // list of receivers (default to sender if admin not set)
-            subject: `New Quote: ${firstName} ${lastName} (${suburb})`, // Subject line
-            html: htmlContent,
-        });
-
-        return NextResponse.json({ message: "Quote sent successfully" }, { status: 200 });
-
-    } catch (error) {
-        console.error("Error sending email:", error);
-        return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+      console.log("📧 Mock Email Content:", htmlContent);
+      return NextResponse.json({ message: "Mock email processed (Env vars missing). Check server logs for details." }, { status: 200 });
     }
+
+    await transporter.sendMail({
+      from: `"MCB Website" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`, // sender address
+      to: process.env.ADMIN_EMAIL || process.env.SMTP_USER, // list of receivers (default to sender if admin not set)
+      subject: `New Quote: ${firstName} ${lastName} (${suburb})`, // Subject line
+      html: htmlContent,
+    });
+
+    return NextResponse.json({ message: "Quote sent successfully" }, { status: 200 });
+
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+  }
 }

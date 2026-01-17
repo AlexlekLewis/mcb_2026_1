@@ -5,7 +5,7 @@ export default function RomanBlindsPage() {
         <ProductTemplate
             title="Roman Blinds"
             subtitle="Soft folds for a sophisticated, tailored look."
-            heroImage="/assets/roman_blinds_hero.png"
+            heroImage="/assets/roman_blinds_closeup.png"
             description="Roman Blinds combine the softness of curtains with the functionality of blinds. When raised, the fabric stacks neatly in distinct soft folds; when lowered, it creates a smooth, flat decorative finish. An elegant choice for bedrooms and formal living spaces."
             features={[
                 {

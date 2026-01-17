@@ -7,14 +7,22 @@ export function PaymentOptions() {
                 <div className="flex items-center gap-2">
                     <span className="text-stone-500 text-sm font-medium">Interest Free Finance Available</span>
                 </div>
-                <div className="flex items-center gap-6 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                    {/* Payright Logo - Using a reliable placeholder if direct asset fails, but aiming for accuracy */}
-                    <div className="relative h-8 w-24">
+                <div className="flex flex-wrap items-center gap-4">
+                    {/* Payright Banners - Displaying available options */}
+                    <div className="relative h-12 w-32 md:h-16 md:w-48">
                         <Image
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Payright_Logo.svg/1200px-Payright_Logo.svg.png"
-                            alt="Payright"
+                            src="/assets/payright_desktop_0.png"
+                            alt="Payright Finance"
                             fill
-                            className="object-contain" // Contain to ensure it looks correct
+                            className="object-contain"
+                        />
+                    </div>
+                    <div className="relative h-12 w-32 md:h-16 md:w-48 hidden sm:block">
+                        <Image
+                            src="/assets/payright_desktop_1.png"
+                            alt="Buy Now Pay Later"
+                            fill
+                            className="object-contain"
                         />
                     </div>
                 </div>
