@@ -4,7 +4,6 @@ const TRUST_ITEMS = [
     { icon: MapPin, label: "Australian Made", sub: "Locally Manufactured" },
     { icon: ShieldCheck, label: "5-Year Warranty", sub: "On All Products" },
     { icon: Award, label: "Price Match", sub: "Guaranteed Value" },
-    { icon: ThumbsUp, label: "Rated 4.8/5", sub: "2,000+ Reviews" },
 ];
 
 export function TrustBar() {

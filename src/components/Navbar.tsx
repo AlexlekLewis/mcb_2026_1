@@ -35,7 +35,13 @@ const NAV_ITEMS = [
             { title: "Fabrics", items: ["Sheer", "Blockout", "Linen-Look", "Velvet"] }
         ]
     },
-    { label: "Shutters", href: "/shutters" },
+    {
+        label: "Shutters",
+        href: "/shutters",
+        subcategories: [
+            { title: "Our Range", items: ["Plantation Shutters", "Roller Shutters"] }
+        ]
+    },
     { label: "Security", href: "/security" },
     { label: "Outdoor", href: "/awnings" },
     { label: "Motorisation", href: "/motorisation" },
@@ -131,6 +137,9 @@ export function Navbar() {
                                                                 // "S-Fold Curtains" -> "s-fold-curtains"
                                                                 // "Sheer" -> "sheer"
                                                                 href = `/curtains/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                            } else if (item.label === "Shutters") {
+                                                                if (subItem === "Plantation Shutters") href = "/shutters";
+                                                                else href = `/shutters/${subItem.toLowerCase().replace(/ /g, "-")}`;
                                                             }
 
                                                             return (

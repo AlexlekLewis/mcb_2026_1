@@ -4,11 +4,12 @@ import { ArrowRight } from "lucide-react";
 
 // Using the provided assets
 const CATEGORIES = [
-    { title: "Roller Blinds", image: "/assets/roller_blind_hero.png", href: "/blinds", size: "large" },
-    { title: "S-Fold Curtains", image: "/assets/curtain_hero.png", href: "/curtains", size: "large" },
-    { title: "Plantation Shutters", image: "/assets/Landing_Page_Sample.png", href: "/shutters", size: "small" }, // Using sample as shutter proxy if needed or just stock
-    { title: "Security Doors", image: "/assets/security_door_hero.png", href: "/security", size: "small" },
-    { title: "Outdoor Awnings", image: "/assets/awning_hero.png", href: "/awnings", size: "wide" },
+    { title: "Roller Blinds", image: "/assets/roller_blind_hero.png", href: "/blinds", size: "start" },
+    { title: "Curtains", image: "/assets/curtain_hero.png", href: "/curtains", size: "start" },
+    { title: "Plantation Shutters", image: "/assets/plantation_shutters_homepage.png", href: "/shutters", size: "small" },
+    { title: "Roller Shutters", image: "/assets/roller_shutters_homepage.png", href: "/shutters/roller-shutters", size: "small" },
+    { title: "Security Doors and Fly Screens", image: "/assets/security_door_hero.png", href: "/security", size: "small" },
+    { title: "Outdoor", image: "/assets/awning_hero.png", href: "/awnings", size: "small" },
 ];
 
 export function CategoryGrid() {
@@ -21,14 +22,12 @@ export function CategoryGrid() {
                     <p className="text-stone-500 max-w-2xl mx-auto text-lg">Explore our range of premium window furnishings, custom-made to elevate your interior style and comfort.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[300px]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]">
                     {CATEGORIES.map((cat, idx) => (
                         <Link
                             key={idx}
                             href={cat.href}
-                            className={`group relative overflow-hidden rounded-sm cursor-pointer ${cat.size === 'wide' ? 'md:col-span-2 md:row-span-1' :
-                                cat.size === 'large' ? 'md:col-span-2 md:row-span-2' :
-                                    'md:col-span-1 md:row-span-1'
+                            className={`group relative overflow-hidden rounded-sm cursor-pointer ${cat.size === 'start' ? 'md:col-span-1 md:row-span-2' : 'md:col-span-1 md:row-span-1'
                                 }`}
                         >
                             <Image

@@ -37,7 +37,7 @@ export default function SecurityPage() {
                     image: "/assets/decorative_security_door.png" // Updated
                 },
                 {
-                    title: "Window Screens",
+                    title: "Fly Screens",
                     description: "Extend your protection to every opening. Our fixed and exit-safe window screens provide peace of mind for the whole house.",
                     image: "/assets/security_window_screen.png" // Updated
                 }
