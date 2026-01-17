@@ -5,7 +5,7 @@ export default function VelvetCurtainsPage() {
         <ProductTemplate
             title="Velvet Curtains"
             subtitle="Opulent, dramatic, and incredibly cozy."
-            heroImage="/assets/blockout_curtains.png" // Reuse blockout temporarily
+            heroImage="/assets/velvet_curtains_hero.png"
             description="Velvet curtains bring an immediate sense of luxury and drama to a space. The dense pile of the fabric naturally catches the light, creating rich highlights and deep shadows. Beyond looks, velvet is an excellent thermal and acoustic insulator."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function VelvetCurtainsPage() {
                 {
                     title: "Cotton Velvet",
                     description: "Matte finish and natural breathability for a sophisticated look.",
-                    image: "/assets/blockout_curtains.png"
+                    image: "/assets/velvet_cotton_matte.png"
                 },
                 {
                     title: "Poly Velvet",
                     description: "Durable, stain-resistant, and possessing a slight sheen for glamour.",
-                    image: "/assets/blockout_curtains.png"
+                    image: "/assets/velvet_poly_sheen.png"
                 }
             ]}
         />

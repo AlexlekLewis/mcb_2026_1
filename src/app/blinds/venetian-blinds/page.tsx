@@ -25,17 +25,17 @@ export default function VenetianBlindsPage() {
                 {
                     title: "Timber Venetians",
                     description: "Real wood slats that add natural warmth and character to study and living areas.",
-                    image: "/assets/venetian_blinds_timber.png"
+                    image: "/assets/venetian_timber_detail.png"
                 },
                 {
                     title: "PVC Vision Wood",
                     description: "White, bright, and impervious to moisture. The look of wood with the durability of plastic.",
-                    image: "/assets/venetian_blinds_timber.png"
+                    image: "/assets/venetian_pvc_detail.png"
                 },
                 {
                     title: "Aluminium Venetians",
                     description: "Slimline 25mm slats for a retro office chic or modern minimalist aesthetic.",
-                    image: "/assets/venetian_blinds_timber.png"
+                    image: "/assets/venetian_aluminium_detail.png"
                 }
             ]}
         />

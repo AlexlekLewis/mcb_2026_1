@@ -25,17 +25,17 @@ export default function RollerBlindsPage() {
                 {
                     title: "Blockout Rollers",
                     description: "100% privacy and darkness. Perfect for bedrooms and media rooms.",
-                    image: "/assets/roller_blinds_interior.png"
+                    image: "/assets/roller_blockout_detail.png"
                 },
                 {
                     title: "Sunscreen Rollers",
                     description: "Reduce glare and UV rays while keeping your view to the outside. Ideal for living areas.",
-                    image: "/assets/roller_blinds_interior.png"
+                    image: "/assets/roller_sunscreen_detail.png"
                 },
                 {
                     title: "Light Filtering",
                     description: "Softly diffuse light for a glowing interior ambience while maintaining day and night privacy.",
-                    image: "/assets/roller_blinds_interior.png"
+                    image: "/assets/roller_light_filtering_detail.png"
                 }
             ]}
         />

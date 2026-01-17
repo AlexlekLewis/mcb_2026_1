@@ -5,7 +5,7 @@ export default function EyeletCurtainsPage() {
         <ProductTemplate
             title="Eyelet Curtains"
             subtitle="Simple, modern, and easy to operate."
-            heroImage="/assets/curtain_hero.png" // Placeholder
+            heroImage="/assets/eyelet_curtains_hero.png"
             description="Eyelet curtains feature metal rings punched directly into the fabric header, allowing them to slide directly onto a curtain rod. This creates large, soft waves and a casual, contemporary look that works well in living areas and bedrooms."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function EyeletCurtainsPage() {
                 {
                     title: "Modern Living",
                     description: "A practical and stylish choice for high-traffic family rooms.",
-                    image: "/assets/curtain_hero.png" // Placeholder
+                    image: "/assets/eyelet_modern_living.png"
                 },
                 {
                     title: "Kids Rooms",
                     description: "Durable and easy for children to open and close without tangling cords.",
-                    image: "/assets/curtain_hero.png" // Placeholder
+                    image: "/assets/eyelet_kids_room.png"
                 }
             ]}
         />

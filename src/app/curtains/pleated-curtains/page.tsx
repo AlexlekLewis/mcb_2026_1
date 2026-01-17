@@ -5,7 +5,7 @@ export default function PleatedCurtainsPage() {
         <ProductTemplate
             title="Pleated Curtains"
             subtitle="Classic tailoring for a timeless, elegant finish."
-            heroImage="/assets/curtain_hero.png" // Placeholder
+            heroImage="/assets/pleated_curtains_hero.png"
             description="Pleated curtains feature a header that gathers the fabric into uniform folds (pleats). From the classic French (Pinch) Pleat to the versatile Box Pleat, this style adds a touch of traditional formality and structure to any room."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function PleatedCurtainsPage() {
                 {
                     title: "Formal Dining",
                     description: "Create a sense of occasion with heavy, pinch-pleated drapes.",
-                    image: "/assets/curtain_hero.png" // Placeholder
+                    image: "/assets/pleated_pinch_formal.png"
                 },
                 {
                     title: "Classic Bedroom",
                     description: "Add softness and romance with gathered pencil pleats.",
-                    image: "/assets/curtain_hero.png" // Placeholder
+                    image: "/assets/pleated_pencil_bedroom.png"
                 }
             ]}
         />

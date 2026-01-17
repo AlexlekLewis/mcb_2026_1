@@ -5,7 +5,7 @@ export default function RomanBlindsPage() {
         <ProductTemplate
             title="Roman Blinds"
             subtitle="Soft folds for a sophisticated, tailored look."
-            heroImage="/assets/roman_blinds.png"
+            heroImage="/assets/roman_blinds_hero.png"
             description="Roman Blinds combine the softness of curtains with the functionality of blinds. When raised, the fabric stacks neatly in distinct soft folds; when lowered, it creates a smooth, flat decorative finish. An elegant choice for bedrooms and formal living spaces."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function RomanBlindsPage() {
                 {
                     title: "Translucent Romans",
                     description: "Allow soft light to filter through, highlighting the beautiful texture of the fabric weave.",
-                    image: "/assets/roman_blinds.png"
+                    image: "/assets/roman_translucent_detail.png"
                 },
                 {
                     title: "Blockout Romans",
                     description: "Fully lined for thermal insulation and room darkening, making them ideal for bedrooms.",
-                    image: "/assets/roman_blinds.png"
+                    image: "/assets/roman_blockout_detail.png"
                 }
             ]}
         />
