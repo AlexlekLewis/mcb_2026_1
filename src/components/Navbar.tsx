@@ -81,7 +81,7 @@ export function Navbar() {
                 )}
 
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="flex items-center justify-between h-32">
+                    <div className="flex items-center justify-between h-20 lg:h-32">
                         {/* Logo */}
                         <Link href="/" className="relative z-10 block">
                             <Image
@@ -89,7 +89,7 @@ export function Navbar() {
                                 alt="Modern Curtains and Blinds"
                                 width={540} // Increased res
                                 height={180}
-                                className="h-28 w-auto object-contain" // 3x size (approx)
+                                className="h-12 md:h-16 lg:h-28 w-auto object-contain" // Responsive size
                                 priority
                             />
                         </Link>
