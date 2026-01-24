@@ -27,6 +27,7 @@ interface ProductTemplateProps {
     heroImage: string;
     description: string;
     features: ProductFeature[];
+    benefits?: string[]; // Add benefits prop
     types: ProductType[];
     ctaText?: string;
     nearbyLocations?: { name: string; slug: string; postcode: string }[];
@@ -38,8 +39,9 @@ export function ProductTemplate({
     heroImage,
     description,
     features,
+    benefits,
     types,
-    ctaText = "Book Free Consultation",
+    ctaText = "Book a Free Measure and Quote",
     nearbyLocations
 }: ProductTemplateProps) {
     return (

@@ -2,8 +2,8 @@ import { ProductTemplate } from "@/components/ProductTemplate";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
 
-export default function RollerShuttersPage() {
-    const product = productData.find(p => p.slug === "roller-shutters");
+export default function VelvetCurtainsPage() {
+    const product = productData.find(p => p.slug === "velvet-curtains");
 
     if (!product) {
         return notFound();
@@ -17,17 +17,17 @@ export default function RollerShuttersPage() {
             description={product.description}
             features={product.features}
             benefits={product.benefits}
-            ctaText="Secure Your Home"
+            ctaText="Add Luxury"
             types={[
                 {
-                    title: "Security Shutters",
-                    description: "Heavy duty aluminium slats for maximum protection.",
-                    image: "/images/roller-shutters.jpg"
+                    title: "Theatre Curtains",
+                    description: "Heavy velvet for sound absorption and light block.",
+                    image: "/images/theatre-curtains.jpg"
                 },
                 {
-                    title: "Motorised Options",
-                    description: "Remote control for ease of use.",
-                    image: "/images/motorised-shutters.jpg"
+                    title: "Decorative Drapes",
+                    description: "Add a touch of warmth and class to living areas.",
+                    image: "/images/decorative-velvet.jpg"
                 }
             ]}
         />

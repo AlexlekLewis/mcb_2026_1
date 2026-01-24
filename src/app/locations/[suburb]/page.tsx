@@ -78,16 +78,63 @@ export default async function LocationPage({ params }: Props) {
         }
     ];
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Modern Curtains & Blinds",
+        "image": "https://moderncurtains.com.au/assets/curtain_hero.png",
+        "telephone": "1300732319",
+        "url": `https://moderncurtains.com.au/locations/${suburb.slug}`,
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": suburb.name,
+            "addressRegion": "VIC",
+            "postalCode": suburb.postcode,
+            "addressCountry": "AU"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-37.7431", // Default to Preston/Central if specific lat/long not available, or omit if strictly service area
+            "longitude": "145.0081"
+        },
+        "areaServed": {
+            "@type": "City",
+            "name": suburb.name,
+            "sameAs": `https://en.wikipedia.org/wiki/${suburb.name.replace(/\s+/g, '_')},_Victoria`
+        },
+        "priceRange": "$$",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday"
+                ],
+                "opens": "09:00",
+                "closes": "17:00"
+            }
+        ]
+    };
+
     return (
-        <ProductTemplate
-            title={`Curtains and Blinds ${suburb.name}`}
-            subtitle={`Premium Window Furnishings for ${suburb.name} Homes`}
-            heroImage="/assets/curtain_hero.png" // Could rotate this based on suburb index if we had more images
-            description={`Elevate your home in ${suburb.name} with our range of custom made curtains, blinds, and shutters. We come to you with samples.`}
-            features={features}
-            types={types}
-            ctaText="Book Free Measure"
-            nearbyLocations={nearby}
-        />
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <ProductTemplate
+                title={`Curtains and Blinds ${suburb.name}`}
+                subtitle={`Premium Window Furnishings for ${suburb.name} Homes`}
+                heroImage="/assets/curtain_hero.png"
+                description={`Elevate your home in ${suburb.name} with our range of custom made curtains, blinds, and shutters. We come to you with samples.`}
+                features={features}
+                types={types}
+                ctaText="Book Free Measure"
+                nearbyLocations={nearby}
+            />
+        </>
     );
 }

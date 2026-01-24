@@ -14,16 +14,16 @@ const NAV_ITEMS = [
         href: "/blinds",
         subcategories: [
             {
-                title: "By Type",
-                items: ["Roller Blinds", "Roman Blinds", "Venetian Blinds", "Vertical Blinds", "Honeycomb Blinds", "Panel Glide"]
+                title: "Popular",
+                items: ["Roller Blinds", "Double Roller Blinds", "Roman Blinds", "Venetian Blinds"]
             },
             {
-                title: "By Feature",
-                items: ["Blockout", "Light Filtering", "Sunscreen", "Thermal", "Motorised"]
+                title: "Specialty",
+                items: ["Vertical Blinds", "Honeycomb Blinds", "Panel Glide"]
             },
             {
-                title: "By Room",
-                items: ["Kitchen", "Bathroom", "Bedroom", "Living Room"]
+                title: "Features",
+                items: ["Blockout", "Sunscreen", "Motorised"]
             }
         ]
     },
@@ -31,8 +31,8 @@ const NAV_ITEMS = [
         label: "Curtains",
         href: "/curtains",
         subcategories: [
-            { title: "Styles", items: ["S-Fold Curtains", "Pleated Curtains", "Eyelet Curtains"] },
-            { title: "Fabrics", items: ["Sheer", "Blockout", "Linen-Look", "Velvet"] }
+            { title: "Styles", items: ["Sheer Curtains", "Blockout Curtains", "Translucent Curtains", "Velvet Curtains"] },
+            { title: "Headings", items: ["S-Fold Curtains", "Pleated Curtains", "Eyelet Curtains"] }
         ]
     },
     {
@@ -42,8 +42,20 @@ const NAV_ITEMS = [
             { title: "Our Range", items: ["Plantation Shutters", "Roller Shutters"] }
         ]
     },
-    { label: "Security", href: "/security" },
-    { label: "Outdoor", href: "/awnings" },
+    {
+        label: "Security",
+        href: "/security",
+        subcategories: [
+            { title: "Protection", items: ["Security Doors", "Fly Screens"] }
+        ]
+    },
+    {
+        label: "Outdoor",
+        href: "/awnings", // Retaining awnings base but labeling Outdoor
+        subcategories: [
+            { title: "Shade & Shelter", items: ["Zipscreens", "Awnings"] }
+        ]
+    },
     { label: "Motorisation", href: "/motorisation" },
 ];
 
@@ -130,16 +142,27 @@ export function Navbar() {
                                                         {sub.items.map((subItem) => {
                                                             // Generate specific href for blinds and curtains
                                                             let href = item.href;
-                                                            if (item.label === "Blinds" && sub.title === "By Type") {
-                                                                href = `/blinds/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                            if (item.label === "Blinds") {
+                                                                if (subItem === "Blockout" || subItem === "Sunscreen" || subItem === "Motorised") {
+                                                                    // For now linking features roughly to roller blinds or main page
+                                                                    if (subItem === "Blockout") href = "/blinds/roller-blinds/blockout"; // Example mapping
+                                                                    else if (subItem === "Sunscreen") href = "/blinds/roller-blinds/sunscreen";
+                                                                    else href = "/motorisation";
+                                                                } else {
+                                                                    href = `/blinds/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                                }
                                                             } else if (item.label === "Curtains") {
-                                                                // For curtains, we link all subitems to specific pages
-                                                                // "S-Fold Curtains" -> "s-fold-curtains"
-                                                                // "Sheer" -> "sheer"
-                                                                href = `/curtains/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                                if (subItem === "Sheer Curtains") href = "/curtains/sheer";
+                                                                else if (subItem === "Blockout Curtains") href = "/curtains/blockout";
+                                                                else href = `/curtains/${subItem.toLowerCase().replace(/ /g, "-")}`;
                                                             } else if (item.label === "Shutters") {
-                                                                if (subItem === "Plantation Shutters") href = "/shutters";
-                                                                else href = `/shutters/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                                href = `/shutters/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                            } else if (item.label === "Security") {
+                                                                href = `/security/${subItem.toLowerCase().replace(/ /g, "-")}`;
+                                                            } else if (item.label === "Outdoor") {
+                                                                // Special handling if using awnings as base or separate
+                                                                if (subItem === "Awnings") href = "/awnings";
+                                                                else href = `/awnings/${subItem.toLowerCase().replace(/ /g, "-")}`;
                                                             }
 
                                                             return (
@@ -185,7 +208,7 @@ export function Navbar() {
                             </button>
 
                             <Link href="/quote" className="bg-mcb-terracotta text-white px-6 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
-                                Book Quote
+                                Book a Free Measure and Quote
                             </Link>
                         </div>
 
@@ -217,7 +240,7 @@ export function Navbar() {
                                 </Link>
                             ))}
                             <Link href="/quote" className="bg-mcb-terracotta text-white w-full py-4 text-lg font-medium rounded-sm mt-4 text-center block">
-                                Book Free Measure
+                                Book a Free Measure and Quote
                             </Link>
                         </div>
                     </motion.div>

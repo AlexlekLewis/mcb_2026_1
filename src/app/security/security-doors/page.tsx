@@ -2,8 +2,8 @@ import { ProductTemplate } from "@/components/ProductTemplate";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
 
-export default function RollerShuttersPage() {
-    const product = productData.find(p => p.slug === "roller-shutters");
+export default function SecurityDoorsPage() {
+    const product = productData.find(p => p.slug === "security-doors");
 
     if (!product) {
         return notFound();
@@ -17,17 +17,17 @@ export default function RollerShuttersPage() {
             description={product.description}
             features={product.features}
             benefits={product.benefits}
-            ctaText="Secure Your Home"
+            ctaText="Get Secured"
             types={[
                 {
-                    title: "Security Shutters",
-                    description: "Heavy duty aluminium slats for maximum protection.",
-                    image: "/images/roller-shutters.jpg"
+                    title: "Invisi-Gard",
+                    description: "316 Marine Grade Stainless Steel mesh. The premium choice.",
+                    image: "/images/invisi-gard.jpg"
                 },
                 {
-                    title: "Motorised Options",
-                    description: "Remote control for ease of use.",
-                    image: "/images/motorised-shutters.jpg"
+                    title: "Diamond Grille",
+                    description: "Traditional and cost-effective security solution.",
+                    image: "/images/diamond-grille.jpg"
                 }
             ]}
         />
