@@ -95,13 +95,13 @@ export function Navbar() {
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="flex items-center justify-between h-20 lg:h-32">
                         {/* Logo */}
-                        <Link href="/" className="relative z-10 block mr-12 lg:mr-24">
+                        <Link href="/" className="relative z-10 block mr-8 lg:mr-16 shrink-0">
                             <Image
                                 src="/assets/logo.png"
                                 alt="Modern Curtains and Blinds"
                                 width={540} // Increased res
                                 height={180}
-                                className="h-20 lg:h-32 w-auto object-contain scale-125 lg:scale-135 origin-center" // Matches bar height but scales up visually. Margin handles the spacing.
+                                className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
                                 priority
                             />
                         </Link>
