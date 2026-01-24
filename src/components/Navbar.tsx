@@ -94,20 +94,21 @@ export function Navbar() {
 
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="flex items-center justify-between h-20 lg:h-32">
-                        {/* Logo */}
-                        <Link href="/" className="relative z-10 block mr-8 shrink-0">
-                            <Image
-                                src="/assets/logo.png"
-                                alt="Modern Curtains and Blinds"
-                                width={540} // Increased res
-                                height={180}
-                                className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
-                                priority
-                            />
-                        </Link>
+                        <div className="flex-1 flex justify-start items-center">
+                            <Link href="/" className="relative z-10 block shrink-0 -ml-4">
+                                <Image
+                                    src="/assets/logo.png"
+                                    alt="Modern Curtains and Blinds"
+                                    width={540} // Increased res
+                                    height={180}
+                                    className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
+                                    priority
+                                />
+                            </Link>
+                        </div>
 
-                        {/* Desktop Nav */}
-                        <div className="hidden lg:flex items-center gap-6">
+                        {/* Center Column: Desktop Nav (shrink-0 centered) */}
+                        <div className="hidden lg:flex shrink-0 items-center gap-5">
                             {NAV_ITEMS.map((item) => (
                                 <div
                                     key={item.label}
@@ -198,8 +199,9 @@ export function Navbar() {
                             ))}
                         </div>
 
-                        <div className="hidden lg:flex items-center gap-5 xl:gap-8 ml-auto shrink-0">
-                            <a href="tel:1300732319" className={cn("flex items-center gap-2 font-medium transition-colors hover:text-mcb-terracotta whitespace-nowrap shrink-0", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
+                        {/* Right Column: Actions (flex-1 end) */}
+                        <div className="hidden lg:flex flex-1 justify-end items-center gap-3 xl:gap-6 shrink-0">
+                            <a href="tel:1300732319" className={cn("flex items-center gap-1 font-medium transition-colors hover:text-mcb-terracotta whitespace-nowrap shrink-0", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
                                 <Phone size={18} className="shrink-0" />
                                 <span className="whitespace-nowrap">1300&nbsp;732&nbsp;319</span>
                             </a>
@@ -207,7 +209,7 @@ export function Navbar() {
                                 <Search size={20} />
                             </button>
 
-                            <Link href="/quote" className="bg-mcb-terracotta text-white px-5 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
+                            <Link href="/quote" className="bg-mcb-terracotta text-white px-4 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
                                 Book a Free Measure and Quote
                             </Link>
                         </div>
