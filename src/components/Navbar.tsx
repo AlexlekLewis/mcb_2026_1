@@ -94,21 +94,20 @@ export function Navbar() {
 
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="flex items-center justify-between h-20 lg:h-32">
-                        <div className="flex-1 flex justify-start items-center">
-                            <Link href="/" className="relative z-10 block shrink-0 -ml-4">
-                                <Image
-                                    src="/assets/logo.png"
-                                    alt="Modern Curtains and Blinds"
-                                    width={540} // Increased res
-                                    height={180}
-                                    className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
-                                    priority
-                                />
-                            </Link>
-                        </div>
+                        {/* Logo */}
+                        <Link href="/" className="relative z-10 block shrink-0">
+                            <Image
+                                src="/assets/logo.png"
+                                alt="Modern Curtains and Blinds"
+                                width={540} // Increased res
+                                height={180}
+                                className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
+                                priority
+                            />
+                        </Link>
 
-                        {/* Center Column: Desktop Nav (shrink-0 centered) */}
-                        <div className="hidden lg:flex shrink-0 items-center gap-5">
+                        {/* Desktop Nav */}
+                        <div className="hidden lg:flex items-center gap-3">
                             {NAV_ITEMS.map((item) => (
                                 <div
                                     key={item.label}
@@ -119,7 +118,7 @@ export function Navbar() {
                                     <Link
                                         href={item.href}
                                         className={cn(
-                                            "text-sm font-medium tracking-wide transition-colors py-4 flex items-center gap-1",
+                                            "text-sm font-medium transition-colors py-4 flex items-center gap-1",
                                             !isTransparent ? "text-mcb-charcoal hover:text-mcb-terracotta" : "text-white/90 hover:text-white"
                                         )}
                                     >
@@ -199,8 +198,8 @@ export function Navbar() {
                             ))}
                         </div>
 
-                        {/* Right Column: Actions (flex-1 end) */}
-                        <div className="hidden lg:flex flex-1 justify-end items-center gap-3 xl:gap-6 shrink-0">
+                        {/* Right Actions */}
+                        <div className="hidden lg:flex items-center gap-2 xl:gap-6 shrink-0">
                             <a href="tel:1300732319" className={cn("flex items-center gap-1 font-medium transition-colors hover:text-mcb-terracotta whitespace-nowrap shrink-0", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
                                 <Phone size={18} className="shrink-0" />
                                 <span className="whitespace-nowrap">1300&nbsp;732&nbsp;319</span>
@@ -209,7 +208,7 @@ export function Navbar() {
                                 <Search size={20} />
                             </button>
 
-                            <Link href="/quote" className="bg-mcb-terracotta text-white px-4 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
+                            <Link href="/quote" className="bg-mcb-terracotta text-white px-3 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
                                 Book a Free Measure and Quote
                             </Link>
                         </div>
