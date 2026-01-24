@@ -198,7 +198,7 @@ export function Navbar() {
                             ))}
                         </div>
 
-                        <div className="hidden lg:flex items-center gap-4 shrink-0">
+                        <div className="hidden lg:flex items-center gap-6 xl:gap-8 ml-6 shrink-0">
                             <a href="tel:1300732319" className={cn("flex items-center gap-2 font-medium transition-colors hover:text-mcb-terracotta whitespace-nowrap shrink-0", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
                                 <Phone size={18} className="shrink-0" />
                                 <span className="whitespace-nowrap">1300&nbsp;732&nbsp;319</span>
