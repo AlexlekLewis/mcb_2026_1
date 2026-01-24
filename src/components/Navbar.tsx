@@ -101,7 +101,7 @@ export function Navbar() {
                                 alt="Modern Curtains and Blinds"
                                 width={540} // Increased res
                                 height={180}
-                                className="h-20 lg:h-32 w-auto object-contain scale-125 lg:scale-135 origin-top" // Matches bar height but scales up visually to hang over.
+                                className="h-20 lg:h-32 w-auto object-contain scale-125 lg:scale-135 origin-center" // Matches bar height but scales up visually to hang over.
                                 priority
                             />
                         </Link>
