@@ -23,13 +23,18 @@ export default function HoneycombBlindsPage() {
             ]}
             types={[
                 {
-                    title: "Single Cell",
-                    description: "A single layer of air pockets. Lightweight and compact.",
+                    title: "Translucent Cellular",
+                    description: "Softly filters natural light while maintaining privacy. The unique cellular structure traps air to provide insulation without blocking the sun's glow. Available in refined 20mm cell sizes.",
                     image: "/assets/honeycomb_blinds.png"
                 },
                 {
-                    title: "Double Cell",
-                    description: "Two layers of cells for maximum thermal protection and total blockout capabilities.",
+                    title: "Blockout Cellular Shield",
+                    description: "The ultimate thermal barrier. foil-lined cells prevent light leakage and maximize energy efficiency. Perfect for nurseries and bedrooms requiring total darkness.",
+                    image: "/assets/honeycomb_blinds.png"
+                },
+                {
+                    title: "Cordless & Safe",
+                    description: "Designed with family safety in mind. Our effortless cordless lifting system eliminates dangling strings, offering a sleek look and peace of mind.",
                     image: "/assets/honeycomb_blinds.png"
                 }
             ]}

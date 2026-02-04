@@ -23,19 +23,24 @@ export default function VenetianBlindsPage() {
             ]}
             types={[
                 {
-                    title: "Timber Venetians",
-                    description: "Real wood slats that add natural warmth and character to study and living areas.",
-                    image: "/assets/venetian_timber_detail.png"
+                    title: "Slimline Aluminium (25mm)",
+                    description: "The modern minimalist choice. Sleek, discreet 25mm slats that almost disappear when open. Perfect for residential and commercial spaces requiring subtle light control.",
+                    image: "/assets/venetian_aluminium_detail.png"
                 },
                 {
-                    title: "PVC Vision Wood",
-                    description: "White, bright, and impervious to moisture. The look of wood with the durability of plastic.",
+                    title: "Wideline Aluminium (50mm)",
+                    description: "A bold statement with retro appeal. Robust 50mm slats that offer a classic aesthetic with the durability and moisture resistance of high-grade aluminium.",
+                    image: "/assets/venetian_aluminium_detail.png"
+                },
+                {
+                    title: "Premium PVC Composite",
+                    description: "The look of real wood with superior durability. Highly resistant to moisture and humidity, making them the ideal solution for bathrooms, laundries, and kitchens.",
                     image: "/assets/venetian_pvc_detail.png"
                 },
                 {
-                    title: "Aluminium Venetians",
-                    description: "Slimline 25mm slats for a retro office chic or modern minimalist aesthetic.",
-                    image: "/assets/venetian_aluminium_detail.png"
+                    title: "Urban Timber Collection",
+                    description: "Authentic timber venetians that bring natural warmth and texture to living spaces. Sustainably sourced and available in a range of rich stains and painted finishes.",
+                    image: "/assets/venetian_timber_detail.png"
                 }
             ]}
         />

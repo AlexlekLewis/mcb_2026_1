@@ -13,8 +13,8 @@ export default function SecurityPage() {
             description="Protect what matters most with our range of high-performance security solutions. We combine industrial-strength materials with elegant design to keep your home safe and beautiful."
             features={[
                 {
-                    title: "Crimsafe Technology",
-                    description: "We utilise industry-leading stainless steel mesh that surpasses Australian Standards for impact and knife-shear resistance."
+                    title: "High-Tensile Mesh",
+                    description: "We utilize industry-leading 316 Marine Grade Stainless Steel mesh that surpasses Australian Standards for impact and knife-shear resistance."
                 },
                 {
                     title: "Triple Lock System",
@@ -27,19 +27,19 @@ export default function SecurityPage() {
             ]}
             types={[
                 {
-                    title: "Security Screen Doors",
-                    description: "Enjoy fresh air and clear views with our high-tensile stainless steel mesh doors. Secure, insect-proof, and stylish.",
-                    image: "/assets/security_screen_door.png" // Updated
+                    title: "Marine Grade Security Doors",
+                    description: "The gold standard in protection. Featuring 316 Marine Grade Stainless Steel woven mesh that provides uncompromised security without hindering your view or airflow.",
+                    image: "/assets/security_screen_door.png"
                 },
                 {
-                    title: "Decorative Doors",
-                    description: "Combine heritage charm or modern geometry with security. Our decorative cast aluminium grilles offer timeless appeal.",
-                    image: "/assets/decorative_security_door.png" // Updated
+                    title: "Decorative Diamond Grille",
+                    description: "Classic visual deterrence. Sturdy 7mm aluminium grille doors that offer a traditional aesthetic and reliable barrier against intruders.",
+                    image: "/assets/decorative_security_door.png"
                 },
                 {
-                    title: "Fly Screens",
-                    description: "Extend your protection to every opening. Our fixed and exit-safe window screens provide peace of mind for the whole house.",
-                    image: "/assets/security_window_screen.png" // Updated
+                    title: "Insect & Fly Screens",
+                    description: "Partial security and full insect protection. Available in durable fibreglass or upgraded aluminium mesh for higher traffic areas and pet resistance.",
+                    image: "/assets/security_window_screen.png"
                 }
             ]}
         />

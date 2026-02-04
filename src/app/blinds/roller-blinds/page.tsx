@@ -23,19 +23,24 @@ export default function RollerBlindsPage() {
             ]}
             types={[
                 {
-                    title: "Blockout Rollers",
-                    description: "100% privacy and darkness. Perfect for bedrooms and media rooms.",
+                    title: "Premium Blockout Collection",
+                    description: "Complete privacy and light exclusion. Featuring 100% blockout acrylic coated fabrics that provide exceptional thermal insulation and finish consistency.",
                     image: "/assets/roller_blockout_detail.png"
                 },
                 {
-                    title: "Sunscreen Rollers",
-                    description: "Reduce glare and UV rays while keeping your view to the outside. Ideal for living areas.",
+                    title: "Solar Control Screen",
+                    description: "Engineered to cut glare and UV rays while preserving your view. Essential for protecting furniture and flooring from sun damage without losing connection to the outdoors.",
                     image: "/assets/roller_sunscreen_detail.png"
                 },
                 {
-                    title: "Light Filtering",
-                    description: "Softly diffuse light for a glowing interior ambience while maintaining day and night privacy.",
+                    title: "Designer Light Filtering",
+                    description: "A sophisticated middle ground. Textured fabrics that glow when back-lit, offering privacy day and night without the heavy look of a blockout.",
                     image: "/assets/roller_light_filtering_detail.png"
+                },
+                {
+                    title: "Dual Roller System",
+                    description: "The best of both worlds. Combine a Screen blind for day use and a Blockout blind for night privacy on a single slimline bracket.",
+                    image: "/assets/roller_dual_detail.png"
                 }
             ]}
         />

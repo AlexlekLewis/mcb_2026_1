@@ -97,10 +97,10 @@ export function Navbar() {
                         {/* Logo */}
                         <Link href="/" className="relative z-10 block shrink-0">
                             <Image
-                                src="/assets/logo.png"
+                                src="/assets/logos/logo_5.png"
                                 alt="Modern Curtains and Blinds"
-                                width={540} // Increased res
-                                height={180}
+                                width={1024}
+                                height={602}
                                 className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
                                 priority
                             />

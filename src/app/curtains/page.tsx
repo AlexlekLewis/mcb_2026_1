@@ -27,19 +27,29 @@ export default function CurtainsPage() {
             ]}
             types={[
                 {
-                    title: "Sheer Curtains",
-                    description: "Diffuse natural light and maintain daytime privacy while adding a soft, ethereal touch to your interior design. Perfect for living areas and layering.",
-                    image: "/assets/sheer_curtains.png" // Updated
+                    title: "S-Fold Signature Series",
+                    description: "Our flagship curtain heading style. A continuous, fluid wave that brings architectural elegance to any room. Creates a seamless floor-to-ceiling effect that enhances feeling of space.",
+                    image: "/assets/sheer_curtains.png"
                 },
                 {
-                    title: "Blockout Curtains",
-                    description: "Achieve complete darkness and superior thermal insulation. ideal for bedrooms and media rooms, keeping your home effectively cooler in summer and warmer in winter.",
-                    image: "/assets/blockout_curtains.png" // Updated
+                    title: "Sheer Elegance Collection",
+                    description: "Light-filtering masterpieces. Featuring premium linen-look and textured voids that provide daytime privacy while filling your home with soft, diffused natural light.",
+                    image: "/assets/sheer_curtains.png"
                 },
                 {
-                    title: "Motorised Curtains",
-                    description: "Experience the ultimate convenience with Somfy motorisation. Control your curtains via remote, app, or voice command for effortless modern living.",
-                    image: "/assets/motorised_curtains.png" // Updated
+                    title: "Luxury Blockout",
+                    description: "The ultimate in climate and light control. Our 3-pass coated blockout fabrics ensure 100% light exclusion and superior thermal insulation for year-round comfort.",
+                    image: "/assets/blockout_curtains.png"
+                },
+                {
+                    title: "Theatre Class Velvet",
+                    description: "Rich, opulent textures for media rooms and formal lounges. Heavyweight velvet drapes that dampen sound and create a true cinematic darkness.",
+                    image: "/assets/motorised_curtains.png" // Fallback or specific if available
+                },
+                {
+                    title: "Motorised Intelligence",
+                    description: "Seamless automation. Integrate your curtains with smart home systems for 'wake up' scenes and security simulation. Cord-free safety and effortless control.",
+                    image: "/assets/motorised_curtains.png"
                 }
             ]}
         />
