@@ -22,12 +22,12 @@ export default function VelvetCurtainsPage() {
                 {
                     title: "Theatre Curtains",
                     description: "Heavy velvet for sound absorption and light block.",
-                    image: "/images/theatre-curtains.jpg"
+                    image: "/images/theatre-velvet-curtains.png"
                 },
                 {
                     title: "Decorative Drapes",
                     description: "Add a touch of warmth and class to living areas.",
-                    image: "/images/decorative-velvet.jpg"
+                    image: "/images/decorative-velvet-drapes.png"
                 }
             ]}
         />

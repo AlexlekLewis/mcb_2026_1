@@ -22,12 +22,12 @@ export default function ZipscreensPage() {
                 {
                     title: "Track Guided",
                     description: "No gaps, perfect seal against wind and bugs.",
-                    image: "/images/zipscreen-track.jpg"
+                    image: "/images/zipscreen-track-guided.png"
                 },
                 {
                     title: "Motorised Zipscreens",
                     description: "Control your outdoor climate remotely.",
-                    image: "/images/motorised-zipscreen.jpg"
+                    image: "/images/motorised-zipscreen.png"
                 }
             ]}
         />

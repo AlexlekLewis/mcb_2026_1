@@ -22,12 +22,12 @@ export default function TranslucentCurtainsPage() {
                 {
                     title: "S-Fold Heading",
                     description: "Modern wave style for a consistent drape.",
-                    image: "/images/s-fold-translucent.jpg"
+                    image: "/images/sfold-translucent.png"
                 },
                 {
                     title: "Pinch Pleat",
                     description: "Classic tailored look.",
-                    image: "/images/pinch-pleat-translucent.jpg"
+                    image: "/images/pinch-pleat-translucent.png"
                 }
             ]}
         />

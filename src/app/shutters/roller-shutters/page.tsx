@@ -22,17 +22,17 @@ export default function RollerShuttersPage() {
                 {
                     title: "Architectural 40mm Profile",
                     description: "Curved profile design that offers superior lateral strength and a compact roll size. Manufactured from high-quality aluminium for enduring performance in Australian conditions.",
-                    image: "/images/roller-shutters.jpg"
+                    image: "/images/roller-shutters.png"
                 },
                 {
                     title: "Insulated Solar Shield",
                     description: "Foam-injected slats provide a heavy duty thermal barrier, reducing heat entry by up to 90% in summer and keeping warmth in during winter. Excellent noise reduction properties.",
-                    image: "/images/motorised-shutters.jpg"
+                    image: "/images/motorised-roller-shutters.png"
                 },
                 {
                     title: "Intelligent Automation",
                     description: "Control your home's security from anywhere. Options for wall switches, remote controls, or smartphone integration for complete peace of mind.",
-                    image: "/images/motorised-shutters.jpg"
+                    image: "/images/motorised-roller-shutters.png"
                 }
             ]}
         />
