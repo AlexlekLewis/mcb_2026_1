@@ -9,7 +9,7 @@ export default function SecurityPage() {
             nearbyLocations={nearby}
             title="Security Doors & Screens"
             subtitle="Maximum protection without compromising style."
-            heroImage="/assets/security_door_hero.png"
+            heroImage="/images/security-door-hero.png"
             description="Protect what matters most with our range of high-performance security solutions. We combine industrial-strength materials with elegant design to keep your home safe and beautiful."
             features={[
                 {

@@ -13,7 +13,7 @@ export default function ZipscreensPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage={product.heroImage}
+            heroImage="/images/zipscreen-track-guided.png"
             description={product.description}
             features={product.features}
             benefits={product.benefits}

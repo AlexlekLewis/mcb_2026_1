@@ -13,7 +13,7 @@ export default function RollerShuttersPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage={product.heroImage}
+            heroImage="/images/roller-shutters.png"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
