@@ -3,34 +3,34 @@ import { ProductTemplate } from "@/components/ProductTemplate";
 export default function SheerCurtainsPage() {
     return (
         <ProductTemplate
-            title="Sheer Curtains"
-            subtitle="Diffuse light and create an ethereal atmosphere."
-            heroImage="/assets/sheer_curtains.png"
-            description="Sheer curtains are the ultimate tool for mood lighting. They soften harsh sunlight, provide daytime privacy by obscuring the view in, and add a layer of texture and movement to your windows without blocking the connection to the outdoors."
+            title="Sheer Elegance Collection"
+            subtitle="Light, airy, and timelessly beautiful."
+            heroImage="/images/sheer-curtain-detail.png"
+            description="Our Sheer Elegance Collection brings a sense of calm and sophistication to any space. These delicate fabrics softly filter natural light, creating a warm, ambient glow while preserving your connection to the outdoors. Perfect for living rooms, dining areas, and anywhere you want to welcome the light."
             features={[
                 {
-                    title: "Light Control",
-                    description: "Filter UV rays to protect furniture while maintaining a bright, airy room."
+                    title: "Soft Light Diffusion",
+                    description: "Transform harsh sunlight into a soft, even glow that illuminates your space naturally."
                 },
                 {
                     title: "Daytime Privacy",
-                    description: "See out clearly while preventing passers-by from seeing in during the day."
+                    description: "Maintain privacy during the day while still enjoying glimpses of the outside world."
                 },
                 {
-                    title: "Softening Layer",
-                    description: "Perfect for layering under blockout curtains or over roller blinds."
+                    title: "Layering Potential",
+                    description: "Pair with blockout curtains or blinds for complete day-to-night versatility."
                 }
             ]}
             types={[
                 {
-                    title: "Voile",
-                    description: "Silky smooth and very transparent for a minimalist look.",
-                    image: "/assets/sheer_curtains.png"
+                    title: "Voile Sheers",
+                    description: "Ultra-light, transparent fabrics that dance in the breeze. The classic choice for a romantic aesthetic.",
+                    image: "/images/sheer-curtain-detail.png"
                 },
                 {
-                    title: "Linen-Look Sheer",
-                    description: "Textured weaves that add organic warmth and character.",
-                    image: "/assets/sheer_curtains.png"
+                    title: "Linen Sheers",
+                    description: "Textured linen-look fabrics that add warmth and character while still filtering light beautifully.",
+                    image: "/images/sfold-curtain-detail.png"
                 }
             ]}
         />

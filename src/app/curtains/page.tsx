@@ -29,27 +29,32 @@ export default function CurtainsPage() {
                 {
                     title: "S-Fold Signature Series",
                     description: "Our flagship curtain heading style. A continuous, fluid wave that brings architectural elegance to any room. Creates a seamless floor-to-ceiling effect that enhances feeling of space.",
-                    image: "/assets/sheer_curtains.png"
+                    image: "/images/sfold-curtain-detail.png",
+                    href: "/curtains/s-fold"
                 },
                 {
                     title: "Sheer Elegance Collection",
                     description: "Light-filtering masterpieces. Featuring premium linen-look and textured voids that provide daytime privacy while filling your home with soft, diffused natural light.",
-                    image: "/assets/sheer_curtains.png"
+                    image: "/images/sheer-curtain-detail.png",
+                    href: "/curtains/sheer"
                 },
                 {
                     title: "Luxury Blockout",
                     description: "The ultimate in climate and light control. Our 3-pass coated blockout fabrics ensure 100% light exclusion and superior thermal insulation for year-round comfort.",
-                    image: "/assets/blockout_curtains.png"
+                    image: "/images/blockout-curtain-detail.png",
+                    href: "/curtains/blockout"
                 },
                 {
                     title: "Theatre Class Velvet",
                     description: "Rich, opulent textures for media rooms and formal lounges. Heavyweight velvet drapes that dampen sound and create a true cinematic darkness.",
-                    image: "/assets/motorised_curtains.png" // Fallback or specific if available
+                    image: "/images/blockout-curtain-detail.png",
+                    href: "/curtains/theatre-velvet"
                 },
                 {
                     title: "Motorised Intelligence",
                     description: "Seamless automation. Integrate your curtains with smart home systems for 'wake up' scenes and security simulation. Cord-free safety and effortless control.",
-                    image: "/assets/motorised_curtains.png"
+                    image: "/images/roller-blind-detail.png",
+                    href: "/curtains/motorised"
                 }
             ]}
         />

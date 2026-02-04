@@ -22,17 +22,20 @@ export default function PlantationShuttersPage() {
                 {
                     title: "Hydro-Proof Polymer",
                     description: "Engineered for wet areas. Fully waterproof reinforced polymer with an aluminium core. The perfect choice for bathrooms, kitchens, and laundries without compromising on style.",
-                    image: "/images/pvc-shutters.jpg"
+                    image: "/images/plantation-shutters-hero.png",
+                    href: "/shutters/plantation-shutters/polymer"
                 },
                 {
                     title: "Select Hardwood Collection",
                     description: "Ethically sourced premium timber shutters that offer unmatched natural beauty and insulation. Available in a wide range of painted and stained finishes to match your cabinetry.",
-                    image: "/images/timber-shutters.jpg"
+                    image: "/images/timber-shutter-detail.png",
+                    href: "/shutters/plantation-shutters/timber"
                 },
                 {
                     title: "Alfresco Aluminium",
                     description: "Blur the lines between indoor and outdoor living. Weather-resistant, high-grade aluminium shutters designed to withstand the elements while providing privacy on patios and balconies.",
-                    image: "/images/aluminium-shutters.jpg"
+                    image: "/images/aluminium-shutter-detail.png",
+                    href: "/shutters/plantation-shutters/aluminium"
                 }
             ]}
         />
