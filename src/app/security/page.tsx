@@ -29,17 +29,17 @@ export default function SecurityPage() {
                 {
                     title: "Marine Grade Security Doors",
                     description: "The gold standard in protection. Featuring 316 Marine Grade Stainless Steel woven mesh that provides uncompromised security without hindering your view or airflow.",
-                    image: "/images/stainless-security-door.png"
+                    image: "/images/sec-stainless.png"
                 },
                 {
                     title: "Decorative Diamond Grille",
                     description: "Classic visual deterrence. Sturdy 7mm aluminium grille doors that offer a traditional aesthetic and reliable barrier against intruders.",
-                    image: "/images/diamond-grille-door.png"
+                    image: "/images/sec-diamond.png"
                 },
                 {
                     title: "Insect & Fly Screens",
                     description: "Partial security and full insect protection. Available in durable fibreglass or upgraded aluminium mesh for higher traffic areas and pet resistance.",
-                    image: "/images/fly-screen-window.png"
+                    image: "/images/sec-fly.png"
                 }
             ]}
         />
