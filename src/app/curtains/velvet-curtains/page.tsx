@@ -13,7 +13,7 @@ export default function VelvetCurtainsPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage="/images/decorative-velvet-drapes.png"
+            heroImage="/images/velvet-curtains-hero.png"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
