@@ -13,7 +13,7 @@ export default function SecurityDoorsPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage={product.heroImage}
+            heroImage="/images/security-door-hero.png"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
@@ -22,12 +22,12 @@ export default function SecurityDoorsPage() {
                 {
                     title: "Invisi-Gard",
                     description: "316 Marine Grade Stainless Steel mesh. The premium choice.",
-                    image: "/images/invisi-gard.jpg"
+                    image: "/images/sec-stainless.png"
                 },
                 {
                     title: "Diamond Grille",
                     description: "Traditional and cost-effective security solution.",
-                    image: "/images/diamond-grille.jpg"
+                    image: "/images/sec-diamond.png"
                 }
             ]}
         />

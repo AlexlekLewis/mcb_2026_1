@@ -13,7 +13,7 @@ export default function FlyScreensPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage={product.heroImage}
+            heroImage="/images/sec-fly.png"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
@@ -22,12 +22,12 @@ export default function FlyScreensPage() {
                 {
                     title: "Retractable Screens",
                     description: "Disappear when not in use. Perfect for bi-folds.",
-                    image: "/images/retractable-screen.jpg"
+                    image: "/images/retractable-screen.png"
                 },
                 {
                     title: "Pet Mesh",
                     description: "Heavier gauge mesh resistant to claws.",
-                    image: "/images/pet-mesh.jpg"
+                    image: "/images/pet-mesh.png"
                 }
             ]}
         />
