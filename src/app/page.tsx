@@ -1,4 +1,4 @@
-import { Hero } from "@/components/Hero";
+import { HeroScroll } from "@/components/HeroScroll";
 import { ServiceSelector } from "@/components/ServiceSelector";
 import { TrustBar } from "@/components/TrustBar";
 import { CategoryGrid } from "@/components/CategoryGrid";
@@ -51,7 +51,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Hero />
+      <HeroScroll />
       <GoogleReviewsWidget />
       <ServiceSelector />
       <TrustBar />
