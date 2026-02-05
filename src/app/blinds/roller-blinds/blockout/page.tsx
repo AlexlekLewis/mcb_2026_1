@@ -23,12 +23,12 @@ export default function BlockoutBlindsPage() {
                 {
                     title: "Blockout Roller",
                     description: "Sleek and simple with total light block.",
-                    image: "/images/blockout-roller.jpg"
+                    image: "/images/blockout-roller-fabric.png"
                 },
                 {
                     title: "Blockout Roman",
                     description: "Elegance with functionality.",
-                    image: "/images/blockout-roman.jpg"
+                    image: "/images/blockout-roman-blind.png"
                 }
             ]}
         />

@@ -22,12 +22,12 @@ export default function DoubleRollerBlindsPage() {
                 {
                     title: "Dual System",
                     description: "Blockout and sun protection on one bracket.",
-                    image: "/images/double-roller-bracket.jpg"
+                    image: "/images/double-roller-bracket.png"
                 },
                 {
                     title: "Motorised Double",
                     description: "Independent control for ultimate convenience.",
-                    image: "/images/motorised-double-roller.jpg"
+                    image: "/images/double-roller-motor.png"
                 }
             ]}
         />
