@@ -447,6 +447,178 @@ export const productData: Product[] = [
             "Home security simulation"
         ],
         faq: []
+    },
+
+    // --- SPECIFIC SUPPLIER PRODUCTS (NEW) ---
+
+    // SHUTTERS (NBS / Sunline)
+    {
+        slug: "fusion-plus-shutters",
+        category: "Shutters",
+        title: "Fusion Plus Shutters | Waterproof Polymer",
+        description: "The ultimate wet-area shutter. Waterproof reinforced polymer with an aluminium core for superior strength.",
+        heroImage: "/images/products/fusion-plus-shutters-hero.png",
+        intro: {
+            heading: "Fusion Plus: Engineered for Life",
+            body: "Fusion Plus shutters are crafted from a waterproof reinforced polymer extrusion, making them the perfect choice for bathrooms, laundries, and kitchens. Reinforced with an aluminium core, they offer the look of premium timber with the durability to withstand moisture and daily wear."
+        },
+        features: [
+            { title: "Waterproof", description: "Ideal for wet areas; will not warp, crack, or peel." },
+            { title: "Aluminium Core", description: "Reinforced slats for extra strength and wider spans." },
+            { title: "Insulation", description: "Provides excellent thermal efficiency (70% better than timber)." },
+            { title: "Hypoallergenic", description: "Does not support bacterial growth." },
+            { title: "Fire Retardant", description: "Certified fire retardant material." }
+        ],
+        benefits: ["100% Waterproof", "High Durability", "Easy to Clean", "25 Year Warranty"],
+        faq: [
+            { question: "Can these be used in a shower?", answer: "Yes, Fusion Plus is fully waterproof and perfect for high-moisture zones." }
+        ]
+    },
+    {
+        slug: "sovereign-wood-shutters",
+        category: "Shutters",
+        title: "Sovereign Wood Shutters | Premium Basswood",
+        description: "Handcrafted from A-Grade American Basswood. The premium choice for living areas and bedrooms.",
+        heroImage: "/images/products/sovereign-wood-shutters-hero.png",
+        intro: {
+            heading: "Sovereign Wood: Natural Elegance",
+            body: "Crafted from A-Grade American Basswood (Tilia Americana), Sovereign Wood shutters bring the warmth and beauty of natural timber to your home. Lightweight and stable, they offer a premium finish with a distinct uniform grain that paints and stains beautifully."
+        },
+        features: [
+            { title: "Premium Timber", description: "Sourced from sustainable American Basswood forests." },
+            { title: "Lightweight", description: "Lighter than man-made materials, allowing for larger panel sizes." },
+            { title: "Custom Finishes", description: "Available in a wide range of paints and stains." },
+            { title: "Uniform Grain", description: "Smooth finish with minimal knots." },
+            { title: "Warp Resistant", description: "Kiln-dried to ensure stability in Australian conditions." }
+        ],
+        benefits: ["Natural Timber Feel", "Lightweight Operation", "Premium Aesthetic", "Wide Configurations"],
+        faq: []
+    },
+    {
+        slug: "element-13-shutters",
+        category: "Shutters",
+        title: "Element 13 Aluminium Shutters | Indoor & Outdoor",
+        description: "High-grade aluminium shutters designed for alfresco areas and modern interiors.",
+        heroImage: "/images/products/element-13-shutters-hero.png",
+        intro: {
+            heading: "Element 13: The Strength of Aluminium",
+            body: "Named after the 13th element, Aluminium, these shutters are built for performance. Perfect for enclosing alfresco areas, balconies, or high-traffic internal spaces. They are impervious to moisture, UV rays, and insects, offering a sleek modern look that lasts a lifetime."
+        },
+        features: [
+            { title: "Weather Resistant", description: "Will not rust or degrade in the elements." },
+            { title: "Security", description: "Lockable options available for extra peace of mind." },
+            { title: "Wide Spans", description: "Strong blades allow for wider panels without sagging." },
+            { title: "Fly Screen Compatible", description: "Can be integrated with insect screening." },
+            { title: "Modern Profile", description: "Slim lines suit contemporary architecture." }
+        ],
+        benefits: ["Indoor/Outdoor Use", "High Durability", "Lockable", "Low Maintenance"],
+        faq: []
+    },
+
+    // SECURITY (Creative)
+    {
+        slug: "invisi-gard-security",
+        category: "Security",
+        title: "Invisi-Gard Security Doors | 316 Marine Grade",
+        description: "The premium choice for security. 316 Marine Grade Stainless Steel Mesh for uncompromising strength and clarity.",
+        heroImage: "/images/products/invisi-gard-security-hero.png",
+        intro: {
+            heading: "Invisi-Gard: Uncompromising Security",
+            body: "Invisi-Gard combines the strength of 316 Marine Grade Stainless Steel with the beauty of a clear view. Using a unique patented E-Grip retention system, the mesh is locked into the frame without screws or rivets, ensuring maximum impact resistance while preventing corrosion."
+        },
+        features: [
+            { title: "316 Marine Grade", description: "Superior corrosion resistance compared to 304 grade." },
+            { title: "E-Grip Retention", description: "Patented system locks mesh into frame for maximum strength." },
+            { title: "Triple Lock", description: "3-point locking system standard on all doors." },
+            { title: "Fall Prevention", description: "Complies with window fall prevention standards." },
+            { title: "Clear Vision", description: "Black powder-coated mesh acts like sunglasses, reducing glare." }
+        ],
+        benefits: ["Maximum Security", "Crystal Clear Views", "Corrosion Resistant", "Adds Value"],
+        faq: [
+            { question: "Why 316 Stainless Steel?", answer: "316 grade has higher corrosion resistance, essential for Australian coastal conditions." }
+        ]
+    },
+    {
+        slug: "diamond-grille-security",
+        category: "Security",
+        title: "Diamond Grille Security | Traditional Barrier",
+        description: "The classic, cost-effective security solution. Strong aluminium grille for visible deterrence.",
+        heroImage: "/images/products/diamond-grille-security-hero.png",
+        intro: {
+            heading: "Diamond Grille: Proven Protection",
+            body: "Diamond Grille doors are the traditional choice for Australian home security. Featuring a 7mm heavy-duty aluminium grille, they provide a strong visible deterrent to intruders. Available with standard fly mesh or upgraded flexible security mesh."
+        },
+        features: [
+            { title: "7mm Grille", description: "Heavy duty tempered aluminium construction." },
+            { title: "Visible Deterrent", description: "Clearly signals that the home is protected." },
+            { title: "Cost Effective", description: "Affordable security for the whole home." },
+            { title: "Hinged or Sliding", description: "Available for all door types." },
+            { title: "Mesh Options", description: "Pair with One-Way Vision mesh for extra privacy." }
+        ],
+        benefits: ["Affordable", "Durable", "High Airflow", "Visible Barrier"],
+        faq: []
+    },
+
+    // BLINDS (NBS / Other)
+    {
+        slug: "arena-honeycomb-shades",
+        category: "Blinds",
+        title: "Arena Honeycomb Shades | Energy Efficient",
+        description: "The market leader in insulation. Cellular design traps air for year-round climate control.",
+        heroImage: "/images/products/arena-honeycomb-shades-hero.png",
+        intro: {
+            heading: "Arena Honeycomb: Efficiency Redefined",
+            body: "Arena Honeycomb Shades are the gold standard for energy efficiency. Their unique cellular construction creates a pocket of air that insulates your windows, keeping your home warmer in winter and cooler in summer. Available in a stunning range of fabrics from sheer to total blockout."
+        },
+        features: [
+            { title: "Superior Insulation", description: "Reduces heat loss through windows by up to 40%." },
+            { title: "Cordless Options", description: "Child-safe operating systems available." },
+            { title: "Minimal Stack", description: "Compresses tightly when raised for a minimal footprint." },
+            { title: "Top-Down/Bottom-Up", description: "Flexible light control options." },
+            { title: "Sound Absorption", description: "Improves room acoustics." }
+        ],
+        benefits: ["Lower Energy Bills", "Sleek Look", "Child Safe", "Versatile Control"],
+        faq: []
+    },
+    {
+        slug: "tuscany-pvc-venetians",
+        category: "Blinds",
+        title: "Tuscany PVC Venetians | Durable & Stylish",
+        description: "The look of timber with the durability of PVC. Perfect for high-humidity areas.",
+        heroImage: "/images/products/tuscany-pvc-venetians-hero.png",
+        intro: {
+            heading: "Tuscany: Style That Lasts",
+            body: "Tuscany PVC Venetians offer the classic aesthetic of timber blinds but are engineered from high-quality PVC. This makes them incredibly durable, easy to clean, and resistant to moisture, ideal for kitchens and bathrooms where real timber might warp."
+        },
+        features: [
+            { title: "Moisture Resistant", description: "Perfect for wet areas like bathrooms." },
+            { title: "Easy Care", description: "Wipe clean slats require minimal maintenance." },
+            { title: "Timber Look", description: "Textured finishes available to mimic wood grain." },
+            { title: "UV Stabilised", description: "Will not yellow or fade in the sun." },
+            { title: "Budget Friendly", description: "More affordable than real timber." }
+        ],
+        benefits: ["Waterproof", "Durable", "Classic Style", "Value for Money"],
+        faq: []
+    },
+    {
+        slug: "shutter-tech-roller-shutters",
+        category: "Shutters",
+        title: "Shutter Tech Roller Shutters | Ultimate Protection",
+        description: "Premium aluminium roller shutters for total security, noise reduction, and thermal insulation.",
+        heroImage: "/images/products/shutter-tech-roller-shutters-hero.png",
+        intro: {
+            heading: "Shutter Tech: The Ultimate Fortress",
+            body: "Shutter Tech Roller Shutters provide a robust shield for your windows. Made from commercial-grade aluminium with foam-filled slats, they offer unbeatable protection against intruders, heat, cold, and storms. They also block up to 50% of outside noise, creating a peaceful indoor environment."
+        },
+        features: [
+            { title: "Foam Filled Slats", description: "Provides excellent thermal and acoustic insulation." },
+            { title: "High Security", description: "Physical locking system prevents forced entry." },
+            { title: "Total Blockout", description: "Stops 100% of light for shift workers." },
+            { title: "Motorised", description: "Remote or switch operation for ease of use." },
+            { title: "Bushfire Protection", description: "protects windows from radiant heat and debris." }
+        ],
+        benefits: ["Maximum Security", "Noise Reduction", "Energy Saving", "Total Darkness"],
+        faq: []
     }
 ];
 
