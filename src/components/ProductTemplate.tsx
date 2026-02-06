@@ -32,6 +32,7 @@ interface ProductTemplateProps {
     types: ProductType[];
     ctaText?: string;
     nearbyLocations?: { name: string; slug: string; postcode: string }[];
+    faq?: { question: string; answer: string }[];
 }
 
 // Animation variants for staggered children
@@ -141,7 +142,8 @@ export function ProductTemplate({
     benefits,
     types,
     ctaText = "Book a Free Measure and Quote",
-    nearbyLocations
+    nearbyLocations,
+    ...props
 }: ProductTemplateProps) {
     const heroRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
@@ -298,6 +300,59 @@ export function ProductTemplate({
 
             <ProcessTimeline />
 
+            {/* Benefits Section */}
+            {benefits && benefits.length > 0 && (
+                <section className="py-20 bg-stone-50">
+                    <div className="container mx-auto px-6">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
+                            Why Choose {title.replace("Custom ", "")}?
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {benefits.map((benefit, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="flex items-start gap-4 p-6 bg-white rounded-sm shadow-sm"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-mcb-sage/20 flex items-center justify-center flex-shrink-0 text-mcb-olive">
+                                        <Check size={16} />
+                                    </div>
+                                    <p className="font-medium text-mcb-charcoal">{benefit}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* FAQ Section */}
+            {props.faq && props.faq.length > 0 && (
+                <section className="py-20 bg-white">
+                    <div className="container mx-auto px-6 max-w-4xl">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
+                            Common Questions
+                        </h2>
+                        <div className="space-y-6">
+                            {props.faq.map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="border-b border-stone-200 pb-6 last:border-0"
+                                >
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-2">{item.question}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.answer}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Product Types / Collection with alternating slide animations */}
             <section className="py-24 container mx-auto px-6">
                 <motion.h2
@@ -319,11 +374,16 @@ export function ProductTemplate({
                             className="group flex flex-col md:flex-row gap-8 items-center"
                         >
                             <motion.div
-                                className="w-full md:w-1/2 overflow-hidden rounded-sm relative aspect-[4/3]"
+                                className="w-full md:w-1/2 overflow-hidden rounded-sm relative aspect-[4/3] cursor-pointer"
                                 whileHover={{ scale: 1.02 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <div className="absolute inset-0 bg-mcb-clay/10 z-10 group-hover:bg-transparent transition-colors duration-500" />
+                                {type.href ? (
+                                    <Link href={type.href} className="absolute inset-0 z-30">
+                                        <span className="sr-only">View {type.title}</span>
+                                    </Link>
+                                ) : null}
+                                <div className="absolute inset-0 bg-mcb-clay/10 z-10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
                                 <Image
                                     src={type.image || heroImage}
                                     alt={type.title}
@@ -331,7 +391,7 @@ export function ProductTemplate({
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 {/* Corner accent on hover */}
-                                <div className="absolute bottom-0 right-0 w-0 h-0 bg-mcb-terracotta group-hover:w-16 group-hover:h-16 transition-all duration-300 z-20" />
+                                <div className="absolute bottom-0 right-0 w-0 h-0 bg-mcb-terracotta group-hover:w-16 group-hover:h-16 transition-all duration-300 z-20 pointer-events-none" />
                             </motion.div>
                             <div className="w-full md:w-1/2">
                                 <motion.h3

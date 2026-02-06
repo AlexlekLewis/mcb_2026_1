@@ -27,7 +27,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Custom Sheer Curtains | Soft minimalism & Light Diffusion",
         description: "Create elegant, airy interiors with premium custom-made Sheer Curtains. Expertly crafted in Melbourne in S-Fold, Pencil Pleat, and more.",
-        heroImage: "/images/sheer-curtains-hero.jpg",
+        heroImage: "/images/sheer-curtain-detail.png",
         intro: {
             heading: "Sheer Curtains: The Essence of Soft Minimalism",
             body: "Transform your living space with the ethereal beauty of Custom Sheer Curtains. Designed to diffuse natural light while providing daytime privacy, our sheers add a layer of sophisticated softness to any room. Whether you prefer the modern, fluid lines of an S-Fold heading or the classic elegance of a Pinch Pleat, our collection features organic textures and linen-look fabrics that bring the outdoors in."
@@ -53,7 +53,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Blockout Curtains | Total Privacy & Thermal Insulation",
         description: "Sleep better and save energy with heavy-duty Blockout Curtains. 100% light blocking and superior thermal efficiency.",
-        heroImage: "/images/blockout-curtains-hero.jpg",
+        heroImage: "/assets/blockout_curtains.png",
         intro: {
             heading: "Blockout Curtains: Sanctuary & Silence",
             body: "Create your personal sanctuary with our heavy-duty Blockout Curtains. Engineered for total light exclusion and superior thermal insulation, these curtains are essential for Australian homes. They trap a layer of air to keep your home cool in summer and warm in winter."
@@ -78,7 +78,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Translucent Curtains | Light Filtering Privacy",
         description: "The perfect balance between light filtering and privacy. Soften sunlight while reducing glare without darkening the room.",
-        heroImage: "/images/translucent-curtains.jpg",
+        heroImage: "/images/sfold-translucent.png",
         intro: {
             heading: "Translucent Curtains: The Perfect Balance",
             body: "Translucent curtains offer the perfect middle ground between sheers and blockouts. They filter sunlight to create a soft, ambient glow while providing complete visual privacy day and night(silhouettes may be visible close up at night). Ideal for living areas where you want natural light but need privacy from neighbours."
@@ -101,7 +101,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Velvet Curtains | Luxury & Drama",
         description: "Add a touch of opulence with rich, heavy Velvet Curtains. Excellent for theatre rooms and formal living spaces.",
-        heroImage: "/images/velvet-curtains.jpg",
+        heroImage: "/images/velvet-curtains-hero.png",
         intro: {
             heading: "Velvet Curtains: Opulence & Warmth",
             body: "For a look of pure luxury, nothing compares to Velvet Curtains. Their dense pile absorbs light and sound, creating a cozy, intimate atmosphere. Perfect for formal dining rooms, master bedrooms, or home theatres where you want to make a dramatic statement."
@@ -127,7 +127,7 @@ export const productData: Product[] = [
         category: "Roller Blinds",
         title: "Blockout Roller Blinds | Sleek Privacy",
         description: "Minimalist design with maximum function. 100% privacy and light control. Custom made in Melbourne.",
-        heroImage: "/images/blockout-roller-hero.jpg",
+        heroImage: "/assets/roller_blockout_detail.png",
         intro: {
             heading: "Blockout Roller Blinds: Sleek & Functional",
             body: "The standard for modern functionality, our Blockout Roller Blinds offer a clean, minimalist aesthetic with maximum performance. When rolled down, they provide complete privacy and darkness. When rolled up, they disappear, leaving your view unobstructed."
@@ -150,7 +150,7 @@ export const productData: Product[] = [
         category: "Roller Blinds",
         title: "Sunscreen Roller Blinds | View & UV Protection",
         description: "Maintain your view while blocking heat and UV rays. The ideal choice for open-plan living areas.",
-        heroImage: "/images/sunscreen-roller.jpg",
+        heroImage: "/images/sunscreen-blinds.png",
         intro: {
             heading: "Sunscreen Blinds: Protection Without Losing the View",
             body: "Sunscreen blinds are a technical marvel, allowing you to see out while blocking up to 95% of UV rays and heat. They reduce glare on screens and protect your floors from fading, all while maintaining a connection to the outside world during the day."
@@ -173,7 +173,7 @@ export const productData: Product[] = [
         category: "Roller Blinds",
         title: "Double Roller Blinds | Day & Night Flexibility",
         description: "The best of both worlds. Combine a Sunscreen/Sheer blind with a Blockout blind on one bracket.",
-        heroImage: "/images/double-roller-hero.jpg",
+        heroImage: "/images/double-roller-hero.png",
         intro: {
             heading: "Double Roller Blinds: 24/7 Flexibility",
             body: "Why choose between views and privacy when you can have both? Our Double Roller Blinds feature two blinds on a single bracket: a Sunscreen for the day and a Blockout for the night. This dual system gives you complete control over your environment."
@@ -195,7 +195,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Roman Blinds | Classic Soft Folds",
         description: "Classical elegance meets modern design. Featuring soft, folding fabrics for a sophisticated look.",
-        heroImage: "/images/roman-blinds.jpg",
+        heroImage: "/assets/roman_blinds_hero.png",
         intro: {
             heading: "Roman Blinds: Timeless Elegance",
             body: "Roman Blinds bring the softness of curtains with the functionality of a blind. Featuring clean, horizontal folds that stack neatly when raised, they add a touch of formal sophistication to any room. Available in a vast range of blockout and light-filtering fabrics."
@@ -217,7 +217,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Venetian Blinds | Timber & Aluminium",
         description: " precise light control with classic horizontal slats. Available in Timber, Faux Wood, and Aluminium.",
-        heroImage: "/images/venetian-blinds.jpg",
+        heroImage: "/images/venetian-blinds-hero.png",
         intro: {
             heading: "Venetian Blinds: Precise Control",
             body: "Venetian blinds offer unparalleled control over light and privacy. By simply tilting the slats, you can direct sunlight exactly where you want it or close them tight for privacy. Choose from warm Timber for a natural look, moisture-resistant Faux Wood for wet areas, or sleek Aluminium for a modern touch."
@@ -240,7 +240,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Vertical Blinds | Practical & Versatile",
         description: "The ideal solution for large windows and sliding doors. Control light and privacy with rotating vertical blades.",
-        heroImage: "/images/vertical-blinds.jpg",
+        heroImage: "/assets/vertical_blinds_modern.png",
         intro: {
             heading: "Vertical Blinds: Dynamic Light Control",
             body: "Vertical Blinds are back in style with modern fabrics and sleek tracking systems. They are the most practical solution for large expanses of glass and sliding doors, allowing you to walk through the blind easily. Rotate the blades 180 degrees to follow the sun or stack them neatly to the side."
@@ -262,7 +262,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Honeycomb (Cellular) Blinds | Superior Insulation",
         description: "Save on energy bills with the unique cellular structure that traps air. The most energy-efficient blind on the market.",
-        heroImage: "/images/honeycomb-blinds.jpg",
+        heroImage: "/assets/honeycomb_blinds.png",
         intro: {
             heading: "Honeycomb Blinds: Science Meets Style",
             body: "Also known as Cellular Blinds, these feature a unique honeycomb-shaped air pocket that acts as a powerful insulator. They trap air at the window, keeping your home warm in winter and cool in summer. With a sleek profile and minimal stack height, they utilize space efficiently."
@@ -288,7 +288,7 @@ export const productData: Product[] = [
         category: "Shutters",
         title: "Plantation Shutters | Timeless Sophistication",
         description: "The ultimate window furnishing for value and style. Available in PVC, Timber, and Aluminium.",
-        heroImage: "/images/plantation-shutters.jpg",
+        heroImage: "/images/plantation-shutters-hero.png",
         intro: {
             heading: "Plantation Shutters: A Permanent Investment",
             body: "Plantation Shutters are more than just a window covering; they are a permanent addition to your home that adds value and curb appeal. With adjustable louvers, they offer excellent airflow and light control. Choose from PVC for wet areas, sustainable Timber for living spaces, or Aluminium for outdoors."
@@ -311,7 +311,7 @@ export const productData: Product[] = [
         category: "Shutters",
         title: "Roller Shutters | Security & Insulation",
         description: "Heavy-duty exterior shutters for maximum security, noise reduction, and total blockout.",
-        heroImage: "/images/roller-shutters.jpg",
+        heroImage: "/images/roller-shutters.png",
         intro: {
             heading: "Roller Shutters: Fortress-Like Protection",
             body: "Roller Shutters provide a robust physical barrier against intruders, noise, and weather. Constructed from interlocking aluminium slats filled with insulating foam, they reduce outside noise by up to 50% and provide complete darkness, making them perfect for shift workers and security-conscious homeowners."
@@ -337,7 +337,7 @@ export const productData: Product[] = [
         category: "Outdoor",
         title: "Zipscreen Blinds | Enclose Your Alfresco",
         description: "Turn your outdoor area into a year-round room. Block wind, rain, and sun/insects.",
-        heroImage: "/images/zip-screen.jpg",
+        heroImage: "/assets/zipscreen_blinds.png",
         intro: {
             heading: "Zipscreens: Outdoor Living, Refined",
             body: "Take control of your outdoor entertainment area with Zipscreen Blinds. Using a patented track-guided system, the fabric is locked into side channels, creating a seal against wind, rain, and bugs. It allows you to entertain outdoors regardless of the weather."
@@ -360,7 +360,7 @@ export const productData: Product[] = [
         category: "Outdoor",
         title: "Awnings | Shade & Style",
         description: "Protect your windows and patios from the harsh Australian sun with our range of stylish awnings.",
-        heroImage: "/images/awnings.jpg",
+        heroImage: "/assets/awning_hero.png",
         intro: {
             heading: "Awnings: First Line of Defence",
             body: "Stop the sun before it hits your glass. External Awnings are the most effective way to cool your home, preventing heat from entering your windows. From Auto-Lock arms to Folding Arm Awnings for patios, we have a solution for every exterior."
@@ -405,7 +405,7 @@ export const productData: Product[] = [
         category: "Security",
         title: "Fly Screens | Insect Protection",
         description: "Keep the bugs out and let the fresh air in. Custom made for windows and doors.",
-        heroImage: "/images/fly-screens.jpg",
+        heroImage: "/images/sec-fly.png",
         intro: {
             heading: "Fly Screens: Essential Ventilation",
             body: "Enjoy the fresh breeze without the buzzing guests. Our custom-made fly screens are essential for every Australian home. Available in standard fibreglass mesh, or upgrade to 'Pet Mesh' for paw-proof durability."
@@ -430,7 +430,7 @@ export const productData: Product[] = [
         category: "Automation",
         title: "Motorisation | Smart Home Automation",
         description: "Voice control, scheduling, and app integration. Powered by Somfy and Automate.",
-        heroImage: "/images/motorisation.jpg",
+        heroImage: "/assets/motorised_curtains.png",
         intro: {
             heading: "Motorisation: Smart Living",
             body: "Experience the ultimate convenience. Motorise your Roller Blinds, Curtains, or Awnings with world-leading motors from Somfy and Automate. Integrate with Google Home, Alexa, or Apple HomeKit to schedule your blinds to open with the sunrise."

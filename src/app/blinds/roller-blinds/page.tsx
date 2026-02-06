@@ -40,7 +40,7 @@ export default function RollerBlindsPage() {
                 {
                     title: "Dual Roller System",
                     description: "The best of both worlds. Combine a Screen blind for day use and a Blockout blind for night privacy on a single slimline bracket.",
-                    image: "/assets/roller_dual_detail.png"
+                    image: "/assets/double_roller_blinds.png"
                 }
             ]}
         />

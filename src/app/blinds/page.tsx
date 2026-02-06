@@ -29,17 +29,20 @@ export default function BlindsPage() {
                 {
                     title: "Roller Blinds",
                     description: "The classic modern choice. Simple, durable, and available in hundreds of fabrics from screen to blockout.",
-                    image: "/assets/roller_blinds_interior.png" // Updated
+                    image: "/assets/roller_blinds_interior.png",
+                    href: "/blinds/roller-blinds"
                 },
                 {
                     title: "Double Rollers",
                     description: "The best of both worlds. Combine a screen blind for day privacy with a blockout blind for night-time comfort on a single bracket.",
-                    image: "/assets/double_roller_blinds.png" // Updated
+                    image: "/assets/double_roller_blinds.png",
+                    href: "/blinds/double-roller-blinds"
                 },
                 {
                     title: "Roman Blinds",
                     description: "Add warmth and texture with the soft folds of a Roman blind. A sophisticated alternative that acts like a curtain but functions like a blind.",
-                    image: "/assets/roman_blinds.png" // Updated
+                    image: "/assets/roman_blinds.png",
+                    href: "/blinds/roman-blinds"
                 }
             ]}
         />
