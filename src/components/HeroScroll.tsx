@@ -26,18 +26,23 @@ export function HeroScroll({ frameCount = 96 }: HeroScrollProps) {
     useEffect(() => {
         // Preload images
         const loadImages = async () => {
-            const loadedImages: HTMLImageElement[] = [];
+            const promises: Promise<HTMLImageElement>[] = [];
+
             for (let i = 1; i <= frameCount; i++) {
                 const img = new Image();
                 // Format index to 4 digits (e.g., 0001.jpg)
                 const filename = `/images/hero-sequence/${i.toString().padStart(4, "0")}.jpg`;
                 img.src = filename;
-                await new Promise((resolve) => {
-                    img.onload = resolve;
-                    img.onerror = resolve; // Continue even if missing to prevent hanging
+
+                const promise = new Promise<HTMLImageElement>((resolve) => {
+                    img.onload = () => resolve(img);
+                    img.onerror = () => resolve(img); // Resolve anyway to avoid breaking Promise.all
                 });
-                loadedImages.push(img);
+                promises.push(promise);
             }
+
+            // Wait for all images to load (in parallel)
+            const loadedImages = await Promise.all(promises);
             setImages(loadedImages);
             setIsLoaded(true);
         };
@@ -113,12 +118,11 @@ export function HeroScroll({ frameCount = 96 }: HeroScrollProps) {
                     className="absolute inset-0 w-full h-full object-cover"
                 />
 
-                {/* Loading State */}
-                {!isLoaded && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black text-white">
-                        <span className="loading-spinner">Loading experience...</span>
-                    </div>
-                )}
+                {/* Loading State - REMOVED blocking overlay
+                    The site should be usable immediately.
+                    We could add a small subtle indicator if really needed, 
+                    but for now let's just show the first frame or black bg.
+                 */}
 
                 {/* Content Overlay - Fades out as you scroll? Or stays fixed? 
             Let's keep the Hero text fixed or animating in/out 
