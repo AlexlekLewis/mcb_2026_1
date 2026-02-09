@@ -17,7 +17,7 @@ export function HeroScroll({ frameCount = 96 }: HeroScrollProps) {
     // Scroll progress (0 to 1) relative to the container
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start start", "end end"],
+        offset: ["start start", "end start"],
     });
 
     // Map scroll progress to frame index
@@ -111,7 +111,7 @@ export function HeroScroll({ frameCount = 96 }: HeroScrollProps) {
     }, [frameIndex, images, isLoaded]);
 
     return (
-        <div ref={containerRef} className="relative h-[250vh] bg-mcb-charcoal">
+        <div ref={containerRef} className="relative h-[350vh] bg-mcb-charcoal">
             <div className="sticky top-0 h-screen w-full overflow-hidden">
                 <canvas
                     ref={canvasRef}
