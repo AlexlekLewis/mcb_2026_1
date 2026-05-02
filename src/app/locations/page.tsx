@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: "Service Areas | Modern Curtains and Blinds Melbourne",
-    description: "We service homes across Melbourne's northern suburbs including Preston, Northcote, Thornbury, and beyond.",
+    description: "Free in-home measure and quote for curtains, blinds, shutters, security screens, awnings and motorisation across Melbourne suburbs.",
 };
 
 export default function LocationsIndex() {
@@ -13,10 +13,9 @@ export default function LocationsIndex() {
             <div className="container mx-auto px-6 max-w-4xl">
                 <div className="text-center mb-16">
                     <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">Service Areas</span>
-                    <h1 className="font-serif text-4xl md:text-5xl text-mcb-charcoal mb-6">Areas We Service</h1>
+                    <h1 className="font-serif text-4xl md:text-5xl text-mcb-charcoal mb-6">Curtains and Blinds Across Melbourne</h1>
                     <p className="text-stone-500 text-lg">
-                        Modern Curtains and Blinds provides professional design, measure and installation services across Melbourne.
-                        We are proud to serve the local community.
+                        Modern Curtains and Blinds provides free in-home measure and quote appointments for custom curtains, blinds, shutters, security screens, fly screens, awnings and motorisation across Melbourne.
                     </p>
                 </div>
 

@@ -22,7 +22,7 @@ const SLIDES = [
         type: "image",
         src: "/assets/security_door_hero.png",
         headline: "Protect What Matters.",
-        subhead: "Crimsafe Security Doors. Maximum Strength, Zero Compromise.",
+        subhead: "Custom security doors with strength, airflow and street appeal.",
         cta: "Book a Free Measure and Quote",
         href: "/security",
         align: "left",

@@ -1,5 +1,11 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
 import { getNearbyLocations } from "@/lib/locations";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Custom Curtains Melbourne | Sheer, Blockout, S-Fold & Motorised",
+    description: "Custom made-to-measure curtains in Melbourne including sheer, blockout, S-Fold, double, pleated, velvet and motorised curtains. Free in-home measure and quote.",
+};
 
 export default function CurtainsPage() {
     const nearby = getNearbyLocations('curtains', 8);
@@ -7,10 +13,11 @@ export default function CurtainsPage() {
     return (
         <ProductTemplate
             nearbyLocations={nearby}
-            title="Custom Made Curtains"
-            subtitle="Soft. Sustainable. Stylish. Elevate your Melbourne home."
+            title="Custom Made-to-Measure Curtains Melbourne"
+            subtitle="Sheer, Blockout, S-Fold and Motorised."
             heroImage="/assets/curtain_hero.png" // Using PNG as static hero for speed/consistency, or could use GIF
-            description="Experience the perfect blend of luxury and functionality with our custom-made curtains. From the flowing lines of S-Fold sheers to the insulating power of blockouts, we craft window furnishings that define your space."
+            description="Choose sheer curtains for soft daytime privacy, blockout curtains for better sleep, or double curtains for full day-to-night control. We bring fabric samples to your home and help you choose the right heading, lining and track for each room."
+            intentLabel="Privacy, softness and better sleep"
             features={[
                 {
                     title: "S-Fold Specialists",
@@ -24,6 +31,21 @@ export default function CurtainsPage() {
                     title: "Melbourne Made",
                     description: "Handcrafted locally in our Melbourne facility, ensuring superior quality control and faster turnaround times."
                 }
+            ]}
+            decisionGuide={[
+                { title: "Sheer curtains", description: "Best for living rooms, dining rooms and soft daytime privacy." },
+                { title: "Blockout curtains", description: "Best for bedrooms, nurseries, shift workers and media rooms." },
+                { title: "Double curtains", description: "Best for full flexibility: soft daytime light plus night privacy." },
+                { title: "S-Fold curtains", description: "Best for modern floor-to-ceiling windows and clean architectural waves." },
+                { title: "Pleated curtains", description: "Best for formal, traditional or tailored interiors." },
+                { title: "Motorised curtains", description: "Best for large windows, convenience, child safety and smart routines." },
+            ]}
+            comparisonRows={[
+                { label: "Sheer", bestFor: "Daytime privacy", notes: "Softens light; pair with blockout for night privacy." },
+                { label: "Blockout", bestFor: "Sleep and insulation", notes: "Ideal for bedrooms, nurseries and theatres." },
+                { label: "Double", bestFor: "Day/night flexibility", notes: "Layer sheer and blockout for the most control." },
+                { label: "S-Fold", bestFor: "Modern style", notes: "Continuous wave heading with smooth tracking." },
+                { label: "Pleated", bestFor: "Tailored finish", notes: "Classic heading with structured folds." },
             ]}
             types={[
                 {
@@ -45,6 +67,12 @@ export default function CurtainsPage() {
                     href: "/curtains/blockout"
                 },
                 {
+                    title: "Double Curtains",
+                    description: "Layer sheer and blockout curtains for daytime softness, night privacy and a premium designer finish.",
+                    image: "/assets/sheer_curtains.png",
+                    href: "/curtains"
+                },
+                {
                     title: "Theatre Class Velvet",
                     description: "Rich, opulent textures for media rooms and formal lounges. Heavyweight velvet drapes that dampen sound and create a true cinematic darkness.",
                     image: "/images/blockout-curtain-detail.png",
@@ -56,6 +84,12 @@ export default function CurtainsPage() {
                     image: "/images/roller-blind-detail.png",
                     href: "/curtains/motorised"
                 }
+            ]}
+            faq={[
+                { question: "Do sheer curtains provide privacy at night?", answer: "Sheers provide daytime privacy, but at night they should be paired with blockout curtains or blinds if you need full privacy." },
+                { question: "What curtain heading is most modern?", answer: "S-Fold curtains are the most popular modern heading because they create consistent waves and work beautifully on large windows." },
+                { question: "Can you layer curtains?", answer: "Yes. Double curtains combine a sheer and a blockout layer for flexible privacy, light and insulation." },
+                { question: "Will you bring fabric samples?", answer: "Yes. We bring samples so you can see colours, textures and opacity in your own home." },
             ]}
         />
     );

@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LOCATIONS, getLocationBySlug, getNearbyLocations } from '@/lib/locations';
 import { ProductTemplate } from '@/components/ProductTemplate';
+import { SITE } from '@/lib/site';
 
 interface Props {
-    params: {
+    params: Promise<{
         suburb: string;
-    };
+    }>;
 }
 
 // Generate static params for all locations at build time
@@ -18,22 +19,24 @@ export async function generateStaticParams() {
 
 // Generate unique metadata for each location
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const suburb = await getLocationBySlug(params.suburb);
+    const { suburb: slug } = await params;
+    const suburb = getLocationBySlug(slug);
     if (!suburb) return {};
 
     return {
-        title: `Curtains and Blinds ${suburb.name} | Custom Made Window Treatments`,
-        description: `Looking for curtains and blinds in ${suburb.name} ${suburb.postcode}? We provide premium custom made blinds, shutters and security doors. Free measure and quote in ${suburb.name}.`,
+        title: `Curtains and Blinds ${suburb.name} | Free Measure & Quote`,
+        description: `Curtains and blinds in ${suburb.name} ${suburb.postcode}. Custom curtains, roller blinds, shutters, security doors, fly screens and awnings with free in-home measure and quote.`,
         openGraph: {
-            title: `Curtains and Blinds ${suburb.name} | Custom Made Window Treatments`,
-            description: `Looking for curtains and blinds in ${suburb.name}? We are local experts providing premium custom window furnishings.`,
+            title: `Curtains and Blinds ${suburb.name}`,
+            description: `Free in-home measure and quote for custom curtains, blinds, shutters and security screens in ${suburb.name}.`,
         }
     };
 }
 
 export default async function LocationPage({ params }: Props) {
-    const suburb = await getLocationBySlug(params.suburb);
-    const nearby = getNearbyLocations(params.suburb);
+    const { suburb: slug } = await params;
+    const suburb = getLocationBySlug(slug);
+    const nearby = getNearbyLocations(slug);
 
     if (!suburb) {
         notFound();
@@ -43,48 +46,52 @@ export default async function LocationPage({ params }: Props) {
     const features = [
         {
             title: `Local to ${suburb.name}`,
-            description: "We are your local window furnishing experts, providing timely service and professional installation throughout the area."
+            description: `We provide in-home measure and quote appointments across ${suburb.name} and nearby Melbourne suburbs.`
         },
         {
-            title: "Custom Made Quality",
-            description: "Every product is custom manufactured to exact specifications, ensuring a perfect fit for your home's unique windows."
+            title: "Samples Brought to You",
+            description: "Compare fabrics, colours, textures and mesh options in your own home before choosing."
         },
         {
-            title: "Full Warranty",
-            description: "Enjoy peace of mind with our comprehensive warranty on all fabrics, mechanisms, and installation work."
+            title: "Every Opening Covered",
+            description: "Ask about curtains, blinds, shutters, security doors, fly screens, awnings and motorisation during one visit."
         }
     ];
 
     const types = [
         {
             title: "Roller Blinds",
-            description: `Modern and functional roller blinds for ${suburb.name} homes. Available in blockout, light filtering, and sunscreen fabrics.`,
-            href: "/blinds"
+            description: `Modern roller, sunscreen, double roller and honeycomb blinds for ${suburb.name} homes.`,
+            href: "/blinds",
+            image: "/assets/roller_blind_hero.png"
         },
         {
-            title: "S-Fold Curtains",
-            description: "Elegant sheer and blockout curtains that add improved insulation and style to any room.",
-            href: "/curtains"
+            title: "Custom Curtains",
+            description: "Sheer, blockout, double, S-Fold and motorised curtains measured and installed.",
+            href: "/curtains",
+            image: "/assets/curtain_hero.png"
         },
         {
             title: "Plantation Shutters",
             description: "Timeless plantation shutters that increase curbside appeal and offer superior light control.",
-            href: "/shutters"
+            href: "/shutters",
+            image: "/images/plantation-shutters-hero.png"
         },
         {
-            title: "Security Doors",
-            description: "Protect your family with our high-grade security doors and screens, custom fitted for maximum strength.",
-            href: "/security"
+            title: "Security Doors & Screens",
+            description: "Security doors, fly screens, pet mesh and window screens custom fitted for peace of mind.",
+            href: "/security",
+            image: "/images/security-door-hero.png"
         }
     ];
 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "Modern Curtains & Blinds",
-        "image": "https://moderncurtains.com.au/assets/curtain_hero.png",
-        "telephone": "1300732319",
-        "url": `https://moderncurtains.com.au/locations/${suburb.slug}`,
+        "name": SITE.name,
+        "image": `${SITE.url}/assets/curtain_hero.png`,
+        "telephone": SITE.phoneDisplay,
+        "url": `${SITE.url}/locations/${suburb.slug}`,
         "address": {
             "@type": "PostalAddress",
             "addressLocality": suburb.name,
@@ -127,13 +134,24 @@ export default async function LocationPage({ params }: Props) {
             />
             <ProductTemplate
                 title={`Curtains and Blinds ${suburb.name}`}
-                subtitle={`Premium Window Furnishings for ${suburb.name} Homes`}
+                subtitle={`Free in-home measure and quote in ${suburb.name}`}
                 heroImage="/assets/curtain_hero.png"
-                description={`Elevate your home in ${suburb.name} with our range of custom made curtains, blinds, and shutters. We come to you with samples.`}
+                description={`We provide free in-home measure and quote appointments across ${suburb.name}, bringing fabric samples, product advice and professional measuring to your home. Choose from custom curtains, roller blinds, plantation shutters, security doors, fly screens, awnings and motorisation.`}
                 features={features}
+                intentLabel={`${suburb.name} service area`}
+                decisionGuide={[
+                    { title: "For bedrooms", description: "Blockout curtains, blockout roller blinds and roller shutters for privacy and better sleep." },
+                    { title: "For living areas", description: "Sheers, S-Fold curtains and sunscreen blinds for soft light and daytime privacy." },
+                    { title: "For security", description: "Security doors, fly screens and window screens can be quoted during the same visit." },
+                ]}
                 types={types}
                 ctaText="Book Free Measure"
                 nearbyLocations={nearby}
+                faq={[
+                    { question: `Do you service ${suburb.name}?`, answer: `Yes. We offer in-home measure and quote appointments across ${suburb.name} and nearby Melbourne suburbs.` },
+                    { question: "Can you quote multiple products in one visit?", answer: "Yes. We can measure and quote curtains, blinds, shutters, security screens, awnings and motorisation during one appointment." },
+                    { question: "Do you bring samples?", answer: "Yes. We bring suitable samples so you can compare colours and textures in your own home." },
+                ]}
             />
         </>
     );

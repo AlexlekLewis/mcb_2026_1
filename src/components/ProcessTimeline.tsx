@@ -1,23 +1,28 @@
 "use client";
 
-import { ClipboardList, Hammer, Star } from "lucide-react";
+import { ClipboardList, FileText, Hammer, Ruler } from "lucide-react";
 import { motion } from "framer-motion";
 
 const steps = [
     {
         icon: ClipboardList,
-        title: "1. Free Measure & Quote",
-        description: "We bring samples to you. Our experts measure your windows and provide advice on the best fabrics and styles."
+        title: "1. Book Your Free Visit",
+        description: "Tell us what you need help with and we will arrange a time to visit your home."
+    },
+    {
+        icon: Ruler,
+        title: "2. Samples & Measuring",
+        description: "We bring samples, check your rooms and measure the windows or doors properly."
+    },
+    {
+        icon: FileText,
+        title: "3. Clear Written Quote",
+        description: "You receive product advice and written pricing before anything is ordered."
     },
     {
         icon: Hammer,
-        title: "2. Custom Crafting",
-        description: "Your order is sent to our Melbourne facility where it is locally manufactured to your exact specifications."
-    },
-    {
-        icon: Star,
-        title: "3. Professional Install",
-        description: "Our experienced team installs your new window furnishings, ensuring a perfect fit and leaving your home spotless."
+        title: "4. Make & Install",
+        description: "Your products are custom made and professionally installed with care."
     }
 ];
 
@@ -27,15 +32,15 @@ export function ProcessTimeline() {
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">How It Works</span>
-                    <h2 className="font-serif text-3xl md:text-5xl text-mcb-charcoal mb-6">Simple, Seamless Process</h2>
-                    <p className="text-stone-500 text-lg">From our first visit to the final reveal, we make transforming your home effortless.</p>
+                    <h2 className="font-serif text-3xl md:text-5xl text-mcb-charcoal mb-6">From first visit to final fit</h2>
+                    <p className="text-stone-500 text-lg">No pressure, no guesswork. We help you compare the right products before anything is ordered.</p>
                 </div>
 
                 <div className="relative">
                     {/* Connecting Line (Desktop) */}
                     <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-stone-200" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
                         {steps.map((step, idx) => (
                             <motion.div
                                 key={idx}

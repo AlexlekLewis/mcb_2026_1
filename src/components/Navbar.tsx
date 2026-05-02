@@ -1,252 +1,188 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const NAV_ITEMS = [
-    {
-        label: "Blinds",
-        href: "/blinds",
-        subcategories: [
-            {
-                title: "Popular",
-                items: ["Roller Blinds", "Double Roller Blinds", "Roman Blinds", "Venetian Blinds"]
-            },
-            {
-                title: "Specialty",
-                items: ["Vertical Blinds", "Honeycomb Blinds", "Panel Glide"]
-            },
-            {
-                title: "Features",
-                items: ["Blockout", "Sunscreen", "Motorised"]
-            }
-        ]
-    },
-    {
-        label: "Curtains",
-        href: "/curtains",
-        subcategories: [
-            { title: "Styles", items: ["Sheer Curtains", "Blockout Curtains", "Translucent Curtains", "Velvet Curtains"] },
-            { title: "Headings", items: ["S-Fold Curtains", "Pleated Curtains", "Eyelet Curtains"] }
-        ]
-    },
-    {
-        label: "Shutters",
-        href: "/shutters",
-        subcategories: [
-            { title: "Our Range", items: ["Plantation Shutters", "Roller Shutters"] }
-        ]
-    },
-    {
-        label: "Security",
-        href: "/security",
-        subcategories: [
-            { title: "Protection", items: ["Security Doors", "Fly Screens"] }
-        ]
-    },
-    {
-        label: "Outdoor",
-        href: "/awnings", // Retaining awnings base but labeling Outdoor
-        subcategories: [
-            { title: "Shade & Shelter", items: ["Zipscreens", "Awnings"] }
-        ]
-    },
-    { label: "Motorisation", href: "/motorisation" },
-];
+import { navItems } from "@/lib/cro-data";
+import { quoteHref, SITE } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const pathname = usePathname();
-    const isHome = pathname === "/";
-    const isTransparent = isHome && !isScrolled;
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const isTransparent = isHome && !isScrolled && !mobileMenuOpen;
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return (
-        <>
-            <nav
-                className={cn(
-                    "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-                    !isTransparent
-                        ? "bg-white/95 backdrop-blur-md border-mcb-sand py-2 shadow-sm"
-                        : "bg-transparent border-transparent py-4"
-                )}
-            >
-                {/* Top Bar (Promo) */}
-                {!isScrolled && (
-                    <div className="absolute top-0 left-0 right-0 -mt-10 h-10 bg-mcb-charcoal text-white flex items-center justify-center text-xs tracking-widest uppercase font-medium">
-                        New Year Sale - Up to 40% Off Motorisation
-                    </div>
-                )}
+  return (
+    <>
+      <div className="fixed left-0 right-0 top-0 z-50 bg-mcb-charcoal px-4 py-2 text-center text-xs font-bold uppercase tracking-widest text-white">
+        Free in-home measure and quote across Melbourne
+      </div>
+      <nav
+        className={cn(
+          "fixed left-0 right-0 top-8 z-50 border-b transition-all duration-300",
+          isTransparent ? "border-transparent bg-transparent py-3" : "border-mcb-sand bg-white/95 py-1 shadow-sm backdrop-blur-md"
+        )}
+      >
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex h-20 items-center justify-between gap-5 lg:h-24">
+            <Link href="/" className="relative z-10 block shrink-0" aria-label="Modern Curtains and Blinds home">
+              <Image
+                src="/assets/logos/logo_5.png"
+                alt="Modern Curtains and Blinds"
+                width={1024}
+                height={602}
+                className="h-14 w-auto object-contain lg:h-20"
+                priority
+              />
+            </Link>
 
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="flex items-center justify-between h-20 lg:h-32">
-                        {/* Logo */}
-                        <Link href="/" className="relative z-10 block shrink-0">
-                            <Image
-                                src="/assets/logos/logo_5.png"
-                                alt="Modern Curtains and Blinds"
-                                width={1024}
-                                height={602}
-                                className="h-16 lg:h-24 w-auto object-contain" // Distinctly larger than text, perfectly centered.
-                                priority
-                            />
-                        </Link>
+            <div className="hidden items-center gap-4 lg:flex">
+              {navItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="relative flex h-full items-center"
+                  onMouseEnter={() => setActiveDropdown(item.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-1 py-4 text-sm font-semibold transition-colors",
+                      isTransparent ? "text-white/90 hover:text-white" : "text-mcb-charcoal hover:text-mcb-terracotta"
+                    )}
+                  >
+                    {item.label}
+                    {"groups" in item && item.groups ? <ChevronDown size={14} className="opacity-70" /> : null}
+                  </Link>
 
-                        {/* Desktop Nav */}
-                        <div className="hidden lg:flex items-center gap-3">
-                            {NAV_ITEMS.map((item) => (
-                                <div
-                                    key={item.label}
-                                    className="relative group h-full flex items-center"
-                                    onMouseEnter={() => setActiveDropdown(item.label)}
-                                    onMouseLeave={() => setActiveDropdown(null)}
-                                >
-                                    <Link
-                                        href={item.href}
-                                        className={cn(
-                                            "text-sm font-medium transition-colors py-4 flex items-center gap-1",
-                                            !isTransparent ? "text-mcb-charcoal hover:text-mcb-terracotta" : "text-white/90 hover:text-white"
-                                        )}
-                                    >
-                                        {item.label}
-                                        {item.subcategories && <ChevronDown size={14} className="opacity-70" />}
-                                    </Link>
-
-                                    {/* Mega Menu Dropdown */}
-                                    {item.subcategories && activeDropdown === item.label && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: 10 }}
-                                            transition={{ duration: 0.2 }}
-                                            className="absolute top-full left-0 w-[600px] bg-white shadow-xl rounded-sm border border-stone-100 p-8 grid grid-cols-3 gap-8 cursor-default"
-                                        >
-                                            {item.subcategories.map((sub, idx) => (
-                                                <div key={idx}>
-                                                    <h4 className="font-serif text-mcb-terracotta text-lg mb-4">{sub.title}</h4>
-                                                    <ul className="space-y-2">
-                                                        {sub.items.map((subItem) => {
-                                                            // Generate specific href for blinds and curtains
-                                                            let href = item.href;
-                                                            if (item.label === "Blinds") {
-                                                                if (subItem === "Blockout" || subItem === "Sunscreen" || subItem === "Motorised") {
-                                                                    // For now linking features roughly to roller blinds or main page
-                                                                    if (subItem === "Blockout") href = "/blinds/roller-blinds/blockout"; // Example mapping
-                                                                    else if (subItem === "Sunscreen") href = "/blinds/roller-blinds/sunscreen";
-                                                                    else href = "/motorisation";
-                                                                } else {
-                                                                    href = `/blinds/${subItem.toLowerCase().replace(/ /g, "-")}`;
-                                                                }
-                                                            } else if (item.label === "Curtains") {
-                                                                if (subItem === "Sheer Curtains") href = "/curtains/sheer";
-                                                                else if (subItem === "Blockout Curtains") href = "/curtains/blockout";
-                                                                else href = `/curtains/${subItem.toLowerCase().replace(/ /g, "-")}`;
-                                                            } else if (item.label === "Shutters") {
-                                                                href = `/shutters/${subItem.toLowerCase().replace(/ /g, "-")}`;
-                                                            } else if (item.label === "Security") {
-                                                                href = `/security/${subItem.toLowerCase().replace(/ /g, "-")}`;
-                                                            } else if (item.label === "Outdoor") {
-                                                                // Special handling if using awnings as base or separate
-                                                                if (subItem === "Awnings") href = "/awnings";
-                                                                else href = `/awnings/${subItem.toLowerCase().replace(/ /g, "-")}`;
-                                                            }
-
-                                                            return (
-                                                                <li key={subItem}>
-                                                                    <Link
-                                                                        href={href}
-                                                                        className="text-stone-600 hover:text-mcb-charcoal text-sm block transition-colors hover:translate-x-1"
-                                                                    >
-                                                                        {subItem}
-                                                                    </Link>
-                                                                </li>
-                                                            );
-                                                        })}
-                                                    </ul>
-                                                </div>
-                                            ))}
-                                            {/* Visual Promo in Menu */}
-                                            <div className="col-span-1 bg-mcb-paper p-4 flex flex-col items-center justify-center text-center group/promo cursor-pointer">
-                                                <span className="text-xs text-mcb-sage-dark uppercase font-bold mb-2">Best Seller</span>
-                                                <div className="w-full h-24 bg-stone-200 mb-2 rounded-sm overflow-hidden relative">
-                                                    <Image
-                                                        src="/assets/sheer_curtains.png"
-                                                        alt="S-Fold Curtains"
-                                                        fill
-                                                        className="object-cover transition-transform duration-700 group-hover/promo:scale-110"
-                                                    />
-                                                </div>
-                                                <p className="text-sm font-serif group-hover/promo:text-mcb-terracotta transition-colors">S-Fold Curtains</p>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Right Actions */}
-                        <div className="hidden lg:flex items-center gap-2 xl:gap-6 shrink-0">
-                            <a href="tel:1300732319" className={cn("flex items-center gap-1 font-medium transition-colors hover:text-mcb-terracotta whitespace-nowrap shrink-0", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
-                                <Phone size={18} className="shrink-0" />
-                                <span className="whitespace-nowrap">1300&nbsp;732&nbsp;319</span>
-                            </a>
-                            <button className={cn("hover:text-mcb-terracotta transition-colors", !isTransparent ? "text-mcb-charcoal" : "text-white")}>
-                                <Search size={20} />
-                            </button>
-
-                            <Link href="/quote" className="bg-mcb-terracotta text-white px-3 py-2.5 rounded-sm text-sm font-medium hover:bg-stone-800 transition-all shadow-lg hover:shadow-xl whitespace-nowrap shrink-0">
-                                Book a Free Measure and Quote
-                            </Link>
-                        </div>
-
-                        {/* Mobile Toggle */}
-                        <button
-                            className={cn("lg:hidden p-2", !isTransparent ? "text-mcb-charcoal" : "text-white")}
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        >
-                            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
-                    </div>
-                </div>
-            </nav>
-
-            {/* Mobile Menu Overlay */}
-            <AnimatePresence>
-                {mobileMenuOpen && (
+                  {"groups" in item && item.groups && activeDropdown === item.label && (
                     <motion.div
-                        initial={{ opacity: 0, x: "100%" }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: "100%" }}
-                        transition={{ type: "tween", duration: 0.3 }}
-                        className="fixed inset-0 z-40 bg-white pt-24 px-6 overflow-y-auto lg:hidden"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute left-0 top-full grid w-[720px] grid-cols-3 gap-8 rounded-sm border border-stone-100 bg-white p-8 shadow-xl"
                     >
-                        <div className="flex flex-col gap-6">
-                            {NAV_ITEMS.map((item) => (
-                                <Link key={item.label} href={item.href} className="text-2xl font-serif text-mcb-charcoal border-b border-stone-100 pb-4">
-                                    {item.label}
+                      {item.groups.map((group) => (
+                        <div key={group.title}>
+                          <h4 className="mb-4 font-serif text-lg text-mcb-terracotta">{group.title}</h4>
+                          <ul className="space-y-2">
+                            {group.items.map((subItem) => (
+                              <li key={subItem.href + subItem.label}>
+                                <Link
+                                  href={subItem.href}
+                                  className="block text-sm text-stone-600 transition-colors hover:translate-x-1 hover:text-mcb-charcoal"
+                                >
+                                  {subItem.label}
                                 </Link>
+                              </li>
                             ))}
-                            <Link href="/quote" className="bg-mcb-terracotta text-white w-full py-4 text-lg font-medium rounded-sm mt-4 text-center block">
-                                Book a Free Measure and Quote
-                            </Link>
+                          </ul>
                         </div>
+                      ))}
+                      <div className="rounded-sm bg-mcb-paper p-5">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-widest text-mcb-sage-dark">Need help choosing?</p>
+                        <p className="mb-4 text-sm leading-relaxed text-stone-600">
+                          Book a free visit and we will bring samples, measure and recommend the right options.
+                        </p>
+                        <Link href={quoteHref("Unsure / Need Advice")} className="text-sm font-bold uppercase tracking-wider text-mcb-terracotta">
+                          Ask an expert
+                        </Link>
+                      </div>
                     </motion.div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="hidden shrink-0 items-center gap-4 lg:flex">
+              <a
+                href={SITE.phoneHref}
+                className={cn(
+                  "flex items-center gap-2 whitespace-nowrap font-semibold transition-colors hover:text-mcb-terracotta",
+                  isTransparent ? "text-white" : "text-mcb-charcoal"
                 )}
-            </AnimatePresence>
-        </>
-    );
+              >
+                <Phone size={18} />
+                {SITE.phoneDisplay}
+              </a>
+              <Link href={quoteHref()} className="whitespace-nowrap rounded-sm bg-mcb-terracotta px-4 py-3 text-sm font-bold text-white shadow-lg transition-colors hover:bg-stone-800">
+                Book Free Measure & Quote
+              </Link>
+            </div>
+
+            <button
+              className={cn("relative z-10 p-2 lg:hidden", isTransparent ? "text-white" : "text-mcb-charcoal")}
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label="Toggle navigation"
+            >
+              {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "tween", duration: 0.25 }}
+            className="fixed inset-0 z-40 overflow-y-auto bg-white px-6 pb-10 pt-36 lg:hidden"
+          >
+            <div className="space-y-7">
+              {navItems.map((item) => (
+                <div key={item.label} className="border-b border-stone-100 pb-5">
+                  <Link
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-serif text-2xl text-mcb-charcoal"
+                  >
+                    {item.label}
+                  </Link>
+                  {"groups" in item && item.groups ? (
+                    <div className="mt-4 grid gap-3">
+                      {item.groups.flatMap((group) => group.items).map((subItem) => (
+                        <Link
+                          key={subItem.href + subItem.label}
+                          href={subItem.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="text-sm font-medium text-stone-600"
+                        >
+                          {subItem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+              <a href={SITE.phoneHref} className="flex items-center justify-center gap-2 rounded-sm border border-stone-200 py-4 font-bold text-mcb-charcoal">
+                <Phone size={18} /> {SITE.phoneDisplay}
+              </a>
+              <Link
+                href={quoteHref()}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block rounded-sm bg-mcb-terracotta py-4 text-center text-lg font-bold text-white"
+              >
+                Book Free Measure & Quote
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 }

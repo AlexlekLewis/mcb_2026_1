@@ -22,6 +22,12 @@ interface ProductType {
     href?: string;
 }
 
+interface ComparisonRow {
+    label: string;
+    bestFor: string;
+    notes: string;
+}
+
 interface ProductTemplateProps {
     title: string;
     subtitle: string;
@@ -33,6 +39,9 @@ interface ProductTemplateProps {
     ctaText?: string;
     nearbyLocations?: { name: string; slug: string; postcode: string }[];
     faq?: { question: string; answer: string }[];
+    intentLabel?: string;
+    decisionGuide?: ProductFeature[];
+    comparisonRows?: ComparisonRow[];
 }
 
 // Animation variants for staggered children
@@ -141,8 +150,11 @@ export function ProductTemplate({
     features,
     benefits,
     types,
-    ctaText = "Book a Free Measure and Quote",
+    ctaText = "Book Free Measure & Quote",
     nearbyLocations,
+    intentLabel = "Made-to-measure advice",
+    decisionGuide,
+    comparisonRows,
     ...props
 }: ProductTemplateProps) {
     const heroRef = useRef<HTMLElement>(null);
@@ -247,11 +259,11 @@ export function ProductTemplate({
                 className="py-24 container mx-auto px-6"
             >
                 <div className="max-w-3xl mx-auto text-center">
-                    <motion.span
+                        <motion.span
                         variants={itemVariants}
                         className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-6 block"
                     >
-                        Premium Quality
+                        {intentLabel}
                     </motion.span>
                     <motion.h2
                         variants={itemVariants}
@@ -265,6 +277,34 @@ export function ProductTemplate({
                     />
                 </div>
             </motion.section>
+
+            {/* Decision Guide */}
+            {decisionGuide && decisionGuide.length > 0 && (
+                <section className="py-20 bg-white">
+                    <div className="container mx-auto px-6">
+                        <div className="max-w-3xl mx-auto text-center mb-12">
+                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
+                                Choose with confidence
+                            </span>
+                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
+                                Which option is right for you?
+                            </h2>
+                            <p className="text-stone-500 text-lg">
+                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {decisionGuide.map((item) => (
+                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
+                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Features Grid with staggered animations */}
             <section className="py-20 bg-mcb-paper">
@@ -298,7 +338,71 @@ export function ProductTemplate({
                 </div>
             </section>
 
+            {/* Comparison Table */}
+            {comparisonRows && comparisonRows.length > 0 && (
+                <section className="py-20 bg-white">
+                    <div className="container mx-auto px-6">
+                        <div className="max-w-3xl mx-auto text-center mb-12">
+                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
+                                Compare options
+                            </span>
+                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
+                                Product guide
+                            </h2>
+                            <p className="text-stone-500 text-lg">
+                                A quick view of the most common choices before we bring samples to your home.
+                            </p>
+                        </div>
+                        <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
+                            <div className="grid grid-cols-3 bg-mcb-charcoal text-white text-sm font-bold uppercase tracking-wider">
+                                <div className="p-4">Option</div>
+                                <div className="p-4">Best for</div>
+                                <div className="p-4">Notes</div>
+                            </div>
+                            {comparisonRows.map((row) => (
+                                <div key={row.label} className="grid grid-cols-1 border-t border-stone-200 md:grid-cols-3">
+                                    <div className="p-4 font-semibold text-mcb-charcoal">{row.label}</div>
+                                    <div className="p-4 text-stone-600">{row.bestFor}</div>
+                                    <div className="p-4 text-stone-600">{row.notes}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             <ProcessTimeline />
+
+            {/* Fit Promise */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-6">
+                    <div className="rounded-sm border border-mcb-clay/40 bg-mcb-paper p-8 md:p-10">
+                        <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+                            <div>
+                                <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-3 block">
+                                    The Modern Fit Promise
+                                </span>
+                                <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal">
+                                    Measured right and installed properly
+                                </h2>
+                            </div>
+                            <div className="space-y-4 text-stone-600">
+                                <p className="text-lg leading-relaxed">
+                                    We measure and install your products with care. If an issue is caused by our measuring or installation, we will make it right.
+                                </p>
+                                <div className="grid gap-3 sm:grid-cols-2">
+                                    {["No-pressure consultation", "Samples in your own light", "Clear written quote", "Aftercare if you need us"].map((item) => (
+                                        <div key={item} className="flex items-center gap-2 text-sm font-semibold text-mcb-charcoal">
+                                            <Check className="w-4 h-4 text-mcb-terracotta" />
+                                            {item}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             {/* Benefits Section */}
             {benefits && benefits.length > 0 && (
@@ -515,10 +619,10 @@ export function ProductTemplate({
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        Ready to Transform Your Home?
+                        Book Your Free In-Home Measure & Quote
                     </motion.h2>
                     <p className="text-stone-300 text-lg mb-10 max-w-2xl mx-auto">
-                        Book a free in-home consultation with our design experts today.
+                        No obligation. We bring samples, measure your windows, explain your options, and provide a clear written quote.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <AnimatedButton

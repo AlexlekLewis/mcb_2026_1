@@ -1,0 +1,214 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
+import { categoryCards, defaultFaq, needCards, processSteps, trustItems } from "@/lib/cro-data";
+import { quoteHref, SITE } from "@/lib/site";
+
+export function ProofBar({ className = "" }: { className?: string }) {
+  return (
+    <section className={`bg-mcb-paper border-y border-stone-200 ${className}`}>
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-2 gap-5 md:grid-cols-5">
+          {trustItems.map((item) => (
+            <div key={item.label} className="flex items-start gap-3">
+              <item.icon className="mt-0.5 h-6 w-6 shrink-0 text-mcb-terracotta" />
+              <div>
+                <p className="text-sm font-bold uppercase tracking-wide text-mcb-charcoal">{item.label}</p>
+                <p className="text-xs leading-snug text-stone-500">{item.sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function BrowseByNeed() {
+  return (
+    <section className="bg-white py-20">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Start with the problem</span>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">What do you need help with?</h2>
+          <p className="text-lg leading-relaxed text-stone-500">
+            If you are not sure which product is right, choose the outcome you want and we will guide you from there.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {needCards.map((card) => (
+            <Link
+              key={card.title}
+              href={card.href}
+              className="group rounded-sm border border-stone-200 bg-mcb-paper p-6 transition-all hover:-translate-y-1 hover:border-mcb-clay hover:bg-white hover:shadow-lg"
+            >
+              <card.icon className="mb-5 h-8 w-8 text-mcb-terracotta" />
+              <h3 className="mb-3 font-serif text-2xl text-mcb-charcoal">{card.title}</h3>
+              <p className="mb-5 leading-relaxed text-stone-500">{card.description}</p>
+              <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-mcb-terracotta">
+                See options <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ExpandedCategoryGrid() {
+  return (
+    <section className="bg-mcb-paper py-20">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Full service range</span>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Every window and doorway covered</h2>
+          <p className="text-lg leading-relaxed text-stone-500">
+            Curtains, blinds, shutters, security screens, outdoor shade and motorisation can all be planned in one visit.
+          </p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {categoryCards.map((card) => (
+            <Link key={card.title} href={card.href} className="group overflow-hidden rounded-sm bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image src={card.image} alt={`${card.title} by Modern Curtains and Blinds`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-black/15 transition-colors group-hover:bg-black/30" />
+              </div>
+              <div className="p-6">
+                <h3 className="mb-3 font-serif text-2xl text-mcb-charcoal">{card.title}</h3>
+                <p className="mb-5 leading-relaxed text-stone-500">{card.description}</p>
+                <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-mcb-terracotta">
+                  Explore range <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ProcessStrip() {
+  return (
+    <section className="bg-white py-20">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">How it works</span>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A clearer path from idea to install</h2>
+          <p className="text-lg leading-relaxed text-stone-500">No pressure, no guesswork. We help you compare the right products before anything is ordered.</p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-4">
+          {processSteps.map((step, index) => (
+            <div key={step.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mcb-terracotta font-serif text-xl text-white">{index + 1}</div>
+              <h3 className="mb-3 font-serif text-xl text-mcb-charcoal">{step.title}</h3>
+              <p className="leading-relaxed text-stone-500">{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function SecurityMoat() {
+  return (
+    <section className="bg-mcb-charcoal py-20 text-white">
+      <div className="container mx-auto grid items-center gap-10 px-4 lg:grid-cols-[1fr_0.9fr]">
+        <div>
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB advantage</span>
+          <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, blinds and security screens from one Melbourne team</h2>
+          <p className="mb-8 max-w-2xl text-lg leading-relaxed text-stone-300">
+            While we are measuring your windows, we can also quote security doors, fly screens and window screens so every opening in your home is covered properly.
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link href={quoteHref("Security Doors")} className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal">
+              Ask about security <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a href={SITE.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/30 px-6 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal">
+              <Phone className="h-4 w-4" /> {SITE.phoneDisplay}
+            </a>
+          </div>
+        </div>
+        <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
+          <Image src="/images/security-door-hero.png" alt="Custom security door and screen solution for a Melbourne home" fill className="object-cover" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function FinalCTA({ product }: { product?: string }) {
+  return (
+    <section className="bg-mcb-paper py-20">
+      <div className="container mx-auto px-4 text-center">
+        <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Book your free in-home measure and quote</h2>
+        <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-stone-500">
+          No obligation. We bring samples, measure your windows, explain your options and provide a clear written quote.
+        </p>
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link href={quoteHref(product)} className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-7 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal">
+            Book Free Measure & Quote <ArrowRight className="h-4 w-4" />
+          </Link>
+          <a href={SITE.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-sm border border-mcb-charcoal/20 px-7 py-4 font-bold uppercase tracking-wider text-mcb-charcoal transition-colors hover:bg-mcb-charcoal hover:text-white">
+            <Phone className="h-4 w-4" /> Call {SITE.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function ModernFitPromise() {
+  return (
+    <section className="bg-white py-16">
+      <div className="container mx-auto px-4">
+        <div className="rounded-sm border border-mcb-clay/40 bg-mcb-paper p-8 md:p-10">
+          <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
+            <div>
+              <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">The Modern Fit Promise</span>
+              <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Measured right and installed properly</h2>
+            </div>
+            <div className="space-y-4 text-stone-600">
+              <p className="text-lg leading-relaxed">
+                We measure and install your products with care. If an issue is caused by our measuring or installation, we will make it right.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {["No-pressure consultation", "Samples in your own light", "Clear written quote", "Aftercare if you need us"].map((item) => (
+                  <div key={item} className="flex items-center gap-2 text-sm font-semibold text-mcb-charcoal">
+                    <CheckCircle2 className="h-4 w-4 text-mcb-terracotta" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function FAQBlock({ items = defaultFaq }: { items?: { question: string; answer: string }[] }) {
+  return (
+    <section className="bg-white py-20">
+      <div className="container mx-auto max-w-4xl px-4">
+        <div className="mb-10 text-center">
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Questions</span>
+          <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Common questions before you book</h2>
+        </div>
+        <div className="space-y-4">
+          {items.map((item) => (
+            <details key={item.question} className="group rounded-sm border border-stone-200 bg-mcb-paper p-5 open:bg-white open:shadow-sm">
+              <summary className="cursor-pointer list-none font-serif text-xl text-mcb-charcoal">
+                {item.question}
+              </summary>
+              <p className="mt-3 leading-relaxed text-stone-500">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

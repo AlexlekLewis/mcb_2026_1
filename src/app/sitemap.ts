@@ -3,7 +3,7 @@ import { LOCATIONS } from '@/lib/locations'
 import { productData } from '@/lib/data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://moderncurtains.com.au'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://moderncurtainsandblinds.com.au'
 
     // Core pages
     const routes = [
@@ -19,6 +19,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/quote',
         '/projects',
         '/locations',
+        '/blinds/roller-blinds',
+        '/blinds/double-roller-blinds',
+        '/blinds/roman-blinds',
+        '/blinds/honeycomb-blinds',
+        '/blinds/venetian-blinds',
+        '/blinds/vertical-blinds',
+        '/blinds/panel-glide',
+        '/blinds/roller-blinds/blockout',
+        '/blinds/roller-blinds/sunscreen',
+        '/curtains/sheer',
+        '/curtains/blockout',
+        '/curtains/s-fold',
+        '/curtains/s-fold-curtains',
+        '/curtains/pleated-curtains',
+        '/curtains/eyelet-curtains',
+        '/curtains/linen-look',
+        '/curtains/motorised',
+        '/curtains/theatre-velvet',
+        '/shutters/plantation-shutters',
+        '/shutters/plantation-shutters/timber',
+        '/shutters/plantation-shutters/polymer',
+        '/shutters/plantation-shutters/aluminium',
+        '/shutters/roller-shutters',
+        '/security/security-doors',
+        '/security/fly-screens',
+        '/awnings/zipscreens',
     ]
 
     const coreRoutes = routes.map((route) => ({

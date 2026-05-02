@@ -1,12 +1,42 @@
+import { SITE } from "@/lib/site";
+
 export const JsonLd = () => {
     const schema = {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Modern Curtains and Blinds",
-        "image": "https://static1.squarespace.com/static/6630e49af8475068fdc82abd/t/66d951f7b610cb5f68304239/1754989841467/",
-        "address": "Melbourne\nAustrialia",
-        "openingHours": "Mo 09:00-09:00, Tu 09:00-09:00, We 09:00-09:00, Th 09:00-09:00, Fr 09:00-09:00, Sa 09:00-04:00, Su 09:00-02:00",
-        "url": "https://moderncurtainsandblinds.com.au/"
+        "@type": "HomeAndConstructionBusiness",
+        "name": SITE.name,
+        "image": `${SITE.url}/assets/logo.png`,
+        "@id": SITE.url,
+        "url": SITE.url,
+        "telephone": SITE.phoneDisplay,
+        "email": SITE.email,
+        "areaServed": {
+            "@type": "AdministrativeArea",
+            "name": SITE.serviceArea
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Melbourne",
+            "addressRegion": "VIC",
+            "addressCountry": "AU"
+        },
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "09:00",
+                "closes": "17:00"
+            }
+        ],
+        "serviceType": [
+            "Custom curtains",
+            "Custom blinds",
+            "Plantation shutters",
+            "Security doors",
+            "Fly screens",
+            "Outdoor awnings",
+            "Motorisation"
+        ]
     };
 
     return (

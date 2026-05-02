@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
 import { Fragment } from "react";
+import { SITE } from "@/lib/site";
 
 export function Breadcrumbs() {
     const pathname = usePathname();
@@ -23,7 +24,7 @@ export function Breadcrumbs() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": process.env.NEXT_PUBLIC_BASE_URL || "https://moderncurtains.com.au"
+                "item": process.env.NEXT_PUBLIC_BASE_URL || SITE.url
             },
             ...pathSegments.map((segment, index) => {
                 const url = `/${pathSegments.slice(0, index + 1).join("/")}`;
@@ -31,7 +32,7 @@ export function Breadcrumbs() {
                     "@type": "ListItem",
                     "position": index + 2,
                     "name": segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " "),
-                    "item": (process.env.NEXT_PUBLIC_BASE_URL || "https://moderncurtains.com.au") + url
+                    "item": (process.env.NEXT_PUBLIC_BASE_URL || SITE.url) + url
                 };
             })
         ]

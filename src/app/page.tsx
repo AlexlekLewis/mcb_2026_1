@@ -1,85 +1,69 @@
-import { HeroScroll } from "@/components/HeroScroll";
-import { ServiceSelector } from "@/components/ServiceSelector";
-import { TrustBar } from "@/components/TrustBar";
-import { CategoryGrid } from "@/components/CategoryGrid";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Phone } from "lucide-react";
+import {
+  BrowseByNeed,
+  ExpandedCategoryGrid,
+  FAQBlock,
+  FinalCTA,
+  ModernFitPromise,
+  ProcessStrip,
+  ProofBar,
+  SecurityMoat,
+} from "@/components/CROSections";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
+import { quoteHref, SITE } from "@/lib/site";
 
 export default function Home() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "name": "Modern Curtains and Blinds",
-    "image": "https://moderncurtains.com.au/assets/logo.png",
-    "@id": "https://moderncurtains.com.au",
-    "url": "https://moderncurtains.com.au",
-    "telephone": "1300 663 376",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "123 Design Avenue",
-      "addressLocality": "Melbourne",
-      "addressRegion": "VIC",
-      "postalCode": "3000",
-      "addressCountry": "AU"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -37.8136,
-      "longitude": 144.9631
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ],
-      "opens": "09:00",
-      "closes": "17:00"
-    },
-    "sameAs": [
-      "https://www.facebook.com/moderncurtains",
-      "https://www.instagram.com/moderncurtains"
-    ]
-  };
-
   return (
-    <div className="flex flex-col min-h-screen">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <HeroScroll />
-      <GoogleReviewsWidget />
-      <ServiceSelector />
-      <TrustBar />
-      <CategoryGrid />
-
-      {/* Additional value proposition section based on report's "About" context */}
-      <section className="py-24 bg-mcb-paper">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-6">Experience the Difference</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto mt-12">
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-2xl font-serif text-mcb-terracotta">1</div>
-              <h3 className="font-serif text-xl mb-3">Custom Made in Melbourne</h3>
-              <p className="text-stone-500">Every blind, curtain, and door is manufactured to your exact specifications in our local facility.</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-2xl font-serif text-mcb-terracotta">2</div>
-              <h3 className="font-serif text-xl mb-3">Professional Installation</h3>
-              <p className="text-stone-500">Our team of experienced installers ensures a perfect fit and finish, every single time.</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-2xl font-serif text-mcb-terracotta">3</div>
-              <h3 className="font-serif text-xl mb-3">Industry Leading Warranty</h3>
-              <p className="text-stone-500">Peace of mind with our comprehensive warranties on all fabrics, mechanisms, and security screens.</p>
+    <div className="flex min-h-screen flex-col">
+      <section className="relative min-h-screen overflow-hidden bg-mcb-charcoal text-white">
+        <Image
+          src="/assets/curtain_hero.png"
+          alt="Custom curtains, blinds and shutters installed in a Melbourne home"
+          fill
+          priority
+          className="object-cover opacity-45"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-mcb-charcoal" />
+        <div className="container relative z-10 mx-auto flex min-h-screen items-center px-4 pb-20 pt-36">
+          <div className="max-w-4xl">
+            <span className="mb-5 inline-flex rounded-sm border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-mcb-clay-light backdrop-blur">
+              Free in-home measure and quote across Melbourne
+            </span>
+            <h1 className="mb-6 font-serif text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
+              Custom Curtains, Blinds, Shutters and Security Screens in Melbourne
+            </h1>
+            <p className="mb-9 max-w-3xl text-lg leading-relaxed text-stone-100 md:text-2xl">
+              Book a free in-home measure and quote. We bring samples, help you choose the right product for each room, measure accurately, and install with care.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                href={quoteHref()}
+                className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-7 py-4 font-bold uppercase tracking-wider text-white shadow-xl transition-colors hover:bg-white hover:text-mcb-charcoal"
+              >
+                Book Free Measure & Quote <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href={SITE.phoneHref}
+                className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/30 px-7 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal"
+              >
+                <Phone className="h-4 w-4" /> Call {SITE.phoneDisplay}
+              </a>
             </div>
           </div>
         </div>
       </section>
+
+      <ProofBar />
+      <BrowseByNeed />
+      <ExpandedCategoryGrid />
+      <ProcessStrip />
+      <SecurityMoat />
+      <ModernFitPromise />
+      <GoogleReviewsWidget />
+      <FAQBlock />
+      <FinalCTA />
     </div>
   );
 }

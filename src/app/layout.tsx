@@ -8,27 +8,28 @@ import { JsonLd } from "@/components/JsonLd";
 
 import { Analytics, AnalyticsNoScript } from "@/components/Analytics";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { SITE } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://moderncurtains.com.au"),
+  metadataBase: new URL(SITE.url),
   title: {
-    default: "Modern Curtains & Blinds Solutions",
+    default: "Custom Curtains, Blinds, Shutters & Security Screens Melbourne",
     template: "%s | Modern Curtains and Blinds"
   },
-  description: "Modern Curtains & Blinds: Discover custom window treatments that elevate home aesthetics. Book a free quote today and enjoy summer savings!",
+  description: "Book a free in-home measure and quote for custom curtains, blinds, shutters, security screens, awnings and motorisation across Melbourne.",
   openGraph: {
     type: 'website',
     locale: 'en_AU',
     url: '/',
     siteName: 'Modern Curtains and Blinds',
-    title: "Modern Curtains & Blinds Solutions",
-    description: "Modern Curtains & Blinds: Discover custom window treatments that elevate home aesthetics. Book a free quote today and enjoy summer savings!",
+    title: "Custom Curtains, Blinds, Shutters & Security Screens Melbourne",
+    description: "Free in-home measure and quote. Samples brought to you, clear written pricing and professional installation across Melbourne.",
     images: [
       {
-        url: '/assets/og-image.jpg', // Ensure this asset exists or is created
+        url: '/assets/curtain_hero.png',
         width: 1200,
         height: 630,
         alt: 'Modern Curtains and Blinds',
@@ -36,11 +37,11 @@ export const metadata: Metadata = {
     ],
   },
   robots: {
-    index: false, // PRE-LAUNCH SAFETY: Do not index staging
-    follow: false, // PRE-LAUNCH SAFETY: Do not follow links
+    index: process.env.NEXT_PUBLIC_NOINDEX !== "true",
+    follow: process.env.NEXT_PUBLIC_NOINDEX !== "true",
     googleBot: {
-      index: false,
-      follow: false,
+      index: process.env.NEXT_PUBLIC_NOINDEX !== "true",
+      follow: process.env.NEXT_PUBLIC_NOINDEX !== "true",
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,

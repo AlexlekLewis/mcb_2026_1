@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react";
+import { quoteHref, SITE } from "@/lib/site";
 
 export function Footer() {
     return (
@@ -19,12 +20,12 @@ export function Footer() {
                             />
                         </Link>
                         <p className="text-stone-400 leading-relaxed max-w-xs">
-                            Elevating Australian homes with premium, custom-made window furnishings and security solutions. Locally manufactured, professionally installed.
+                            Custom curtains, blinds, shutters, security screens and outdoor shade measured and installed across Melbourne.
                         </p>
                         <div className="flex gap-4">
-                            <SocialIcon icon={<Facebook size={18} />} />
-                            <SocialIcon icon={<Instagram size={18} />} />
-                            <SocialIcon icon={<Linkedin size={18} />} />
+                            <SocialIcon href="https://facebook.com/moderncurtains" icon={<Facebook size={18} />} />
+                            <SocialIcon href="https://instagram.com/moderncurtains" icon={<Instagram size={18} />} />
+                            <SocialIcon href="https://linkedin.com" icon={<Linkedin size={18} />} />
                         </div>
                     </div>
 
@@ -32,11 +33,12 @@ export function Footer() {
                     <div>
                         <h4 className="font-serif text-lg mb-6 text-mcb-clay-light">Products</h4>
                         <ul className="space-y-4 text-stone-300">
-                            <li><Link href="/curtains" className="hover:text-white transition-colors">S-Fold Curtains</Link></li>
-                            <li><Link href="/blinds" className="hover:text-white transition-colors">Roller Blinds</Link></li>
+                            <li><Link href="/curtains" className="hover:text-white transition-colors">Custom Curtains</Link></li>
+                            <li><Link href="/blinds" className="hover:text-white transition-colors">Custom Blinds</Link></li>
                             <li><Link href="/shutters" className="hover:text-white transition-colors">Plantation Shutters</Link></li>
                             <li><Link href="/security" className="hover:text-white transition-colors">Security Doors</Link></li>
                             <li><Link href="/awnings" className="hover:text-white transition-colors">Outdoor Awnings</Link></li>
+                            <li><Link href="/motorisation" className="hover:text-white transition-colors">Motorisation</Link></li>
                         </ul>
                     </div>
 
@@ -47,7 +49,7 @@ export function Footer() {
                             <li><Link href="/about" className="hover:text-white transition-colors">Our Story</Link></li>
                             <li><Link href="/projects" className="hover:text-white transition-colors">Project Gallery</Link></li>
                             <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
-                            <li><Link href="/consultation" className="hover:text-white transition-colors">Book Consultation</Link></li>
+                            <li><Link href={quoteHref()} className="hover:text-white transition-colors">Book Consultation</Link></li>
                             <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
                             <li><Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
                             <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
@@ -64,11 +66,11 @@ export function Footer() {
                             </li>
                             <li className="flex items-center gap-3">
                                 <Phone className="text-mcb-terracotta" size={18} />
-                                <a href="tel:1300732319" className="hover:text-white transition-colors">1300 732 319</a>
+                                <a href={SITE.phoneHref} className="hover:text-white transition-colors">{SITE.phoneDisplay}</a>
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail className="text-mcb-terracotta" size={18} />
-                                <a href="mailto:admin@moderncurtainsandblinds.com.au" className="hover:text-white transition-colors">admin@moderncurtainsandblinds.com.au</a>
+                                <a href={`mailto:${SITE.email}`} className="hover:text-white transition-colors">{SITE.email}</a>
                             </li>
                         </ul>
                     </div>
@@ -91,9 +93,9 @@ export function Footer() {
     );
 }
 
-function SocialIcon({ icon }: { icon: React.ReactNode }) {
+function SocialIcon({ href, icon }: { href: string; icon: React.ReactNode }) {
     return (
-        <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-mcb-terracotta hover:text-white transition-all">
+        <a href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-mcb-terracotta hover:text-white transition-all">
             {icon}
         </a>
     )

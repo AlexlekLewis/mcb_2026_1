@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+function escapeHtml(value: unknown) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -14,8 +23,13 @@ export async function POST(request: Request) {
       windowCount,
       referral,
       referrerName,
+      bestContactTime,
+      appointmentPreference,
+      projectStage,
+      needsAdvice,
       message,
     } = body;
+    const selectedProducts = Array.isArray(products) ? products : [];
 
     // 1. Create a Transporter
     // Note: You must configure these env vars in .env.local
@@ -37,23 +51,27 @@ export async function POST(request: Request) {
         
         <div style="background-color: #f5f5f4; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
           <h3 style="margin-top: 0; color: #44403c;">Contact Details</h3>
-          <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-          <p><strong>Phone:</strong> <a href="tel:${phone}">${phone}</a></p>
-          <p><strong>Suburb:</strong> ${suburb}</p>
+          <p><strong>Name:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
+          <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
+          <p><strong>Phone:</strong> <a href="tel:${escapeHtml(phone)}">${escapeHtml(phone)}</a></p>
+          <p><strong>Suburb:</strong> ${escapeHtml(suburb)}</p>
         </div>
 
         <div style="margin-bottom: 20px;">
           <h3 style="color: #44403c;">Project Details</h3>
-          <p><strong>Products Interested:</strong> ${products.join(', ') || 'None selected'}</p>
-          <p><strong>Number of Windows/Doors:</strong> ${windowCount || 'N/A'}</p>
+          <p><strong>Products Interested:</strong> ${escapeHtml(selectedProducts.join(', ') || 'None selected')}</p>
+          <p><strong>Number of Windows/Doors:</strong> ${escapeHtml(windowCount || 'N/A')}</p>
+          <p><strong>Needs Advice:</strong> ${needsAdvice ? 'Yes' : 'No'}</p>
+          <p><strong>Project Stage:</strong> ${escapeHtml(projectStage || 'N/A')}</p>
+          <p><strong>Best Contact Time:</strong> ${escapeHtml(bestContactTime || 'N/A')}</p>
+          <p><strong>Appointment Preference:</strong> ${escapeHtml(appointmentPreference || 'N/A')}</p>
         </div>
 
         <div style="margin-bottom: 20px;">
           <h3 style="color: #44403c;">Referral & Message</h3>
-          <p><strong>Found via:</strong> ${referral} ${referrerName ? `(${referrerName})` : ''}</p>
+          <p><strong>Found via:</strong> ${escapeHtml(referral || 'N/A')} ${referrerName ? `(${escapeHtml(referrerName)})` : ''}</p>
           <div style="background-color: #fff; border: 1px solid #e5e7eb; padding: 12px; border-radius: 4px;">
-            <p style="margin: 0; color: #57534e;">${message || 'No additional message provided.'}</p>
+            <p style="margin: 0; color: #57534e;">${escapeHtml(message || 'No additional message provided.')}</p>
           </div>
         </div>
         
@@ -77,7 +95,7 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: `"MCB Website" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`, // sender address
       to: process.env.ADMIN_EMAIL || process.env.SMTP_USER, // list of receivers (default to sender if admin not set)
-      subject: `New Quote: ${firstName} ${lastName} (${suburb})`, // Subject line
+      subject: `New Quote: ${firstName} ${lastName || ''} (${suburb})`, // Subject line
       html: htmlContent,
     });
 

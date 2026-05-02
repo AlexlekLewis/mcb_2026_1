@@ -1,17 +1,21 @@
 
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
-import { Check, ChevronDown, ShieldCheck, Ruler, Calendar } from "lucide-react";
+import { ChevronDown, ShieldCheck, Ruler, Calendar, Phone } from "lucide-react";
 import type { Metadata } from 'next'
+import Image from "next/image";
+import Link from "next/link";
+import { quoteHref, SITE } from "@/lib/site";
 
 type Props = {
-    params: { slug: string }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
 ): Promise<Metadata> {
-    const product = productData.find((p) => p.slug === params.slug);
+    const { slug } = await params;
+    const product = productData.find((p) => p.slug === slug);
     if (!product) return {};
 
     return {
@@ -26,8 +30,9 @@ export function generateStaticParams() {
     }))
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-    const product = productData.find((p) => p.slug === params.slug);
+export default async function ProductPage({ params }: Props) {
+    const { slug } = await params;
+    const product = productData.find((p) => p.slug === slug);
 
     if (!product) {
         notFound();
@@ -36,11 +41,16 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     return (
         <div className="bg-white">
             {/* Product Header / Hero */}
-            <section className="bg-stone-100 py-20 px-4">
+            <section className="bg-stone-100 py-28 px-4">
                 <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
-                    <div className="aspect-square bg-white rounded-2xl shadow-xl overflow-hidden relative group">
-                        {/* Image Placeholder */}
-                        <div className="w-full h-full bg-stone-300 bg-[url('https://images.unsplash.com/photo-1549488352-84b675340157?q=80&w=2800&auto=format&fit=crop')] bg-cover bg-center"></div>
+                    <div className="aspect-square bg-white rounded-sm shadow-xl overflow-hidden relative group">
+                        <Image
+                            src={product.heroImage}
+                            alt={`${product.title} installed by Modern Curtains and Blinds`}
+                            fill
+                            priority
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
                     </div>
 
                     <div>
@@ -55,12 +65,12 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                         </p>
 
                         <div className="flex flex-col gap-4">
-                            <button className="bg-stone-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-stone-800 transition-colors flex items-center justify-center gap-3">
+                            <Link href={quoteHref(product.title.split("|")[0].trim())} className="bg-stone-900 text-white px-8 py-4 rounded-sm font-medium hover:bg-stone-800 transition-colors flex items-center justify-center gap-3">
                                 <Calendar size={20} />
                                 Book a Free Measure & Quote
-                            </button>
+                            </Link>
                             <p className="text-xs text-center text-stone-500">
-                                No obligation. available in Melbourne Metro.
+                                No obligation. Samples brought to your home across Melbourne.
                             </p>
                         </div>
 
@@ -136,15 +146,15 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             {/* Bottom CTA */}
             <section className="py-24 px-4 bg-stone-900 text-white text-center">
                 <div className="container mx-auto max-w-2xl">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Ready to transform your home?</h2>
-                    <p className="text-stone-400 mb-10 text-lg">Book a free in-home consultation with our design experts today.</p>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Book your free in-home measure and quote</h2>
+                    <p className="text-stone-400 mb-10 text-lg">We bring samples, measure your windows, explain your options and provide a clear written quote.</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="bg-white text-stone-900 px-8 py-4 rounded-full font-medium hover:bg-stone-100 transition-colors">
+                        <Link href={quoteHref(product.title.split("|")[0].trim())} className="bg-white text-stone-900 px-8 py-4 rounded-full font-medium hover:bg-stone-100 transition-colors">
                             Book Free Measure
-                        </button>
-                        <button className="border border-stone-700 text-white px-8 py-4 rounded-full font-medium hover:bg-stone-800 transition-colors">
-                            Download Brochure
-                        </button>
+                        </Link>
+                        <a href={SITE.phoneHref} className="border border-stone-700 text-white px-8 py-4 rounded-full font-medium hover:bg-stone-800 transition-colors inline-flex items-center justify-center gap-2">
+                            <Phone size={18} /> {SITE.phoneDisplay}
+                        </a>
                     </div>
                 </div>
             </section>
