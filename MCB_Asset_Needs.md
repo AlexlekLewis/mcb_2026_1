@@ -31,6 +31,10 @@ This branch reuses existing repository assets for preview. The following real as
 - Timber Venetian, PVC/faux wood Venetian and slimline aluminium Venetian examples.
 - Vertical blinds and panel glide blinds on sliding doors.
 - Motorised blind with remote or app.
+- Translucent light-filtering blinds in living and dining rooms.
+- Cassette blind headbox close-up and installed room scene.
+- Skylight blinds installed on overhead windows, including blockout and translucent examples.
+- Veri Shades or soft vertical shading on sliding doors with walk-through detail.
 
 ## Shutters
 

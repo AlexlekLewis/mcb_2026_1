@@ -9,6 +9,7 @@ import { GoogleReviewsWidget } from "./GoogleReviewsWidget";
 import { ProcessTimeline } from "./ProcessTimeline";
 import { PaymentOptions } from "./PaymentOptions";
 import { useRef } from "react";
+import { quoteHref } from "@/lib/site";
 
 interface ProductFeature {
     title: string;
@@ -187,6 +188,7 @@ export function ProductTemplate({
                             src={heroImage}
                             alt={title}
                             fill
+                            sizes="100vw"
                             className="object-cover opacity-60"
                             priority
                         />
@@ -494,6 +496,7 @@ export function ProductTemplate({
                                     src={type.image || heroImage}
                                     alt={type.title}
                                     fill
+                                    sizes="(min-width: 768px) 50vw, 100vw"
                                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 {/* Corner accent on hover */}
@@ -581,7 +584,7 @@ export function ProductTemplate({
                     transition={{ duration: 10, repeat: Infinity }}
                     className="absolute inset-0 opacity-10"
                 >
-                    <Image src={heroImage} alt="" fill className="object-cover" />
+                    <Image src={heroImage} alt="" fill sizes="100vw" className="object-cover" />
                 </motion.div>
 
                 {/* Floating particles effect */}
@@ -628,7 +631,7 @@ export function ProductTemplate({
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <AnimatedButton
-                            href={`/quote?product=${title.replace('Premium ', '').replace('Custom Made ', '').replace(' & Screens', '')}`}
+                            href={quoteHref(title.replace('Premium ', '').replace('Custom Made ', '').replace(' & Screens', ''))}
                             variant="primary"
                         >
                             {ctaText}
