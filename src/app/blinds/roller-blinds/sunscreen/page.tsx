@@ -3,7 +3,7 @@ import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
 
 export default function SunscreenBlindsPage() {
-    const product = productData.find(p => p.slug === "roller-blinds");
+    const product = productData.find(p => p.slug === "sunscreen-roller-blinds");
 
     if (!product) {
         return notFound();
@@ -17,7 +17,7 @@ export default function SunscreenBlindsPage() {
             description="Preserve your view while blocking harmful UV rays and reducing heat."
             features={product.features}
             benefits={product.benefits}
-            ctaText="Shop Sunscreen"
+            ctaText="Book Free Measure & Quote"
             types={[
                 {
                     title: "3% Openness",

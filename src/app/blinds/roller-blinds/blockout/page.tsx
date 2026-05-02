@@ -3,8 +3,7 @@ import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
 
 export default function BlockoutBlindsPage() {
-    // Reusing roller blinds data but highlighting blockout features if specific data not present
-    const product = productData.find(p => p.slug === "roller-blinds");
+    const product = productData.find(p => p.slug === "blockout-roller-blinds");
 
     if (!product) {
         return notFound();
@@ -18,7 +17,7 @@ export default function BlockoutBlindsPage() {
             description="Our Blockout Blinds are designed to provide maximum privacy and light control, perfect for bedrooms and media rooms."
             features={product.features}
             benefits={product.benefits}
-            ctaText="Shop Blockout"
+            ctaText="Book Free Measure & Quote"
             types={[
                 {
                     title: "Blockout Roller",
