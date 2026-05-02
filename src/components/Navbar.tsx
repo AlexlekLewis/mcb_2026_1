@@ -33,23 +33,23 @@ export function Navbar() {
       <nav
         className={cn(
           "fixed left-0 right-0 top-8 z-50 border-b transition-all duration-300",
-          isTransparent ? "border-transparent bg-transparent py-3" : "border-mcb-sand bg-white/95 py-2 shadow-sm backdrop-blur-md"
+          isTransparent ? "border-transparent bg-transparent py-2" : "border-mcb-sand bg-white/95 py-1 shadow-sm backdrop-blur-md"
         )}
       >
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex h-24 items-center justify-between gap-4 lg:h-28">
+          <div className="flex h-[72px] items-center justify-between gap-3 md:h-[76px] lg:h-20">
             <Link href="/" className="relative z-10 block shrink-0" aria-label="Modern Curtains and Blinds home">
               <Image
-                src="/assets/logo.png"
+                src="/assets/logo-nav.png"
                 alt="Modern Curtains and Blinds"
-                width={1439}
-                height={480}
-                className="h-auto w-[185px] object-contain md:w-[225px] lg:w-[235px] xl:w-[280px]"
+                width={1188}
+                height={340}
+                className="h-auto w-[172px] object-contain md:w-[190px] lg:w-[220px] xl:w-[250px]"
                 priority
               />
             </Link>
 
-            <div className="hidden items-center gap-3 lg:flex xl:gap-4">
+            <div className="hidden min-w-0 flex-1 items-center justify-center gap-3 md:flex lg:gap-4">
               {navItems.map((item) => (
                 <div
                   key={item.label}
@@ -60,7 +60,7 @@ export function Navbar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-1 py-4 text-sm font-semibold transition-colors",
+                      "flex items-center gap-1 py-4 text-xs font-semibold transition-colors lg:text-sm",
                       isTransparent ? "text-white/90 hover:text-white" : "text-mcb-charcoal hover:text-mcb-terracotta"
                     )}
                   >
@@ -107,7 +107,7 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="hidden shrink-0 items-center gap-3 lg:flex xl:gap-4">
+            <div className="hidden shrink-0 items-center gap-3 xl:flex">
               <a
                 href={SITE.phoneHref}
                 className={cn(
@@ -124,7 +124,7 @@ export function Navbar() {
             </div>
 
             <button
-              className={cn("relative z-10 p-2 lg:hidden", isTransparent ? "text-white" : "text-mcb-charcoal")}
+              className={cn("relative z-10 p-2 md:hidden", isTransparent ? "text-white" : "text-mcb-charcoal")}
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-label="Toggle navigation"
             >
@@ -141,7 +141,7 @@ export function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "tween", duration: 0.25 }}
-            className="fixed inset-0 z-40 overflow-y-auto bg-white px-6 pb-10 pt-40 lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-white px-6 pb-10 pt-32 md:hidden"
           >
             <div className="space-y-7">
               {navItems.map((item) => (

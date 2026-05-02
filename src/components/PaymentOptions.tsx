@@ -13,17 +13,17 @@ const disclaimer = "Finance is subject to Payright approval. Fees, terms and con
 export function PaymentOptions({ topOffset = false, variant = "section" }: PaymentOptionsProps) {
   if (variant === "banner") {
     return (
-      <section className={`bg-mcb-charcoal text-white ${topOffset ? "pt-36 lg:pt-40" : ""}`}>
+      <section className={`bg-mcb-charcoal text-white ${topOffset ? "pt-[112px] md:pt-[116px] lg:pt-[120px]" : ""}`}>
         <div className="mx-auto w-full max-w-7xl px-4 py-1.5 md:px-6 md:py-2">
           <div className="overflow-hidden rounded-sm border border-white/15 bg-gradient-to-r from-[#332165] via-[#4a2574] to-[#ff3157] p-[1px] shadow-lg">
             <div className="grid gap-2 bg-mcb-charcoal/90 px-3 py-2 backdrop-blur sm:grid-cols-[auto_1fr] sm:items-center md:grid-cols-[auto_1fr_auto] md:gap-4 md:px-4">
-              <div className="relative h-7 w-36 shrink-0 md:h-8 md:w-44">
+              <div className="relative h-6 w-28 shrink-0 md:h-7 md:w-36">
                 <Image
-                  src="/assets/payright/payright-long-lozenge-white.png"
+                  src="/assets/payright/payright-corporate-tight.png"
                   alt="Payright"
                   fill
-                  sizes="176px"
-                  className="object-contain"
+                  sizes="144px"
+                  className="object-contain object-left"
                 />
               </div>
               <div className="min-w-0">
