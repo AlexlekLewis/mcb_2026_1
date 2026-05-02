@@ -33,6 +33,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/blinds/veri-shades',
         '/blinds/roller-blinds/blockout',
         '/blinds/roller-blinds/sunscreen',
+        '/blinds/venetian-blinds/slimline-aluminium',
+        '/blinds/venetian-blinds/urban-wood',
         '/curtains/sheer',
         '/curtains/blockout',
         '/curtains/s-fold',
@@ -42,6 +44,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/curtains/linen-look',
         '/curtains/motorised',
         '/curtains/theatre-velvet',
+        '/curtains/translucent-curtains',
+        '/curtains/velvet',
+        '/curtains/velvet-curtains',
         '/shutters/plantation-shutters',
         '/shutters/plantation-shutters/timber',
         '/shutters/plantation-shutters/polymer',
@@ -50,6 +55,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/security/security-doors',
         '/security/fly-screens',
         '/awnings/zipscreens',
+        '/privacy',
+        '/terms',
     ]
 
     const coreRoutes = routes.map((route) => ({

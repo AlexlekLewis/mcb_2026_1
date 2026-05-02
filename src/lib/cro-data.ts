@@ -30,8 +30,8 @@ export const needCards = [
   },
   {
     title: "Daytime privacy",
-    description: "Sheers, sunscreen blinds and double rollers that soften light without closing the room in.",
-    href: "/curtains/sheer",
+    description: "Sheers, sunscreen blinds, translucent blinds and double rollers that soften light without closing the room in.",
+    href: "/blinds/translucent-blinds",
     icon: Home,
   },
   {
@@ -88,7 +88,7 @@ export const categoryCards = [
   },
   {
     title: "Blinds",
-    description: "Roller, double roller, honeycomb, Venetian, Roman, vertical and panel glide blinds.",
+    description: "Roller, sunscreen, blockout, translucent, honeycomb, Venetian, Roman, vertical, panel glide and specialty blinds.",
     href: "/blinds",
     image: "/assets/roller_blind_hero.png",
   },

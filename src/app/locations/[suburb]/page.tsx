@@ -60,8 +60,8 @@ export default async function LocationPage({ params }: Props) {
 
     const types = [
         {
-            title: "Roller Blinds",
-            description: `Modern roller, sunscreen, double roller and honeycomb blinds for ${suburb.name} homes.`,
+            title: "Custom Blinds",
+            description: `Modern roller, sunscreen, translucent, honeycomb, Venetian and specialty blinds for ${suburb.name} homes.`,
             href: "/blinds",
             image: "/assets/roller_blind_hero.png"
         },
@@ -141,7 +141,7 @@ export default async function LocationPage({ params }: Props) {
                 intentLabel={`${suburb.name} service area`}
                 decisionGuide={[
                     { title: "For bedrooms", description: "Blockout curtains, blockout roller blinds and roller shutters for privacy and better sleep." },
-                    { title: "For living areas", description: "Sheers, S-Fold curtains and sunscreen blinds for soft light and daytime privacy." },
+                    { title: "For living areas", description: "Sheers, S-Fold curtains, sunscreen blinds and translucent blinds for soft light and daytime privacy." },
                     { title: "For security", description: "Security doors, fly screens and window screens can be quoted during the same visit." },
                 ]}
                 types={types}

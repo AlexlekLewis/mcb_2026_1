@@ -153,10 +153,10 @@ export function ProductTemplate({
     types,
     ctaText = "Book Free Measure & Quote",
     nearbyLocations,
+    faq = [],
     intentLabel = "Made-to-measure advice",
     decisionGuide,
     comparisonRows,
-    ...props
 }: ProductTemplateProps) {
     const heroRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
@@ -167,9 +167,29 @@ export function ProductTemplate({
     // Parallax effect for hero
     const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+    const quoteProduct = getQuoteProductLabel(title);
 
     return (
         <div className="bg-white min-h-screen overflow-x-hidden">
+            {faq.length > 0 && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "FAQPage",
+                            mainEntity: faq.map((item) => ({
+                                "@type": "Question",
+                                name: item.question,
+                                acceptedAnswer: {
+                                    "@type": "Answer",
+                                    text: item.answer,
+                                },
+                            })),
+                        }),
+                    }}
+                />
+            )}
             <PaymentOptions variant="banner" topOffset />
 
             {/* Hero Section with Parallax */}
@@ -437,14 +457,14 @@ export function ProductTemplate({
             )}
 
             {/* FAQ Section */}
-            {props.faq && props.faq.length > 0 && (
+            {faq.length > 0 && (
                 <section className="py-20 bg-white">
                     <div className="container mx-auto px-6 max-w-4xl">
                         <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
                             Common Questions
                         </h2>
                         <div className="space-y-6">
-                            {props.faq.map((item, idx) => (
+                            {faq.map((item, idx) => (
                                 <motion.div
                                     key={idx}
                                     initial={{ opacity: 0, y: 10 }}
@@ -631,7 +651,7 @@ export function ProductTemplate({
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <AnimatedButton
-                            href={quoteHref(title.replace('Premium ', '').replace('Custom Made ', '').replace(' & Screens', ''))}
+                            href={quoteHref(quoteProduct)}
                             variant="primary"
                         >
                             {ctaText}
@@ -644,4 +664,14 @@ export function ProductTemplate({
             </section>
         </div>
     );
+}
+
+function getQuoteProductLabel(title: string) {
+    return title
+        .replace(/^Premium\s+/i, "")
+        .replace(/^Custom\s+Made-to-Measure\s+/i, "")
+        .replace(/^Custom\s+Made\s+/i, "")
+        .replace(/\s+Melbourne$/i, "")
+        .replace(/\s+& Screens$/i, "")
+        .trim();
 }
