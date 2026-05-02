@@ -5,7 +5,7 @@ export default function SheerCurtainsPage() {
         <ProductTemplate
             title="Sheer Elegance Collection"
             subtitle="Light, airy, and timelessly beautiful."
-            heroImage="/images/sheer-curtain-detail.png"
+            heroImage="/images/product-unique/mcb-sheer-curtains-soft-light-hero.webp"
             description="Our Sheer Elegance Collection brings a sense of calm and sophistication to any space. These delicate fabrics softly filter natural light, creating a warm, ambient glow while preserving your connection to the outdoors. Perfect for living rooms, dining areas, and anywhere you want to welcome the light."
             features={[
                 {
@@ -25,7 +25,7 @@ export default function SheerCurtainsPage() {
                 {
                     title: "Voile Sheers",
                     description: "Ultra-light, transparent fabrics that dance in the breeze. The classic choice for a romantic aesthetic.",
-                    image: "/images/sheer-curtain-detail.png"
+                    image: "/images/product-unique/mcb-sheer-curtain-light-diffusion-detail.webp"
                 },
                 {
                     title: "Linen Sheers",

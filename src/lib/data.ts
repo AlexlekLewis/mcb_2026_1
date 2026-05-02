@@ -27,7 +27,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Custom Sheer Curtains | Soft minimalism & Light Diffusion",
         description: "Create elegant, airy interiors with premium custom-made Sheer Curtains. Expertly crafted in Melbourne in S-Fold, Pencil Pleat, and more.",
-        heroImage: "/images/sheer-curtain-detail.png",
+        heroImage: "/images/product-unique/mcb-sheer-curtains-soft-light-hero.webp",
         intro: {
             heading: "Sheer Curtains: The Essence of Soft Minimalism",
             body: "Transform your living space with the ethereal beauty of Custom Sheer Curtains. Designed to diffuse natural light while providing daytime privacy, our sheers add a layer of sophisticated softness to any room. Whether you prefer the modern, fluid lines of an S-Fold heading or the classic elegance of a Pinch Pleat, our collection features organic textures and linen-look fabrics that bring the outdoors in."
@@ -53,7 +53,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Blockout Curtains | Total Privacy & Thermal Insulation",
         description: "Sleep better and save energy with heavy-duty Blockout Curtains. 100% light blocking and superior thermal efficiency.",
-        heroImage: "/assets/blockout_curtains.png",
+        heroImage: "/images/product-unique/mcb-blockout-curtains-bedroom-hero.webp",
         intro: {
             heading: "Blockout Curtains: Sanctuary & Silence",
             body: "Create your personal sanctuary with our heavy-duty Blockout Curtains. Engineered for total light exclusion and superior thermal insulation, these curtains are essential for Australian homes. They trap a layer of air to keep your home cool in summer and warm in winter."
@@ -78,7 +78,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Translucent Curtains | Light Filtering Privacy",
         description: "The perfect balance between light filtering and privacy. Soften sunlight while reducing glare without darkening the room.",
-        heroImage: "/images/sfold-translucent.png",
+        heroImage: "/images/product-unique/mcb-translucent-curtains-light-filtering-hero.webp",
         intro: {
             heading: "Translucent Curtains: The Perfect Balance",
             body: "Translucent curtains offer the perfect middle ground between sheers and blockouts. They filter sunlight to create a soft, ambient glow while providing complete visual privacy day and night(silhouettes may be visible close up at night). Ideal for living areas where you want natural light but need privacy from neighbours."
@@ -217,7 +217,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Venetian Blinds | Timber & Aluminium",
         description: " precise light control with classic horizontal slats. Available in Timber, Faux Wood, and Aluminium.",
-        heroImage: "/images/venetian-blinds-hero.png",
+        heroImage: "/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp",
         intro: {
             heading: "Venetian Blinds: Precise Control",
             body: "Venetian blinds offer unparalleled control over light and privacy. By simply tilting the slats, you can direct sunlight exactly where you want it or close them tight for privacy. Choose from warm Timber for a natural look, moisture-resistant Faux Wood for wet areas, or sleek Aluminium for a modern touch."
@@ -240,7 +240,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Vertical Blinds | Practical & Versatile",
         description: "The ideal solution for large windows and sliding doors. Control light and privacy with rotating vertical blades.",
-        heroImage: "/assets/vertical_blinds_modern.png",
+        heroImage: "/images/product-unique/mcb-vertical-blinds-sliding-door-hero.webp",
         intro: {
             heading: "Vertical Blinds: Dynamic Light Control",
             body: "Vertical Blinds are back in style with modern fabrics and sleek tracking systems. They are the most practical solution for large expanses of glass and sliding doors, allowing you to walk through the blind easily. Rotate the blades 180 degrees to follow the sun or stack them neatly to the side."
@@ -262,7 +262,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Honeycomb (Cellular) Blinds | Superior Insulation",
         description: "Save on energy bills with the unique cellular structure that traps air. The most energy-efficient blind on the market.",
-        heroImage: "/assets/honeycomb_blinds.png",
+        heroImage: "/images/product-unique/mcb-honeycomb-blinds-clean-energy-efficient-room-hero.webp",
         intro: {
             heading: "Honeycomb Blinds: Science Meets Style",
             body: "Also known as Cellular Blinds, these feature a unique honeycomb-shaped air pocket that acts as a powerful insulator. They trap air at the window, keeping your home warm in winter and cool in summer. With a sleek profile and minimal stack height, they utilize space efficiently."
@@ -288,7 +288,7 @@ export const productData: Product[] = [
         category: "Shutters",
         title: "Plantation Shutters | Timeless Sophistication",
         description: "The ultimate window furnishing for value and style. Available in PVC, Timber, and Aluminium.",
-        heroImage: "/images/plantation-shutters-hero.png",
+        heroImage: "/images/product-unique/mcb-timber-plantation-shutters-hero.webp",
         intro: {
             heading: "Plantation Shutters: A Permanent Investment",
             body: "Plantation Shutters are more than just a window covering; they are a permanent addition to your home that adds value and curb appeal. With adjustable louvers, they offer excellent airflow and light control. Choose from PVC for wet areas, sustainable Timber for living spaces, or Aluminium for outdoors."
@@ -311,7 +311,7 @@ export const productData: Product[] = [
         category: "Shutters",
         title: "Roller Shutters | Security & Insulation",
         description: "Heavy-duty exterior shutters for maximum security, noise reduction, and total blockout.",
-        heroImage: "/images/roller-shutters.png",
+        heroImage: "/images/product-unique/mcb-roller-shutters-exterior-window-hero.webp",
         intro: {
             heading: "Roller Shutters: Fortress-Like Protection",
             body: "Roller Shutters provide a robust physical barrier against intruders, noise, and weather. Constructed from interlocking aluminium slats filled with insulating foam, they reduce outside noise by up to 50% and provide complete darkness, making them perfect for shift workers and security-conscious homeowners."
@@ -337,7 +337,7 @@ export const productData: Product[] = [
         category: "Outdoor",
         title: "Zipscreen Blinds | Enclose Your Alfresco",
         description: "Turn your outdoor area into a year-round room. Block wind, rain, and sun/insects.",
-        heroImage: "/assets/zipscreen_blinds.png",
+        heroImage: "/images/product-unique/mcb-zipscreens-alfresco-hero.webp",
         intro: {
             heading: "Zipscreens: Outdoor Living, Refined",
             body: "Take control of your outdoor entertainment area with Zipscreen Blinds. Using a patented track-guided system, the fabric is locked into side channels, creating a seal against wind, rain, and bugs. It allows you to entertain outdoors regardless of the weather."
@@ -430,7 +430,7 @@ export const productData: Product[] = [
         category: "Automation",
         title: "Motorisation | Smart Home Automation",
         description: "Voice control, scheduling, and app integration. Powered by Somfy and Automate.",
-        heroImage: "/assets/motorised_curtains.png",
+        heroImage: "/images/product-unique/mcb-motorised-curtains-hero-track-remote.webp",
         intro: {
             heading: "Motorisation: Smart Living",
             body: "Experience the ultimate convenience. Motorise your Roller Blinds, Curtains, or Awnings with world-leading motors from Somfy and Automate. Integrate with Google Home, Alexa, or Apple HomeKit to schedule your blinds to open with the sunrise."

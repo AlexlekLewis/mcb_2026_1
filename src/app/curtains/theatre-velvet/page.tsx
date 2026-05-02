@@ -5,7 +5,7 @@ export default function TheatreVelvetCurtainsPage() {
         <ProductTemplate
             title="Theatre Class Velvet"
             subtitle="The pinnacle of luxury. Pure opulence for your home."
-            heroImage="/images/blockout-curtain-detail.png"
+            heroImage="/images/product-unique/mcb-theatre-velvet-curtains-media-room-hero.webp"
             description="Inspired by the grandeur of classic theatres and luxury hotels, our Theatre Class Velvet curtains make an unmistakable statement. The deep pile and rich drape of genuine velvet transforms any room into a space of refined elegance. Naturally heavy, these curtains offer excellent light blockout and acoustic properties."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function TheatreVelvetCurtainsPage() {
                 {
                     title: "Classic Cotton Velvet",
                     description: "Traditional cotton pile with a subtle sheen. Timeless elegance for formal living and dining.",
-                    image: "/images/blockout-curtain-detail.png"
+                    image: "/images/product-unique/mcb-heavy-velvet-curtain-drape-detail.webp"
                 },
                 {
                     title: "Performance Velvet",
                     description: "Modern polyester blend for enhanced durability and easier care, without sacrificing the look.",
-                    image: "/images/blockout-curtain-detail.png"
+                    image: "/images/product-unique/mcb-performance-velvet-curtains-acoustic-room.webp"
                 }
             ]}
         />

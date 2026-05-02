@@ -5,7 +5,7 @@ export default function TimberShuttersPage() {
         <ProductTemplate
             title="Select Hardwood Collection"
             subtitle="The warmth of natural timber. The elegance of handcrafted design."
-            heroImage="/images/timber-shutter-detail.png"
+            heroImage="/images/product-unique/mcb-timber-plantation-shutters-hero.webp"
             description="Our Select Hardwood Collection features ethically sourced, premium timber plantation shutters that bring unmatched natural beauty to your living spaces. Each shutter is carefully crafted from select hardwoods, offering exceptional insulation and a timeless aesthetic that only real wood can provide."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function TimberShuttersPage() {
                 {
                     title: "Basswood Select",
                     description: "Lightweight yet strong. Fine, even grain that takes stain beautifully.",
-                    image: "/images/timber-shutter-detail.png"
+                    image: "/images/product-unique/mcb-natural-timber-shutter-grain-detail.webp"
                 },
                 {
                     title: "Western Red Cedar",
                     description: "Naturally resistant to decay and insects. Perfect for premium applications.",
-                    image: "/images/timber-shutter-detail.png"
+                    image: "/images/product-unique/mcb-western-red-cedar-shutters-detail.webp"
                 }
             ]}
         />

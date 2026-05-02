@@ -5,7 +5,7 @@ export default function VerticalBlindsPage() {
         <ProductTemplate
             title="Vertical Blinds"
             subtitle="Practical, economical, and perfect for large windows."
-            heroImage="/assets/vertical_blinds_modern.png"
+            heroImage="/images/product-unique/mcb-vertical-blinds-sliding-door-hero.webp"
             description="Modern Vertical Blinds have come a long way. With sleek, chainless bottom weights and contemporary fabric choices, they remain the most practical solution for large sliding doors and floor-to-ceiling windows, offering excellent light control."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function VerticalBlindsPage() {
                 {
                     title: "Fabric Verticals",
                     description: "Soft fabric vanes in screen or blockout textures that soften the acoustic of large tiled rooms.",
-                    image: "/assets/vertical_blinds_modern.png"
+                    image: "/images/product-unique/mcb-vertical-blinds-patio-sliding-door.webp"
                 },
                 {
                     title: "Rigid PVC",
                     description: "Hard-wearing, wipe-clean blades that require no bottom weights. Great for rentals and high-traffic areas.",
-                    image: "/assets/vertical_blinds_modern.png"
+                    image: "/images/product-unique/mcb-rigid-pvc-vertical-blinds-detail.webp"
                 }
             ]}
         />

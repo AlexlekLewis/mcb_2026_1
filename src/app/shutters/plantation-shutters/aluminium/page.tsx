@@ -5,7 +5,7 @@ export default function AluminiumShuttersPage() {
         <ProductTemplate
             title="Alfresco Aluminium Shutters"
             subtitle="Blur the lines between indoor and outdoor living."
-            heroImage="/images/aluminium-shutter-detail.png"
+            heroImage="/images/product-unique/mcb-aluminium-shutters-alfresco-hero.webp"
             description="Designed to withstand the harsh Australian elements, our Alfresco Aluminium Shutters are the perfect solution for patios, balconies, pergolas, and outdoor entertaining areas. Powder-coated for durability and available in a wide range of colours, they provide privacy, shade, and weather protection without compromising on style."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function AluminiumShuttersPage() {
                 {
                     title: "Fixed Louver",
                     description: "Permanent angled louvers for consistent privacy and sun control. Low maintenance.",
-                    image: "/images/aluminium-shutter-detail.png"
+                    image: "/images/product-unique/mcb-weather-resistant-aluminium-shutters.webp"
                 },
                 {
                     title: "Adjustable Louver",
                     description: "Tilt louvers open or closed to suit changing conditions throughout the day.",
-                    image: "/images/aluminium-shutter-detail.png"
+                    image: "/images/product-unique/mcb-aluminium-shutter-adjustable-louvre-detail.webp"
                 }
             ]}
         />

@@ -5,7 +5,7 @@ export default function SFoldCurtainsPage() {
         <ProductTemplate
             title="S-Fold Curtains"
             subtitle="The contemporary choice for fluid, continuous waves."
-            heroImage="/assets/sheer_curtains.png"
+            heroImage="/images/product-unique/mcb-s-fold-curtains-living-room-hero.webp"
             description="S-Fold (or Wave) curtains are the modern standard for floor-to-ceiling windows. Using a specialized track and tape system, the fabric hangs in continuous, deep 'S' shaped curves that look identical from both the front and back."
             features={[
                 {
@@ -25,7 +25,7 @@ export default function SFoldCurtainsPage() {
                 {
                     title: "Sheer S-Fold",
                     description: "The most popular application. Soft, flowing sheers that filter light beautifuly.",
-                    image: "/assets/sheer_curtains.png"
+                    image: "/images/product-unique/mcb-s-fold-curtain-wave-heading-detail.webp"
                 },
                 {
                     title: "Blockout S-Fold",

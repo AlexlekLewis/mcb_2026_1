@@ -13,7 +13,7 @@ export default function ZipscreensPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage="/images/zipscreen-track-guided.png"
+            heroImage="/images/product-unique/mcb-zipscreens-alfresco-hero.webp"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
@@ -22,7 +22,7 @@ export default function ZipscreensPage() {
                 {
                     title: "Track Guided",
                     description: "No gaps, perfect seal against wind and bugs.",
-                    image: "/images/zipscreen-track-guided.png"
+                    image: "/images/product-unique/mcb-zipscreen-track-guided-side-channel-detail.webp"
                 },
                 {
                     title: "Motorised Zipscreens",

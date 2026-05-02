@@ -5,7 +5,7 @@ export default function UrbanTimberVenetiansPage() {
         <ProductTemplate
             title="Urban Timber Collection"
             subtitle="Authentic natural warmth for living spaces."
-            heroImage="/images/timber-shutter-detail.png"
+            heroImage="/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp"
             description="Our Urban Timber Venetians bring the genuine warmth of natural wood into your home. Sustainably sourced and expertly crafted, these blinds feature rich timber stains or painted finishes that add character and elegance to bedrooms, living rooms, and studies."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function UrbanTimberVenetiansPage() {
                 {
                     title: "Stained Timber",
                     description: "Enhance the natural grain with rich stains from honey oak to walnut.",
-                    image: "/images/timber-shutter-detail.png"
+                    image: "/images/product-unique/mcb-real-timber-venetian-slats-detail.webp"
                 },
                 {
                     title: "Painted Timber",
                     description: "Classic white or custom painted colours to match your interior palette.",
-                    image: "/images/timber-shutter-detail.png"
+                    image: "/images/product-unique/mcb-painted-timber-venetian-blinds.webp"
                 }
             ]}
         />

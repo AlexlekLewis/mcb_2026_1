@@ -5,7 +5,7 @@ export default function PanelGlidePage() {
         <ProductTemplate
             title="Panel Glide Blinds"
             subtitle="A sleek, modern alternative to vertical blinds."
-            heroImage="/assets/panel_glide_blinds.png"
+            heroImage="/images/product-unique/mcb-panel-glide-blinds-sliding-door-hero.webp"
             description="Panel Glide blinds feature wide, flat panels of fabric that glide effortlessly sideways on a multi-track system. They emulate the look of sliding doors and are perfect for contemporary open-plan living areas."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function PanelGlidePage() {
                 {
                     title: "Blockout Panels",
                     description: "Solid panels for privacy and cinema-style darkness.",
-                    image: "/assets/panel_glide_blinds.png"
+                    image: "/images/product-unique/mcb-panel-glide-fabric-match-detail.webp"
                 },
                 {
                     title: "Screen Panels",
                     description: "Semi-transparent panels that reduce glare but maintain your connection to the garden.",
-                    image: "/assets/panel_glide_blinds.png"
+                    image: "/images/product-unique/mcb-panel-glide-screen-panels-daytime-view.webp"
                 }
             ]}
         />

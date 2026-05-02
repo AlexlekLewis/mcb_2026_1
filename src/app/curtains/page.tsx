@@ -63,7 +63,7 @@ export default function CurtainsPage() {
                 {
                     title: "Luxury Blockout",
                     description: "The ultimate in climate and light control. Our 3-pass coated blockout fabrics ensure 100% light exclusion and superior thermal insulation for year-round comfort.",
-                    image: "/images/blockout-curtain-detail.png",
+                    image: "/images/product-unique/mcb-theatre-velvet-curtains-category-card.webp",
                     href: "/curtains/blockout"
                 },
                 {
@@ -81,7 +81,7 @@ export default function CurtainsPage() {
                 {
                     title: "Motorised Intelligence",
                     description: "Seamless automation. Integrate your curtains with smart home systems for 'wake up' scenes and security simulation. Cord-free safety and effortless control.",
-                    image: "/images/roller-blind-detail.png",
+                    image: "/images/product-unique/mcb-motorised-curtains-category-card.webp",
                     href: "/curtains/motorised"
                 }
             ]}

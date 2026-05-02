@@ -5,7 +5,7 @@ export default function PolymerShuttersPage() {
         <ProductTemplate
             title="Hydro-Proof Polymer Shutters"
             subtitle="Engineered for wet areas. Built to last."
-            heroImage="/images/plantation-shutters-hero.png"
+            heroImage="/images/product-unique/mcb-polymer-shutters-bathroom-hero.webp"
             description="Our Hydro-Proof Polymer Shutters are specifically designed for bathrooms, kitchens, laundries, and any area with high humidity or moisture. Featuring a reinforced polymer construction with an aluminium core, they are completely waterproof, UV resistant, and will never warp, peel, or discolour."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function PolymerShuttersPage() {
                 {
                     title: "Pure White Polymer",
                     description: "Classic crisp white finish that brightens wet areas and complements modern bathroom designs.",
-                    image: "/images/plantation-shutters-hero.png"
+                    image: "/images/product-unique/mcb-waterproof-polymer-shutters-wet-area.webp"
                 },
                 {
                     title: "Custom Colours",
                     description: "Available in a range of custom painted finishes to match your cabinetry and decor.",
-                    image: "/images/plantation-shutters-hero.png"
+                    image: "/images/product-unique/mcb-polymer-shutter-colour-range-detail.webp"
                 }
             ]}
         />

@@ -13,7 +13,7 @@ export default function TranslucentCurtainsPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage="/images/sfold-translucent.png"
+            heroImage="/images/product-unique/mcb-translucent-curtains-light-filtering-hero.webp"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
@@ -22,7 +22,7 @@ export default function TranslucentCurtainsPage() {
                 {
                     title: "S-Fold Heading",
                     description: "Modern wave style for a consistent drape.",
-                    image: "/images/sfold-translucent.png"
+                    image: "/images/product-unique/mcb-translucent-s-fold-heading-detail.webp"
                 },
                 {
                     title: "Pinch Pleat",

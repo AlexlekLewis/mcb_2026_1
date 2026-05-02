@@ -5,7 +5,7 @@ export default function BlockoutCurtainsPage() {
         <ProductTemplate
             title="Luxury Blockout Collection"
             subtitle="Total darkness. Complete privacy. Uncompromising style."
-            heroImage="/images/blockout-curtain-detail.png"
+            heroImage="/images/product-unique/mcb-blockout-curtains-bedroom-hero.webp"
             description="For bedrooms, nurseries, and home theatres, our Luxury Blockout Collection delivers 100% light exclusion without sacrificing aesthetics. These heavyweight fabrics feature an acrylic coating that blocks light completely while offering superior thermal insulation – keeping rooms cooler in summer and warmer in winter."
             features={[
                 {
@@ -25,12 +25,12 @@ export default function BlockoutCurtainsPage() {
                 {
                     title: "Velvet Blockout",
                     description: "Rich, luxurious velvet finish that adds texture and opulence to bedrooms and formal living areas.",
-                    image: "/images/blockout-curtain-detail.png"
+                    image: "/images/product-unique/mcb-blockout-curtains-dark-bedroom.webp"
                 },
                 {
                     title: "Linen-Look Blockout",
                     description: "The relaxed aesthetic of linen with full light-blocking capability. Perfect for a modern coastal vibe.",
-                    image: "/images/blockout-curtain-detail.png"
+                    image: "/images/product-unique/mcb-linen-look-blockout-curtains-detail.webp"
                 }
             ]}
         />
