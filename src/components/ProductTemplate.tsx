@@ -190,7 +190,6 @@ export function ProductTemplate({
                     }}
                 />
             )}
-            <PaymentOptions variant="banner" topOffset />
 
             {/* Hero Section with Parallax */}
             <section ref={heroRef} className="relative h-[70vh] w-full overflow-hidden bg-mcb-charcoal">

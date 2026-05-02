@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/JsonLd";
 
 import { Analytics, AnalyticsNoScript } from "@/components/Analytics";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { PaymentOptions } from "@/components/PaymentOptions";
 import { SITE } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-mcb-paper text-mcb-charcoal selection:bg-mcb-terracotta selection:text-white">
         <AnalyticsNoScript />
         <Navbar />
+        <PaymentOptions variant="banner" topOffset />
         <main className="min-h-screen">
           {children}
         </main>
