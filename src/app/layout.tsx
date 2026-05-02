@@ -7,6 +7,7 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { JsonLd } from "@/components/JsonLd";
 
 import { Analytics, AnalyticsNoScript } from "@/components/Analytics";
+import { EventTracker } from "@/components/EventTracker";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { PaymentOptions } from "@/components/PaymentOptions";
 import { SITE } from "@/lib/site";
@@ -30,12 +31,18 @@ export const metadata: Metadata = {
     description: "Free in-home measure and quote. Samples brought to you, clear written pricing and professional installation across Melbourne.",
     images: [
       {
-        url: '/assets/curtain_hero.png',
+        url: '/images/mcb-og-multi-product.png',
         width: 1200,
         height: 630,
-        alt: 'Modern Curtains and Blinds',
+        alt: 'Modern Curtains and Blinds full product range',
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Custom Curtains, Blinds, Shutters & Security Screens Melbourne",
+    description: "Free in-home measure and quote. Samples brought to you, clear written pricing and professional installation across Melbourne.",
+    images: ["/images/mcb-og-multi-product.png"],
   },
   robots: {
     index: process.env.NEXT_PUBLIC_NOINDEX !== "true",
@@ -69,6 +76,7 @@ export default function RootLayout({
         <StickyMobileCTA />
         <JsonLd />
         <Analytics />
+        <EventTracker />
       </body>
     </html>
   );

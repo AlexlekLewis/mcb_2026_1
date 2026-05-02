@@ -1,4 +1,9 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { legacyBlindContent } from "@/lib/legacy-blind-content";
+
+const content = legacyBlindContent.romanBlinds;
+
+export const metadata = content.metadata;
 
 export default function RomanBlindsPage() {
     return (
@@ -7,6 +12,7 @@ export default function RomanBlindsPage() {
             subtitle="Soft folds for a sophisticated, tailored look."
             heroImage="/assets/roman_blinds_closeup.png"
             description="Roman Blinds combine the softness of curtains with the functionality of blinds. When raised, the fabric stacks neatly in distinct soft folds; when lowered, it creates a smooth, flat decorative finish. An elegant choice for bedrooms and formal living spaces."
+            intentLabel={content.intentLabel}
             features={[
                 {
                     title: "Timeless Elegance",
@@ -33,6 +39,9 @@ export default function RomanBlindsPage() {
                     image: "/assets/roman_blockout_detail.png"
                 }
             ]}
+            decisionGuide={content.decisionGuide}
+            comparisonRows={content.comparisonRows}
+            faq={content.faq}
         />
     );
 }

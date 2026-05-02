@@ -1,4 +1,9 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { legacyBlindContent } from "@/lib/legacy-blind-content";
+
+const content = legacyBlindContent.rollerBlinds;
+
+export const metadata = content.metadata;
 
 export default function RollerBlindsPage() {
     return (
@@ -7,6 +12,7 @@ export default function RollerBlindsPage() {
             subtitle="The modern standard for simplicity and control."
             heroImage="/assets/roller_blinds_interior.png"
             description="Our custom-made Roller Blinds offer a sleek, architectural look that fits perfectly into any modern home. Simple to operate and incredibly durable, they come in an extensive range of fabrics including blockout, light-filtering, and solar screen options."
+            intentLabel={content.intentLabel}
             features={[
                 {
                     title: "Versatile Control",
@@ -43,6 +49,9 @@ export default function RollerBlindsPage() {
                     image: "/assets/double_roller_blinds.png"
                 }
             ]}
+            decisionGuide={content.decisionGuide}
+            comparisonRows={content.comparisonRows}
+            faq={content.faq}
         />
     );
 }

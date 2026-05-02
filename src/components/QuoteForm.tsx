@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ArrowRight, CalendarDays, Check, ChevronLeft, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
 import { quoteProductOptions } from "@/lib/cro-data";
 import { SITE } from "@/lib/site";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const windowOptions = ["1-5", "5-10", "10-20", "20+"];
@@ -31,6 +32,7 @@ export default function QuoteForm() {
   const initialProduct = getInitialProduct(searchParams.get("product"));
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const [formData, setFormData] = useState<QuoteFormData>({
     firstName: "",
     lastName: "",
@@ -57,6 +59,7 @@ export default function QuoteForm() {
   }, [formData, step]);
 
   const handleProductToggle = (product: string) => {
+    trackFormStart();
     setFormData((prev) => {
       const selected = prev.products.includes(product)
         ? prev.products.filter((item) => item !== product)
@@ -72,13 +75,35 @@ export default function QuoteForm() {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
+    trackFormStart();
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const trackFormStart = () => {
+    if (hasTrackedStart) return;
+    setHasTrackedStart(true);
+    trackEvent("quote_form_start", {
+      has_product_context: Boolean(initialProduct),
+    });
+  };
+
+  const handleContinue = () => {
+    if (step === 1) {
+      trackEvent("quote_step_1_complete", getQuoteTrackingPayload(formData));
+    }
+
+    if (step === 2) {
+      trackEvent("quote_step_2_complete", getQuoteTrackingPayload(formData));
+    }
+
+    setStep((current) => current + 1);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setStatus("loading");
+    trackEvent("quote_step_3_submit", getQuoteTrackingPayload(formData));
 
     try {
       const res = await fetch("/api/quote", {
@@ -87,9 +112,11 @@ export default function QuoteForm() {
         body: JSON.stringify(formData),
       });
 
+      trackEvent(res.ok ? "quote_success" : "quote_error", getQuoteTrackingPayload(formData));
       setStatus(res.ok ? "success" : "error");
     } catch (error) {
       console.error(error);
+      trackEvent("quote_error", getQuoteTrackingPayload(formData));
       setStatus("error");
     }
   };
@@ -226,7 +253,7 @@ export default function QuoteForm() {
                 <button
                   type="button"
                   disabled={!canContinue}
-                  onClick={() => setStep((current) => current + 1)}
+                  onClick={handleContinue}
                   className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-3 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Continue <ArrowRight className="h-4 w-4" />
@@ -280,6 +307,21 @@ export default function QuoteForm() {
       </div>
     </section>
   );
+}
+
+function getQuoteTrackingPayload(formData: QuoteFormData) {
+  return {
+    selected_product_count: formData.products.length,
+    needs_advice: formData.needsAdvice,
+    has_window_count: Boolean(formData.windowCount),
+    has_suburb: Boolean(formData.suburb.trim()),
+    has_email: Boolean(formData.email.trim()),
+    has_phone: Boolean(formData.phone.trim()),
+    has_appointment_preference: Boolean(formData.appointmentPreference.trim()),
+    has_message: Boolean(formData.message.trim()),
+    best_contact_time_selected: Boolean(formData.bestContactTime),
+    project_stage_selected: Boolean(formData.projectStage),
+  };
 }
 
 function getInitialProduct(productParam: string | null) {

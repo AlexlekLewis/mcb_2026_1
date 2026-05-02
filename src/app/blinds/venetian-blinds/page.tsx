@@ -1,4 +1,9 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { legacyBlindContent } from "@/lib/legacy-blind-content";
+
+const content = legacyBlindContent.venetianBlinds;
+
+export const metadata = content.metadata;
 
 export default function VenetianBlindsPage() {
     return (
@@ -7,6 +12,7 @@ export default function VenetianBlindsPage() {
             subtitle="Precise light control with classic timber charm."
             heroImage="/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp"
             description="Venetian Blinds offer superior versatility, allowing you to tilt the slats to control the exact amount of light and privacy you need. Our collection features premium Timber, sustainable Eco-Wood, and durable Aluminium options."
+            intentLabel={content.intentLabel}
             features={[
                 {
                     title: "Ultimate Control",
@@ -45,6 +51,9 @@ export default function VenetianBlindsPage() {
                     href: "/blinds/venetian-blinds/urban-wood"
                 }
             ]}
+            decisionGuide={content.decisionGuide}
+            comparisonRows={content.comparisonRows}
+            faq={content.faq}
         />
     );
 }

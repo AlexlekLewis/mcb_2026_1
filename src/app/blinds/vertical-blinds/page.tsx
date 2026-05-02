@@ -1,4 +1,9 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { legacyBlindContent } from "@/lib/legacy-blind-content";
+
+const content = legacyBlindContent.verticalBlinds;
+
+export const metadata = content.metadata;
 
 export default function VerticalBlindsPage() {
     return (
@@ -7,6 +12,7 @@ export default function VerticalBlindsPage() {
             subtitle="Practical, economical, and perfect for large windows."
             heroImage="/images/product-unique/mcb-vertical-blinds-sliding-door-hero.webp"
             description="Modern Vertical Blinds have come a long way. With sleek, chainless bottom weights and contemporary fabric choices, they remain the most practical solution for large sliding doors and floor-to-ceiling windows, offering excellent light control."
+            intentLabel={content.intentLabel}
             features={[
                 {
                     title: "Ideal for Doors",
@@ -33,6 +39,9 @@ export default function VerticalBlindsPage() {
                     image: "/images/product-unique/mcb-rigid-pvc-vertical-blinds-detail.webp"
                 }
             ]}
+            decisionGuide={content.decisionGuide}
+            comparisonRows={content.comparisonRows}
+            faq={content.faq}
         />
     );
 }

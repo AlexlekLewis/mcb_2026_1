@@ -1,4 +1,9 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { legacyBlindContent } from "@/lib/legacy-blind-content";
+
+const content = legacyBlindContent.panelGlide;
+
+export const metadata = content.metadata;
 
 export default function PanelGlidePage() {
     return (
@@ -7,6 +12,7 @@ export default function PanelGlidePage() {
             subtitle="A sleek, modern alternative to vertical blinds."
             heroImage="/images/product-unique/mcb-panel-glide-blinds-sliding-door-hero.webp"
             description="Panel Glide blinds feature wide, flat panels of fabric that glide effortlessly sideways on a multi-track system. They emulate the look of sliding doors and are perfect for contemporary open-plan living areas."
+            intentLabel={content.intentLabel}
             features={[
                 {
                     title: "Fabric Match",
@@ -33,6 +39,9 @@ export default function PanelGlidePage() {
                     image: "/images/product-unique/mcb-panel-glide-screen-panels-daytime-view.webp"
                 }
             ]}
+            decisionGuide={content.decisionGuide}
+            comparisonRows={content.comparisonRows}
+            faq={content.faq}
         />
     );
 }

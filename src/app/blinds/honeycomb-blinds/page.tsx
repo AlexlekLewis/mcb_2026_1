@@ -1,4 +1,9 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { legacyBlindContent } from "@/lib/legacy-blind-content";
+
+const content = legacyBlindContent.honeycombBlinds;
+
+export const metadata = content.metadata;
 
 export default function HoneycombBlindsPage() {
     return (
@@ -7,6 +12,7 @@ export default function HoneycombBlindsPage() {
             subtitle="The ultimate energy-saving window covering."
             heroImage="/images/product-unique/mcb-honeycomb-blinds-clean-energy-efficient-room-hero.webp"
             description="Also known as Cellular Blinds, Honeycomb blinds feature a unique hexagonal cell structure that traps air, creating an insulating barrier against summer heat and winter cold. They are incredibly efficient and stack away to almost nothing."
+            intentLabel={content.intentLabel}
             features={[
                 {
                     title: "Thermal Efficiency",
@@ -38,6 +44,9 @@ export default function HoneycombBlindsPage() {
                     image: "/images/product-unique/mcb-cordless-honeycomb-blinds-clean-child-safe.webp"
                 }
             ]}
+            decisionGuide={content.decisionGuide}
+            comparisonRows={content.comparisonRows}
+            faq={content.faq}
         />
     );
 }
