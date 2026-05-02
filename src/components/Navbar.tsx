@@ -33,23 +33,23 @@ export function Navbar() {
       <nav
         className={cn(
           "fixed left-0 right-0 top-8 z-50 border-b transition-all duration-300",
-          isTransparent ? "border-transparent bg-transparent py-3" : "border-mcb-sand bg-white/95 py-1 shadow-sm backdrop-blur-md"
+          isTransparent ? "border-transparent bg-transparent py-3" : "border-mcb-sand bg-white/95 py-2 shadow-sm backdrop-blur-md"
         )}
       >
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex h-20 items-center justify-between gap-5 lg:h-24">
+          <div className="flex h-24 items-center justify-between gap-4 lg:h-28">
             <Link href="/" className="relative z-10 block shrink-0" aria-label="Modern Curtains and Blinds home">
               <Image
-                src="/assets/logos/logo_5.png"
+                src="/assets/logo.png"
                 alt="Modern Curtains and Blinds"
-                width={1024}
-                height={602}
-                className="h-14 w-auto object-contain lg:h-20"
+                width={1439}
+                height={480}
+                className="h-auto w-[185px] object-contain md:w-[225px] lg:w-[235px] xl:w-[280px]"
                 priority
               />
             </Link>
 
-            <div className="hidden items-center gap-4 lg:flex">
+            <div className="hidden items-center gap-3 lg:flex xl:gap-4">
               {navItems.map((item) => (
                 <div
                   key={item.label}
@@ -107,18 +107,18 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="hidden shrink-0 items-center gap-4 lg:flex">
+            <div className="hidden shrink-0 items-center gap-3 lg:flex xl:gap-4">
               <a
                 href={SITE.phoneHref}
                 className={cn(
-                  "flex items-center gap-2 whitespace-nowrap font-semibold transition-colors hover:text-mcb-terracotta",
+                  "hidden items-center gap-2 whitespace-nowrap font-semibold transition-colors hover:text-mcb-terracotta xl:flex",
                   isTransparent ? "text-white" : "text-mcb-charcoal"
                 )}
               >
                 <Phone size={18} />
                 {SITE.phoneDisplay}
               </a>
-              <Link href={quoteHref()} className="whitespace-nowrap rounded-sm bg-mcb-terracotta px-4 py-3 text-sm font-bold text-white shadow-lg transition-colors hover:bg-stone-800">
+              <Link href={quoteHref()} className="whitespace-nowrap rounded-sm bg-mcb-terracotta px-3 py-3 text-sm font-bold text-white shadow-lg transition-colors hover:bg-stone-800 xl:px-4">
                 Book Free Measure & Quote
               </Link>
             </div>
@@ -141,7 +141,7 @@ export function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "tween", duration: 0.25 }}
-            className="fixed inset-0 z-40 overflow-y-auto bg-white px-6 pb-10 pt-36 lg:hidden"
+            className="fixed inset-0 z-40 overflow-y-auto bg-white px-6 pb-10 pt-40 lg:hidden"
           >
             <div className="space-y-7">
               {navItems.map((item) => (

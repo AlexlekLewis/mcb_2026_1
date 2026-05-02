@@ -169,6 +169,8 @@ export function ProductTemplate({
 
     return (
         <div className="bg-white min-h-screen overflow-x-hidden">
+            <PaymentOptions variant="banner" topOffset />
+
             {/* Hero Section with Parallax */}
             <section ref={heroRef} className="relative h-[70vh] w-full overflow-hidden bg-mcb-charcoal">
                 <motion.div

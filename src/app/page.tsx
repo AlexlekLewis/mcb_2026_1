@@ -12,11 +12,13 @@ import {
 } from "@/components/CROSections";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
 import { HeroScroll } from "@/components/HeroScroll";
+import { PaymentOptions } from "@/components/PaymentOptions";
 import { quoteHref, SITE } from "@/lib/site";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <PaymentOptions variant="banner" topOffset />
       <HeroScroll>
         <div className="container mx-auto px-4 pb-20 pt-36">
           <div className="max-w-4xl">
