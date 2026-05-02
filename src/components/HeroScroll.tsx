@@ -1,149 +1,294 @@
-
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface HeroScrollProps {
-    frameCount?: number; // Total number of frames generated
+  children: React.ReactNode;
+  className?: string;
+  extension?: string;
+  frameCount?: number;
+  initialPreload?: number;
+  posterAlt?: string;
+  posterSrc?: string;
+  sequencePath?: string;
 }
 
-export function HeroScroll({ frameCount = 96 }: HeroScrollProps) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [images, setImages] = useState<HTMLImageElement[]>([]);
-    const [isLoaded, setIsLoaded] = useState(false);
+function frameName(index: number, extension: string) {
+  return `${(index + 1).toString().padStart(4, "0")}.${extension}`;
+}
 
-    // Scroll progress (0 to 1) relative to the container
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end start"],
+function findNearestLoadedFrame(
+  images: Array<HTMLImageElement | undefined>,
+  targetFrame: number
+) {
+  if (images[targetFrame]) return images[targetFrame];
+
+  for (let offset = 1; offset < images.length; offset++) {
+    const previous = targetFrame - offset;
+    const next = targetFrame + offset;
+
+    if (previous >= 0 && images[previous]) return images[previous];
+    if (next < images.length && images[next]) return images[next];
+  }
+
+  return images[0];
+}
+
+export function HeroScroll({
+  children,
+  className = "",
+  extension = "jpg",
+  frameCount = 48,
+  initialPreload = 8,
+  posterAlt = "Custom curtains, blinds, shutters and security screens installed in a Melbourne home",
+  posterSrc = "/images/hero-sequence-optimized/0001.jpg",
+  sequencePath = "/images/hero-sequence-optimized",
+}: HeroScrollProps) {
+  const containerRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imagesRef = useRef<Array<HTMLImageElement | undefined>>([]);
+  const lastRenderedFrameRef = useRef(-1);
+  const pendingFrameRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  const [canAnimate, setCanAnimate] = useState(false);
+  const [isCanvasReady, setIsCanvasReady] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const frameIndex = useTransform(scrollYProgress, [0, 1], [0, frameCount - 1]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -28]);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactViewport = window.matchMedia("(max-width: 480px)");
+
+    const updateAnimationMode = () => {
+      setCanAnimate(!reducedMotion.matches && !compactViewport.matches);
+    };
+
+    updateAnimationMode();
+    reducedMotion.addEventListener("change", updateAnimationMode);
+    compactViewport.addEventListener("change", updateAnimationMode);
+
+    return () => {
+      reducedMotion.removeEventListener("change", updateAnimationMode);
+      compactViewport.removeEventListener("change", updateAnimationMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!canAnimate) {
+      return;
+    }
+
+    let cancelled = false;
+    let idleId: number | undefined;
+    let timeoutId: number | undefined;
+    imagesRef.current = new Array(frameCount);
+    lastRenderedFrameRef.current = -1;
+
+    const frameSrc = (index: number) =>
+      `${sequencePath}/${frameName(index, extension)}`;
+
+    const loadFrame = async (index: number) => {
+      if (cancelled) return undefined;
+      if (imagesRef.current[index]) return imagesRef.current[index];
+
+      const img = new window.Image();
+      img.decoding = "async";
+      img.src = frameSrc(index);
+
+      await new Promise<void>((resolve) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+      });
+
+      try {
+        await img.decode();
+      } catch {
+        // The load event above is enough for drawing; decode can reject on some browsers.
+      }
+
+      if (!cancelled) {
+        imagesRef.current[index] = img;
+      }
+
+      return img;
+    };
+
+    const drawFrame = (rawFrame: number) => {
+      const canvas = canvasRef.current;
+      const ctx = canvas?.getContext("2d");
+      if (!canvas || !ctx) return;
+
+      const frame = Math.max(0, Math.min(frameCount - 1, Math.round(rawFrame)));
+      if (frame === lastRenderedFrameRef.current) return;
+
+      const image = findNearestLoadedFrame(imagesRef.current, frame);
+      if (!image || !image.complete) return;
+
+      const bounds = canvas.getBoundingClientRect();
+      if (bounds.width === 0 || bounds.height === 0) return;
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const pixelWidth = Math.round(bounds.width * dpr);
+      const pixelHeight = Math.round(bounds.height * dpr);
+
+      if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+      }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, bounds.width, bounds.height);
+
+      const imageRatio = image.naturalWidth / image.naturalHeight;
+      const canvasRatio = bounds.width / bounds.height;
+      let drawWidth = bounds.width;
+      let drawHeight = bounds.height;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (canvasRatio > imageRatio) {
+        drawHeight = bounds.width / imageRatio;
+        offsetY = (bounds.height - drawHeight) / 2;
+      } else {
+        drawWidth = bounds.height * imageRatio;
+        offsetX = (bounds.width - drawWidth) / 2;
+      }
+
+      ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+      lastRenderedFrameRef.current = frame;
+    };
+
+    const queueDraw = (frame: number) => {
+      pendingFrameRef.current = frame;
+      if (rafRef.current !== null) return;
+
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = null;
+        drawFrame(pendingFrameRef.current);
+      });
+    };
+
+    const loadRest = async () => {
+      for (let i = initialPreload; i < frameCount; i++) {
+        if (cancelled) return;
+        await loadFrame(i);
+        await new Promise((resolve) => window.setTimeout(resolve, 30));
+      }
+    };
+
+    const loadInitialFrames = async () => {
+      await loadFrame(0);
+      if (cancelled) return;
+
+      setIsCanvasReady(true);
+      queueDraw(frameIndex.get());
+
+      const firstBatch = Math.min(initialPreload, frameCount);
+      for (let i = 1; i < firstBatch; i++) {
+        void loadFrame(i);
+      }
+
+      const browserWindow = window as Window & {
+        requestIdleCallback?: (
+          callback: () => void,
+          options?: { timeout: number }
+        ) => number;
+        cancelIdleCallback?: (handle: number) => void;
+      };
+
+      if (browserWindow.requestIdleCallback) {
+        idleId = browserWindow.requestIdleCallback(() => {
+          void loadRest();
+        }, { timeout: 2500 });
+      } else {
+        timeoutId = window.setTimeout(() => {
+          void loadRest();
+        }, 700);
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      lastRenderedFrameRef.current = -1;
+      queueDraw(frameIndex.get());
     });
 
-    // Map scroll progress to frame index
-    const frameIndex = useTransform(scrollYProgress, [0, 1], [0, frameCount - 1]);
+    if (canvasRef.current) {
+      resizeObserver.observe(canvasRef.current);
+    }
 
-    useEffect(() => {
-        // Preload images
-        const loadImages = async () => {
-            const promises: Promise<HTMLImageElement>[] = [];
+    void loadInitialFrames();
+    const unsubscribe = frameIndex.on("change", queueDraw);
 
-            for (let i = 1; i <= frameCount; i++) {
-                const img = new Image();
-                // Format index to 4 digits (e.g., 0001.jpg)
-                const filename = `/images/hero-sequence/${i.toString().padStart(4, "0")}.jpg`;
-                img.src = filename;
+    return () => {
+      cancelled = true;
+      unsubscribe();
+      resizeObserver?.disconnect();
 
-                const promise = new Promise<HTMLImageElement>((resolve) => {
-                    img.onload = () => resolve(img);
-                    img.onerror = () => resolve(img); // Resolve anyway to avoid breaking Promise.all
-                });
-                promises.push(promise);
-            }
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
 
-            // Wait for all images to load (in parallel)
-            const loadedImages = await Promise.all(promises);
-            setImages(loadedImages);
-            setIsLoaded(true);
-        };
+      if (idleId !== undefined) {
+        (window as Window & { cancelIdleCallback?: (handle: number) => void })
+          .cancelIdleCallback?.(idleId);
+      }
 
-        loadImages();
-    }, [frameCount]);
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, [
+    canAnimate,
+    extension,
+    frameCount,
+    frameIndex,
+    initialPreload,
+    sequencePath,
+  ]);
 
-    useEffect(() => {
-        // Render loop triggered by scroll change
-        const render = (index: number) => {
-            const canvas = canvasRef.current;
-            const ctx = canvas?.getContext("2d");
-            if (!canvas || !ctx || images.length === 0) return;
+  return (
+    <section
+      ref={containerRef}
+      className={`relative h-[150vh] min-h-screen bg-mcb-charcoal text-white md:h-[165vh] lg:h-[175vh] ${className}`}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <Image
+          src={posterSrc}
+          alt={posterAlt}
+          fill
+          priority
+          sizes="100vw"
+          className={`object-cover transition-opacity duration-700 ${
+            canAnimate && isCanvasReady ? "opacity-0" : "opacity-55"
+          }`}
+        />
 
-            const img = images[Math.round(index)];
-            if (!img) return;
+        {canAnimate && (
+          <canvas
+            ref={canvasRef}
+            aria-hidden="true"
+            className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${
+              isCanvasReady ? "opacity-55" : "opacity-0"
+            }`}
+          />
+        )}
 
-            // Handle resize / fit (cover)
-            const { width, height } = canvas.getBoundingClientRect();
-
-            // Update canvas resolution to match display size
-            if (canvas.width !== width || canvas.height !== height) {
-                canvas.width = width;
-                canvas.height = height;
-            }
-
-            // Draw image "cover" style
-            const imgRatio = 1920 / 1080; // Assuming 16:9
-            const canvasRatio = width / height;
-
-            let drawWidth, drawHeight, offsetX, offsetY;
-
-            if (canvasRatio > imgRatio) {
-                drawWidth = width;
-                drawHeight = width / imgRatio;
-                offsetX = 0;
-                offsetY = (height - drawHeight) / 2;
-            } else {
-                drawWidth = height * imgRatio;
-                drawHeight = height;
-                offsetX = (width - drawWidth) / 2;
-                offsetY = 0;
-            }
-
-            ctx.clearRect(0, 0, width, height);
-            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-
-            // Overlay gradient (optional, matches existing hero style)
-            ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-            ctx.fillRect(0, 0, width, height);
-        };
-
-        // Subscribe to scroll changes to update canvas
-        const unsubscribe = frameIndex.on("change", (latest) => {
-            if (isLoaded) {
-                render(latest);
-            }
-        });
-
-        // Initial render
-        if (isLoaded) {
-            render(frameIndex.get());
-        }
-
-        return () => unsubscribe();
-    }, [frameIndex, images, isLoaded]);
-
-    return (
-        <div ref={containerRef} className="relative h-[350vh] bg-mcb-charcoal">
-            <div className="sticky top-0 h-screen w-full overflow-hidden">
-                <canvas
-                    ref={canvasRef}
-                    className="absolute inset-0 w-full h-full object-cover"
-                />
-
-                {/* Loading State - REMOVED blocking overlay
-                    The site should be usable immediately.
-                    We could add a small subtle indicator if really needed, 
-                    but for now let's just show the first frame or black bg.
-                 */}
-
-                {/* Content Overlay - Fades out as you scroll? Or stays fixed? 
-            Let's keep the Hero text fixed or animating in/out 
-        */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="container mx-auto px-6 text-center text-white">
-                        <motion.h1
-                            style={{ opacity: useTransform(scrollYProgress, [0.3, 0.6], [1, 0]) }}
-                            className="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight"
-                        >
-                            Soft. Sustainable. Stylish.
-                        </motion.h1>
-                        <motion.p
-                            style={{ opacity: useTransform(scrollYProgress, [0.3, 0.6], [1, 0]) }}
-                            className="text-lg md:text-2xl text-stone-200 mb-10 max-w-2xl mx-auto"
-                        >
-                            Premium Australian Made Curtains, Custom Crafted for Your Home.
-                        </motion.p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-mcb-charcoal" />
+        <motion.div
+          style={{ y: contentY }}
+          className="relative z-10 flex h-full items-center"
+        >
+          {children}
+        </motion.div>
+      </div>
+    </section>
+  );
 }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import {
@@ -12,21 +11,14 @@ import {
   SecurityMoat,
 } from "@/components/CROSections";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
+import { HeroScroll } from "@/components/HeroScroll";
 import { quoteHref, SITE } from "@/lib/site";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-      <section className="relative min-h-screen overflow-hidden bg-mcb-charcoal text-white">
-        <Image
-          src="/assets/curtain_hero.png"
-          alt="Custom curtains, blinds and shutters installed in a Melbourne home"
-          fill
-          priority
-          className="object-cover opacity-45"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-mcb-charcoal" />
-        <div className="container relative z-10 mx-auto flex min-h-screen items-center px-4 pb-20 pt-36">
+      <HeroScroll>
+        <div className="container mx-auto px-4 pb-20 pt-36">
           <div className="max-w-4xl">
             <span className="mb-5 inline-flex rounded-sm border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-mcb-clay-light backdrop-blur">
               Free in-home measure and quote across Melbourne
@@ -53,7 +45,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </HeroScroll>
 
       <ProofBar />
       <BrowseByNeed />
