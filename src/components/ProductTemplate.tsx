@@ -205,7 +205,11 @@ export function ProductTemplate({
             )}
 
             {/* Hero Section with Parallax */}
-            <section ref={heroRef} className="relative h-[70vh] w-full overflow-hidden bg-mcb-charcoal">
+            <section
+                ref={heroRef}
+                style={{ position: "relative" }}
+                className="relative h-[70vh] w-full overflow-hidden bg-mcb-charcoal"
+            >
                 <motion.div
                     style={{ y: heroY }}
                     className="absolute inset-0 w-full h-full"

@@ -55,6 +55,7 @@ export default async function ProductPage({ params }: Props) {
                             alt={`${product.title} installed by Modern Curtains and Blinds`}
                             fill
                             priority
+                            sizes="(min-width: 768px) 50vw, 100vw"
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                     </div>

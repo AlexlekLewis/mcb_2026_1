@@ -71,7 +71,13 @@ export function ExpandedCategoryGrid() {
           {categoryCards.map((card) => (
             <Link key={card.title} href={card.href} className="group overflow-hidden rounded-sm bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
               <div className="relative aspect-[4/3] overflow-hidden">
-                <Image src={card.image} alt={`${card.title} by Modern Curtains and Blinds`} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image
+                  src={card.image}
+                  alt={`${card.title} by Modern Curtains and Blinds`}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
                 <div className="absolute inset-0 bg-black/15 transition-colors group-hover:bg-black/30" />
               </div>
               <div className="p-6">
@@ -132,7 +138,13 @@ export function SecurityMoat() {
           </div>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
-          <Image src="/images/security-door-hero.webp" alt="Custom security door and screen solution for a Melbourne home" fill className="object-cover" />
+          <Image
+            src="/images/security-door-hero.webp"
+            alt="Custom security door and screen solution for a Melbourne home"
+            fill
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            className="object-cover"
+          />
         </div>
       </div>
     </section>

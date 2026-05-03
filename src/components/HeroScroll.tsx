@@ -257,19 +257,22 @@ export function HeroScroll({
   return (
     <section
       ref={containerRef}
+      style={{ position: "relative" }}
       className={`relative h-[150vh] min-h-screen bg-mcb-charcoal text-white md:h-[165vh] lg:h-[175vh] ${className}`}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <Image
-          src={posterSrc}
-          alt={posterAlt}
-          fill
-          priority
-          sizes="100vw"
-          className={`object-cover transition-opacity duration-700 ${
-            canAnimate && isCanvasReady ? "opacity-0" : "opacity-55"
-          }`}
-        />
+        <div className="absolute inset-0">
+          <Image
+            src={posterSrc}
+            alt={posterAlt}
+            fill
+            priority
+            sizes="100vw"
+            className={`object-cover transition-opacity duration-700 ${
+              canAnimate && isCanvasReady ? "opacity-0" : "opacity-55"
+            }`}
+          />
+        </div>
 
         {canAnimate && (
           <canvas

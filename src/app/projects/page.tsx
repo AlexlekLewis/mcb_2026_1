@@ -30,7 +30,13 @@ export default function ProjectsPage() {
         {projects.map((project) => (
           <article key={project.title} className="overflow-hidden rounded-sm bg-mcb-paper shadow-sm">
             <div className="relative aspect-[4/3]">
-              <Image src={project.image} alt={`${project.product} inspiration`} fill className="object-cover" />
+              <Image
+                src={project.image}
+                alt={`${project.product} inspiration`}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
             </div>
             <div className="p-6">
               <h2 className="mb-2 font-serif text-2xl text-mcb-charcoal">{project.title}</h2>
