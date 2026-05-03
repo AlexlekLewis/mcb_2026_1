@@ -2,7 +2,7 @@ export const PRESTON_ORIGIN = { name: "Preston", postcode: "3072", latitude: -37
 
 export const PRESTON_SERVICE_RADIUS_KM = 60;
 
-export const LOCATION_DATA_SOURCE = "matthewproctor/australianpostcodes Australian postcode locality data, filtered to VIC delivery areas within 60km of Preston 3072";
+export const LOCATION_DATA_SOURCE = "matthewproctor/australianpostcodes Australian postcode locality data, filtered to VIC delivery areas within 60km of Preston 3072, plus selected Clyde and Mornington Peninsula service suburbs requested for the preview build";
 
 export const PRESTON_RADIUS_LOCATIONS = [
   {
@@ -5500,5 +5500,53 @@ export const PRESTON_RADIUS_LOCATIONS = [
     "distanceKm": 59.9,
     "latitude": -38.15,
     "longitude": 145.456
+  },
+  {
+    "name": "Mount Martha",
+    "slug": "mount-martha",
+    "postcode": "3934",
+    "distanceKm": 60.5,
+    "latitude": -38.287039,
+    "longitude": 145.016269
+  },
+  {
+    "name": "Safety Beach",
+    "slug": "safety-beach",
+    "postcode": "3936",
+    "distanceKm": 64.4,
+    "latitude": -38.322,
+    "longitude": 144.986
+  },
+  {
+    "name": "Rosebud",
+    "slug": "rosebud",
+    "postcode": "3939",
+    "distanceKm": 68.6,
+    "latitude": -38.356,
+    "longitude": 144.918
+  },
+  {
+    "name": "Portsea",
+    "slug": "portsea",
+    "postcode": "3944",
+    "distanceKm": 69.2,
+    "latitude": -38.32,
+    "longitude": 144.713
+  },
+  {
+    "name": "Sorrento",
+    "slug": "sorrento",
+    "postcode": "3943",
+    "distanceKm": 71,
+    "latitude": -38.3477833,
+    "longitude": 144.746696
+  },
+  {
+    "name": "Rye",
+    "slug": "rye",
+    "postcode": "3941",
+    "distanceKm": 72,
+    "latitude": -38.377,
+    "longitude": 144.838
   }
 ] as const;

@@ -56,7 +56,7 @@ export default function SecurityPage() {
                     title: "Decorative Diamond Grille",
                     description: "Classic visual deterrence. Sturdy 7mm aluminium grille doors that offer a traditional aesthetic and reliable barrier against intruders.",
                     image: "/images/sec-diamond.webp",
-                    href: "/products/diamond-grille-security"
+                    href: "/security/security-doors"
                 },
                 {
                     title: "Insect & Fly Screens",
