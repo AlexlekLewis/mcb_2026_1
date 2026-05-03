@@ -14,10 +14,10 @@ export function PaymentOptions({ topOffset = false, variant = "section" }: Payme
   if (variant === "banner") {
     return (
       <section className={`bg-mcb-charcoal text-white ${topOffset ? "pt-[112px] md:pt-[116px] lg:pt-[120px]" : ""}`}>
-        <div className="mx-auto w-full max-w-7xl px-4 py-1.5 md:px-6 md:py-2">
+        <div className="mx-auto w-full max-w-7xl px-2 py-1 md:px-6 md:py-2">
           <div className="overflow-hidden rounded-sm border border-white/15 bg-gradient-to-r from-[#332165] via-[#4a2574] to-[#ff3157] p-[1px] shadow-lg">
-            <div className="grid gap-2 bg-mcb-charcoal/90 px-3 py-2 backdrop-blur sm:grid-cols-[auto_1fr] sm:items-center md:grid-cols-[auto_1fr_auto] md:gap-4 md:px-4">
-              <div className="relative h-6 w-28 shrink-0 md:h-7 md:w-36">
+            <div className="grid grid-cols-[auto_1fr] items-center gap-2 bg-mcb-charcoal/90 px-2 py-1 backdrop-blur md:grid-cols-[auto_1fr_auto] md:gap-4 md:px-4 md:py-2">
+              <div className="relative h-5 w-[76px] shrink-0 md:h-7 md:w-36">
                 <Image
                   src="/assets/payright/payright-corporate-tight.png"
                   alt="Payright"
@@ -28,20 +28,20 @@ export function PaymentOptions({ topOffset = false, variant = "section" }: Payme
               </div>
               <div className="min-w-0">
                 <div className="flex flex-col gap-0.5 lg:flex-row lg:items-baseline lg:gap-3">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-white md:text-xs">
+                  <p className="text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-white md:text-xs md:tracking-widest">
                     Interest free payment plans available
                   </p>
-                  <p className="text-[11px] leading-snug text-stone-200 md:text-xs">
+                  <p className="hidden text-[11px] leading-snug text-stone-200 md:block md:text-xs">
                     Ask about Payright during your free in-home measure and quote.
                   </p>
                 </div>
-                <p className="mt-0.5 text-[9px] leading-tight text-stone-400 md:text-[10px]">
+                <p className="mt-0.5 text-[8px] leading-none text-stone-400 md:text-[10px] md:leading-tight">
                   {disclaimer}
                 </p>
               </div>
               <Link
                 href={quoteHref()}
-                className="inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-sm bg-white px-3 text-xs font-bold uppercase tracking-wider text-mcb-charcoal transition-colors hover:bg-mcb-clay-light sm:col-span-2 md:col-span-1"
+                className="hidden h-9 shrink-0 items-center justify-center gap-2 rounded-sm bg-white px-3 text-xs font-bold uppercase tracking-wider text-mcb-charcoal transition-colors hover:bg-mcb-clay-light md:inline-flex"
               >
                 Get a quote <ArrowRight className="h-3.5 w-3.5" />
               </Link>

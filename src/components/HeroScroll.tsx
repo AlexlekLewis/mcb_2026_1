@@ -284,7 +284,7 @@ export function HeroScroll({
         <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-mcb-charcoal" />
         <motion.div
           style={{ y: contentY }}
-          className="relative z-10 flex h-full items-center"
+          className="relative z-10 flex h-full items-start md:items-center"
         >
           {children}
         </motion.div>

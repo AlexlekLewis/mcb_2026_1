@@ -18,15 +18,15 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <HeroScroll>
-        <div className="container mx-auto px-4 pb-20 pt-36">
+        <div className="container mx-auto px-4 pb-20 pt-4 md:pt-36">
           <div className="max-w-4xl">
-            <span className="mb-5 inline-flex rounded-sm border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-mcb-clay-light backdrop-blur">
+            <span className="mb-3 hidden rounded-sm border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-mcb-clay-light backdrop-blur md:mb-5 md:inline-flex md:px-4 md:py-2 md:text-xs">
               Free in-home measure and quote across Melbourne
             </span>
-            <h1 className="mb-6 font-serif text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
+            <h1 className="mb-4 font-serif text-[2rem] font-bold leading-[1.08] md:mb-6 md:text-6xl md:leading-tight lg:text-7xl">
               Custom Curtains, Blinds, Shutters and Security Screens in Melbourne
             </h1>
-            <p className="mb-9 max-w-3xl text-lg leading-relaxed text-stone-100 md:text-2xl">
+            <p className="mb-6 max-w-3xl text-base leading-relaxed text-stone-100 md:mb-9 md:text-2xl">
               Book a free in-home measure and quote. We bring samples, help you choose the right product for each room, measure accurately, and install with care.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
