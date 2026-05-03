@@ -55,7 +55,7 @@ export default function SkylightBlindsPage() {
                 {
                     title: "Motorised Skylight Blinds",
                     description: "For windows that are high, hard to reach or better suited to scheduled heat control.",
-                    image: "/images/product-unique/mcb-motorised-skylight-blinds-remote-control.webp"
+                    image: "/images/product-unique/mcb-skylight-blinds-overhead-heat-control-hero.webp"
                 }
             ]}
             faq={[

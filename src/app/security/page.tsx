@@ -67,7 +67,7 @@ export default function SecurityPage() {
                 {
                     title: "Pet Mesh & Window Screens",
                     description: "Stronger everyday mesh and custom window screens for airflow, insects and added peace of mind.",
-                    image: "/images/pet-mesh.webp",
+                    image: "/assets/security_window_screen.png",
                     href: "/security/fly-screens"
                 }
             ]}

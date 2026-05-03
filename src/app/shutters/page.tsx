@@ -15,7 +15,7 @@ export default function ShuttersPage() {
             nearbyLocations={nearby}
             title="Plantation Shutters Melbourne"
             subtitle="Timber, PVC, Aluminium and Outdoor."
-            heroImage="/assets/Landing_Page_Sample.webp" // Using the sample image which looks like a nice interior scene
+            heroImage="/images/product-unique/mcb-timber-plantation-shutters-hero.webp"
             description="Add privacy, airflow, insulation and long-term value with shutters made to fit your windows. We help you choose timber for warmth, polymer for wet areas, aluminium for outdoors, or roller shutters for security and blockout."
             intentLabel="Long-term value and airflow"
             features={[

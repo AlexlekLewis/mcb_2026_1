@@ -33,9 +33,9 @@ export default function FlyScreensPage() {
                     image: "/images/retractable-screen.webp"
                 },
                 {
-                    title: "Pet Mesh",
-                    description: "Heavier gauge mesh resistant to claws.",
-                    image: "/images/pet-mesh.webp"
+                    title: "Pet Mesh & Window Screens",
+                    description: "Heavier gauge mesh and custom window screens for busy homes, pets and everyday airflow.",
+                    image: "/assets/security_window_screen.png"
                 }
             ]}
         />
