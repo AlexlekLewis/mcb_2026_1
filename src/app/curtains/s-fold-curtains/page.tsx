@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "S-Fold Curtains Melbourne | Custom Wave Curtains",
+    description: "Custom S-Fold curtains for continuous wave headings, sliding doors and floor-to-ceiling windows. Free in-home measure and quote.",
+    image: "/images/product-unique/mcb-s-fold-curtains-living-room-hero.webp",
+    path: "/curtains/s-fold-curtains",
+});
+
 
 export default function SFoldCurtainsPage() {
     return (

@@ -11,7 +11,7 @@ export default function MotorisationPage() {
         <ProductTemplate
             title="Motorised Blinds and Curtains Melbourne"
             subtitle="Remote, app, schedule and voice-control options."
-            heroImage="/assets/roller_blind_hero.png" // Reusing appropriate image
+            heroImage="/assets/roller_blind_hero.webp" // Reusing appropriate image
             description="Open and close blinds, curtains and awnings by remote, app, schedule or voice control. We help you choose battery or wired motors, smart hubs and compatible products for everyday convenience and child-safe operation."
             intentLabel="Convenience, child safety and smart routines"
             features={[
@@ -44,7 +44,7 @@ export default function MotorisationPage() {
                 {
                     title: "Motorised Rollers",
                     description: "The most popular choice for automation. Perfect for hard-to-reach windows and managing banks of blinds simultaneously.",
-                    image: "/assets/motorised_rollers.png" // Updated
+                    image: "/assets/motorised_rollers.webp" // Updated
                 },
                 {
                     title: "Motorised Curtains",

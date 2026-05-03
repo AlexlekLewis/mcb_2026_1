@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "./metadata";
 
 type ProductFeature = {
   title: string;
@@ -24,34 +25,14 @@ type LegacyBlindContent = {
   faq: FaqItem[];
 };
 
-const siteName = "Modern Curtains and Blinds";
-
-function pageMetadata(title: string, description: string, image: string): Metadata {
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-    },
-  };
-}
-
 export const legacyBlindContent: Record<string, LegacyBlindContent> = {
   rollerBlinds: {
-    metadata: pageMetadata(
-      `Custom Roller Blinds Melbourne | ${siteName}`,
-      "Custom roller blinds for Melbourne homes. Compare blockout, sunscreen, light filtering, double roller and motorised options with a free in-home measure and quote.",
-      "/assets/roller_blinds_interior.png"
-    ),
+    metadata: pageMetadata({
+      title: "Custom Roller Blinds Melbourne",
+      description: "Custom roller blinds for Melbourne homes. Compare blockout, sunscreen, light filtering, double roller and motorised options with a free in-home measure and quote.",
+      image: "/assets/roller_blinds_interior.png",
+      path: "/blinds/roller-blinds",
+    }),
     intentLabel: "Custom roller blind advice",
     decisionGuide: [
       {
@@ -89,11 +70,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   blockoutBlinds: {
-    metadata: pageMetadata(
-      `Blockout Blinds Melbourne | ${siteName}`,
-      "Made-to-measure blockout blinds for bedrooms, nurseries, media rooms and privacy-focused spaces across Melbourne. Book a free in-home measure and quote.",
-      "/images/blockout-blinds.png"
-    ),
+    metadata: pageMetadata({
+      title: "Blockout Blinds Melbourne",
+      description: "Made-to-measure blockout blinds for bedrooms, nurseries, media rooms and privacy-focused spaces across Melbourne. Book a free in-home measure and quote.",
+      image: "/images/blockout-blinds.png",
+      path: "/blinds/roller-blinds/blockout",
+    }),
     intentLabel: "Room darkening and privacy",
     decisionGuide: [
       {
@@ -130,11 +112,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   sunscreenBlinds: {
-    metadata: pageMetadata(
-      `Sunscreen Blinds Melbourne | ${siteName}`,
-      "Custom sunscreen roller blinds for glare reduction, UV control and daytime privacy across Melbourne homes. Free in-home measure and quote.",
-      "/images/sunscreen-blinds.png"
-    ),
+    metadata: pageMetadata({
+      title: "Sunscreen Blinds Melbourne",
+      description: "Custom sunscreen roller blinds for glare reduction, UV control and daytime privacy across Melbourne homes. Free in-home measure and quote.",
+      image: "/images/sunscreen-blinds.png",
+      path: "/blinds/roller-blinds/sunscreen",
+    }),
     intentLabel: "Glare reduction and daytime comfort",
     decisionGuide: [
       {
@@ -171,11 +154,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   doubleRollerBlinds: {
-    metadata: pageMetadata(
-      `Double Roller Blinds Melbourne | ${siteName}`,
-      "Custom double roller blinds combining sunscreen and blockout fabrics for day and night control. Free Melbourne measure and quote.",
-      "/images/double-roller-hero.png"
-    ),
+    metadata: pageMetadata({
+      title: "Double Roller Blinds Melbourne",
+      description: "Custom double roller blinds combining sunscreen and blockout fabrics for day and night control. Free Melbourne measure and quote.",
+      image: "/images/double-roller-hero.png",
+      path: "/blinds/double-roller-blinds",
+    }),
     intentLabel: "Day and night blind control",
     decisionGuide: [
       {
@@ -212,11 +196,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   honeycombBlinds: {
-    metadata: pageMetadata(
-      `Honeycomb Blinds Melbourne | Cellular Blinds | ${siteName}`,
-      "Energy-conscious honeycomb and cellular blinds for insulation, privacy and compact stacking. Free in-home measure and quote across Melbourne.",
-      "/images/product-unique/mcb-honeycomb-blinds-clean-energy-efficient-room-hero.webp"
-    ),
+    metadata: pageMetadata({
+      title: "Honeycomb Blinds Melbourne | Cellular Blinds",
+      description: "Energy-conscious honeycomb and cellular blinds for insulation, privacy and compact stacking. Free in-home measure and quote across Melbourne.",
+      image: "/images/product-unique/mcb-honeycomb-blinds-clean-energy-efficient-room-hero.webp",
+      path: "/blinds/honeycomb-blinds",
+    }),
     intentLabel: "Insulation and compact blind design",
     decisionGuide: [
       {
@@ -253,11 +238,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   venetianBlinds: {
-    metadata: pageMetadata(
-      `Venetian Blinds Melbourne | Timber, PVC and Aluminium | ${siteName}`,
-      "Custom Venetian blinds in timber, PVC composite and aluminium for precise light, privacy and airflow control. Free Melbourne measure and quote.",
-      "/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp"
-    ),
+    metadata: pageMetadata({
+      title: "Venetian Blinds Melbourne | Timber, PVC and Aluminium",
+      description: "Custom Venetian blinds in timber, PVC composite and aluminium for precise light, privacy and airflow control. Free Melbourne measure and quote.",
+      image: "/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp",
+      path: "/blinds/venetian-blinds",
+    }),
     intentLabel: "Tilt control for light, privacy and airflow",
     decisionGuide: [
       {
@@ -294,11 +280,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   romanBlinds: {
-    metadata: pageMetadata(
-      `Roman Blinds Melbourne | Soft Fabric Blinds | ${siteName}`,
-      "Custom Roman blinds for soft folds, tailored fabric texture and privacy in Melbourne bedrooms and living rooms. Free in-home measure and quote.",
-      "/assets/roman_blinds_closeup.png"
-    ),
+    metadata: pageMetadata({
+      title: "Roman Blinds Melbourne | Soft Fabric Blinds",
+      description: "Custom Roman blinds for soft folds, tailored fabric texture and privacy in Melbourne bedrooms and living rooms. Free in-home measure and quote.",
+      image: "/assets/roman_blinds_closeup.png",
+      path: "/blinds/roman-blinds",
+    }),
     intentLabel: "Soft fabric blinds with a tailored finish",
     decisionGuide: [
       {
@@ -335,11 +322,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   verticalBlinds: {
-    metadata: pageMetadata(
-      `Vertical Blinds Melbourne | Sliding Door Blinds | ${siteName}`,
-      "Custom vertical blinds for sliding doors, wide windows and practical light control. Free Melbourne measure and quote.",
-      "/images/product-unique/mcb-vertical-blinds-sliding-door-hero.webp"
-    ),
+    metadata: pageMetadata({
+      title: "Vertical Blinds Melbourne | Sliding Door Blinds",
+      description: "Custom vertical blinds for sliding doors, wide windows and practical light control. Free Melbourne measure and quote.",
+      image: "/images/product-unique/mcb-vertical-blinds-sliding-door-hero.webp",
+      path: "/blinds/vertical-blinds",
+    }),
     intentLabel: "Practical control for sliding doors",
     decisionGuide: [
       {
@@ -376,11 +364,12 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
   },
   panelGlide: {
-    metadata: pageMetadata(
-      `Panel Glide Blinds Melbourne | Sliding Panel Blinds | ${siteName}`,
-      "Panel glide blinds for wide windows, sliding doors, wardrobes and room dividers. Free in-home measure and quote across Melbourne.",
-      "/images/product-unique/mcb-panel-glide-blinds-sliding-door-hero.webp"
-    ),
+    metadata: pageMetadata({
+      title: "Panel Glide Blinds Melbourne | Sliding Panel Blinds",
+      description: "Panel glide blinds for wide windows, sliding doors, wardrobes and room dividers. Free in-home measure and quote across Melbourne.",
+      image: "/images/product-unique/mcb-panel-glide-blinds-sliding-door-hero.webp",
+      path: "/blinds/panel-glide",
+    }),
     intentLabel: "Wide opening and sliding door advice",
     decisionGuide: [
       {

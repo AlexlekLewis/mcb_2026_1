@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Motorised Curtains Melbourne | Remote & App Control",
+    description: "Motorised curtains for remote, app, schedule and voice control on suitable curtain tracks. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-motorised-curtains-hero-track-remote.webp",
+    path: "/curtains/motorised",
+});
+
 
 export default function MotorisedCurtainsPage() {
     return (

@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 const projects = [
   { title: "Soft light living room", product: "S-Fold sheer curtains", image: "/images/sfold-curtain-detail.png" },
-  { title: "Bedroom privacy", product: "Blockout curtains and blinds", image: "/images/blockout-curtain-detail.png" },
+  { title: "Bedroom privacy", product: "Blockout curtains and blinds", image: "/images/blockout-curtain-detail.webp" },
   { title: "Energy-conscious windows", product: "Honeycomb blinds", image: "/assets/honeycomb_blinds.png" },
   { title: "Alfresco comfort", product: "Zipscreens and outdoor shade", image: "/assets/zipscreen_blinds.png" },
-  { title: "Timeless shutters", product: "Plantation shutters", image: "/images/plantation-shutters-hero.png" },
-  { title: "Airflow and security", product: "Security doors and fly screens", image: "/images/security-door-hero.png" },
+  { title: "Timeless shutters", product: "Plantation shutters", image: "/images/plantation-shutters-hero.webp" },
+  { title: "Airflow and security", product: "Security doors and fly screens", image: "/images/security-door-hero.webp" },
 ];
 
 export default function ProjectsPage() {

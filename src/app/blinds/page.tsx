@@ -15,7 +15,7 @@ export default function BlindsPage() {
             nearbyLocations={nearby}
             title="Custom Made-to-Measure Blinds Melbourne"
             subtitle="Roller, sunscreen, blockout, honeycomb, Venetian, Roman, specialty and motorised blinds."
-            heroImage="/assets/roller_blind_hero.png"
+            heroImage="/assets/roller_blind_hero.webp"
             description="From simple roller blinds to soft translucent light control, honeycomb insulation, Venetians, Romans and specialty blind systems, we help you choose the right blind for each room. Every blind is measured to fit and professionally installed."
             intentLabel="Light, privacy and heat control"
             features={[
@@ -68,7 +68,7 @@ export default function BlindsPage() {
                 {
                     title: "Roman Blinds",
                     description: "Add warmth and texture with the soft folds of a Roman blind. A sophisticated alternative that acts like a curtain but functions like a blind.",
-                    image: "/assets/roman_blinds.png",
+                    image: "/assets/roman_blinds.webp",
                     href: "/blinds/roman-blinds"
                 },
                 {
@@ -98,7 +98,7 @@ export default function BlindsPage() {
                 {
                     title: "Panel Glide Blinds",
                     description: "Wide fabric panels that glide smoothly across large doors and contemporary openings.",
-                    image: "/assets/panel_glide_blinds.png",
+                    image: "/assets/panel_glide_blinds.webp",
                     href: "/blinds/panel-glide"
                 },
                 {

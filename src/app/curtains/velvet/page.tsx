@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Velvet Curtains Melbourne | Custom Luxury Drapes",
+    description: "Custom velvet curtains for rich texture, warmth, acoustic softness and dramatic interiors. Free Melbourne in-home measure and quote.",
+    image: "/assets/velvet_curtains_hero.png",
+    path: "/curtains/velvet",
+});
+
 
 export default function VelvetCurtainsPage() {
     return (
@@ -30,7 +38,7 @@ export default function VelvetCurtainsPage() {
                 {
                     title: "Poly Velvet",
                     description: "Durable, stain-resistant, and possessing a slight sheen for glamour.",
-                    image: "/assets/velvet_poly_sheen.png"
+                    image: "/assets/velvet_poly_sheen.webp"
                 }
             ]}
         />

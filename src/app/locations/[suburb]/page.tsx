@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { LOCATIONS, getLocationBySlug, getNearbyLocations } from '@/lib/locations';
 import { ProductTemplate } from '@/components/ProductTemplate';
 import { SITE } from '@/lib/site';
+import { LOCATION_PRODUCTS } from '@/lib/location-products';
 
 interface Props {
     params: Promise<{
@@ -24,8 +25,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!suburb) return {};
 
     return {
-        title: `Curtains and Blinds ${suburb.name} | Free Measure & Quote`,
+        title: `Curtains & Blinds ${suburb.name} | Free Quote`,
         description: `Curtains and blinds in ${suburb.name} ${suburb.postcode}. Custom curtains, roller blinds, shutters, security doors, fly screens and awnings with free in-home measure and quote.`,
+        alternates: {
+            canonical: `/locations/${suburb.slug}`,
+        },
         openGraph: {
             title: `Curtains and Blinds ${suburb.name}`,
             description: `Free in-home measure and quote for custom curtains, blinds, shutters and security screens in ${suburb.name}.`,
@@ -62,26 +66,26 @@ export default async function LocationPage({ params }: Props) {
         {
             title: "Custom Blinds",
             description: `Modern roller, sunscreen, translucent, honeycomb, Venetian and specialty blinds for ${suburb.name} homes.`,
-            href: "/blinds",
-            image: "/assets/roller_blind_hero.png"
+            href: `/locations/${suburb.slug}/blinds`,
+            image: "/assets/roller_blind_hero.webp"
         },
         {
             title: "Custom Curtains",
             description: "Sheer, blockout, double, S-Fold and motorised curtains measured and installed.",
-            href: "/curtains",
+            href: `/locations/${suburb.slug}/curtains`,
             image: "/assets/curtain_hero.png"
         },
         {
             title: "Plantation Shutters",
             description: "Timeless plantation shutters that increase curbside appeal and offer superior light control.",
-            href: "/shutters",
-            image: "/images/plantation-shutters-hero.png"
+            href: `/locations/${suburb.slug}/shutters`,
+            image: "/images/plantation-shutters-hero.webp"
         },
         {
             title: "Security Doors & Screens",
             description: "Security doors, fly screens, pet mesh and window screens custom fitted for peace of mind.",
-            href: "/security",
-            image: "/images/security-door-hero.png"
+            href: `/locations/${suburb.slug}/security-doors`,
+            image: "/images/security-door-hero.webp"
         }
     ];
 
@@ -101,13 +105,12 @@ export default async function LocationPage({ params }: Props) {
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "-37.7431", // Default to Preston/Central if specific lat/long not available, or omit if strictly service area
-            "longitude": "145.0081"
+            "latitude": suburb.latitude,
+            "longitude": suburb.longitude
         },
         "areaServed": {
             "@type": "City",
-            "name": suburb.name,
-            "sameAs": `https://en.wikipedia.org/wiki/${suburb.name.replace(/\s+/g, '_')},_Victoria`
+            "name": suburb.name
         },
         "priceRange": "$$",
         "openingHoursSpecification": [
@@ -152,6 +155,15 @@ export default async function LocationPage({ params }: Props) {
                     { question: "Can you quote multiple products in one visit?", answer: "Yes. We can measure and quote curtains, blinds, shutters, security screens, awnings and motorisation during one appointment." },
                     { question: "Do you bring samples?", answer: "Yes. We bring suitable samples so you can compare colours and textures in your own home." },
                 ]}
+                internalLinks={{
+                    title: `Popular products in ${suburb.name}`,
+                    description: `Each product page is tailored for ${suburb.name} so customers can move from local intent to the right quote path quickly.`,
+                    links: LOCATION_PRODUCTS.map((product) => ({
+                        label: `${product.title} ${suburb.name}`,
+                        href: `/locations/${suburb.slug}/${product.slug}`,
+                        description: product.bestFor,
+                    })),
+                }}
             />
         </>
     );

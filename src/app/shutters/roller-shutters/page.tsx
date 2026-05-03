@@ -1,6 +1,14 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
+export const metadata = pageMetadata({
+    title: "Roller Shutters Melbourne | Security, Heat & Blockout",
+    description: "Custom roller shutters for exterior security, insulation, noise reduction and room darkening. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-roller-shutters-exterior-window-hero.webp",
+    path: "/shutters/roller-shutters",
+});
+
 
 export default function RollerShuttersPage() {
     const product = productData.find(p => p.slug === "roller-shutters");

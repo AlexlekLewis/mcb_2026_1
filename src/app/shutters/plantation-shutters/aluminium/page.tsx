@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Aluminium Shutters Melbourne | Outdoor & Alfresco",
+    description: "Aluminium shutters for alfresco areas, balconies and outdoor privacy. Free Melbourne in-home measure and quote.",
+    image: "/images/product-unique/mcb-aluminium-shutters-alfresco-hero.webp",
+    path: "/shutters/plantation-shutters/aluminium",
+});
+
 
 export default function AluminiumShuttersPage() {
     return (

@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Slimline Aluminium Venetian Blinds Melbourne",
+    description: "25mm slimline aluminium Venetian blinds for crisp light control, privacy and moisture-resistant performance. Free Melbourne in-home measure and quote.",
+    image: "/images/product-unique/mcb-slimline-aluminium-venetians-hero.webp",
+    path: "/blinds/venetian-blinds/slimline-aluminium",
+});
+
 
 export default function SlimlineAluminiumVenetiansPage() {
     return (

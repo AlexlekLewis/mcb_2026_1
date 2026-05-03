@@ -4,7 +4,7 @@ import { FinalCTA, ModernFitPromise, ProofBar, SecurityMoat } from "@/components
 import { quoteHref } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About Modern Curtains and Blinds | Melbourne Window Furnishings",
+  title: "About | Melbourne Window Furnishings",
   description: "Learn about Modern Curtains and Blinds, a Melbourne team providing custom curtains, blinds, shutters, security screens, awnings and motorisation with free in-home measure and quote.",
 };
 

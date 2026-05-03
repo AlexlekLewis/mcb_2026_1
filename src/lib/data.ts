@@ -101,7 +101,7 @@ export const productData: Product[] = [
         category: "Curtains",
         title: "Velvet Curtains | Luxury & Drama",
         description: "Add a touch of opulence with rich, heavy Velvet Curtains. Excellent for theatre rooms and formal living spaces.",
-        heroImage: "/images/velvet-curtains-hero.png",
+        heroImage: "/images/velvet-curtains-hero.webp",
         intro: {
             heading: "Velvet Curtains: Opulence & Warmth",
             body: "For a look of pure luxury, nothing compares to Velvet Curtains. Their dense pile absorbs light and sound, creating a cozy, intimate atmosphere. Perfect for formal dining rooms, master bedrooms, or home theatres where you want to make a dramatic statement."
@@ -127,7 +127,7 @@ export const productData: Product[] = [
         category: "Roller Blinds",
         title: "Blockout Roller Blinds | Sleek Privacy",
         description: "Minimalist design with maximum function. 100% privacy and light control. Custom made in Melbourne.",
-        heroImage: "/assets/roller_blockout_detail.png",
+        heroImage: "/assets/roller_blockout_detail.webp",
         intro: {
             heading: "Blockout Roller Blinds: Sleek & Functional",
             body: "The standard for modern functionality, our Blockout Roller Blinds offer a clean, minimalist aesthetic with maximum performance. When rolled down, they provide complete privacy and darkness. When rolled up, they disappear, leaving your view unobstructed."
@@ -195,7 +195,7 @@ export const productData: Product[] = [
         category: "Blinds",
         title: "Roman Blinds | Classic Soft Folds",
         description: "Classical elegance meets modern design. Featuring soft, folding fabrics for a sophisticated look.",
-        heroImage: "/assets/roman_blinds_hero.png",
+        heroImage: "/assets/roman_blinds_hero.webp",
         intro: {
             heading: "Roman Blinds: Timeless Elegance",
             body: "Roman Blinds bring the softness of curtains with the functionality of a blind. Featuring clean, horizontal folds that stack neatly when raised, they add a touch of formal sophistication to any room. Available in a vast range of blockout and light-filtering fabrics."
@@ -360,7 +360,7 @@ export const productData: Product[] = [
         category: "Outdoor",
         title: "Awnings | Shade & Style",
         description: "Protect your windows and patios from the harsh Australian sun with our range of stylish awnings.",
-        heroImage: "/assets/awning_hero.png",
+        heroImage: "/assets/awning_hero.webp",
         intro: {
             heading: "Awnings: First Line of Defence",
             body: "Stop the sun before it hits your glass. External Awnings are the most effective way to cool your home, preventing heat from entering your windows. From Auto-Lock arms to Folding Arm Awnings for patios, we have a solution for every exterior."
@@ -385,7 +385,7 @@ export const productData: Product[] = [
         category: "Security",
         title: "Security Doors | Style Meets Safety",
         description: "Protect your family without compromising on style. Custom made security doors and screens.",
-        heroImage: "/images/security-door-hero.png",
+        heroImage: "/images/security-door-hero.webp",
         intro: {
             heading: "Secure Your Home in Style",
             body: "Our range of security doors offers the highest level of protection while maintaining the aesthetic appeal of your home entrance."
@@ -405,7 +405,7 @@ export const productData: Product[] = [
         category: "Security",
         title: "Fly Screens | Insect Protection",
         description: "Keep the bugs out and let the fresh air in. Custom made for windows and doors.",
-        heroImage: "/images/sec-fly.png",
+        heroImage: "/images/sec-fly.webp",
         intro: {
             heading: "Fly Screens: Essential Ventilation",
             body: "Enjoy the fresh breeze without the buzzing guests. Our custom-made fly screens are essential for every Australian home. Available in standard fibreglass mesh, or upgrade to 'Pet Mesh' for paw-proof durability."

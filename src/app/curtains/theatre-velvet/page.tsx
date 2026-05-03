@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Theatre Velvet Curtains Melbourne | Acoustic Luxury",
+    description: "Heavy theatre velvet curtains for media rooms, formal spaces, acoustic softness and luxury drape. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-theatre-velvet-curtains-media-room-hero.webp",
+    path: "/curtains/theatre-velvet",
+});
+
 
 export default function TheatreVelvetCurtainsPage() {
     return (

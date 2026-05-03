@@ -28,12 +28,12 @@ export default function SunscreenBlindsPage() {
                 {
                     title: "3% Openness",
                     description: "Good balance of view and privacy.",
-                    image: "/images/sunscreen-blind-detail.png"
+                    image: "/images/sunscreen-blind-detail.webp"
                 },
                 {
                     title: "5% Openness",
                     description: "Better view, standard UV protection.",
-                    image: "/images/sunscreen-blind-view.png"
+                    image: "/images/sunscreen-blind-view.webp"
                 }
             ]}
             decisionGuide={content.decisionGuide}

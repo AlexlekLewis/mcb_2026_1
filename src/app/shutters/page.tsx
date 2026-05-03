@@ -15,7 +15,7 @@ export default function ShuttersPage() {
             nearbyLocations={nearby}
             title="Plantation Shutters Melbourne"
             subtitle="Timber, PVC, Aluminium and Outdoor."
-            heroImage="/assets/Landing_Page_Sample.png" // Using the sample image which looks like a nice interior scene
+            heroImage="/assets/Landing_Page_Sample.webp" // Using the sample image which looks like a nice interior scene
             description="Add privacy, airflow, insulation and long-term value with shutters made to fit your windows. We help you choose timber for warmth, polymer for wet areas, aluminium for outdoors, or roller shutters for security and blockout."
             intentLabel="Long-term value and airflow"
             features={[
@@ -48,7 +48,7 @@ export default function ShuttersPage() {
                 {
                     title: "Timber Shutters",
                     description: "Crafted from premium, sustainable Basswood. Lightweight and stained or painted to perfection for a classic look.",
-                    image: "/assets/timber_shutters.png",
+                    image: "/assets/timber_shutters.webp",
                     href: "/shutters/plantation-shutters/timber"
                 },
                 {
@@ -60,13 +60,13 @@ export default function ShuttersPage() {
                 {
                     title: "Outdoor Shutters",
                     description: "Aluminium shutters designed to withstand the Melbourne weather. Enclose your patio or balcony for all-season use.",
-                    image: "/assets/outdoor_shutters_balcony.png",
+                    image: "/assets/outdoor_shutters_balcony.webp",
                     href: "/shutters/plantation-shutters/aluminium"
                 },
                 {
                     title: "Roller Shutters",
                     description: "Exterior aluminium shutters for stronger security, total blockout, insulation and noise reduction.",
-                    image: "/images/roller-shutters.png",
+                    image: "/images/roller-shutters.webp",
                     href: "/shutters/roller-shutters"
                 }
             ]}

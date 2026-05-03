@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Blockout Curtains Melbourne | Bedrooms & Media Rooms",
+    description: "Custom blockout curtains for privacy, room darkening, insulation and better sleep. Free in-home measure and quote across Melbourne.",
+    image: "/images/product-unique/mcb-blockout-curtains-bedroom-hero.webp",
+    path: "/curtains/blockout",
+});
+
 
 export default function BlockoutCurtainsPage() {
     return (

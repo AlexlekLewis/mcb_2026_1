@@ -4,12 +4,12 @@ import { ArrowRight } from "lucide-react";
 
 // Using the provided assets
 const CATEGORIES = [
-    { title: "Roller Blinds", image: "/assets/roller_blind_hero.png", href: "/blinds", size: "start" },
+    { title: "Roller Blinds", image: "/assets/roller_blind_hero.webp", href: "/blinds", size: "start" },
     { title: "Curtains", image: "/assets/curtain_hero.png", href: "/curtains", size: "start" },
     { title: "Plantation Shutters", image: "/assets/plantation_shutters_homepage.png", href: "/shutters", size: "small" },
     { title: "Roller Shutters", image: "/assets/roller_shutters_homepage.png", href: "/shutters/roller-shutters", size: "small" },
-    { title: "Security Doors and Fly Screens", image: "/assets/security_door_hero.png", href: "/security", size: "small" },
-    { title: "Outdoor", image: "/assets/awning_hero.png", href: "/awnings", size: "small" },
+    { title: "Security Doors and Fly Screens", image: "/assets/security_door_hero.webp", href: "/security", size: "small" },
+    { title: "Outdoor", image: "/assets/awning_hero.webp", href: "/awnings", size: "small" },
 ];
 
 export function CategoryGrid() {

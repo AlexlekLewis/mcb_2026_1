@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Sheer Curtains Melbourne | Custom Sheers",
+    description: "Custom sheer curtains for soft light, daytime privacy and elegant living spaces. Free Melbourne in-home measure and quote.",
+    image: "/images/product-unique/mcb-sheer-curtains-soft-light-hero.webp",
+    path: "/curtains/sheer",
+});
+
 
 export default function SheerCurtainsPage() {
     return (

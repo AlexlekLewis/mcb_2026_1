@@ -1,6 +1,14 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
+export const metadata = pageMetadata({
+    title: "Translucent Curtains Melbourne | Light Filtering Privacy",
+    description: "Custom translucent curtains for filtered daylight, glare reduction and privacy without full blockout. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-translucent-curtains-light-filtering-hero.webp",
+    path: "/curtains/translucent-curtains",
+});
+
 
 export default function TranslucentCurtainsPage() {
     const product = productData.find(p => p.slug === "translucent-curtains");

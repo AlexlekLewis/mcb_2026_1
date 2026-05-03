@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Pleated Curtains Melbourne | Pinch, Pencil & Box Pleat",
+    description: "Custom pleated curtains for tailored classic interiors, bedrooms and formal rooms. Free Melbourne in-home measure and quote.",
+    image: "/assets/pleated_curtains_hero.png",
+    path: "/curtains/pleated-curtains",
+});
+
 
 export default function PleatedCurtainsPage() {
     return (
@@ -25,7 +33,7 @@ export default function PleatedCurtainsPage() {
                 {
                     title: "Formal Dining",
                     description: "Create a sense of occasion with heavy, pinch-pleated drapes.",
-                    image: "/assets/pleated_pinch_formal.png"
+                    image: "/assets/pleated_pinch_formal.webp"
                 },
                 {
                     title: "Classic Bedroom",

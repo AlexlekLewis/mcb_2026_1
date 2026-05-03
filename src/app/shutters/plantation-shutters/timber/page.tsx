@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Timber Plantation Shutters Melbourne",
+    description: "Timber plantation shutters for natural warmth, premium interiors and adjustable light control. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-timber-plantation-shutters-hero.webp",
+    path: "/shutters/plantation-shutters/timber",
+});
+
 
 export default function TimberShuttersPage() {
     return (

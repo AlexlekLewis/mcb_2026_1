@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "S-Fold Curtains Melbourne | Wave Curtains",
+    description: "S-Fold and wave curtains for modern flowing tracks, soft sheers and blockout fabrics. Free Melbourne measure and quote.",
+    image: "/images/sfold-curtain-detail.png",
+    path: "/curtains/s-fold",
+});
+
 
 export default function SFoldCurtainsPage() {
     return (
@@ -30,7 +38,7 @@ export default function SFoldCurtainsPage() {
                 {
                     title: "Blockout S-Fold",
                     description: "Total light exclusion with the same elegant wave. Perfect for bedrooms and home theatres.",
-                    image: "/images/blockout-curtain-detail.png"
+                    image: "/images/blockout-curtain-detail.webp"
                 }
             ]}
         />

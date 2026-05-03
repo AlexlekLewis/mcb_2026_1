@@ -20,7 +20,7 @@ const SLIDES = [
     {
         id: "security",
         type: "image",
-        src: "/assets/security_door_hero.png",
+        src: "/assets/security_door_hero.webp",
         headline: "Protect What Matters.",
         subhead: "Custom security doors with strength, airflow and street appeal.",
         cta: "Book a Free Measure and Quote",
@@ -30,7 +30,7 @@ const SLIDES = [
     {
         id: "blinds",
         type: "image",
-        src: "/assets/roller_blind_hero.png",
+        src: "/assets/roller_blind_hero.webp",
         headline: "Motorisation Sale.",
         subhead: "Up to 40% Off Motorised Roller Blinds. New Year Special.",
         cta: "View Offers",

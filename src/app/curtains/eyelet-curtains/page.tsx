@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Eyelet Curtains Melbourne | Custom Curtain Rod Style",
+    description: "Custom eyelet curtains for simple rods, soft waves and easy operation. Free in-home measure and quote across Melbourne.",
+    image: "/assets/eyelet_curtains_hero.png",
+    path: "/curtains/eyelet-curtains",
+});
+
 
 export default function EyeletCurtainsPage() {
     return (
@@ -25,7 +33,7 @@ export default function EyeletCurtainsPage() {
                 {
                     title: "Modern Living",
                     description: "A practical and stylish choice for high-traffic family rooms.",
-                    image: "/assets/eyelet_modern_living.png"
+                    image: "/assets/eyelet_modern_living.webp"
                 },
                 {
                     title: "Kids Rooms",

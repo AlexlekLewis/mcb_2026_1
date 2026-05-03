@@ -28,7 +28,7 @@ export default function BlockoutBlindsPage() {
                 {
                     title: "Blockout Roller",
                     description: "Sleek and simple with total light block.",
-                    image: "/images/blockout-roller-fabric.png"
+                    image: "/images/blockout-roller-fabric.webp"
                 },
                 {
                     title: "Blockout Roman",

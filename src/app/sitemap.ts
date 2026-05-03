@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next'
 import { LOCATIONS } from '@/lib/locations'
 import { productData } from '@/lib/data'
+import { LOCATION_PRODUCTS } from '@/lib/location-products'
+import { getProductCanonicalPath } from '@/lib/product-canonicals'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://moderncurtainsandblinds.com.au'
@@ -66,12 +68,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: route === '' ? 1 : 0.8,
     }))
 
-    const productRoutes = productData.map((product) => ({
-        url: `${baseUrl}/products/${product.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly' as const,
-        priority: 0.9,
-    }))
+    const productRoutes = productData
+        .filter((product) => getProductCanonicalPath(product.slug) === `/products/${product.slug}`)
+        .map((product) => ({
+            url: `${baseUrl}/products/${product.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        }))
 
     const locationRoutes = LOCATIONS.map((loc) => ({
         url: `${baseUrl}/locations/${loc.slug}`,
@@ -80,5 +84,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
     }))
 
-    return [...coreRoutes, ...productRoutes, ...locationRoutes]
+    const locationProductRoutes = LOCATIONS.flatMap((loc) =>
+        LOCATION_PRODUCTS.map((product) => ({
+            url: `${baseUrl}/locations/${loc.slug}/${product.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.65,
+        }))
+    )
+
+    return [...coreRoutes, ...productRoutes, ...locationRoutes, ...locationProductRoutes]
 }

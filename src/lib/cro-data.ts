@@ -90,31 +90,31 @@ export const categoryCards = [
     title: "Blinds",
     description: "Roller, sunscreen, blockout, translucent, honeycomb, Venetian, Roman, vertical, panel glide and specialty blinds.",
     href: "/blinds",
-    image: "/assets/roller_blind_hero.png",
+    image: "/assets/roller_blind_hero.webp",
   },
   {
     title: "Plantation Shutters",
     description: "Timber, polymer/PVC, aluminium, outdoor and roller shutter options.",
     href: "/shutters",
-    image: "/images/plantation-shutters-hero.png",
+    image: "/images/plantation-shutters-hero.webp",
   },
   {
     title: "Security Doors & Screens",
     description: "Security doors, fly screens, pet mesh, window screens and stainless mesh options.",
     href: "/security",
-    image: "/images/security-door-hero.png",
+    image: "/images/security-door-hero.webp",
   },
   {
     title: "Outdoor Blinds & Awnings",
     description: "Zipscreens, folding arm awnings, window awnings, outdoor shutters and alfresco shade.",
     href: "/awnings",
-    image: "/assets/awning_hero.png",
+    image: "/assets/awning_hero.webp",
   },
   {
     title: "Motorisation",
     description: "Motorised blinds, curtains, awnings, remotes, hubs, schedules and smart-home control.",
     href: "/motorisation",
-    image: "/assets/motorised_rollers.png",
+    image: "/assets/motorised_rollers.webp",
   },
 ];
 

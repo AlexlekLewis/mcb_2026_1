@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Timber Venetian Blinds Melbourne | Urban Wood",
+    description: "Urban timber Venetian blinds for natural warmth, tilt control and custom painted or stained finishes. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp",
+    path: "/blinds/venetian-blinds/urban-wood",
+});
+
 
 export default function UrbanTimberVenetiansPage() {
     return (

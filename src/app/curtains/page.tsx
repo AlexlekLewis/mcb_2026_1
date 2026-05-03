@@ -75,7 +75,7 @@ export default function CurtainsPage() {
                 {
                     title: "Theatre Class Velvet",
                     description: "Rich, opulent textures for media rooms and formal lounges. Heavyweight velvet drapes that dampen sound and create a true cinematic darkness.",
-                    image: "/images/blockout-curtain-detail.png",
+                    image: "/images/blockout-curtain-detail.webp",
                     href: "/curtains/theatre-velvet"
                 },
                 {

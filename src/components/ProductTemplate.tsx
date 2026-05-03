@@ -29,6 +29,16 @@ interface ComparisonRow {
     notes: string;
 }
 
+interface InternalLinkGroup {
+    title: string;
+    description?: string;
+    links: {
+        label: string;
+        href: string;
+        description?: string;
+    }[];
+}
+
 interface ProductTemplateProps {
     title: string;
     subtitle: string;
@@ -43,6 +53,7 @@ interface ProductTemplateProps {
     intentLabel?: string;
     decisionGuide?: ProductFeature[];
     comparisonRows?: ComparisonRow[];
+    internalLinks?: InternalLinkGroup;
 }
 
 // Animation variants for staggered children
@@ -157,6 +168,7 @@ export function ProductTemplate({
     intentLabel = "Made-to-measure advice",
     decisionGuide,
     comparisonRows,
+    internalLinks,
 }: ProductTemplateProps) {
     const heroRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
@@ -168,17 +180,18 @@ export function ProductTemplate({
     const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
     const quoteProduct = getQuoteProductLabel(title);
+    const effectiveFaq = faq.length > 0 ? faq : getDefaultFaq(title);
 
     return (
         <div className="bg-white min-h-screen overflow-x-hidden">
-            {faq.length > 0 && (
+            {effectiveFaq.length > 0 && (
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify({
                             "@context": "https://schema.org",
                             "@type": "FAQPage",
-                            mainEntity: faq.map((item) => ({
+                            mainEntity: effectiveFaq.map((item) => ({
                                 "@type": "Question",
                                 name: item.question,
                                 acceptedAnswer: {
@@ -236,21 +249,32 @@ export function ProductTemplate({
                         </motion.div>
 
                         <motion.h1
-                            initial={{ y: 50, opacity: 0, filter: "blur(10px)" }}
-                            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                            initial={false}
                             className="font-serif text-5xl md:text-7xl font-bold mb-6"
                         >
                             {title}
                         </motion.h1>
                         <motion.p
-                            initial={{ y: 30, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.3, duration: 0.8 }}
+                            initial={false}
                             className="text-xl md:text-2xl text-stone-200 font-light"
                         >
                             {subtitle}
                         </motion.p>
+
+                        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                            <Link
+                                href={quoteHref(quoteProduct)}
+                                className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-xl transition-colors hover:bg-white hover:text-mcb-charcoal"
+                            >
+                                Book free measure <ArrowRight className="h-4 w-4" />
+                            </Link>
+                            <a
+                                href="tel:1300732319"
+                                className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/40 px-6 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-mcb-charcoal"
+                            >
+                                <Phone className="h-4 w-4" /> Call 1300 732 319
+                            </a>
+                        </div>
 
                         {/* Scroll indicator */}
                         <motion.div
@@ -456,14 +480,14 @@ export function ProductTemplate({
             )}
 
             {/* FAQ Section */}
-            {faq.length > 0 && (
+            {effectiveFaq.length > 0 && (
                 <section className="py-20 bg-white">
                     <div className="container mx-auto px-6 max-w-4xl">
                         <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
                             Common Questions
                         </h2>
                         <div className="space-y-6">
-                            {faq.map((item, idx) => (
+                            {effectiveFaq.map((item, idx) => (
                                 <motion.div
                                     key={idx}
                                     initial={{ opacity: 0, y: 10 }}
@@ -560,6 +584,45 @@ export function ProductTemplate({
                     <PaymentOptions />
                 </div>
             </section>
+
+            {internalLinks && internalLinks.links.length > 0 && (
+                <section className="bg-white py-20">
+                    <div className="container mx-auto px-6">
+                        <div className="mx-auto mb-10 max-w-3xl text-center">
+                            <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">
+                                Local product pages
+                            </span>
+                            <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">
+                                {internalLinks.title}
+                            </h2>
+                            {internalLinks.description ? (
+                                <p className="mt-4 text-lg leading-relaxed text-stone-500">
+                                    {internalLinks.description}
+                                </p>
+                            ) : null}
+                        </div>
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            {internalLinks.links.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className="group rounded-sm border border-stone-200 bg-mcb-paper p-5 transition-colors hover:border-mcb-terracotta hover:bg-white"
+                                >
+                                    <span className="flex items-center justify-between gap-3 font-serif text-xl text-mcb-charcoal">
+                                        {link.label}
+                                        <ArrowRight className="h-4 w-4 shrink-0 text-mcb-terracotta transition-transform group-hover:translate-x-1" />
+                                    </span>
+                                    {link.description ? (
+                                        <span className="mt-2 block text-sm leading-relaxed text-stone-500">
+                                            {link.description}
+                                        </span>
+                                    ) : null}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Nearby Locations with hover animations */}
             {nearbyLocations && nearbyLocations.length > 0 && (
@@ -673,4 +736,23 @@ function getQuoteProductLabel(title: string) {
         .replace(/\s+Melbourne$/i, "")
         .replace(/\s+& Screens$/i, "")
         .trim();
+}
+
+function getDefaultFaq(title: string) {
+    const product = getQuoteProductLabel(title).toLowerCase();
+
+    return [
+        {
+            question: `Do you offer a free measure and quote for ${product}?`,
+            answer: "Yes. We provide a free in-home measure and quote, bring suitable samples, check the opening properly and explain the best options before anything is ordered.",
+        },
+        {
+            question: "Can you quote more than one product during the same visit?",
+            answer: "Yes. We can measure and quote curtains, blinds, shutters, security screens, awnings and motorisation during one appointment where suitable.",
+        },
+        {
+            question: `How do I know if ${product} is the right choice?`,
+            answer: "We assess light, privacy, heat, airflow, room use, fixing points and your preferred style during the in-home visit, then recommend the most suitable product and fabric or finish.",
+        },
+    ];
 }

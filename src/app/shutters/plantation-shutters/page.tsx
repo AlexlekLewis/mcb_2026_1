@@ -1,6 +1,14 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
+export const metadata = pageMetadata({
+    title: "Plantation Shutters Melbourne | Timber, Polymer & Aluminium",
+    description: "Custom plantation shutters for light control, airflow, privacy and long-term value. Free Melbourne in-home measure and quote.",
+    image: "/images/product-unique/mcb-timber-plantation-shutters-hero.webp",
+    path: "/shutters/plantation-shutters",
+});
+
 
 export default function PlantationShuttersPage() {
     const product = productData.find(p => p.slug === "plantation-shutters");
@@ -22,7 +30,7 @@ export default function PlantationShuttersPage() {
                 {
                     title: "Hydro-Proof Polymer",
                     description: "Engineered for wet areas. Fully waterproof reinforced polymer with an aluminium core. The perfect choice for bathrooms, kitchens, and laundries without compromising on style.",
-                    image: "/images/plantation-shutters-hero.png",
+                    image: "/images/plantation-shutters-hero.webp",
                     href: "/shutters/plantation-shutters/polymer"
                 },
                 {

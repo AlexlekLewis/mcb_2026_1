@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import Image from "next/image";
 import Link from "next/link";
 import { quoteHref, SITE } from "@/lib/site";
+import { getProductCanonicalPath } from "@/lib/product-canonicals";
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -21,6 +22,9 @@ export async function generateMetadata(
     return {
         title: product.title,
         description: product.description,
+        alternates: {
+            canonical: getProductCanonicalPath(product.slug),
+        },
     }
 }
 
@@ -37,6 +41,8 @@ export default async function ProductPage({ params }: Props) {
     if (!product) {
         notFound();
     }
+    const canonicalPath = getProductCanonicalPath(product.slug);
+    const hasStrongerGuide = canonicalPath !== `/products/${product.slug}`;
 
     return (
         <div className="bg-white">
@@ -69,6 +75,11 @@ export default async function ProductPage({ params }: Props) {
                                 <Calendar size={20} />
                                 Book a Free Measure & Quote
                             </Link>
+                            {hasStrongerGuide ? (
+                                <Link href={canonicalPath} className="text-center text-sm font-bold uppercase tracking-wider text-mcb-terracotta hover:text-stone-900">
+                                    View full buying guide
+                                </Link>
+                            ) : null}
                             <p className="text-xs text-center text-stone-500">
                                 No obligation. Samples brought to your home across Melbourne.
                             </p>

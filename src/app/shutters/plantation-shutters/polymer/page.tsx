@@ -1,4 +1,12 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
+export const metadata = pageMetadata({
+    title: "Polymer Plantation Shutters Melbourne | Wet Areas",
+    description: "Polymer plantation shutters for bathrooms, kitchens and laundries needing moisture-resistant custom shutters. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-polymer-shutters-bathroom-hero.webp",
+    path: "/shutters/plantation-shutters/polymer",
+});
+
 
 export default function PolymerShuttersPage() {
     return (

@@ -31,12 +31,12 @@ export default function RollerBlindsPage() {
                 {
                     title: "Premium Blockout Collection",
                     description: "Complete privacy and light exclusion. Featuring 100% blockout acrylic coated fabrics that provide exceptional thermal insulation and finish consistency.",
-                    image: "/assets/roller_blockout_detail.png"
+                    image: "/assets/roller_blockout_detail.webp"
                 },
                 {
                     title: "Solar Control Screen",
                     description: "Engineered to cut glare and UV rays while preserving your view. Essential for protecting furniture and flooring from sun damage without losing connection to the outdoors.",
-                    image: "/assets/roller_sunscreen_detail.png"
+                    image: "/assets/roller_sunscreen_detail.webp"
                 },
                 {
                     title: "Designer Light Filtering",

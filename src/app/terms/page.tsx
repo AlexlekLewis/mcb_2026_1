@@ -1,4 +1,11 @@
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Terms and Conditions",
+    description: "Terms and conditions for Modern Curtains and Blinds custom-made products, quotes, delivery, installation and warranties.",
+};
+
 export default function TermsPage() {
     return (
         <div className="min-h-screen bg-stone-50 pt-32 pb-20">

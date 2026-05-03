@@ -132,7 +132,7 @@ export function SecurityMoat() {
           </div>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
-          <Image src="/images/security-door-hero.png" alt="Custom security door and screen solution for a Melbourne home" fill className="object-cover" />
+          <Image src="/images/security-door-hero.webp" alt="Custom security door and screen solution for a Melbourne home" fill className="object-cover" />
         </div>
       </div>
     </section>
@@ -193,6 +193,23 @@ export function ModernFitPromise() {
 export function FAQBlock({ items = defaultFaq }: { items?: { question: string; answer: string }[] }) {
   return (
     <section className="bg-white py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: items.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          }),
+        }}
+      />
       <div className="container mx-auto max-w-4xl px-4">
         <div className="mb-10 text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Questions</span>

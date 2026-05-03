@@ -1,4 +1,11 @@
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Privacy Policy",
+    description: "Privacy policy for Modern Curtains and Blinds website enquiries, quote requests and customer communications.",
+};
+
 export default function PrivacyPage() {
     return (
         <div className="min-h-screen bg-stone-50 pt-32 pb-20">

@@ -1,6 +1,14 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
+import { pageMetadata } from "@/lib/metadata";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
+export const metadata = pageMetadata({
+    title: "Zipscreens Melbourne | Alfresco Outdoor Blinds",
+    description: "Custom zipscreens for alfresco shade, wind protection, privacy and outdoor comfort. Free Melbourne measure and quote.",
+    image: "/images/product-unique/mcb-zipscreens-alfresco-hero.webp",
+    path: "/awnings/zipscreens",
+});
+
 
 export default function ZipscreensPage() {
     const product = productData.find(p => p.slug === "zipscreens");
