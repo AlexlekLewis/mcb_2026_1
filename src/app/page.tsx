@@ -4,6 +4,7 @@ import {
   BrowseByNeed,
   ExpandedCategoryGrid,
   FAQBlock,
+  FamilyBusinessStory,
   FinalCTA,
   ModernFitPromise,
   ProcessStrip,
@@ -50,6 +51,7 @@ export default function Home() {
       <ProofBar />
       <BrowseByNeed />
       <ExpandedCategoryGrid />
+      <FamilyBusinessStory />
       <ProcessStrip />
       <SecurityMoat />
       <ModernFitPromise />

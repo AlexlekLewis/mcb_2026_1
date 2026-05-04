@@ -118,6 +118,50 @@ export function ProcessStrip() {
   );
 }
 
+export function FamilyBusinessStory() {
+  return (
+    <section className="bg-white py-20">
+      <div className="container mx-auto grid items-center gap-12 px-4 lg:grid-cols-[0.78fr_1fr]">
+        <div className="mx-auto w-full max-w-sm">
+          <div className="relative mx-auto aspect-square w-full max-w-[19rem] overflow-hidden rounded-full border-8 border-mcb-paper shadow-xl shadow-stone-200/80">
+            <Image
+              src="/assets/mcb-owners.jpg"
+              alt="Owners of Modern Curtains and Blinds"
+              fill
+              sizes="(min-width: 1024px) 304px, 80vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="mx-auto mt-6 max-w-xs border-l-4 border-mcb-terracotta bg-mcb-paper px-5 py-4">
+            <p className="text-sm font-bold uppercase tracking-widest text-mcb-charcoal">Family-owned Melbourne business</p>
+            <p className="mt-1 text-sm leading-relaxed text-stone-500">Personal advice from people who care how it looks, fits and lasts.</p>
+          </div>
+        </div>
+        <div>
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">The people behind the measure</span>
+          <h2 className="mb-6 font-serif text-3xl text-mcb-charcoal md:text-5xl">
+            A family business with 30+ years of hands-on experience
+          </h2>
+          <div className="space-y-5 text-lg leading-relaxed text-stone-600">
+            <p>
+              Modern Curtains and Blinds is run by real people, not a call centre. You get practical guidance from a local team that understands Melbourne homes, tricky windows, changing light and the details that make custom window furnishings feel finished.
+            </p>
+            <p>
+              From the first measure to the final install, the focus is simple: clear advice, careful measuring, quality products and a result the family would be happy to put in their own home.
+            </p>
+          </div>
+          <Link
+            href="/about"
+            className="mt-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-mcb-terracotta transition-colors hover:text-mcb-charcoal"
+          >
+            Read our story <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function SecurityMoat() {
   return (
     <section className="bg-mcb-charcoal py-20 text-white">
