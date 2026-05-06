@@ -103,7 +103,6 @@ const suggestedQuestions: SuggestedQuestion[] = [
   { label: "Price", question: "How much will this cost?" },
   { label: "Availability", question: "When can you come out to measure?" },
   { label: "Warranty", question: "What warranty do you offer?" },
-  { label: "Showroom", question: "Do you have a showroom?" },
   { label: "Repairs", question: "Do you do repairs or replacement parts?" },
 ];
 

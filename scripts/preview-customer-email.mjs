@@ -106,7 +106,7 @@ function buildCustomerHtml(f) {
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04);">
 
           <tr>
-            <td style="background-color:#2D2D2D;padding:32px 24px;text-align:center;">
+            <td style="background-color:#ffffff;padding:28px 24px;text-align:center;">
               <img src="${LOGO_URL}" alt="Modern Curtains and Blinds" width="240" style="display:inline-block;width:240px;max-width:65%;height:auto;" />
             </td>
           </tr>
@@ -115,18 +115,18 @@ function buildCustomerHtml(f) {
 
           <tr>
             <td style="padding:36px 32px 12px 32px;">
-              <h1 style="margin:0 0 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.25;color:#2D2D2D;font-weight:normal;">
-                Hi ${escapeHtml(greetingName)} &mdash; thank you for reaching out.
+              <h1 style="margin:0 0 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:28px;line-height:1.25;color:#2D2D2D;font-weight:normal;">
+                Thank You, ${escapeHtml(greetingName)}.
               </h1>
 
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:16px;">
                 <tr>
                   <td width="92" style="vertical-align:top;padding-right:18px;">
-                    <img src="${OWNERS_PHOTO_URL}" alt="Dean and Dee, owners" width="80" style="display:block;width:80px;height:80px;border-radius:40px;object-fit:cover;border:2px solid #C69C85;" />
+                    <img src="${OWNERS_PHOTO_URL}" alt="Deane and Dee, owners" width="80" style="display:block;width:80px;height:80px;border-radius:40px;object-fit:cover;border:2px solid #C69C85;" />
                   </td>
                   <td style="vertical-align:top;color:#2D2D2D;font-size:15px;line-height:1.7;">
                     <p style="margin:0 0 12px 0;">
-                      Just a quick note from Dee and me &mdash; we've got your enquiry, and one of us will personally be in touch <strong style="color:#B26E2D;">within the next 24 hours</strong> to organise a time that suits you.
+                      Just a quick note from us &mdash; Deane and I have got your enquiry, and one of us will personally be in touch <strong style="color:#B26E2D;">within the next 24 hours</strong> to organise a time that suits you.
                     </p>
                     <p style="margin:0;">
                       We're a family-owned Melbourne business and we genuinely care about getting this right for you. When we come out, we'll bring samples, measure properly, and walk you through every option so you can make a confident decision &mdash; no scripts, no pressure, no upsell.
@@ -141,7 +141,7 @@ function buildCustomerHtml(f) {
 
               <p style="margin:18px 0 0 0;color:#2D2D2D;font-size:15px;line-height:1.5;">
                 Warm regards,<br />
-                <span style="font-family:Georgia,'Times New Roman',serif;font-size:18px;color:#2D2D2D;">Dean &amp; Dee</span><br />
+                <span style="font-family:Georgia,'Times New Roman',serif;font-size:18px;color:#2D2D2D;">Dee</span><br />
                 <span style="color:#6B655C;font-size:13px;">Modern Curtains and Blinds</span>
               </p>
             </td>
@@ -228,7 +228,7 @@ function buildCustomerHtml(f) {
                 Need to reach us sooner?
               </h2>
               <p style="margin:0;color:#2D2D2D;font-size:15px;line-height:1.7;">
-                Call us on <a href="tel:1300732319" style="color:#B26E2D;text-decoration:none;font-weight:bold;">1300 732 319</a> or simply reply to this email &mdash; it lands directly with Dean and Dee.
+                Call us on <a href="tel:1300732319" style="color:#B26E2D;text-decoration:none;font-weight:bold;">1300 732 319</a> or simply reply to this email &mdash; it lands directly with me.
               </p>
             </td>
           </tr>

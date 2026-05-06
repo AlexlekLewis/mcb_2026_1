@@ -15,7 +15,6 @@ const referralOptions = [
   "Google Search",
   "Facebook or Instagram",
   "Friend or family referral",
-  "Drove past the showroom",
   "Repeat customer",
   "Card or brochure left for me",
   "Local advertising",
