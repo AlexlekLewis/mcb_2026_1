@@ -247,7 +247,7 @@ function buildCustomerHtml(f: CustomerEmailFields) {
                   </td>
                   <td style="vertical-align:top;color:#2D2D2D;font-size:15px;line-height:1.7;">
                     <p style="margin:0 0 12px 0;">
-                      Just a quick note from me &mdash; Deane and I have got your enquiry, and one of us will personally be in touch <strong style="color:#B26E2D;">within the next 24 hours</strong> to organise a time that suits you.
+                      Just a quick note from us &mdash; Deane and I have got your enquiry, and one of us will personally be in touch <strong style="color:#B26E2D;">within the next 24 hours</strong> to organise a time that suits you.
                     </p>
                     <p style="margin:0;">
                       We're a family-owned Melbourne business and we genuinely care about getting this right for you. When we come out, we'll bring samples, measure properly, and walk you through every option so you can make a confident decision &mdash; no scripts, no pressure, no upsell.
@@ -392,7 +392,7 @@ function buildCustomerText(f: Pick<CustomerEmailFields, 'firstName' | 'selectedP
   const lines = [
     `Hi ${greetingName},`,
     '',
-    `Just a quick note from me — Deane and I have got your enquiry, and one of us will personally be in touch within the next 24 hours to organise a time that suits you.`,
+    `Just a quick note from us — Deane and I have got your enquiry, and one of us will personally be in touch within the next 24 hours to organise a time that suits you.`,
     '',
     `We're a family-owned Melbourne business and we genuinely care about getting this right for you. When we come out, we'll bring samples, measure properly, and walk you through every option so you can make a confident decision — no scripts, no pressure, no upsell.`,
     '',
