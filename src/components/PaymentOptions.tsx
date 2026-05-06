@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRight, BadgeCheck, CreditCard } from "lucide-react";
 import { quoteHref } from "@/lib/site";
 
@@ -11,6 +14,9 @@ interface PaymentOptionsProps {
 const disclaimer = "Finance is subject to Payright approval. Fees, terms and conditions apply.";
 
 export function PaymentOptions({ topOffset = false, variant = "section" }: PaymentOptionsProps) {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/dashboard")) return null;
+
   if (variant === "banner") {
     return (
       <section className={`bg-mcb-charcoal text-white ${topOffset ? "pt-[112px] md:pt-[116px] lg:pt-[120px]" : ""}`}>

@@ -11,7 +11,7 @@ export function StickyMobileCTA() {
     const pathname = usePathname();
 
     // Hide on quote page to avoid clutter
-    const isQuotePage = pathname === "/quote";
+    const isHiddenPage = pathname === "/quote" || pathname?.startsWith("/dashboard");
 
     useEffect(() => {
         const handleScroll = () => {
@@ -23,7 +23,7 @@ export function StickyMobileCTA() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    if (isQuotePage) return null;
+    if (isHiddenPage) return null;
 
     return (
         <AnimatePresence>

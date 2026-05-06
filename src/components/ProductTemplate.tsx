@@ -498,7 +498,7 @@ export function ProductTemplate({
                     viewport={{ once: true }}
                     className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-16 text-center"
                 >
-                    Our Collection
+                    Which option is right for you?
                 </motion.h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                     {types.map((type, idx) => (

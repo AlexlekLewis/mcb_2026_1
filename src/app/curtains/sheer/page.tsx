@@ -31,7 +31,7 @@ export default function SheerCurtainsPage() {
             ]}
             types={[
                 {
-                    title: "Voile Sheers",
+                    title: "Polyester Sheers",
                     description: "Ultra-light, transparent fabrics that dance in the breeze. The classic choice for a romantic aesthetic.",
                     image: "/images/product-unique/mcb-sheer-curtain-light-diffusion-detail.webp"
                 },

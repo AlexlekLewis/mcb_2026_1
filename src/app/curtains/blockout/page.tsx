@@ -17,7 +17,7 @@ export default function BlockoutCurtainsPage() {
             description="For bedrooms, nurseries, and home theatres, our Luxury Blockout Collection delivers 100% light exclusion without sacrificing aesthetics. These heavyweight fabrics feature an acrylic coating that blocks light completely while offering superior thermal insulation – keeping rooms cooler in summer and warmer in winter."
             features={[
                 {
-                    title: "100% Light Blockout",
+                    title: "Light Block",
                     description: "True darkness at any time of day. Essential for shift workers, light-sensitive sleepers, and media rooms."
                 },
                 {

@@ -1,10 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
 
 export function EventTracker() {
+  const pathname = usePathname();
+  const isDashboard = pathname?.startsWith("/dashboard");
+
   useEffect(() => {
+    if (isDashboard) return;
+
+    trackEvent("page_view", {
+      page_path: pathname || window.location.pathname,
+    });
+  }, [isDashboard, pathname]);
+
+  useEffect(() => {
+    if (isDashboard) return;
+
     const handleClick = (event: MouseEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
@@ -43,7 +57,7 @@ export function EventTracker() {
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
-  }, []);
+  }, [isDashboard]);
 
   return null;
 }

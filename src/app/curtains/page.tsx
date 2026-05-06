@@ -96,6 +96,7 @@ export default function CurtainsPage() {
                 { question: "What curtain heading is most modern?", answer: "S-Fold curtains are the most popular modern heading because they create consistent waves and work beautifully on large windows." },
                 { question: "Can you layer curtains?", answer: "Yes. Double curtains combine a sheer and a blockout layer for flexible privacy, light and insulation." },
                 { question: "Will you bring fabric samples?", answer: "Yes. We bring samples so you can see colours, textures and opacity in your own home." },
+                { question: "Can I source my own fabric?", answer: "Absolutely. Our experienced workroom is equipped to make up curtains in any fabric you supply, with the same quality finish as our in-house range." },
             ]}
         />
     );

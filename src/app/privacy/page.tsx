@@ -43,6 +43,13 @@ const privacySections = [
     ],
   },
   {
+    title: "Website Analytics",
+    body: [
+      "We use website analytics to understand page visits, quote form usage, phone taps, chat interactions, campaign sources and general website performance.",
+      "Analytics events may include page paths, referral details, campaign parameters, device/browser information and a privacy-preserving hashed IP value. We do not use this information to sell personal data.",
+    ],
+  },
+  {
     title: "Contact",
     body: [
       `For privacy questions or to update your details, contact Modern Curtains and Blinds at ${SITE.email} or call ${SITE.phoneDisplay}.`,

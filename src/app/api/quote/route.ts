@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { booleanValue, getRequestMeta, objectOrEmpty, stringArray, stringOrNull } from '@/lib/server/request-meta';
+import { getSupabaseAdmin } from '@/lib/supabase/admin';
 
 function escapeHtml(value: unknown) {
   return String(value ?? '')
@@ -12,7 +14,7 @@ function escapeHtml(value: unknown) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = objectOrEmpty(await request.json());
     const {
       firstName,
       lastName,
@@ -29,7 +31,9 @@ export async function POST(request: Request) {
       needsAdvice,
       message,
     } = body;
-    const selectedProducts = Array.isArray(products) ? products : [];
+    const selectedProducts = stringArray(products);
+
+    await storeLeadSubmission(request, body, selectedProducts);
 
     // 1. Create a Transporter
     // Note: You must configure these env vars in .env.local
@@ -105,4 +109,49 @@ export async function POST(request: Request) {
     console.error("Error sending email:", error);
     return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
   }
+}
+
+async function storeLeadSubmission(
+  request: Request,
+  body: Record<string, unknown>,
+  selectedProducts: string[]
+) {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return;
+
+  const { userAgent, ipHash } = getRequestMeta(request);
+  const source = getLeadSource(body.source);
+
+  const { error } = await supabase.from("lead_submissions").insert({
+    source,
+    first_name: stringOrNull(body.firstName, 120),
+    last_name: stringOrNull(body.lastName, 120),
+    email: stringOrNull(body.email, 254),
+    phone: stringOrNull(body.phone, 80),
+    suburb: stringOrNull(body.suburb, 180),
+    product_interests: selectedProducts,
+    window_count: stringOrNull(body.windowCount, 80),
+    referral: stringOrNull(body.referral, 180),
+    referrer_name: stringOrNull(body.referrerName, 180),
+    best_contact_time: stringOrNull(body.bestContactTime, 120),
+    appointment_preference: stringOrNull(body.appointmentPreference, 180),
+    project_stage: stringOrNull(body.projectStage, 180),
+    needs_advice: booleanValue(body.needsAdvice),
+    message: stringOrNull(body.message, 4000),
+    tracking_context: objectOrEmpty(body.trackingContext),
+    user_agent: userAgent,
+    ip_hash: ipHash,
+  });
+
+  if (error) {
+    console.error("Failed to store lead submission:", error);
+  }
+}
+
+function getLeadSource(value: unknown) {
+  if (value === "chat_widget") return "chat_widget";
+  if (value === "manual") return "manual";
+  if (value === "import") return "import";
+  if (value === "other") return "other";
+  return "quote_form";
 }

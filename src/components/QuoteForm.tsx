@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ArrowRight, CalendarDays, Check, ChevronLeft, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
 import { quoteProductOptions } from "@/lib/cro-data";
 import { SITE } from "@/lib/site";
-import { trackEvent } from "@/lib/analytics";
+import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const windowOptions = ["1-5", "5-10", "10-20", "20+"];
@@ -109,7 +109,11 @@ export default function QuoteForm() {
       const res = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          source: "quote_form",
+          trackingContext: getClientTrackingContext(),
+        }),
       });
 
       trackEvent(res.ok ? "quote_success" : "quote_error", getQuoteTrackingPayload(formData));
