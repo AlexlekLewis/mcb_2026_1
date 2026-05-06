@@ -38,6 +38,11 @@ function detectBot(ua: string): string | null {
 }
 
 export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+    const dashboardResponse = getDashboardAuthResponse(request);
+    if (dashboardResponse) return dashboardResponse;
+  }
+
   const ua = request.headers.get("user-agent") || "";
   const botId = detectBot(ua);
 
@@ -63,6 +68,27 @@ export function middleware(request: NextRequest) {
   }
 
   return response;
+}
+
+function getDashboardAuthResponse(request: NextRequest) {
+  if (request.nextUrl.pathname === "/dashboard/login") {
+    return null;
+  }
+
+  const dashboardPassword = process.env.DASHBOARD_PASSWORD;
+  if (!dashboardPassword) {
+    return null;
+  }
+
+  const sessionCookie = request.cookies.get("mcb_dashboard_session")?.value;
+  if (sessionCookie === dashboardPassword) {
+    return null;
+  }
+
+  const loginUrl = request.nextUrl.clone();
+  loginUrl.pathname = "/dashboard/login";
+  loginUrl.searchParams.set("next", request.nextUrl.pathname);
+  return NextResponse.redirect(loginUrl);
 }
 
 // Run on all non-static requests. Skips _next, static assets, and api/quote
