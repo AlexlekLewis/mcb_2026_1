@@ -13,6 +13,7 @@ const contactTimes = ["Morning", "Afternoon", "Evening", "Anytime"];
 const projectStages = ["Ready to book", "Comparing options", "Building or renovating", "Just need advice"];
 const referralOptions = [
   "Google Search",
+  "AI search (ChatGPT, Gemini, Claude, etc.)",
   "Facebook or Instagram",
   "Friend or family referral",
   "Repeat customer",
