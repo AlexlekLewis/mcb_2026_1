@@ -4,6 +4,7 @@ import { LOCATIONS, getLocationBySlug, getNearbyLocations } from '@/lib/location
 import { ProductTemplate } from '@/components/ProductTemplate';
 import { SITE } from '@/lib/site';
 import { LOCATION_PRODUCTS } from '@/lib/location-products';
+import { PageViewTracker } from '@/components/PageViewTracker';
 
 interface Props {
     params: Promise<{
@@ -131,6 +132,15 @@ export default async function LocationPage({ params }: Props) {
 
     return (
         <>
+            <PageViewTracker
+                event="view_location"
+                payload={{
+                    page_type: "location",
+                    suburb_slug: suburb.slug,
+                    suburb_name: suburb.name,
+                    suburb_postcode: suburb.postcode,
+                }}
+            />
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

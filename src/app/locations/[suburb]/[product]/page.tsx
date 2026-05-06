@@ -6,6 +6,7 @@ import { ArrowRight, Check, MapPin, Phone } from "lucide-react";
 import { getLocationBySlug, getNearbyLocations } from "@/lib/locations";
 import { getLocationProductBySlug, getLocationProductsByCategory, LOCATION_PRODUCTS } from "@/lib/location-products";
 import { quoteHref, SITE } from "@/lib/site";
+import { PageViewTracker } from "@/components/PageViewTracker";
 
 interface Props {
   params: Promise<{
@@ -81,6 +82,18 @@ export default async function LocationProductPage({ params }: Props) {
 
   return (
     <main className="bg-white pt-32">
+      <PageViewTracker
+        event="view_location_product"
+        payload={{
+          page_type: "location_product",
+          suburb_slug: suburb.slug,
+          suburb_name: suburb.name,
+          suburb_postcode: suburb.postcode,
+          product_slug: product.slug,
+          product_category: product.category,
+          product_name: product.title,
+        }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

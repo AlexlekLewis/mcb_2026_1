@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { quoteHref, SITE } from "@/lib/site";
 import { getProductCanonicalPath } from "@/lib/product-canonicals";
+import { PageViewTracker } from "@/components/PageViewTracker";
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -46,6 +47,15 @@ export default async function ProductPage({ params }: Props) {
 
     return (
         <div className="bg-white">
+            <PageViewTracker
+                event="view_item"
+                payload={{
+                    page_type: "product",
+                    product_slug: product.slug,
+                    product_category: product.category,
+                    product_name: product.title,
+                }}
+            />
             {/* Product Header / Hero */}
             <section className="bg-stone-100 py-28 px-4">
                 <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
