@@ -3,50 +3,32 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Modern Curtains and Blinds website enquiries, quote requests and customer communications.",
+  description: "Modern Curtains and Blinds Privacy Policy outlining how we collect, use and protect your personal information.",
 };
 
 const privacySections = [
   {
-    title: "Information We Collect",
+    title: "Information Collection",
     body: [
-      "Modern Curtains and Blinds collects personal information when you submit a quote enquiry, contact form, chat callback request, order request or other website form.",
-      "This may include your name, phone number, email address, suburb, product interests, appointment preferences and any project details you choose to provide.",
+      "We collect personal information when you register, place an order, or fill out a form on our site.",
     ],
   },
   {
-    title: "How We Use Information",
+    title: "Information Use",
     body: [
-      "We use enquiry and order information to respond to you, arrange appointments, prepare quotes, process transactions, improve the website and communicate about your project.",
-      "Where you ask for product advice, we may use the details you provide to recommend suitable curtains, blinds, shutters, security screens, awnings, motorisation or related products.",
+      "The information collected is used to personalise your experience, improve our website, process transactions, and send periodic emails.",
     ],
   },
   {
-    title: "Protecting Your Information",
+    title: "Information Protection",
     body: [
-      "We take reasonable steps to protect personal information submitted through the website, quote forms and customer communication channels.",
-      "Please avoid submitting sensitive information that is not needed for a window furnishing, security screen or installation enquiry.",
+      "We use various security measures to protect your personal information.",
     ],
   },
   {
     title: "Third-Party Disclosure",
     body: [
-      "We do not sell, trade or transfer personally identifiable information to outside parties for unrelated marketing purposes.",
-      "Information may be shared only where reasonably needed to respond to your enquiry, process an order, support installation, meet legal obligations or use approved service providers.",
-    ],
-  },
-  {
-    title: "Website Chat And Quote Enquiries",
-    body: [
-      "The website chat assistant is designed to answer common product, appointment, pricing and warranty questions. If you request a callback, your submitted details are treated as a quote or contact enquiry.",
-      "For pricing, availability and product suitability, the most accurate advice is provided during a free in-home measure and quote.",
-    ],
-  },
-  {
-    title: "Website Analytics",
-    body: [
-      "We use website analytics to understand page visits, quote form usage, phone taps, chat interactions, campaign sources and general website performance.",
-      "Analytics events may include page paths, referral details, campaign parameters, device/browser information and a privacy-preserving hashed IP value. We do not use this information to sell personal data.",
+      "We do not sell, trade, or transfer your personally identifiable information to outside parties.",
     ],
   },
   {
@@ -62,9 +44,9 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-mcb-paper px-4 py-28">
       <div className="container mx-auto max-w-4xl">
         <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Policy</span>
-        <h1 className="mb-5 font-serif text-4xl text-mcb-charcoal md:text-5xl">Privacy Policy</h1>
+        <h1 className="mb-5 font-serif text-4xl text-mcb-charcoal md:text-5xl">Modern Curtains and Blinds Privacy Policy</h1>
         <p className="mb-10 max-w-3xl text-lg leading-relaxed text-stone-600">
-          Modern Curtains and Blinds is committed to handling customer information carefully and using it only for relevant enquiries, quotes, orders and customer communication.
+          We are dedicated to safeguarding your privacy. This policy outlines how we collect, use, and protect your information.
         </p>
 
         <div className="space-y-5">
