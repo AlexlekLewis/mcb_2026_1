@@ -173,7 +173,10 @@ type CustomerEmailFields = {
 };
 
 function buildCustomerHtml(f: CustomerEmailFields) {
-  const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://moderncurtainsandblinds.com.au';
+  // Email images must use the canonical www host directly — Gmail's image proxy
+  // does not follow the 307 redirect from the bare domain, so the bare URL
+  // results in a broken image icon in the inbox.
+  const SITE_URL = 'https://www.moderncurtainsandblinds.com.au';
   const LOGO_URL = `${SITE_URL}/assets/logo-nav.png`;
   const OWNERS_PHOTO_URL = `${SITE_URL}/assets/mcb-owners.jpg`;
   const greetingName = f.firstName.trim() || 'there';

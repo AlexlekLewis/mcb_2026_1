@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowRight, CalendarDays, Check, ChevronLeft, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
+import { CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
 import { quoteProductOptions } from "@/lib/cro-data";
 import { SITE } from "@/lib/site";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
@@ -43,9 +43,9 @@ type QuoteFormData = {
 export default function QuoteForm() {
   const searchParams = useSearchParams();
   const initialProduct = getInitialProduct(searchParams.get("product"));
-  const [step, setStep] = useState(1);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [hasTrackedStart, setHasTrackedStart] = useState(false);
+  const trackedSectionsRef = useRef<{ s1: boolean; s2: boolean }>({ s1: false, s2: false });
   const [formData, setFormData] = useState<QuoteFormData>({
     firstName: "",
     lastName: "",
@@ -63,6 +63,22 @@ export default function QuoteForm() {
     referrerName: "",
   });
 
+  const section2Ref = useRef<HTMLDivElement | null>(null);
+  const section3Ref = useRef<HTMLDivElement | null>(null);
+
+  const section1Valid = useMemo(() =>
+    formData.suburb.trim().length > 1 &&
+    formData.products.length > 0 &&
+    Boolean(formData.windowCount),
+  [formData.suburb, formData.products, formData.windowCount]);
+
+  const section2Valid = useMemo(() =>
+    section1Valid &&
+    formData.firstName.trim().length > 1 &&
+    formData.phone.trim().length > 5 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()),
+  [section1Valid, formData.firstName, formData.phone, formData.email]);
+
   const referralComplete = useMemo(() => {
     if (!formData.referral) return false;
     if (referralRequiresName.has(formData.referral)) {
@@ -71,18 +87,30 @@ export default function QuoteForm() {
     return true;
   }, [formData.referral, formData.referrerName]);
 
-  const canContinue = useMemo(() => {
-    if (step === 1) {
-      return formData.suburb.trim().length > 1 && (formData.products.length > 0 || formData.needsAdvice);
+  const section3Valid = useMemo(() =>
+    section2Valid &&
+    Boolean(formData.bestContactTime) &&
+    Boolean(formData.projectStage) &&
+    referralComplete,
+  [section2Valid, formData.bestContactTime, formData.projectStage, referralComplete]);
+
+  const allValid = section3Valid;
+
+  useEffect(() => {
+    if (section1Valid && !trackedSectionsRef.current.s1) {
+      trackedSectionsRef.current.s1 = true;
+      trackEvent("quote_step_1_complete", getQuoteTrackingPayload(formData));
+      requestAnimationFrame(() => section2Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
     }
-    if (step === 2) {
-      return formData.firstName.trim().length > 1 && formData.phone.trim().length > 5 && formData.email.includes("@");
+  }, [section1Valid, formData]);
+
+  useEffect(() => {
+    if (section2Valid && !trackedSectionsRef.current.s2) {
+      trackedSectionsRef.current.s2 = true;
+      trackEvent("quote_step_2_complete", getQuoteTrackingPayload(formData));
+      requestAnimationFrame(() => section3Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
     }
-    if (step === 3) {
-      return referralComplete;
-    }
-    return true;
-  }, [formData, step, referralComplete]);
+  }, [section2Valid, formData]);
 
   const handleProductToggle = (product: string) => {
     trackFormStart();
@@ -114,25 +142,23 @@ export default function QuoteForm() {
     });
   };
 
-  const handleContinue = () => {
-    if (step === 1) {
-      trackEvent("quote_step_1_complete", getQuoteTrackingPayload(formData));
-    }
-
-    if (step === 2) {
-      trackEvent("quote_step_2_complete", getQuoteTrackingPayload(formData));
-    }
-
-    setStep((current) => current + 1);
+  // Block Enter from submitting from any input/select. Textarea keeps natural newline behaviour.
+  const handleFormKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key !== "Enter") return;
+    const target = event.target as HTMLElement;
+    if (target.tagName === "TEXTAREA") return;
+    if (target instanceof HTMLButtonElement && target.type === "submit") return;
+    event.preventDefault();
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (step !== 3) {
-      if (canContinue) handleContinue();
-      return;
-    }
-    if (!referralComplete) return;
+    // Only the explicit submit button can submit. Anything else (e.g. an unexpected
+    // keyboard path) is rejected. The submit button is also disabled until allValid.
+    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
+    if (!submitter || submitter.dataset.role !== "quote-submit") return;
+    if (!allValid) return;
+
     setStatus("loading");
     trackEvent("quote_step_3_submit", getQuoteTrackingPayload(formData));
 
@@ -188,29 +214,28 @@ export default function QuoteForm() {
           </div>
 
           <div className="mb-8 grid gap-3 sm:grid-cols-3">
-            {["Project basics", "Your details", "Best time"].map((label, index) => {
-              const current = index + 1;
-              return (
-                <div key={label} className={cn("rounded-sm border p-3 text-sm font-semibold", step >= current ? "border-mcb-terracotta bg-mcb-terracotta text-white" : "border-stone-200 bg-stone-50 text-stone-500")}>
-                  {current}. {label}
-                </div>
-              );
-            })}
+            <SectionMarker number={1} label="Project basics" complete={section1Valid} active />
+            <SectionMarker number={2} label="Your details" complete={section2Valid} active={section1Valid} />
+            <SectionMarker number={3} label="Best time" complete={section3Valid} active={section2Valid} />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {step === 1 && (
+          <form onSubmit={handleSubmit} onKeyDown={handleFormKeyDown} className="space-y-10">
+            <SectionPanel title="1. Project basics" complete={section1Valid} open>
               <div className="space-y-7">
                 <InputField icon={<MapPin />} label="Suburb or postcode" name="suburb" value={formData.suburb} onChange={handleChange} placeholder="Preston, VIC" required />
 
                 <div>
-                  <label className="mb-3 block text-sm font-bold text-mcb-charcoal">What products are you interested in?</label>
+                  <label className="mb-3 block text-sm font-bold text-mcb-charcoal">
+                    What products are you interested in?
+                    <span className="ml-1 text-mcb-terracotta">*</span>
+                  </label>
                   <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                     {quoteProductOptions.map((product) => (
                       <button
                         key={product}
                         type="button"
                         onClick={() => handleProductToggle(product)}
+                        aria-pressed={formData.products.includes(product)}
                         className={cn(
                           "min-h-12 rounded-sm border px-3 py-3 text-sm font-semibold transition-all",
                           formData.products.includes(product)
@@ -225,102 +250,98 @@ export default function QuoteForm() {
                 </div>
 
                 <div>
-                  <label className="mb-3 block text-sm font-bold text-mcb-charcoal">How many windows or doors?</label>
+                  <label className="mb-3 block text-sm font-bold text-mcb-charcoal">
+                    How many windows or doors?
+                    <span className="ml-1 text-mcb-terracotta">*</span>
+                  </label>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     {windowOptions.map((option) => (
                       <label key={option} className={cn("cursor-pointer rounded-sm border p-3 text-center text-sm font-semibold", formData.windowCount === option ? "border-mcb-terracotta bg-mcb-paper text-mcb-charcoal" : "border-stone-200 text-stone-600")}>
-                        <input type="radio" name="windowCount" value={option} checked={formData.windowCount === option} onChange={handleChange} className="sr-only" />
+                        <input type="radio" name="windowCount" value={option} checked={formData.windowCount === option} onChange={handleChange} className="sr-only" required />
                         {option}
                       </label>
                     ))}
                   </div>
                 </div>
               </div>
-            )}
+            </SectionPanel>
 
-            {step === 2 && (
-              <div className="space-y-6">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <InputField icon={<User />} label="First name" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Jane" required />
-                  <InputField icon={<User />} label="Last name (optional)" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Smith" />
-                </div>
-                <div className="grid gap-6 md:grid-cols-2">
-                  <InputField icon={<Phone />} label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="0400 000 000" required />
-                  <InputField icon={<Mail />} label="Email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="jane@example.com" required />
-                </div>
-              </div>
-            )}
-
-            {step === 3 && (
-              <div className="space-y-6">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <SelectField icon={<Clock />} label="Best time to contact" name="bestContactTime" value={formData.bestContactTime} onChange={handleChange} options={contactTimes} />
-                  <SelectField icon={<CalendarDays />} label="Project stage" name="projectStage" value={formData.projectStage} onChange={handleChange} options={projectStages} />
-                </div>
-                <SelectField
-                  icon={<MessageSquare />}
-                  label="Where did you hear about us?"
-                  name="referral"
-                  value={formData.referral}
-                  onChange={handleChange}
-                  options={referralOptions}
-                  required
-                />
-                {referralRequiresName.has(formData.referral) && (
-                  <InputField
-                    icon={<User />}
-                    label={formData.referral === "Repeat customer" ? "Which family member or address was the original job? (so we can pull your file)" : "Who referred you? (so we can thank them)"}
-                    name="referrerName"
-                    value={formData.referrerName}
-                    onChange={handleChange}
-                    placeholder={formData.referral === "Repeat customer" ? "e.g. Smith family, 12 Example St" : "e.g. Sarah Jones"}
-                    required
-                  />
-                )}
-                <InputField icon={<CalendarDays />} label="Preferred appointment day/time (optional)" name="appointmentPreference" value={formData.appointmentPreference} onChange={handleChange} placeholder="e.g. Friday afternoon or Saturday morning" />
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-mcb-charcoal">Message or questions</label>
-                  <div className="relative">
-                    <MessageSquare className="absolute left-4 top-4 h-5 w-5 text-stone-400" />
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell us about rooms, light, privacy, heat, security or anything you are unsure about."
-                      className="min-h-32 w-full rounded-sm border border-stone-200 bg-white py-3 pl-12 pr-4 text-stone-700 outline-none transition focus:border-mcb-terracotta focus:ring-2 focus:ring-mcb-clay/30"
-                    />
+            <div ref={section2Ref}>
+              <SectionPanel title="2. Your details" complete={section2Valid} open={section1Valid}>
+                <div className="space-y-6">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <InputField icon={<User />} label="First name" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Jane" required />
+                    <InputField icon={<User />} label="Last name (optional)" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Smith" />
+                  </div>
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <InputField icon={<Phone />} label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="0400 000 000" required />
+                    <InputField icon={<Mail />} label="Email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="jane@example.com" required />
                   </div>
                 </div>
-                <div className="rounded-sm border border-dashed border-stone-300 bg-stone-50 p-4 text-sm leading-relaxed text-stone-500">
-                  Have plans or photos? Mention that in your message for now. A secure upload option is listed for the next backend upgrade.
+              </SectionPanel>
+            </div>
+
+            <div ref={section3Ref}>
+              <SectionPanel title="3. Best time & a few last details" complete={section3Valid} open={section2Valid}>
+                <div className="space-y-6">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <SelectField icon={<Clock />} label="Best time to contact" name="bestContactTime" value={formData.bestContactTime} onChange={handleChange} options={contactTimes} required />
+                    <SelectField icon={<CalendarDays />} label="Project stage" name="projectStage" value={formData.projectStage} onChange={handleChange} options={projectStages} required />
+                  </div>
+                  <SelectField
+                    icon={<MessageSquare />}
+                    label="Where did you hear about us?"
+                    name="referral"
+                    value={formData.referral}
+                    onChange={handleChange}
+                    options={referralOptions}
+                    required
+                  />
+                  {referralRequiresName.has(formData.referral) && (
+                    <InputField
+                      icon={<User />}
+                      label={formData.referral === "Repeat customer" ? "Which family member or address was the original job?" : "Who referred you? (so we can thank them)"}
+                      name="referrerName"
+                      value={formData.referrerName}
+                      onChange={handleChange}
+                      placeholder={formData.referral === "Repeat customer" ? "e.g. Smith family, 12 Example St" : "e.g. Sarah Jones"}
+                      required
+                    />
+                  )}
+                  <InputField icon={<CalendarDays />} label="Preferred appointment day/time (optional)" name="appointmentPreference" value={formData.appointmentPreference} onChange={handleChange} placeholder="e.g. Friday afternoon or Saturday morning" />
+                  <div>
+                    <label className="mb-2 block text-sm font-bold text-mcb-charcoal">
+                      Message or questions (optional)
+                    </label>
+                    <div className="relative">
+                      <MessageSquare className="absolute left-4 top-4 h-5 w-5 text-stone-400" />
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Tell us about rooms, light, privacy, heat, security or anything you are unsure about."
+                        className="min-h-32 w-full rounded-sm border border-stone-200 bg-white py-3 pl-12 pr-4 text-stone-700 outline-none transition focus:border-mcb-terracotta focus:ring-2 focus:ring-mcb-clay/30"
+                      />
+                    </div>
+                  </div>
+                  <div className="rounded-sm border border-dashed border-stone-300 bg-stone-50 p-4 text-sm leading-relaxed text-stone-500">
+                    Have plans or photos? Mention that in your message for now. A secure upload option is listed for the next backend upgrade.
+                  </div>
                 </div>
-              </div>
-            )}
+              </SectionPanel>
+            </div>
 
-            <div className="flex flex-col gap-3 border-t border-stone-100 pt-6 sm:flex-row sm:justify-between">
-              {step > 1 ? (
-                <button type="button" onClick={() => setStep((current) => current - 1)} className="inline-flex items-center justify-center gap-2 rounded-sm border border-stone-200 px-5 py-3 font-bold text-mcb-charcoal">
-                  <ChevronLeft className="h-4 w-4" /> Back
-                </button>
-              ) : <span />}
-
-              {step < 3 ? (
-                <button
-                  type="button"
-                  disabled={!canContinue}
-                  onClick={handleContinue}
-                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-3 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Continue <ArrowRight className="h-4 w-4" />
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  disabled={status === "loading" || !referralComplete}
-                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-3 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {status === "loading" ? "Sending..." : "Request My Free Measure & Quote"}
-                </button>
+            <div className="border-t border-stone-100 pt-6">
+              <button
+                type="submit"
+                data-role="quote-submit"
+                disabled={status === "loading" || !allValid}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              >
+                {status === "loading" ? "Sending..." : "Request My Free Measure & Quote"}
+              </button>
+              {!allValid && (
+                <p className="mt-3 text-sm text-stone-500">Please complete every required field above to submit.</p>
               )}
             </div>
 
@@ -360,6 +381,52 @@ export default function QuoteForm() {
           </div>
         </aside>
       </div>
+    </section>
+  );
+}
+
+function SectionMarker({ number, label, complete, active }: { number: number; label: string; complete: boolean; active: boolean }) {
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-2 rounded-sm border p-3 text-sm font-semibold transition-colors",
+        complete
+          ? "border-mcb-terracotta bg-mcb-terracotta text-white"
+          : active
+          ? "border-mcb-terracotta bg-white text-mcb-terracotta"
+          : "border-stone-200 bg-stone-50 text-stone-400"
+      )}
+    >
+      <span className="flex h-6 w-6 items-center justify-center rounded-full border border-current text-xs">
+        {complete ? <Check className="h-3 w-3" /> : number}
+      </span>
+      {label}
+    </div>
+  );
+}
+
+function SectionPanel({ title, complete, open, children }: { title: string; complete: boolean; open: boolean; children: React.ReactNode }) {
+  return (
+    <section
+      aria-hidden={!open}
+      className={cn(
+        "overflow-hidden rounded-sm border transition-all duration-300",
+        open ? "border-stone-200 bg-white" : "border-dashed border-stone-200 bg-stone-50"
+      )}
+    >
+      <header className="flex items-center justify-between gap-3 border-b border-stone-100 px-5 py-3">
+        <h2 className="font-serif text-lg text-mcb-charcoal">{title}</h2>
+        {complete && (
+          <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-emerald-600">
+            <Check className="h-4 w-4" /> Done
+          </span>
+        )}
+      </header>
+      {open ? (
+        <div className="p-5 md:p-6">{children}</div>
+      ) : (
+        <div className="px-5 py-6 text-sm text-stone-400">Complete the section above to continue.</div>
+      )}
     </section>
   );
 }
@@ -410,7 +477,10 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-bold text-mcb-charcoal">{label}</label>
+      <label className="mb-2 block text-sm font-bold text-mcb-charcoal">
+        {label}
+        {required && <span className="ml-1 text-mcb-terracotta">*</span>}
+      </label>
       <div className="relative">
         <div className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-stone-400">{icon}</div>
         <input

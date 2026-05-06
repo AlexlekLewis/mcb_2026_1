@@ -61,8 +61,8 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
-const SITE_URL = 'https://moderncurtainsandblinds.com.au';
-const LOGO_URL = `${SITE_URL}/assets/logo.png`;
+const SITE_URL = 'https://www.moderncurtainsandblinds.com.au';
+const LOGO_URL = `${SITE_URL}/assets/logo-nav.png`;
 const OWNERS_PHOTO_URL = `${SITE_URL}/assets/mcb-owners.jpg`;
 const GBP_REVIEWS_URL = 'https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9';
 
@@ -107,7 +107,7 @@ function buildCustomerHtml(f) {
 
           <tr>
             <td style="background-color:#2D2D2D;padding:32px 24px;text-align:center;">
-              <img src="${LOGO_URL}" alt="Modern Curtains and Blinds" width="220" style="display:inline-block;width:220px;max-width:60%;height:auto;filter:brightness(0) invert(1);-webkit-filter:brightness(0) invert(1);" />
+              <img src="${LOGO_URL}" alt="Modern Curtains and Blinds" width="240" style="display:inline-block;width:240px;max-width:65%;height:auto;" />
             </td>
           </tr>
 
