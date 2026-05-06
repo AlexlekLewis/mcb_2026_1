@@ -177,8 +177,10 @@ function buildCustomerHtml(f: CustomerEmailFields) {
   // does not follow the 307 redirect from the bare domain, so the bare URL
   // results in a broken image icon in the inbox.
   const SITE_URL = 'https://www.moderncurtainsandblinds.com.au';
-  const LOGO_URL = `${SITE_URL}/assets/logo-nav.png`;
-  const OWNERS_PHOTO_URL = `${SITE_URL}/assets/mcb-owners.jpg`;
+  // Use email-optimised copies (smaller dimensions/file size). Gmail's image proxy
+  // is unreliable with very large source files (the original mcb-owners.jpg was 2.5 MB).
+  const LOGO_URL = `${SITE_URL}/assets/logo-nav-email.png`;
+  const OWNERS_PHOTO_URL = `${SITE_URL}/assets/mcb-owners-email.jpg`;
   const greetingName = f.firstName.trim() || 'there';
   const productsLine = f.selectedProducts.length
     ? f.selectedProducts.map(escapeHtml).join(', ')
