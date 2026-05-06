@@ -26,6 +26,10 @@ export default function ZipscreensPage() {
             features={product.features}
             benefits={product.benefits}
             ctaText="Enclose Your Alfresco"
+            decisionGuide={[
+                { title: "Track guided zipscreens", description: "Best for full enclosure, wind protection and a clean tensioned look." },
+                { title: "Motorised zipscreens", description: "Best for large openings, remote operation and integration with smart home control." },
+            ]}
             types={[
                 {
                     title: "Track Guided",

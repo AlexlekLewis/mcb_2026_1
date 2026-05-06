@@ -29,6 +29,11 @@ export default function EyeletCurtainsPage() {
                     description: "Allows you to showcase decorative curtain rods and finials as part of the design."
                 }
             ]}
+            decisionGuide={[
+                { title: "Modern living rooms", description: "Best where you want a relaxed casual heading and a decorative curtain rod on display." },
+                { title: "Kids rooms", description: "Best for cord-free safety and easy operation that children can manage themselves." },
+                { title: "Compare with track styles", description: "Choose pleated or Wavefold instead if you want a more formal heading or floor-to-ceiling waves." },
+            ]}
             types={[
                 {
                     title: "Modern Living",

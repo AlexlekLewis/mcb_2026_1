@@ -29,6 +29,11 @@ export default function MotorisedCurtainsPage() {
                     description: "Set timers to open and close your curtains, simulating occupancy while you're away."
                 }
             ]}
+            decisionGuide={[
+                { title: "Battery powered", description: "Best for retrofits where you don't want to run new wiring — rechargeable and easy to install." },
+                { title: "Hardwired systems", description: "Best for new builds and renovations where continuous power and a clean install matter most." },
+                { title: "Smart home integration", description: "Choose this if you want voice control, schedules and app routines tied to other smart products." },
+            ]}
             types={[
                 {
                     title: "Battery Powered",

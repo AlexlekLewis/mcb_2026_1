@@ -29,6 +29,11 @@ export default function TimberShuttersPage() {
                     description: "Available in a wide range of stains to showcase natural grain, or painted to match your interior."
                 }
             ]}
+            decisionGuide={[
+                { title: "Timber Select", description: "Best for living rooms and bedrooms where you want a fine, even grain that takes paint or stain beautifully." },
+                { title: "Western Red Cedar", description: "Best for premium spaces and larger panels — naturally resistant, lightweight and beautifully grained." },
+                { title: "Painted vs stained finish", description: "Choose painted for a clean, contemporary look or stained to highlight natural grain in classic interiors." },
+            ]}
             types={[
                 {
                     title: "Timber Select",

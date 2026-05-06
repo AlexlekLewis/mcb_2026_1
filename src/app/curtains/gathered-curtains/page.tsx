@@ -24,13 +24,13 @@ export default function GatheredCurtainsPage() {
             ]}
             decisionGuide={[
                 { title: "Choose for relaxed rooms", description: "Best where you want softness without a very formal pleated heading." },
-                { title: "Compare with S-Fold", description: "S-Fold is more architectural; gathered curtains feel softer and more traditional." },
+                { title: "Compare with Wavefold", description: "Wavefold is more architectural; gathered curtains feel softer and more traditional." },
                 { title: "Confirm fabric weight", description: "The right gathered result depends on fabric weight, fullness and track style." },
             ]}
             comparisonRows={[
                 { label: "Gathered", bestFor: "Relaxed softness", notes: "A softer heading with generous fabric fullness." },
                 { label: "Pleated", bestFor: "Tailored structure", notes: "More formal and consistent folded heading." },
-                { label: "S-Fold", bestFor: "Modern waves", notes: "Continuous wave heading on a compatible track." },
+                { label: "Wavefold", bestFor: "Modern waves", notes: "Continuous wave heading on a compatible track." },
             ]}
             types={[
                 {

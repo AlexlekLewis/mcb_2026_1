@@ -29,6 +29,11 @@ export default function PleatedCurtainsPage() {
                     description: "Flat, deep folds that give a tailored, almost masculine architectural finish."
                 }
             ]}
+            decisionGuide={[
+                { title: "Pinch pleat", description: "Best for formal dining and living rooms that want a tailored, full and traditional finish." },
+                { title: "Pencil pleat", description: "Best for softer, casual bedrooms and rooms where you want gathered fullness." },
+                { title: "Box pleat", description: "Best for an architectural, structured look with deep flat folds." },
+            ]}
             types={[
                 {
                     title: "Formal Dining",

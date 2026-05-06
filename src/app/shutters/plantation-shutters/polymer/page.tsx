@@ -29,6 +29,10 @@ export default function PolymerShuttersPage() {
                     description: "Engineered to resist fading and yellowing even under direct Australian sunlight."
                 }
             ]}
+            decisionGuide={[
+                { title: "Pure white PVC", description: "Best for bathrooms and laundries where a crisp, classic white finish brightens the space." },
+                { title: "Custom colour PVC", description: "Best when you want shutters to match cabinetry, tiling or a coordinated colour palette." },
+            ]}
             types={[
                 {
                     title: "Pure White PVC",

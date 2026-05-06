@@ -26,9 +26,14 @@ export default function TranslucentCurtainsPage() {
             features={product.features}
             benefits={product.benefits}
             ctaText="Filter The Light"
+            decisionGuide={[
+                { title: "Wavefold heading", description: "Best for modern living areas and large windows where you want continuous waves and a clean drape." },
+                { title: "Pinch pleat", description: "Best for traditional and classic interiors that suit a tailored, structured heading." },
+                { title: "Compare with sheer or blockout", description: "Choose translucent for filtered glow with privacy day and night — sheers won't give the same privacy after dark." },
+            ]}
             types={[
                 {
-                    title: "S-Fold Heading",
+                    title: "Wavefold Heading",
                     description: "Modern wave style for a consistent drape.",
                     image: "/images/product-unique/mcb-translucent-s-fold-heading-detail.webp"
                 },

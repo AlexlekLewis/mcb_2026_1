@@ -29,6 +29,11 @@ export default function SheerCurtainsPage() {
                     description: "Pair with blockout curtains or blinds for complete day-to-night versatility."
                 }
             ]}
+            decisionGuide={[
+                { title: "Voile sheers", description: "Best for soft, ethereal daytime privacy and a romantic, light-filled aesthetic." },
+                { title: "Linen sheers", description: "Best for textured warmth and a relaxed, contemporary feel that still filters light." },
+                { title: "Layered with blockout", description: "Best when you want sheer softness by day and full privacy at night — pair on a double track." },
+            ]}
             types={[
                 {
                     title: "Polyester Sheers",

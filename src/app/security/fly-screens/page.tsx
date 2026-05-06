@@ -26,6 +26,11 @@ export default function FlyScreensPage() {
             features={product.features}
             benefits={product.benefits}
             ctaText="Order Screens"
+            decisionGuide={[
+                { title: "Retractable screens", description: "Best for bi-folds, stackers and openings where you want the screen to disappear when not in use." },
+                { title: "Sliding door fly screens", description: "Best for everyday ventilation on standard sliding doors and windows." },
+                { title: "Aluminium mesh upgrade", description: "Best for high-traffic doors and homes with pets where standard fibreglass mesh would tear." },
+            ]}
             types={[
                 {
                     title: "Retractable Screens",

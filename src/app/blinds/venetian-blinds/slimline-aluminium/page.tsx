@@ -29,6 +29,10 @@ export default function SlimlineAluminiumVenetiansPage() {
                     description: "Tilt slats to direct light exactly where you want it, or close completely for privacy."
                 }
             ]}
+            decisionGuide={[
+                { title: "Matte finish", description: "Best for a subtle, contemporary look that minimises glare and fingerprints." },
+                { title: "Metallic finish", description: "Best for modern offices and statement spaces that want a touch of shimmer." },
+            ]}
             types={[
                 {
                     title: "Matte Finish",

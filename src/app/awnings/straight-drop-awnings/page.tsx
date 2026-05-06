@@ -19,7 +19,7 @@ export default function StraightDropAwningsPage() {
             intentLabel="Exterior heat and glare control"
             features={[
                 { title: "Straight Vertical Drop", description: "Fabric drops directly down from the headbox to shade the glass or opening." },
-                { title: "Heat Before It Hits Glass", description: "External shade helps reduce heat before it reaches the window." },
+                { title: "Reduces the heat before it hits your glass", description: "External shade helps reduce heat before it reaches the window." },
                 { title: "Clean, Simple Operation", description: "A practical option for suitable windows, verandahs and sheltered spaces." },
             ]}
             decisionGuide={[

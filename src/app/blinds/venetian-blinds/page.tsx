@@ -11,7 +11,7 @@ export default function VenetianBlindsPage() {
             title="Venetian Blinds"
             subtitle="Precise light control across timber, PVC and aluminium styles."
             heroImage="/images/product-unique/mcb-venetian-blinds-range-hero.webp"
-            description="Venetian Blinds offer superior versatility, allowing you to tilt the slats to control the exact amount of light and privacy you need. Our collection features premium timber, durable PVC composite and aluminium options."
+            description="Venetian Blinds offer superior versatility, allowing you to tilt the slats to control the exact amount of light and privacy you need. Our collection features premium timber, durable PVC and aluminium options."
             intentLabel={content.intentLabel}
             features={[
                 {
@@ -20,7 +20,7 @@ export default function VenetianBlindsPage() {
                 },
                 {
                     title: "Material Options",
-                    description: "Timber for luxury warmth, or moisture-resistant PVC composites for bathrooms and laundries."
+                    description: "Timber for luxury warmth, or moisture-resistant PVC for bathrooms and laundries."
                 },
                 {
                     title: "Custom Finishes",
@@ -40,7 +40,7 @@ export default function VenetianBlindsPage() {
                     image: "/images/product-unique/mcb-wideline-aluminium-venetian-blinds-50mm.webp"
                 },
                 {
-                    title: "Premium PVC Composite",
+                    title: "Premium PVC",
                     description: "The look of real wood with superior durability. Highly resistant to moisture and humidity, making them the ideal solution for bathrooms, laundries, and kitchens.",
                     image: "/images/product-unique/mcb-pvc-composite-venetian-blinds-bathroom.webp"
                 },

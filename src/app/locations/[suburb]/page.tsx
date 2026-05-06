@@ -71,7 +71,7 @@ export default async function LocationPage({ params }: Props) {
         },
         {
             title: "Custom Curtains",
-            description: "Sheer, blockout, double, S-Fold and motorised curtains measured and installed.",
+            description: "Sheer, blockout, double, Wavefold and motorised curtains measured and installed.",
             href: `/locations/${suburb.slug}/curtains`,
             image: "/assets/curtain_hero.png"
         },
@@ -144,7 +144,7 @@ export default async function LocationPage({ params }: Props) {
                 intentLabel={`${suburb.name} service area`}
                 decisionGuide={[
                     { title: "For bedrooms", description: "Blockout curtains, blockout roller blinds and roller shutters for privacy and better sleep." },
-                    { title: "For living areas", description: "Sheers, S-Fold curtains, sunscreen blinds and translucent blinds for soft light and daytime privacy." },
+                    { title: "For living areas", description: "Sheers, Wavefold curtains, sunscreen blinds and translucent blinds for soft light and daytime privacy." },
                     { title: "For security", description: "Security doors, fly screens and pet mesh can be quoted during the same visit." },
                 ]}
                 types={types}

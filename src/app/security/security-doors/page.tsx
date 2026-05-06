@@ -26,6 +26,12 @@ export default function SecurityDoorsPage() {
             features={product.features}
             benefits={product.benefits}
             ctaText="Get Secured"
+            decisionGuide={[
+                { title: "Invisi-Gard stainless mesh", description: "Best when you want maximum security with a near-invisible view through and corrosion resistance." },
+                { title: "Privacy grille", description: "Best for street-facing entries where you want a stronger visual barrier and reduced view-in." },
+                { title: "Diamond grille", description: "Best for a traditional, cost-effective security door that still allows airflow." },
+                { title: "Window grilles & side panels", description: "Best for vulnerable windows and door-side openings that need matching protection." },
+            ]}
             types={[
                 {
                     title: "Invisi-Gard",

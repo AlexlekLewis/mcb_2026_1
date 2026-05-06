@@ -29,6 +29,10 @@ export default function AluminiumShuttersPage() {
                     description: "Control sunlight and visibility with adjustable louvers, perfect for outdoor entertaining."
                 }
             ]}
+            decisionGuide={[
+                { title: "Fixed louvre", description: "Best for consistent privacy and sun control where you don't need to adjust the louvres regularly." },
+                { title: "Adjustable louvre", description: "Best for entertaining areas where you want to tilt louvres for changing sun, weather and privacy." },
+            ]}
             types={[
                 {
                     title: "Fixed Louver",

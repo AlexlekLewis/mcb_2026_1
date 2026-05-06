@@ -29,6 +29,11 @@ export default function BlockoutCurtainsPage() {
                     description: "The heavyweight material provides a subtle sound dampening effect, creating a quieter sanctuary."
                 }
             ]}
+            decisionGuide={[
+                { title: "Velvet blockout", description: "Best for bedrooms and formal lounges that want luxe texture and acoustic softness." },
+                { title: "Linen-look blockout", description: "Best for relaxed, modern interiors that still need full light blocking." },
+                { title: "Layered with sheers", description: "Best when you need day-to-night flexibility — pair blockout with a sheer on a double track." },
+            ]}
             types={[
                 {
                     title: "Velvet Blockout",

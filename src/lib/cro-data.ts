@@ -82,7 +82,7 @@ export const processSteps = [
 export const categoryCards = [
   {
     title: "Curtains",
-    description: "Sheer, blockout, double, S-Fold, pleated, velvet and motorised curtains.",
+    description: "Sheer, blockout, double, Wavefold, pleated, velvet and motorised curtains.",
     href: "/curtains",
     image: "/assets/curtain_hero.png",
   },
@@ -169,7 +169,7 @@ export const navItems = [
       {
         title: "Heading Types",
         items: [
-          { label: "S-Fold / Wavefold", href: "/curtains/s-fold-curtains" },
+          { label: "Wavefold Curtains", href: "/curtains/s-fold-curtains" },
           { label: "Pleated Curtains", href: "/curtains/pleated-curtains" },
           { label: "Eyelet Curtains", href: "/curtains/eyelet-curtains" },
           { label: "Gathered Curtains", href: "/curtains/gathered-curtains" },
@@ -178,7 +178,6 @@ export const navItems = [
       {
         title: "Specialty",
         items: [
-          { label: "Velvet Curtains", href: "/curtains/velvet" },
           { label: "Motorised Curtains", href: "/curtains/motorised" },
           { label: "Linen-Look Curtains", href: "/curtains/linen-look" },
           { label: "Theatre Velvet", href: "/curtains/theatre-velvet" },
@@ -249,7 +248,7 @@ export const quoteProductOptions = [
   "Sheer Curtains",
   "Blockout Curtains",
   "Double Curtains",
-  "S-Fold Curtains",
+  "Wavefold Curtains",
   "Gathered Curtains",
   "Blinds",
   "Roller Blinds",

@@ -26,6 +26,11 @@ export default function RollerShuttersPage() {
             features={product.features}
             benefits={product.benefits}
             ctaText="Secure Your Home"
+            decisionGuide={[
+                { title: "Architectural 40mm profile", description: "Best for slimmer windows and a tidy compact roll where space above the opening is tight." },
+                { title: "Insulated solar shield", description: "Best for west and north-facing windows where heat, cold and street noise are the main concerns." },
+                { title: "Motorised automation", description: "Best for whole-of-home security and convenience, especially with multiple shutters and smart routines." },
+            ]}
             types={[
                 {
                     title: "Architectural 40mm Profile",

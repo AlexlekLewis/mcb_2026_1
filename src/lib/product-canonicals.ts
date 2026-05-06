@@ -2,7 +2,6 @@ export const PRODUCT_CANONICAL_PATHS: Record<string, string> = {
   "sheer-curtains": "/curtains/sheer",
   "blockout-curtains": "/curtains/blockout",
   "translucent-curtains": "/curtains/translucent-curtains",
-  "velvet-curtains": "/curtains/velvet-curtains",
   "blockout-roller-blinds": "/blinds/roller-blinds/blockout",
   "sunscreen-roller-blinds": "/blinds/roller-blinds/sunscreen",
   "double-roller-blinds": "/blinds/double-roller-blinds",

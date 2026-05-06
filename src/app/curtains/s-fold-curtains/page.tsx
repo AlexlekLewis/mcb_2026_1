@@ -8,13 +8,13 @@ export const metadata = pageMetadata({
 });
 
 
-export default function SFoldCurtainsPage() {
+export default function WavefoldCurtainsPage() {
     return (
         <ProductTemplate
             title="Wavefold Curtains"
             subtitle="The contemporary choice for fluid, continuous waves."
             heroImage="/images/product-unique/mcb-s-fold-curtains-living-room-hero.webp"
-            description="Wavefold curtains are the modern standard for floor-to-ceiling windows. Using a specialized track and tape system, the fabric hangs in continuous, deep 'S' shaped curves that look identical from both the front and back."
+            description="Wavefold curtains are the modern standard for floor-to-ceiling windows. Using a specialized track and tape system, the fabric hangs in continuous, deep wave shaped curves that look identical from both the front and back."
             features={[
                 {
                     title: "Modern Aesthetic",
@@ -28,6 +28,11 @@ export default function SFoldCurtainsPage() {
                     title: "Effortless Glide",
                     description: "The runner system ensures smooth, nearly silent operation even for large spans."
                 }
+            ]}
+            decisionGuide={[
+                { title: "Sheer Wavefold", description: "Best for living areas and floor-to-ceiling windows that need soft daytime light and a modern wave." },
+                { title: "Blockout Wavefold", description: "Best for bedrooms and media rooms where you want full darkness with a contemporary heading." },
+                { title: "Compare with pleated", description: "Choose Wavefold for clean architectural waves; choose pleated for a more formal, tailored finish." },
             ]}
             types={[
                 {

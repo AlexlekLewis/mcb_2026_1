@@ -32,11 +32,6 @@ export default function VerticalBlindsPage() {
                     title: "Fabric Verticals",
                     description: "Soft fabric vanes in screen or blockout textures that soften the acoustic of large tiled rooms.",
                     image: "/images/product-unique/mcb-vertical-blinds-patio-sliding-door.webp"
-                },
-                {
-                    title: "Rigid PVC",
-                    description: "Hard-wearing, wipe-clean blades that require no bottom weights. Great for rentals and high-traffic areas.",
-                    image: "/images/product-unique/mcb-rigid-pvc-vertical-blinds-detail.webp"
                 }
             ]}
             decisionGuide={content.decisionGuide}

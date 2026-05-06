@@ -26,6 +26,11 @@ export default function PlantationShuttersPage() {
             features={product.features}
             benefits={product.benefits}
             ctaText="Get a Free Quote"
+            decisionGuide={[
+                { title: "PVC shutters", description: "Best for bathrooms, kitchens and laundries where moisture and humidity rule out timber." },
+                { title: "Timber shutters", description: "Best for living rooms and bedrooms that want premium natural grain, warmth and insulation." },
+                { title: "Aluminium shutters", description: "Best for outdoor patios, alfresco zones and balconies that need weather-resistant performance." },
+            ]}
             types={[
                 {
                     title: "PVC Shutters",

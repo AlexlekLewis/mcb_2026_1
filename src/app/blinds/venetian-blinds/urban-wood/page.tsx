@@ -29,6 +29,10 @@ export default function UrbanTimberVenetiansPage() {
                     description: "Available in 50mm and 63mm slat widths to suit different window sizes and styles."
                 }
             ]}
+            decisionGuide={[
+                { title: "Stained timber", description: "Best for highlighting natural grain in living rooms, studies and warmer interiors." },
+                { title: "Painted timber", description: "Best for crisp white or custom painted finishes that match a coordinated colour palette." },
+            ]}
             types={[
                 {
                     title: "Stained Timber",

@@ -29,6 +29,11 @@ export default function TheatreVelvetCurtainsPage() {
                     description: "Velvet holds dye exceptionally well, resulting in rich, deep colours that shimmer in the light."
                 }
             ]}
+            decisionGuide={[
+                { title: "Classic cotton velvet", description: "Best for formal living and dining where you want traditional pile, subtle sheen and timeless elegance." },
+                { title: "Performance velvet", description: "Best for media rooms and high-traffic spaces where durability and easier care matter." },
+                { title: "Acoustic priority", description: "Choose theatre velvet when sound absorption and full darkness are top priorities for the room." },
+            ]}
             types={[
                 {
                     title: "Classic Cotton Velvet",

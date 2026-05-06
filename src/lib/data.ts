@@ -26,16 +26,16 @@ export const productData: Product[] = [
         slug: "sheer-curtains",
         category: "Curtains",
         title: "Custom Sheer Curtains | Soft minimalism & Light Diffusion",
-        description: "Create elegant, airy interiors with premium custom-made Sheer Curtains. Expertly crafted in Melbourne in S-Fold, Pencil Pleat, and more.",
+        description: "Create elegant, airy interiors with premium custom-made Sheer Curtains. Expertly crafted in Melbourne in Wavefold, Pencil Pleat, and more.",
         heroImage: "/images/product-unique/mcb-sheer-curtains-soft-light-hero.webp",
         intro: {
             heading: "Sheer Curtains: The Essence of Soft Minimalism",
-            body: "Transform your living space with the ethereal beauty of Custom Sheer Curtains. Designed to diffuse natural light while providing daytime privacy, our sheers add a layer of sophisticated softness to any room. Whether you prefer the modern, fluid lines of an S-Fold heading or the classic elegance of a Pinch Pleat, our collection features organic textures and linen-look fabrics that bring the outdoors in."
+            body: "Transform your living space with the ethereal beauty of Custom Sheer Curtains. Designed to diffuse natural light while providing daytime privacy, our sheers add a layer of sophisticated softness to any room. Whether you prefer the modern, fluid lines of an Wavefold heading or the classic elegance of a Pinch Pleat, our collection features organic textures and linen-look fabrics that bring the outdoors in."
         },
         features: [
             { title: "Light Diffusion", description: "Filters harsh UV rays, protecting furniture while keeping rooms bright." },
             { title: "Daytime Privacy", description: "See out without being seen in during the day." },
-            { title: "S-Fold Heading", description: "Signature 'waving' track system for perfect, uniform folds." }
+            { title: "Wavefold Heading", description: "Signature 'waving' track system for perfect, uniform folds." }
         ],
         benefits: [
             "Softens harsh sunlight",
@@ -45,7 +45,7 @@ export const productData: Product[] = [
         ],
         faq: [
             { question: "Do sheer curtains provide privacy at night?", answer: "No, sheers are transparent at night when lights are on inside. We recommend pairing with Blockout Blinds or lining." },
-            { question: "What is the best track for sheers?", answer: "S-Fold (Wave Fold) is the most popular choice for a simplified, modern aesthetic." }
+            { question: "What is the best track for sheers?", answer: "Wavefold is the most popular choice for a simplified, modern aesthetic." }
         ]
     },
     {
@@ -93,29 +93,6 @@ export const productData: Product[] = [
             "Glare reduction",
             "Enhanced privacy compared to sheers",
             "Protects interiors"
-        ],
-        faq: []
-    },
-    {
-        slug: "velvet-curtains",
-        category: "Curtains",
-        title: "Velvet Curtains | Luxury & Drama",
-        description: "Add a touch of opulence with rich, heavy Velvet Curtains. Excellent for theatre rooms and formal living spaces.",
-        heroImage: "/images/velvet-curtains-hero.webp",
-        intro: {
-            heading: "Velvet Curtains: Opulence & Warmth",
-            body: "For a look of pure luxury, nothing compares to Velvet Curtains. Their dense pile absorbs light and sound, creating a cozy, intimate atmosphere. Perfect for formal dining rooms, master bedrooms, or home theatres where you want to make a dramatic statement."
-        },
-        features: [
-            { title: "Rich Texture", description: "Deep, luxurious pile that catches the light beautifully." },
-            { title: "Superior Insulation", description: "Heavy weight provides excellent thermal properties." },
-            { title: "Cinema Quality", description: "Absorbs stray light and sound for the ultimate movie experience." }
-        ],
-        benefits: [
-            "High-end luxury aesthetic",
-            "Warm and cozy feel",
-            "Excellent soundproofing",
-            "Durable fabric"
         ],
         faq: []
     },
@@ -412,7 +389,8 @@ export const productData: Product[] = [
         },
         features: [
             { title: "Pet Mesh Upgrade", description: "Resistant to claws and tears." },
-            { title: "Retractable Options", description: "Screens that roll away when not in use." }
+            { title: "Retractable Options", description: "For bifolds and difficult areas." },
+            { title: "Aluminium Mesh", description: "A stronger mesh upgrade for higher traffic windows and doors." }
         ],
         benefits: [
             "Insect free home",

@@ -29,6 +29,11 @@ export default function LinenLookCurtainsPage() {
                     description: "Falls heavily and softly, pooling beautifully on the floor if desired."
                 }
             ]}
+            decisionGuide={[
+                { title: "Linen sheers", description: "Best for soft daytime privacy and an airy, breezy coastal feel." },
+                { title: "Heavy linen-look", description: "Best for living areas and bedrooms where you want substantial drape and warmth." },
+                { title: "Compare with pure linen", description: "Choose linen-look for easier care and better resistance to humidity, creasing and fading." },
+            ]}
             types={[
                 {
                     title: "Linen Sheers",

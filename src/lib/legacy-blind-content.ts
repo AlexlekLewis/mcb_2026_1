@@ -209,7 +209,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
         description: "The cellular structure traps air at the window, helping improve comfort in rooms exposed to heat or cold.",
       },
       {
-        title: "Use top-down bottom-up for privacy",
+        title: "Versatile Light Control",
         description: "This option lets you admit light from the top while keeping the lower part of the window covered.",
       },
       {
@@ -240,7 +240,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
   venetianBlinds: {
     metadata: pageMetadata({
       title: "Venetian Blinds Melbourne | Timber, PVC and Aluminium",
-      description: "Custom Venetian blinds in timber, PVC composite and aluminium for precise light, privacy and airflow control. Free Melbourne measure and quote.",
+      description: "Custom Venetian blinds in timber, PVC and aluminium for precise light, privacy and airflow control. Free Melbourne measure and quote.",
       image: "/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp",
       path: "/blinds/venetian-blinds",
     }),
@@ -251,7 +251,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
         description: "Timber venetians add texture and natural warmth to living rooms, studies and bedrooms.",
       },
       {
-        title: "PVC composite for wet areas",
+        title: "PVC for wet areas",
         description: "Moisture-resistant options are better suited to kitchens, laundries and bathrooms.",
       },
       {
@@ -261,7 +261,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
     comparisonRows: [
       { label: "Timber", bestFor: "Warmth and texture", notes: "A premium look for dry living spaces." },
-      { label: "PVC composite", bestFor: "Wet areas", notes: "More moisture tolerant than natural timber." },
+      { label: "PVC", bestFor: "Wet areas", notes: "More moisture tolerant than natural timber." },
       { label: "Aluminium", bestFor: "Slim, modern windows", notes: "Durable and easy to wipe down." },
     ],
     faq: [
@@ -271,7 +271,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
       },
       {
         question: "Which Venetian material is best for bathrooms?",
-        answer: "PVC composite or aluminium is generally more suitable for moisture-prone spaces than natural timber.",
+        answer: "PVC or aluminium is generally more suitable for moisture-prone spaces than natural timber.",
       },
       {
         question: "Can Venetian blinds be matched to interior colours?",
@@ -345,7 +345,6 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
     ],
     comparisonRows: [
       { label: "Fabric verticals", bestFor: "Soft practical rooms", notes: "A flexible option for living rooms and sliding doors." },
-      { label: "PVC verticals", bestFor: "High-use spaces", notes: "Easy to clean and practical for rentals or family homes." },
       { label: "Split stack", bestFor: "Centred doors", notes: "Opens from the middle where the opening suits it." },
     ],
     faq: [
@@ -359,7 +358,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
       },
       {
         question: "Are vertical blinds easy to clean?",
-        answer: "They are generally easy to maintain, especially PVC options. Fabric choices vary, so we recommend the right material for the room.",
+        answer: "They are generally easy to maintain. Fabric choices vary, so we recommend the right material for the room.",
       },
     ],
   },
@@ -377,7 +376,7 @@ export const legacyBlindContent: Record<string, LegacyBlindContent> = {
         description: "Panel glides create a clean, architectural look on large openings where smaller blades can look busy.",
       },
       {
-        title: "Match roller fabrics",
+        title: "Light filtering and blockout options available",
         description: "Panels can often be made in fabrics that coordinate with roller blinds elsewhere in the home.",
       },
       {

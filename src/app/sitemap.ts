@@ -49,7 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/curtains/motorised',
         '/curtains/theatre-velvet',
         '/curtains/translucent-curtains',
-        '/curtains/velvet',
         '/shutters/plantation-shutters',
         '/shutters/plantation-shutters/timber',
         '/shutters/plantation-shutters/polymer',

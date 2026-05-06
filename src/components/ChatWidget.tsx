@@ -61,7 +61,7 @@ const interestOptions = [
 const pathInterestMap: Array<[string, string]> = [
   ["sheer", "Sheer Curtains"],
   ["blockout-curtains", "Blockout Curtains"],
-  ["s-fold", "S-Fold Curtains"],
+  ["s-fold", "Wavefold Curtains"],
   ["double-curtains", "Double Curtains"],
   ["gathered-curtains", "Gathered Curtains"],
   ["curtains", "Curtains"],

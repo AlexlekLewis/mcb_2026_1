@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const projects = [
-  { title: "Soft light living room", product: "S-Fold sheer curtains", image: "/images/product-unique/mcb-project-soft-light-living-room.webp" },
+  { title: "Soft light living room", product: "Wavefold sheer curtains", image: "/images/product-unique/mcb-project-soft-light-living-room.webp" },
   { title: "Bedroom privacy", product: "Double curtains and blockout", image: "/images/product-unique/mcb-project-bedroom-privacy.webp" },
   { title: "Energy-conscious windows", product: "Honeycomb blinds", image: "/images/product-unique/mcb-project-energy-conscious-windows.webp" },
   { title: "Alfresco comfort", product: "Zipscreens and outdoor shade", image: "/images/product-unique/mcb-project-alfresco-comfort.webp" },
