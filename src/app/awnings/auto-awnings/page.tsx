@@ -14,7 +14,7 @@ export default function AutoAwningsPage() {
             nearbyLocations={getNearbyLocations("awnings", 8)}
             title="Auto Awnings Melbourne"
             subtitle="Classic exterior shade for windows that cop the heat."
-            heroImage="/images/product-unique/mcb-auto-awning-hero.webp"
+            heroImage="/images/product-unique/mcb-auto-guide-awning-exterior-hero.webp"
             description="Auto awnings are a familiar, effective way to reduce heat and glare on windows before the sun reaches the glass. They suit many ground-floor windows and can be discussed alongside straight drop, fixed guide and wire guide options during the measure."
             intentLabel="Classic external window awnings"
             features={[
@@ -36,12 +36,12 @@ export default function AutoAwningsPage() {
                 {
                     title: "Auto Awning Arm Detail",
                     description: "A compact exterior arm system for practical window shade.",
-                    image: "/images/product-unique/mcb-auto-awning-arm-detail.webp",
+                    image: "/images/product-unique/mcb-auto-awning-arm-closeup.webp",
                 },
                 {
                     title: "Window Shade Finish",
                     description: "External fabric shade that helps manage heat before it enters the room.",
-                    image: "/images/product-unique/mcb-auto-awning-window-shade-detail.webp",
+                    image: "/images/product-unique/mcb-auto-awning-window-shade-finish.webp",
                 },
             ]}
             faq={[

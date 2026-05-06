@@ -14,7 +14,7 @@ export default function WireGuideAwningsPage() {
             nearbyLocations={getNearbyLocations("awnings", 8)}
             title="Wire Guide Awnings Melbourne"
             subtitle="Slim side guidance for exterior shade fabrics."
-            heroImage="/images/product-unique/mcb-wire-guide-awning-hero.webp"
+            heroImage="/images/product-unique/mcb-wire-guide-awning-exterior-hero.webp"
             description="Wire guide awnings use slim side wires to help guide the fabric while keeping the look lighter than a full side-channel system. They can suit selected exterior windows and sheltered outdoor openings where clean shade and a minimal finish matter."
             intentLabel="Minimal guided exterior shade"
             features={[
@@ -36,12 +36,12 @@ export default function WireGuideAwningsPage() {
                 {
                     title: "Wire Guide Detail",
                     description: "Slim side wires guide the fabric while keeping the exterior appearance clean.",
-                    image: "/images/product-unique/mcb-wire-guide-awning-cable-detail.webp",
+                    image: "/images/product-unique/mcb-wire-guide-awning-side-wire-detail.webp",
                 },
                 {
                     title: "Balcony and Window Shade",
                     description: "A refined option for selected windows, balconies and sheltered outdoor spaces.",
-                    image: "/images/product-unique/mcb-wire-guide-awning-balcony.webp",
+                    image: "/images/product-unique/mcb-wire-guide-awning-window-context.webp",
                 },
             ]}
             faq={[

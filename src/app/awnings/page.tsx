@@ -75,13 +75,13 @@ export default function AwningsPage() {
                 {
                     title: "Auto Awnings",
                     description: "Classic external awnings for window heat, glare and privacy control.",
-                    image: "/images/product-unique/mcb-auto-awning-hero.webp",
+                    image: "/images/product-unique/mcb-auto-guide-awning-exterior-hero.webp",
                     href: "/awnings/auto-awnings"
                 },
                 {
                     title: "Fixed Guide Awnings",
                     description: "Guided exterior shade where the fabric needs more side control.",
-                    image: "/images/product-unique/mcb-fixed-guide-awning-hero.webp",
+                    image: "/images/product-unique/mcb-fixed-guide-awning-outdoor-shade-hero.webp",
                     href: "/awnings/fixed-guide-awnings"
                 },
                 {
@@ -93,7 +93,7 @@ export default function AwningsPage() {
                 {
                     title: "Wire Guide Awnings",
                     description: "Slim side-guided awnings for a lighter exterior finish on suitable openings.",
-                    image: "/images/product-unique/mcb-wire-guide-awning-hero.webp",
+                    image: "/images/product-unique/mcb-wire-guide-awning-exterior-hero.webp",
                     href: "/awnings/wire-guide-awnings"
                 }
             ]}

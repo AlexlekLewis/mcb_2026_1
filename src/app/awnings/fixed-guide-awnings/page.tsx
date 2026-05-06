@@ -14,7 +14,7 @@ export default function FixedGuideAwningsPage() {
             nearbyLocations={getNearbyLocations("awnings", 8)}
             title="Fixed Guide Awnings Melbourne"
             subtitle="Guided exterior shade for windows and outdoor openings."
-            heroImage="/images/product-unique/mcb-fixed-guide-awning-hero.webp"
+            heroImage="/images/product-unique/mcb-fixed-guide-awning-outdoor-shade-hero.webp"
             description="Fixed guide awnings help keep the fabric travelling neatly within a guided exterior system. They can suit windows and outdoor openings where straight drop fabric needs more control, but a full zipscreen enclosure may not be required."
             intentLabel="Guided shade and privacy"
             features={[
@@ -36,12 +36,12 @@ export default function FixedGuideAwningsPage() {
                 {
                     title: "Side Guide Detail",
                     description: "A more controlled edge detail for outdoor fabric shade.",
-                    image: "/images/product-unique/mcb-fixed-guide-awning-side-channel-detail.webp",
+                    image: "/images/product-unique/mcb-fixed-guide-awning-side-track-detail.webp",
                 },
                 {
                     title: "Exterior Window Guide",
                     description: "A practical guided awning approach for heat and privacy control.",
-                    image: "/images/product-unique/mcb-fixed-guide-awning-patio-window.webp",
+                    image: "/images/product-unique/mcb-fixed-guide-awning-fabric-panel-detail.webp",
                 },
             ]}
             faq={[
