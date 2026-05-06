@@ -207,7 +207,7 @@ export default async function LocationProductPage({ params }: Props) {
       <section className="px-4 py-16 md:py-20">
         <div className="container mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
           <div className="rounded-sm border border-stone-200 p-6 md:p-8">
-            <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal">Nearby service areas</h2>
+            <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal">Nearby Service Areas</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {nearbyLocations.map((location) => (
                 <Link
@@ -223,7 +223,7 @@ export default async function LocationProductPage({ params }: Props) {
           </div>
 
           <div className="rounded-sm border border-stone-200 p-6 md:p-8">
-            <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal">Explore the full range</h2>
+            <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal">Explore the Full Range</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {LOCATION_PRODUCTS.slice(0, 12).map((item) => (
                 <Link
@@ -248,7 +248,7 @@ export default async function LocationProductPage({ params }: Props) {
 
       <section className="bg-mcb-charcoal px-4 py-20 text-center text-white">
         <div className="container mx-auto max-w-3xl">
-          <h2 className="mb-5 font-serif text-4xl">Book your free {product.shortTitle.toLowerCase()} quote in {suburb.name}</h2>
+          <h2 className="mb-5 font-serif text-4xl">Book Your Free {product.shortTitle.toLowerCase()} Quote in {suburb.name}</h2>
           <p className="mb-8 text-lg leading-relaxed text-stone-300">
             No obligation. We bring samples, measure properly and provide a clear written quote.
           </p>

@@ -62,7 +62,7 @@ export function ExpandedCategoryGrid() {
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Full service range</span>
-          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Every window and doorway covered</h2>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Every Window and Doorway Covered</h2>
           <p className="text-lg leading-relaxed text-stone-500">
             Curtains, blinds, shutters, security screens, outdoor shade and motorisation can all be planned in one visit.
           </p>
@@ -101,7 +101,7 @@ export function ProcessStrip() {
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">How it works</span>
-          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A clear path from idea to install</h2>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A Clear Path from Idea to Install</h2>
           <p className="text-lg leading-relaxed text-stone-500">No pressure, no guesswork. We help you compare the right products before anything is ordered.</p>
         </div>
         <div className="grid gap-5 md:grid-cols-4">
@@ -140,7 +140,7 @@ export function FamilyBusinessStory() {
         <div>
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">The people behind the measure</span>
           <h2 className="mb-6 font-serif text-3xl text-mcb-charcoal md:text-5xl">
-            A family business with 30+ years of hands-on experience
+            A Family Business with 30+ Years of Hands-On Experience
           </h2>
           <div className="space-y-5 text-lg leading-relaxed text-stone-600">
             <p>
@@ -168,7 +168,7 @@ export function SecurityMoat() {
       <div className="container mx-auto grid items-center gap-10 px-4 lg:grid-cols-[1fr_0.9fr]">
         <div>
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB Advantage</span>
-          <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, Blinds And Security Products From Our Melbourne Team</h2>
+          <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, Blinds and Security Products from Our Melbourne Team</h2>
           <p className="mb-8 max-w-2xl text-lg leading-relaxed text-stone-300">
             While we are measuring your windows, we can also quote security doors, fly screens and pet mesh so every opening in your home is covered properly.
           </p>
@@ -199,7 +199,7 @@ export function FinalCTA({ product }: { product?: string }) {
   return (
     <section className="bg-mcb-paper py-20">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Book your free in-home measure and quote</h2>
+        <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Book Your Free In-Home Measure and Quote</h2>
         <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-stone-500">
           No obligation. We bring samples, measure your windows, explain your options and provide a clear written quote.
         </p>
@@ -224,7 +224,7 @@ export function ModernFitPromise() {
           <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
             <div>
               <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">The Modern Promise</span>
-              <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Measured right and installed properly</h2>
+              <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Measured Right and Installed Properly</h2>
             </div>
             <div className="space-y-4 text-stone-600">
               <p className="text-lg leading-relaxed">

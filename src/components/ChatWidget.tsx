@@ -251,7 +251,7 @@ export function ChatWidget() {
                   <MessageCircle className="h-5 w-5 text-mcb-clay-light" aria-hidden="true" />
                 </div>
                 <div>
-                  <h2 className="text-sm font-bold uppercase tracking-wider">MCB chat assistant</h2>
+                  <h2 className="text-sm font-bold uppercase tracking-wider">MCB Chat Assistant</h2>
                   <p className="text-xs text-stone-300">Answers, then a clear next step</p>
                 </div>
               </div>

@@ -35,13 +35,13 @@ export const needCards = [
     icon: Home,
   },
   {
-    title: "Heat And Glare Control",
+    title: "Heat and Glare Control",
     description: "Honeycomb Blinds, Sunscreen Fabrics and Awnings for hot or west-facing Windows.",
     href: "/blinds/honeycomb-blinds",
     icon: ThermometerSun,
   },
   {
-    title: "Security And Airflow",
+    title: "Security and Airflow",
     description: "Security Doors, Pet Mesh and Fly Screens measured to fit.",
     href: "/security",
     icon: ShieldCheck,

@@ -19,7 +19,7 @@ export function GoogleReviewsWidget() {
                                 Google reviews
                             </span>
                             <h2 id="google-reviews-heading" className="mb-4 font-serif text-3xl leading-tight text-mcb-charcoal md:text-4xl">
-                                Feedback from recent customers
+                                Feedback from Recent Customers
                             </h2>
                             <p className="mb-6 text-base leading-relaxed text-stone-600">
                                 Real feedback helps you understand how the team communicates, measures and installs before you book your free in-home quote.

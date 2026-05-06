@@ -168,7 +168,7 @@ export default async function ProductPage({ params }: Props) {
             {/* Bottom CTA */}
             <section className="py-24 px-4 bg-stone-900 text-white text-center">
                 <div className="container mx-auto max-w-2xl">
-                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Book your free in-home measure and quote</h2>
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Book Your Free In-Home Measure and Quote</h2>
                     <p className="text-stone-400 mb-10 text-lg">We bring samples, measure your windows, explain your options and provide a clear written quote.</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link href={quoteHref(product.title.split("|")[0].trim())} className="bg-white text-stone-900 px-8 py-4 rounded-full font-medium hover:bg-stone-100 transition-colors">

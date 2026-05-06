@@ -14,7 +14,7 @@ export default function AboutPage() {
       <section className="container mx-auto px-4 py-20 text-center">
         <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">About Modern Curtains and Blinds</span>
         <h1 className="mx-auto mb-6 max-w-4xl font-serif text-4xl text-mcb-charcoal md:text-6xl">
-          Are We The Right Choice For You?
+          Are We the Right Choice for You?
         </h1>
         <p className="mx-auto mb-8 max-w-3xl text-lg font-medium leading-relaxed text-mcb-charcoal">
           Experience 30+ Years of Personal, Expert Window Furnishings in Melbourne

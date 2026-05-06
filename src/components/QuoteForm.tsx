@@ -11,6 +11,17 @@ import { cn } from "@/lib/utils";
 const windowOptions = ["1-5", "5-10", "10-20", "20+"];
 const contactTimes = ["Morning", "Afternoon", "Evening", "Anytime"];
 const projectStages = ["Ready to book", "Comparing options", "Building or renovating", "Just need advice"];
+const referralOptions = [
+  "Google Search",
+  "Facebook or Instagram",
+  "Friend or family referral",
+  "Drove past the showroom",
+  "Repeat customer",
+  "Card or brochure left for me",
+  "Local advertising",
+  "Other",
+];
+const referralRequiresName = new Set(["Friend or family referral", "Repeat customer"]);
 
 type QuoteFormData = {
   firstName: string;
@@ -25,6 +36,8 @@ type QuoteFormData = {
   projectStage: string;
   needsAdvice: boolean;
   message: string;
+  referral: string;
+  referrerName: string;
 };
 
 export default function QuoteForm() {
@@ -46,7 +59,17 @@ export default function QuoteForm() {
     projectStage: "",
     needsAdvice: initialProduct === "Unsure / Need Advice",
     message: "",
+    referral: "",
+    referrerName: "",
   });
+
+  const referralComplete = useMemo(() => {
+    if (!formData.referral) return false;
+    if (referralRequiresName.has(formData.referral)) {
+      return formData.referrerName.trim().length > 1;
+    }
+    return true;
+  }, [formData.referral, formData.referrerName]);
 
   const canContinue = useMemo(() => {
     if (step === 1) {
@@ -55,8 +78,11 @@ export default function QuoteForm() {
     if (step === 2) {
       return formData.firstName.trim().length > 1 && formData.phone.trim().length > 5 && formData.email.includes("@");
     }
+    if (step === 3) {
+      return referralComplete;
+    }
     return true;
-  }, [formData, step]);
+  }, [formData, step, referralComplete]);
 
   const handleProductToggle = (product: string) => {
     trackFormStart();
@@ -102,6 +128,11 @@ export default function QuoteForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (step !== 3) {
+      if (canContinue) handleContinue();
+      return;
+    }
+    if (!referralComplete) return;
     setStatus("loading");
     trackEvent("quote_step_3_submit", getQuoteTrackingPayload(formData));
 
@@ -132,7 +163,7 @@ export default function QuoteForm() {
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-green-700">
             <Check className="h-10 w-10" />
           </div>
-          <h1 className="mb-4 font-serif text-4xl text-mcb-charcoal">Thanks, {formData.firstName || "there"}.</h1>
+          <h1 className="mb-4 font-serif text-4xl text-mcb-charcoal">Thank You, {formData.firstName || "there"}.</h1>
           <p className="mx-auto max-w-xl text-lg leading-relaxed text-stone-600">
             We have received your request and will contact you within 24 business hours to arrange your free in-home measure and quote.
           </p>
@@ -226,6 +257,26 @@ export default function QuoteForm() {
                   <SelectField icon={<Clock />} label="Best time to contact" name="bestContactTime" value={formData.bestContactTime} onChange={handleChange} options={contactTimes} />
                   <SelectField icon={<CalendarDays />} label="Project stage" name="projectStage" value={formData.projectStage} onChange={handleChange} options={projectStages} />
                 </div>
+                <SelectField
+                  icon={<MessageSquare />}
+                  label="Where did you hear about us?"
+                  name="referral"
+                  value={formData.referral}
+                  onChange={handleChange}
+                  options={referralOptions}
+                  required
+                />
+                {referralRequiresName.has(formData.referral) && (
+                  <InputField
+                    icon={<User />}
+                    label={formData.referral === "Repeat customer" ? "Which family member or address was the original job? (so we can pull your file)" : "Who referred you? (so we can thank them)"}
+                    name="referrerName"
+                    value={formData.referrerName}
+                    onChange={handleChange}
+                    placeholder={formData.referral === "Repeat customer" ? "e.g. Smith family, 12 Example St" : "e.g. Sarah Jones"}
+                    required
+                  />
+                )}
                 <InputField icon={<CalendarDays />} label="Preferred appointment day/time (optional)" name="appointmentPreference" value={formData.appointmentPreference} onChange={handleChange} placeholder="e.g. Friday afternoon or Saturday morning" />
                 <div>
                   <label className="mb-2 block text-sm font-bold text-mcb-charcoal">Message or questions</label>
@@ -265,7 +316,7 @@ export default function QuoteForm() {
               ) : (
                 <button
                   type="submit"
-                  disabled={status === "loading"}
+                  disabled={status === "loading" || !referralComplete}
                   className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-3 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === "loading" ? "Sending..." : "Request My Free Measure & Quote"}
@@ -283,7 +334,7 @@ export default function QuoteForm() {
 
         <aside className="space-y-5">
           <div className="rounded-sm bg-mcb-charcoal p-7 text-white shadow-xl">
-            <h2 className="mb-4 font-serif text-3xl">What happens next?</h2>
+            <h2 className="mb-4 font-serif text-3xl">What Happens Next?</h2>
             <div className="space-y-5">
               {[
                 "We contact you within 24 business hours.",
@@ -325,6 +376,8 @@ function getQuoteTrackingPayload(formData: QuoteFormData) {
     has_message: Boolean(formData.message.trim()),
     best_contact_time_selected: Boolean(formData.bestContactTime),
     project_stage_selected: Boolean(formData.projectStage),
+    referral: formData.referral || "(not set)",
+    has_referrer_name: Boolean(formData.referrerName.trim()),
   };
 }
 
@@ -381,6 +434,7 @@ function SelectField({
   onChange,
   options,
   icon,
+  required,
 }: {
   label: string;
   name: string;
@@ -388,16 +442,21 @@ function SelectField({
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   options: string[];
   icon: React.ReactNode;
+  required?: boolean;
 }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-bold text-mcb-charcoal">{label}</label>
+      <label className="mb-2 block text-sm font-bold text-mcb-charcoal">
+        {label}
+        {required && <span className="ml-1 text-mcb-terracotta">*</span>}
+      </label>
       <div className="relative">
         <div className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-stone-400">{icon}</div>
         <select
           name={name}
           value={value}
           onChange={onChange}
+          required={required}
           className="w-full rounded-sm border border-stone-200 bg-white py-3 pl-12 pr-4 text-stone-700 outline-none transition focus:border-mcb-terracotta focus:ring-2 focus:ring-mcb-clay/30"
         >
           <option value="">Select an option</option>

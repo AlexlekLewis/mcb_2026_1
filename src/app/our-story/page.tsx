@@ -26,7 +26,7 @@ export default function OurStoryPage() {
         <div>
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Our Story</span>
           <h1 className="mb-6 font-serif text-4xl text-mcb-charcoal md:text-6xl">
-            Local advice from a family-owned Melbourne business
+            Local Advice from a Family-Owned Melbourne Business
           </h1>
           <div className="space-y-5 text-lg leading-relaxed text-stone-600">
             <p>

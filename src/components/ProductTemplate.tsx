@@ -389,7 +389,7 @@ export function ProductTemplate({
                         <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
                             <div className="grid grid-cols-3 bg-mcb-charcoal text-white text-sm font-bold uppercase tracking-wider">
                                 <div className="p-4">Option</div>
-                                <div className="p-4">Best for</div>
+                                <div className="p-4">Best For</div>
                                 <div className="p-4">Notes</div>
                             </div>
                             {comparisonRows.map((row) => (

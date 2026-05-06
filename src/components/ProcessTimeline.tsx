@@ -32,7 +32,7 @@ export function ProcessTimeline() {
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">How It Works</span>
-                    <h2 className="font-serif text-3xl md:text-5xl text-mcb-charcoal mb-6">From first visit to final fit</h2>
+                    <h2 className="font-serif text-3xl md:text-5xl text-mcb-charcoal mb-6">From First Visit to Final Fit</h2>
                     <p className="text-stone-500 text-lg">No pressure, no guesswork. We help you compare the right products before anything is ordered.</p>
                 </div>
 

@@ -14,7 +14,7 @@ export default function ContactPage() {
       <section className="container mx-auto grid gap-8 px-4 py-20 lg:grid-cols-[1fr_0.8fr]">
         <div className="rounded-sm bg-white p-8 shadow-sm md:p-12">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Contact</span>
-          <h1 className="mb-6 font-serif text-4xl text-mcb-charcoal md:text-6xl">Book advice for your home</h1>
+          <h1 className="mb-6 font-serif text-4xl text-mcb-charcoal md:text-6xl">Book Advice for Your Home</h1>
           <p className="mb-8 text-lg leading-relaxed text-stone-500">
             The fastest way to get started is to request a free in-home measure and quote. We bring samples, measure your windows or doors, and provide clear written pricing.
           </p>
