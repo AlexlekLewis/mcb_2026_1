@@ -23,38 +23,38 @@ export const trustItems = [
 
 export const needCards = [
   {
-    title: "Better sleep",
-    description: "Blockout curtains, blockout blinds and roller shutters for darker, quieter rooms.",
+    title: "Better Sleep",
+    description: "Blockout Curtains, Blockout Blinds and Roller Shutters for darker, quieter Rooms.",
     href: "/curtains/blockout",
     icon: Sparkles,
   },
   {
-    title: "Daytime privacy",
-    description: "Sheers, sunscreen blinds, translucent blinds and double rollers that soften light without closing the room in.",
+    title: "Daytime Privacy",
+    description: "Sheers, Sunscreen Blinds, Translucent Blinds and Double Rollers that soften Light without closing the Room in.",
     href: "/blinds/translucent-blinds",
     icon: Home,
   },
   {
-    title: "Heat and glare control",
-    description: "Honeycomb blinds, sunscreen fabrics and awnings for hot or west-facing windows.",
+    title: "Heat And Glare Control",
+    description: "Honeycomb Blinds, Sunscreen Fabrics and Awnings for hot or west-facing Windows.",
     href: "/blinds/honeycomb-blinds",
     icon: ThermometerSun,
   },
   {
-    title: "Security and airflow",
-    description: "Security doors, pet mesh and fly screens measured to fit.",
+    title: "Security And Airflow",
+    description: "Security Doors, Pet Mesh and Fly Screens measured to fit.",
     href: "/security",
     icon: ShieldCheck,
   },
   {
-    title: "Outdoor entertaining",
-    description: "Zipscreens, roller shutters, folding arm awnings and exterior shade systems for alfresco comfort.",
+    title: "Outdoor Entertaining",
+    description: "Zipscreens, Roller Shutters, Folding Arm Awnings and Exterior Shade Systems for Alfresco Comfort.",
     href: "/awnings",
     icon: SunMedium,
   },
   {
-    title: "Smart control",
-    description: "Motorised blinds, curtains and hubs for schedules, remotes, apps and voice control.",
+    title: "Smart Control",
+    description: "Motorised Blinds, Curtains and Hubs for Schedules, Remotes, Apps and Voice Control.",
     href: "/motorisation",
     icon: Wand2,
   },
@@ -289,7 +289,7 @@ export const defaultFaq = [
   },
   {
     question: "Do I need to know which product I want before booking?",
-    answer: "No. Choose the unsure option and we will recommend suitable products based on privacy, light, heat, security and how each room is used.",
+    answer: "No. Our friendly team will help you and recommend suitable products based on privacy, light, heat, security and how each room is used.",
   },
   {
     question: "Can you help with more than one product at the same visit?",

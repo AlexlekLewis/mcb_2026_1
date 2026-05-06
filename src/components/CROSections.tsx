@@ -29,8 +29,8 @@ export function BrowseByNeed() {
     <section className="bg-white py-20">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Start with the problem</span>
-          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">What do you need help with?</h2>
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Start With The Problem</span>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">What Do You Need Help With?</h2>
           <p className="text-lg leading-relaxed text-stone-500">
             If you are not sure which product is right, choose the outcome you want and we will guide you from there.
           </p>
@@ -46,7 +46,7 @@ export function BrowseByNeed() {
               <h3 className="mb-3 font-serif text-2xl text-mcb-charcoal">{card.title}</h3>
               <p className="mb-5 leading-relaxed text-stone-500">{card.description}</p>
               <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-mcb-terracotta">
-                See options <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                See Options <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
             </Link>
           ))}
@@ -167,8 +167,8 @@ export function SecurityMoat() {
     <section className="bg-mcb-charcoal py-20 text-white">
       <div className="container mx-auto grid items-center gap-10 px-4 lg:grid-cols-[1fr_0.9fr]">
         <div>
-          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB advantage</span>
-          <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, blinds and security screens from one Melbourne team</h2>
+          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB Advantage</span>
+          <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, Blinds And Security Products From Our Melbourne Team</h2>
           <p className="mb-8 max-w-2xl text-lg leading-relaxed text-stone-300">
             While we are measuring your windows, we can also quote security doors, fly screens and pet mesh so every opening in your home is covered properly.
           </p>
@@ -269,7 +269,7 @@ export function FAQBlock({ items = defaultFaq }: { items?: { question: string; a
       <div className="container mx-auto max-w-4xl px-4">
         <div className="mb-10 text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Questions</span>
-          <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Common questions before you book</h2>
+          <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Common Questions Before You Book</h2>
         </div>
         <div className="space-y-4">
           {items.map((item) => (
