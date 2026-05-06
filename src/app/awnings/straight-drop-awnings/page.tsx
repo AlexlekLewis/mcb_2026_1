@@ -14,7 +14,7 @@ export default function StraightDropAwningsPage() {
             nearbyLocations={getNearbyLocations("awnings", 8)}
             title="Straight Drop Awnings Melbourne"
             subtitle="Simple vertical shade for hot windows and exposed outdoor areas."
-            heroImage="/images/product-unique/mcb-straight-drop-awning-fabric-drop-detail.webp"
+            heroImage="/images/product-unique/mcb-straight-drop-awning-exterior-hero.png"
             description="Straight drop awnings are a practical exterior shade solution for windows, verandahs and sheltered openings where you want sun control without a bulky structure. We measure the opening, check fixing points and recommend the right fabric and operation for the exposure."
             intentLabel="Exterior heat and glare control"
             features={[
@@ -36,12 +36,12 @@ export default function StraightDropAwningsPage() {
                 {
                     title: "Window Straight Drop Awnings",
                     description: "A neat shade option for exposed windows where heat and glare are the main issue.",
-                    image: "/images/product-unique/mcb-straight-drop-awning-bottom-rail-detail.webp",
+                    image: "/images/product-unique/mcb-straight-drop-awning-window-collection.png",
                 },
                 {
-                    title: "Slim Guided Exterior Shade",
-                    description: "For openings that need more side control, we can compare straight drop, wire guide and fixed guide options during the measure.",
-                    image: "/images/product-unique/mcb-wire-guide-awning-balcony.webp",
+                    title: "Patio Straight Drop Awnings",
+                    description: "A simple vertical fabric drop for sheltered verandahs and outdoor openings.",
+                    image: "/images/product-unique/mcb-straight-drop-awning-patio-collection.png",
                 },
             ]}
             faq={[
