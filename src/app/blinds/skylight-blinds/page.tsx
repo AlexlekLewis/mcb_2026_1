@@ -14,7 +14,7 @@ export default function SkylightBlindsPage() {
             nearbyLocations={getNearbyLocations("blinds", 8)}
             title="Skylight Blinds Melbourne"
             subtitle="Heat, glare and light control for overhead windows."
-            heroImage="/images/product-unique/mcb-skylight-blinds-overhead-heat-control-hero.webp"
+            heroImage="/images/product-unique/mcb-skylight-roof-window-hero.webp"
             description="Skylight blinds help manage the intense light and heat that can come through overhead glass. We assess window size, pitch, access and room use so the recommendation works with the skylight rather than against it."
             intentLabel="Control hard-to-reach overhead glass"
             features={[
@@ -55,7 +55,7 @@ export default function SkylightBlindsPage() {
                 {
                     title: "Motorised Skylight Blinds",
                     description: "For windows that are high, hard to reach or better suited to scheduled heat control.",
-                    image: "/images/product-unique/mcb-skylight-blinds-overhead-heat-control-hero.webp"
+                    image: "/images/product-unique/mcb-motorised-skylight-blinds-remote-control.webp"
                 }
             ]}
             faq={[

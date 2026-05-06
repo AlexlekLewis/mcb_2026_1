@@ -2,18 +2,18 @@ import { ProductTemplate } from "@/components/ProductTemplate";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Soft Vertical Drapes Melbourne | Curtain-Style Vertical Blinds",
-    description: "Soft vertical drapes in Melbourne for sliding doors, wide openings, privacy and filtered light. Free in-home measure and quote.",
+    title: "Smart Drapes Melbourne | Soft Vertical Curtain-Style Blinds",
+    description: "Smart Drapes in Melbourne for sliding doors, wide openings, privacy and filtered light. Free in-home measure and quote.",
     alternates: { canonical: "/blinds/soft-vertical-drapes" },
 };
 
 export default function SoftVerticalDrapesPage() {
     return (
         <ProductTemplate
-            title="Soft Vertical Drapes Melbourne"
+            title="Smart Drapes Melbourne"
             subtitle="Soft fabric vanes with the movement of a curtain and the control of a blind."
             heroImage="/images/product-unique/mcb-veri-shades-soft-vertical-hero.webp"
-            description="Soft vertical drapes are a strong choice for sliding doors and wide openings where you want walk-through access, filtered light and a gentler fabric look than traditional vertical blinds."
+            description="Smart Drapes are a strong choice for sliding doors and wide openings where you want walk-through access, filtered light and a gentler fabric look than traditional vertical blinds."
             intentLabel="Soft vertical shading"
             features={[
                 {
@@ -37,7 +37,7 @@ export default function SoftVerticalDrapesPage() {
             comparisonRows={[
                 { label: "Vertical blinds", bestFor: "Value and simple function", notes: "Practical rotating vanes for large openings." },
                 { label: "Panel glide", bestFor: "Modern wide panels", notes: "Clean sliding fabric panels for contemporary rooms." },
-                { label: "Soft vertical drapes", bestFor: "Soft access and filtered light", notes: "Curtain-like feel with vertical blind-style control." },
+                { label: "Smart Drapes", bestFor: "Soft access and filtered light", notes: "Curtain-like feel with vertical blind-style control." },
             ]}
             types={[
                 {
@@ -51,15 +51,15 @@ export default function SoftVerticalDrapesPage() {
                     image: "/images/product-unique/mcb-veri-shades-privacy-light-control.webp"
                 },
                 {
-                    title: "Sliding Door Soft Vertical Drapes",
+                    title: "Sliding Door Smart Drapes",
                     description: "A softer alternative to vertical blinds or panel glide blinds for large glass doors.",
                     image: "/images/product-unique/mcb-veri-shades-sliding-door-soft-vane.webp"
                 }
             ]}
             faq={[
-                { question: "Are soft vertical drapes the same as vertical blinds?", answer: "They solve a similar sliding-door problem, but soft vertical drapes use fabric vanes for a more curtain-like feel." },
-                { question: "Are soft vertical drapes good for doors you use often?", answer: "Yes. They are popular for sliding doors because the soft fabric makes moving through the opening easier." },
-                { question: "Can you compare soft vertical drapes with panel glide blinds at the measure?", answer: "Yes. We can bring suitable samples and talk through the best fit for your doorway, privacy needs and room style." },
+                { question: "Are Smart Drapes the same as vertical blinds?", answer: "They solve a similar sliding-door problem, but Smart Drapes use fabric vanes for a more curtain-like feel." },
+                { question: "Are Smart Drapes good for doors you use often?", answer: "Yes. They are popular for sliding doors because the soft fabric makes moving through the opening easier." },
+                { question: "Can you compare Smart Drapes with panel glide blinds at the measure?", answer: "Yes. We can bring suitable samples and talk through the best fit for your doorway, privacy needs and room style." },
             ]}
         />
     );

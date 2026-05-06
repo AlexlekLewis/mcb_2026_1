@@ -9,9 +9,9 @@ export default function VenetianBlindsPage() {
     return (
         <ProductTemplate
             title="Venetian Blinds"
-            subtitle="Precise light control with classic timber charm."
-            heroImage="/images/product-unique/mcb-urban-wood-venetian-blinds-hero.webp"
-            description="Venetian Blinds offer superior versatility, allowing you to tilt the slats to control the exact amount of light and privacy you need. Our collection features premium Timber, sustainable Eco-Wood, and durable Aluminium options."
+            subtitle="Precise light control across timber, PVC and aluminium styles."
+            heroImage="/images/product-unique/mcb-venetian-blinds-range-hero.webp"
+            description="Venetian Blinds offer superior versatility, allowing you to tilt the slats to control the exact amount of light and privacy you need. Our collection features premium timber, durable PVC composite and aluminium options."
             intentLabel={content.intentLabel}
             features={[
                 {
@@ -20,7 +20,7 @@ export default function VenetianBlindsPage() {
                 },
                 {
                     title: "Material Options",
-                    description: "Real Basswood for luxury warmth, or moisture-resistant PVC Composites perfect for bathrooms."
+                    description: "Timber for luxury warmth, or moisture-resistant PVC composites for bathrooms and laundries."
                 },
                 {
                     title: "Custom Finishes",

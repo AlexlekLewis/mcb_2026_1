@@ -40,12 +40,21 @@ type SuggestedQuestion = {
 const interestOptions = [
   "Unsure / Need Advice",
   "Curtains",
+  "Double Curtains",
+  "Gathered Curtains",
   "Blinds",
   "Shutters",
   "Security Doors",
   "Fly Screens",
   "Pet Mesh",
-  "Outdoor Blinds",
+  "Outdoor Products",
+  "Zipscreens",
+  "Folding Arm Awnings",
+  "Straight Drop Awnings",
+  "Auto Awnings",
+  "Fixed Guide Awnings",
+  "Motorised Outdoor Blinds",
+  "Wire Guide Awnings",
   "Motorisation",
 ];
 
@@ -53,6 +62,8 @@ const pathInterestMap: Array<[string, string]> = [
   ["sheer", "Sheer Curtains"],
   ["blockout-curtains", "Blockout Curtains"],
   ["s-fold", "S-Fold Curtains"],
+  ["double-curtains", "Double Curtains"],
+  ["gathered-curtains", "Gathered Curtains"],
   ["curtains", "Curtains"],
   ["roller-blinds", "Roller Blinds"],
   ["blockout-blinds", "Blockout Blinds"],
@@ -65,7 +76,7 @@ const pathInterestMap: Array<[string, string]> = [
   ["panel-glide", "Panel Glide Blinds"],
   ["cassette", "Cassette Blinds"],
   ["skylight", "Skylight Blinds"],
-  ["soft-vertical-drapes", "Soft Vertical Drapes"],
+  ["soft-vertical-drapes", "Smart Drapes"],
   ["blinds", "Blinds"],
   ["plantation-shutters", "Plantation Shutters"],
   ["roller-shutters", "Roller Shutters"],
@@ -75,10 +86,15 @@ const pathInterestMap: Array<[string, string]> = [
   ["pet-mesh", "Pet Mesh"],
   ["security", "Security Doors"],
   ["zipscreens", "Zipscreens"],
-  ["outdoor-blinds", "Outdoor Blinds"],
+  ["outdoor-blinds", "Outdoor Products"],
   ["folding-arm-awnings", "Folding Arm Awnings"],
-  ["window-awnings", "Window Awnings"],
-  ["awnings", "Outdoor Blinds"],
+  ["straight-drop-awnings", "Straight Drop Awnings"],
+  ["auto-awnings", "Auto Awnings"],
+  ["fixed-guide-awnings", "Fixed Guide Awnings"],
+  ["motorised-outdoor-blinds", "Motorised Outdoor Blinds"],
+  ["wire-guide-awnings", "Wire Guide Awnings"],
+  ["window-awnings", "Auto Awnings"],
+  ["awnings", "Outdoor Products"],
   ["motorisation", "Motorisation"],
 ];
 
@@ -576,7 +592,7 @@ function getProductAdvice(productContext: string, normalizedQuestion: string) {
   }
 
   if (matches(normalizedQuestion, ["outdoor", "alfresco", "awning", "zipscreen", "wind", "rain"])) {
-    return "For outdoor shade and alfresco comfort, compare zipscreens, outdoor blinds and awnings. Zipscreens suit track-guided privacy, sun and wind control, while awnings are often used for shade over windows or outdoor areas.\n\nExposure, fixing points and wind conditions matter, so these are best assessed on site.";
+    return "For outdoor shade and alfresco comfort, compare zipscreens, roller shutters, folding arm awnings, straight drop, auto, fixed guide, wire guide and motorised outdoor options. Zipscreens suit track-guided privacy, sun and wind control, while awnings often suit windows, patios and exterior shade.\n\nExposure, fixing points and wind conditions matter, so these are best assessed on site.";
   }
 
   if (matches(normalizedQuestion, ["motor", "remote", "app", "smart", "automate", "somfy"])) {

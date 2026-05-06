@@ -15,7 +15,7 @@ export default function BlindsPage() {
             nearbyLocations={nearby}
             title="Custom Made-to-Measure Blinds Melbourne"
             subtitle="Roller, sunscreen, blockout, honeycomb, Venetian, Roman, specialty and motorised blinds."
-            heroImage="/assets/roller_blind_hero.webp"
+            heroImage="/images/product-unique/mcb-blinds-category-hero.webp"
             description="From simple roller blinds to soft translucent light control, honeycomb insulation, Venetians, Romans and specialty blind systems, we help you choose the right blind for each room. Every blind is measured to fit and professionally installed."
             intentLabel="Light, privacy and heat control"
             features={[
@@ -49,7 +49,7 @@ export default function BlindsPage() {
                 { label: "Double roller", bestFor: "Day and night control", notes: "Combines sunscreen and blockout on one bracket." },
                 { label: "Honeycomb", bestFor: "Insulation", notes: "Cellular structure helps reduce heat transfer." },
                 { label: "Venetian", bestFor: "Airflow and tilt control", notes: "Timber, PVC/faux wood and aluminium options." },
-                { label: "Vertical / panel glide / soft vertical drapes", bestFor: "Sliding doors", notes: "Practical coverage for wide openings." },
+                { label: "Vertical / panel glide / Smart Drapes", bestFor: "Sliding doors", notes: "Practical coverage for wide openings." },
                 { label: "Cassette / skylight", bestFor: "Specialty windows", notes: "Neater hardware or hard-to-reach overhead window control." },
             ]}
             types={[
@@ -120,7 +120,7 @@ export default function BlindsPage() {
                     href: "/blinds/skylight-blinds"
                 },
                 {
-                    title: "Soft Vertical Drapes",
+                    title: "Smart Drapes",
                     description: "Soft vertical fabric vanes with curtain-like movement for sliding doors and wide openings.",
                     image: "/images/product-unique/mcb-veri-shades-soft-vertical-hero.webp",
                     href: "/blinds/soft-vertical-drapes"
@@ -130,7 +130,7 @@ export default function BlindsPage() {
                 { question: "Which blinds are best for bedrooms?", answer: "Blockout roller blinds, double rollers and honeycomb blinds are the most common bedroom choices because they improve privacy and light control." },
                 { question: "What is the difference between sunscreen and blockout blinds?", answer: "Sunscreen blinds reduce glare and heat while preserving daytime views. Blockout blinds provide stronger privacy and darkness." },
                 { question: "What are translucent blinds best for?", answer: "Translucent blinds are best for rooms where you want soft daylight and privacy without the full darkness of a blockout blind." },
-                { question: "Do you supply specialty blinds like cassette, skylight and soft vertical drapes?", answer: "Yes. We can advise on specialty blind options during the in-home visit and confirm what is suitable for the window size, room and hardware requirements." },
+                { question: "Do you supply specialty blinds like cassette, skylight and Smart Drapes?", answer: "Yes. We can advise on specialty blind options during the in-home visit and confirm what is suitable for the window size, room and hardware requirements." },
                 { question: "Can blinds be motorised?", answer: "Yes. Many roller, double roller, honeycomb and curtain products can be motorised depending on size, power access and control preference." },
                 { question: "Do you bring fabric samples?", answer: "Yes. We bring samples to your home so you can compare colours and opacity in your own light." },
             ]}

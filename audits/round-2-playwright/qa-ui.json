@@ -1,0 +1,319 @@
+{
+  "check": "ui-design-quality",
+  "passed": true,
+  "failures": [],
+  "results": [
+    {
+      "route": "/awnings",
+      "viewport": "desktop",
+      "screenshot": "desktop-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/straight-drop-awnings",
+      "viewport": "desktop",
+      "screenshot": "desktop-awnings-straight-drop-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/auto-awnings",
+      "viewport": "desktop",
+      "screenshot": "desktop-awnings-auto-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/fixed-guide-awnings",
+      "viewport": "desktop",
+      "screenshot": "desktop-awnings-fixed-guide-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/motorised-outdoor-blinds",
+      "viewport": "desktop",
+      "screenshot": "desktop-awnings-motorised-outdoor-blinds.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/wire-guide-awnings",
+      "viewport": "desktop",
+      "screenshot": "desktop-awnings-wire-guide-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/curtains",
+      "viewport": "desktop",
+      "screenshot": "desktop-curtains.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/curtains/double-curtains",
+      "viewport": "desktop",
+      "screenshot": "desktop-curtains-double-curtains.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/curtains/gathered-curtains",
+      "viewport": "desktop",
+      "screenshot": "desktop-curtains-gathered-curtains.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/blinds",
+      "viewport": "desktop",
+      "screenshot": "desktop-blinds.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/security",
+      "viewport": "desktop",
+      "screenshot": "desktop-security.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/shutters",
+      "viewport": "desktop",
+      "screenshot": "desktop-shutters.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings",
+      "viewport": "mobile",
+      "screenshot": "mobile-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/straight-drop-awnings",
+      "viewport": "mobile",
+      "screenshot": "mobile-awnings-straight-drop-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/auto-awnings",
+      "viewport": "mobile",
+      "screenshot": "mobile-awnings-auto-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/fixed-guide-awnings",
+      "viewport": "mobile",
+      "screenshot": "mobile-awnings-fixed-guide-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/motorised-outdoor-blinds",
+      "viewport": "mobile",
+      "screenshot": "mobile-awnings-motorised-outdoor-blinds.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/awnings/wire-guide-awnings",
+      "viewport": "mobile",
+      "screenshot": "mobile-awnings-wire-guide-awnings.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/curtains",
+      "viewport": "mobile",
+      "screenshot": "mobile-curtains.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/curtains/double-curtains",
+      "viewport": "mobile",
+      "screenshot": "mobile-curtains-double-curtains.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/curtains/gathered-curtains",
+      "viewport": "mobile",
+      "screenshot": "mobile-curtains-gathered-curtains.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/blinds",
+      "viewport": "mobile",
+      "screenshot": "mobile-blinds.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/security",
+      "viewport": "mobile",
+      "screenshot": "mobile-security.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    },
+    {
+      "route": "/shutters",
+      "viewport": "mobile",
+      "screenshot": "mobile-shutters.png",
+      "metrics": {
+        "horizontalOverflow": 0,
+        "brokenImages": [],
+        "visibleH1": true,
+        "ctaCount": 7,
+        "heroHasImage": true
+      },
+      "pass": true
+    }
+  ]
+}

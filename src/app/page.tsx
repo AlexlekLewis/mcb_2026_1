@@ -25,7 +25,7 @@ export default function Home() {
               Free in-home measure and quote across Melbourne
             </span>
             <h1 className="mb-4 font-serif text-[2rem] font-bold leading-[1.08] md:mb-6 md:text-6xl md:leading-tight lg:text-7xl">
-              Custom Curtains, Blinds, Shutters, Outdoor Blinds and Security Doors/Screens in Melbourne
+              Custom Curtains, Blinds, Shutters, Outdoor Products and Security Doors/Screens in Melbourne
             </h1>
             <p className="mb-6 max-w-3xl text-base leading-relaxed text-stone-100 md:mb-9 md:text-2xl">
               Book a free in-home measure and quote. We bring samples, help you choose the right product for each room, measure accurately, and install with care.

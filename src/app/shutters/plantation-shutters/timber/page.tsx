@@ -11,14 +11,14 @@ export const metadata = pageMetadata({
 export default function TimberShuttersPage() {
     return (
         <ProductTemplate
-            title="Select Hardwood Collection"
+            title="Timber Shutters Melbourne"
             subtitle="The warmth of natural timber. The elegance of handcrafted design."
             heroImage="/images/product-unique/mcb-timber-plantation-shutters-hero.webp"
-            description="Our Select Hardwood Collection features ethically sourced, premium timber plantation shutters that bring unmatched natural beauty to your living spaces. Each shutter is carefully crafted from select hardwoods, offering exceptional insulation and a timeless aesthetic that only real wood can provide."
+            description="Our timber plantation shutters bring natural warmth and beauty to living spaces, bedrooms and feature rooms. Each shutter is crafted for a premium timber look, with painted or stained finishes that suit classic and modern interiors."
             features={[
                 {
                     title: "Natural Beauty",
-                    description: "Genuine wood grain and texture that cannot be replicated by synthetic materials."
+                    description: "A genuine timber look with warmth, texture and a premium interior feel."
                 },
                 {
                     title: "Superior Insulation",
@@ -31,7 +31,7 @@ export default function TimberShuttersPage() {
             ]}
             types={[
                 {
-                    title: "Basswood Select",
+                    title: "Timber Select",
                     description: "Lightweight yet strong. Fine, even grain that takes stain beautifully.",
                     image: "/images/product-unique/mcb-natural-timber-shutter-grain-detail.webp"
                 },

@@ -21,8 +21,8 @@ export default function AluminiumShuttersPage() {
                     description: "High-grade aluminium with a durable powder coat finish resists rust, corrosion, and fading."
                 },
                 {
-                    title: "Cyclone Rated Options",
-                    description: "Available in configurations that meet Australian cyclone standards for coastal and high-wind areas."
+                    title: "Modernise Your Outdoor Area",
+                    description: "A clean architectural way to add privacy, shade and usable outdoor comfort."
                 },
                 {
                     title: "Adjustable Light & Privacy",

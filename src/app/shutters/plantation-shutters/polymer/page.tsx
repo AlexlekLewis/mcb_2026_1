@@ -1,8 +1,8 @@
 import { ProductTemplate } from "@/components/ProductTemplate";
 import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
-    title: "Polymer Plantation Shutters Melbourne | Wet Areas",
-    description: "Polymer plantation shutters for bathrooms, kitchens and laundries needing moisture-resistant custom shutters. Free Melbourne measure and quote.",
+    title: "PVC Plantation Shutters Melbourne | Wet Areas",
+    description: "PVC plantation shutters for bathrooms, kitchens and laundries needing moisture-resistant custom shutters. Free Melbourne measure and quote.",
     image: "/images/product-unique/mcb-polymer-shutters-bathroom-hero.webp",
     path: "/shutters/plantation-shutters/polymer",
 });
@@ -11,10 +11,10 @@ export const metadata = pageMetadata({
 export default function PolymerShuttersPage() {
     return (
         <ProductTemplate
-            title="Hydro-Proof Polymer Shutters"
+            title="PVC Shutters Melbourne"
             subtitle="Engineered for wet areas. Built to last."
             heroImage="/images/product-unique/mcb-polymer-shutters-bathroom-hero.webp"
-            description="Our Hydro-Proof Polymer Shutters are specifically designed for bathrooms, kitchens, laundries, and any area with high humidity or moisture. Featuring a reinforced polymer construction with an aluminium core, they are completely waterproof, UV resistant, and will never warp, peel, or discolour."
+            description="Our PVC shutters are designed for bathrooms, kitchens, laundries and other areas where moisture resistance matters. They are easy to clean, durable and made to suit wet-area windows without losing the clean plantation shutter look."
             features={[
                 {
                     title: "100% Waterproof",
@@ -31,7 +31,7 @@ export default function PolymerShuttersPage() {
             ]}
             types={[
                 {
-                    title: "Pure White Polymer",
+                    title: "Pure White PVC",
                     description: "Classic crisp white finish that brightens wet areas and complements modern bathroom designs.",
                     image: "/images/product-unique/mcb-waterproof-polymer-shutters-wet-area.webp"
                 },

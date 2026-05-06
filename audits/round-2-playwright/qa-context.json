@@ -1,0 +1,91 @@
+{
+  "check": "image-context-and-copy-accuracy",
+  "passed": true,
+  "failures": [],
+  "results": [
+    {
+      "route": "/awnings",
+      "h1": "Outdoor Products Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/awnings/straight-drop-awnings",
+      "h1": "Straight Drop Awnings Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/awnings/auto-awnings",
+      "h1": "Auto Awnings Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/awnings/fixed-guide-awnings",
+      "h1": "Fixed Guide Awnings Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/awnings/motorised-outdoor-blinds",
+      "h1": "Motorised Outdoor Blinds Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/awnings/wire-guide-awnings",
+      "h1": "Wire Guide Awnings Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/curtains",
+      "h1": "Custom Made-to-Measure Curtains Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/curtains/double-curtains",
+      "h1": "Double Curtains Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/curtains/gathered-curtains",
+      "h1": "Gathered Curtains Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/blinds",
+      "h1": "Custom Made-to-Measure Blinds Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/security",
+      "h1": "Security Doors, Fly Screens and Pet Mesh Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    },
+    {
+      "route": "/shutters",
+      "h1": "Plantation Shutters Melbourne",
+      "missing": [],
+      "forbidden": [],
+      "pass": true
+    }
+  ]
+}

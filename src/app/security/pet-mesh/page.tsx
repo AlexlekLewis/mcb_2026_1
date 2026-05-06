@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
     title: "Pet Mesh Melbourne | Stronger Fly Screen Mesh",
     description: "Custom pet mesh screens in Melbourne for busy homes, pets, airflow and insect control. Free in-home measure and quote.",
-    image: "/images/pet-mesh.webp",
+    image: "/images/product-unique/mcb-pet-mesh-installed-hero.webp",
     path: "/security/pet-mesh",
 });
 
@@ -13,7 +13,7 @@ export default function PetMeshPage() {
         <ProductTemplate
             title="Pet Mesh"
             subtitle="Stronger mesh for busy homes with pets."
-            heroImage="/images/pet-mesh.webp"
+            heroImage="/images/product-unique/mcb-pet-mesh-installed-hero.webp"
             description="Pet mesh is a stronger screen mesh option for doors and windows that get more everyday wear. It helps protect against claws, knocks and busy household traffic while still allowing fresh air through."
             intentLabel="Pet-friendly airflow and insect control"
             features={[
@@ -44,12 +44,12 @@ export default function PetMeshPage() {
                 {
                     title: "Pet Mesh Door Screens",
                     description: "A stronger mesh option for sliding doors, hinged doors and busy access points.",
-                    image: "/images/pet-mesh.webp"
+                    image: "/assets/security_window_screen.png"
                 },
                 {
-                    title: "Pet Mesh for Windows",
-                    description: "Useful where windows need airflow and a tougher mesh than standard fly screen material.",
-                    image: "/assets/security_window_screen.png"
+                    title: "Pet Mesh Detail",
+                    description: "A heavier-duty mesh upgrade for claws, knocks and everyday traffic.",
+                    image: "/images/pet-mesh.webp"
                 }
             ]}
             faq={[

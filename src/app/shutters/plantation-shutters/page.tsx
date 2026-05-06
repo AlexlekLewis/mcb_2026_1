@@ -3,9 +3,9 @@ import { pageMetadata } from "@/lib/metadata";
 import { productData } from "@/lib/data";
 import { notFound } from "next/navigation";
 export const metadata = pageMetadata({
-    title: "Plantation Shutters Melbourne | Timber, Polymer & Aluminium",
+    title: "Plantation Shutters Melbourne | Timber, PVC & Aluminium",
     description: "Custom plantation shutters for light control, airflow, privacy and long-term value. Free Melbourne in-home measure and quote.",
-    image: "/images/product-unique/mcb-timber-plantation-shutters-hero.webp",
+    image: "/images/product-unique/mcb-plantation-shutters-range-hero.webp",
     path: "/shutters/plantation-shutters",
 });
 
@@ -21,21 +21,21 @@ export default function PlantationShuttersPage() {
         <ProductTemplate
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
-            heroImage={product.heroImage}
+            heroImage="/images/product-unique/mcb-plantation-shutters-range-hero.webp"
             description={product.description}
             features={product.features}
             benefits={product.benefits}
             ctaText="Get a Free Quote"
             types={[
                 {
-                    title: "Hydro-Proof Polymer",
-                    description: "Engineered for wet areas. Fully waterproof reinforced polymer with an aluminium core. The perfect choice for bathrooms, kitchens, and laundries without compromising on style.",
+                    title: "PVC Shutters",
+                    description: "Engineered for wet areas. Durable PVC shutters are a practical choice for bathrooms, kitchens and laundries without compromising on style.",
                     image: "/images/plantation-shutters-hero.webp",
                     href: "/shutters/plantation-shutters/polymer"
                 },
                 {
-                    title: "Select Hardwood Collection",
-                    description: "Ethically sourced premium timber shutters that offer unmatched natural beauty and insulation. Available in a wide range of painted and stained finishes to match your cabinetry.",
+                    title: "Timber Shutters",
+                    description: "Premium timber shutters that offer natural beauty and insulation. Available in painted and stained finishes to match your interiors.",
                     image: "/images/timber-shutter-detail.png",
                     href: "/shutters/plantation-shutters/timber"
                 },

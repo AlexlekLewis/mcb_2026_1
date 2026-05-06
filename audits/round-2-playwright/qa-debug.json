@@ -1,0 +1,127 @@
+{
+  "check": "debug-page-health",
+  "passed": true,
+  "failures": [],
+  "results": [
+    {
+      "route": "/awnings",
+      "status": 200,
+      "title": "Outdoor Products Melbourne | Zipscreens, Awnings & Roller Shutters | Modern Curtains and Blinds",
+      "h1": "Outdoor Products Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/awnings/straight-drop-awnings",
+      "status": 200,
+      "title": "Straight Drop Awnings Melbourne | Exterior Window Shade | Modern Curtains and Blinds",
+      "h1": "Straight Drop Awnings Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/awnings/auto-awnings",
+      "status": 200,
+      "title": "Auto Awnings Melbourne | Exterior Sun Control | Modern Curtains and Blinds",
+      "h1": "Auto Awnings Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/awnings/fixed-guide-awnings",
+      "status": 200,
+      "title": "Fixed Guide Awnings Melbourne | Guided Outdoor Shade | Modern Curtains and Blinds",
+      "h1": "Fixed Guide Awnings Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/awnings/motorised-outdoor-blinds",
+      "status": 200,
+      "title": "Motorised Outdoor Blinds Melbourne | Remote Outdoor Shade | Modern Curtains and Blinds",
+      "h1": "Motorised Outdoor Blinds Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/awnings/wire-guide-awnings",
+      "status": 200,
+      "title": "Wire Guide Awnings Melbourne | Slim Guided Outdoor Shade | Modern Curtains and Blinds",
+      "h1": "Wire Guide Awnings Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/curtains",
+      "status": 200,
+      "title": "Custom Curtains Melbourne | Sheer, Blockout, S-Fold & Motorised | Modern Curtains and Blinds",
+      "h1": "Custom Made-to-Measure Curtains Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/curtains/double-curtains",
+      "status": 200,
+      "title": "Double Curtains Melbourne | Sheer and Blockout Layers | Modern Curtains and Blinds",
+      "h1": "Double Curtains Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/curtains/gathered-curtains",
+      "status": 200,
+      "title": "Gathered Curtains Melbourne | Soft Traditional Curtain Heading | Modern Curtains and Blinds",
+      "h1": "Gathered Curtains Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/blinds",
+      "status": 200,
+      "title": "Custom Blinds Melbourne | Roller, Honeycomb, Venetian & Specialty Blinds | Modern Curtains and Blinds",
+      "h1": "Custom Made-to-Measure Blinds Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/security",
+      "status": 200,
+      "title": "Security Doors Melbourne | Fly Screens & Pet Mesh | Modern Curtains and Blinds",
+      "h1": "Security Doors, Fly Screens and Pet Mesh Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    },
+    {
+      "route": "/shutters",
+      "status": 200,
+      "title": "Plantation Shutters Melbourne | Timber, PVC & Aluminium | Modern Curtains and Blinds",
+      "h1": "Plantation Shutters Melbourne",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "nextError": false,
+      "pass": true
+    }
+  ]
+}

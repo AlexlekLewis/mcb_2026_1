@@ -22,7 +22,7 @@ export default function SecurityDoorsPage() {
             title={product.title.split("|")[0]}
             subtitle={product.intro.heading}
             heroImage="/images/security-door-hero.webp"
-            description={product.description}
+            description="Our security door collection includes Invisi-Gard stainless steel mesh, diamond grille, privacy grille, window grilles and security side panels. Each option is measured to suit the opening, frame and level of privacy, airflow and entry protection you need."
             features={product.features}
             benefits={product.benefits}
             ctaText="Get Secured"
@@ -33,9 +33,19 @@ export default function SecurityDoorsPage() {
                     image: "/images/sec-stainless.webp"
                 },
                 {
+                    title: "Privacy Grille",
+                    description: "Around 70% blockage from prying eyes while maintaining airflow and a strong visual barrier.",
+                    image: "/images/product-unique/mcb-privacy-grille-security-door-detail.webp"
+                },
+                {
                     title: "Diamond Grille",
                     description: "Traditional and cost-effective security solution.",
                     image: "/images/sec-diamond.webp"
+                },
+                {
+                    title: "Window Grilles and Security Side Panels",
+                    description: "Measured grille and panel options for vulnerable windows and door-side openings.",
+                    image: "/assets/security_window_screen.png"
                 }
             ]}
         />

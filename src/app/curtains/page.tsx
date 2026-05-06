@@ -14,7 +14,7 @@ export default function CurtainsPage() {
         <ProductTemplate
             nearbyLocations={nearby}
             title="Custom Made-to-Measure Curtains Melbourne"
-            subtitle="Sheer, Blockout, S-Fold and Motorised."
+            subtitle="Sheer, blockout, double, S-Fold, gathered, linen, velvet and motorised."
             heroImage="/assets/curtain_hero.png" // Using PNG as static hero for speed/consistency, or could use GIF
             description="Choose sheer curtains for soft daytime privacy, blockout curtains for better sleep, or double curtains for full day-to-night control. We bring fabric samples to your home and help you choose the right heading, lining and track for each room."
             intentLabel="Privacy, softness and better sleep"
@@ -52,7 +52,7 @@ export default function CurtainsPage() {
                     title: "S-Fold Signature Series",
                     description: "Our flagship curtain heading style. A continuous, fluid wave that brings architectural elegance to any room. Creates a seamless floor-to-ceiling effect that enhances feeling of space.",
                     image: "/images/sfold-curtain-detail.png",
-                    href: "/curtains/s-fold"
+                    href: "/curtains/s-fold-curtains"
                 },
                 {
                     title: "Sheer Elegance Collection",
@@ -69,8 +69,14 @@ export default function CurtainsPage() {
                 {
                     title: "Double Curtains",
                     description: "Layer sheer and blockout curtains for daytime softness, night privacy and a premium designer finish.",
-                    image: "/assets/sheer_curtains.png",
-                    href: "/curtains"
+                    image: "/images/product-unique/mcb-double-curtains-hero.webp",
+                    href: "/curtains/double-curtains"
+                },
+                {
+                    title: "Gathered Curtains",
+                    description: "A softer, relaxed heading style for generous curtain fullness and classic fabric movement.",
+                    image: "/images/product-unique/mcb-gathered-curtains-hero.webp",
+                    href: "/curtains/gathered-curtains"
                 },
                 {
                     title: "Theatre Class Velvet",

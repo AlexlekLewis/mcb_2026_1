@@ -1,0 +1,105 @@
+{
+  "check": "unique-new-page-images",
+  "passed": true,
+  "duplicateExpectedHeroes": [],
+  "results": [
+    {
+      "route": "/awnings/straight-drop-awnings",
+      "expectedHero": "mcb-straight-drop-awning-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-straight-drop-awning-hero.webp",
+        "/images/product-unique/mcb-straight-drop-awning-fabric-drop-detail.webp",
+        "/images/product-unique/mcb-straight-drop-awning-bottom-rail-detail.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    },
+    {
+      "route": "/awnings/auto-awnings",
+      "expectedHero": "mcb-auto-awning-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-auto-awning-hero.webp",
+        "/images/product-unique/mcb-auto-awning-arm-detail.webp",
+        "/images/product-unique/mcb-auto-awning-window-shade-detail.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    },
+    {
+      "route": "/awnings/fixed-guide-awnings",
+      "expectedHero": "mcb-fixed-guide-awning-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-fixed-guide-awning-hero.webp",
+        "/images/product-unique/mcb-fixed-guide-awning-side-channel-detail.webp",
+        "/images/product-unique/mcb-fixed-guide-awning-patio-window.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    },
+    {
+      "route": "/awnings/motorised-outdoor-blinds",
+      "expectedHero": "mcb-motorised-outdoor-blinds-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-motorised-outdoor-blinds-hero.webp",
+        "/images/product-unique/mcb-motorised-outdoor-blinds-remote.webp",
+        "/images/product-unique/mcb-motorised-outdoor-blinds-zipscreen.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    },
+    {
+      "route": "/awnings/wire-guide-awnings",
+      "expectedHero": "mcb-wire-guide-awning-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-wire-guide-awning-hero.webp",
+        "/images/product-unique/mcb-wire-guide-awning-cable-detail.webp",
+        "/images/product-unique/mcb-wire-guide-awning-balcony.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    },
+    {
+      "route": "/curtains/double-curtains",
+      "expectedHero": "mcb-double-curtains-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-double-curtains-hero.webp",
+        "/images/product-unique/mcb-double-curtains-sheer-layer-detail.webp",
+        "/images/product-unique/mcb-double-curtains-blockout-layer-detail.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    },
+    {
+      "route": "/curtains/gathered-curtains",
+      "expectedHero": "mcb-gathered-curtains-hero.webp",
+      "productAssets": [
+        "/assets/logo-nav.png",
+        "/assets/payright/payright-corporate-tight.png",
+        "/images/product-unique/mcb-gathered-curtains-hero.webp",
+        "/images/product-unique/mcb-gathered-curtain-heading-detail.webp",
+        "/images/product-unique/mcb-gathered-curtains-bedroom.webp",
+        "/assets/payright/payright-corporate.png",
+        "/assets/logo.png"
+      ],
+      "pass": true
+    }
+  ]
+}

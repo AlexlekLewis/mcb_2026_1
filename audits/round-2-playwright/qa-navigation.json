@@ -1,0 +1,149 @@
+{
+  "check": "navigation-correctness",
+  "passed": true,
+  "results": {
+    "links": {
+      "missingRequired": [],
+      "presentForbidden": [],
+      "presentForbiddenLabels": []
+    },
+    "routeChecks": [
+      {
+        "route": "/awnings/straight-drop-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/auto-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/fixed-guide-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/motorised-outdoor-blinds",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/wire-guide-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/shutters/roller-shutters",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/blinds/soft-vertical-drapes",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/curtains/double-curtains",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/curtains/gathered-curtains",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/straight-drop-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/auto-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/fixed-guide-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/motorised-outdoor-blinds",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/awnings/wire-guide-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/curtains",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/curtains/double-curtains",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/curtains/gathered-curtains",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/blinds",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/security",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "route": "/shutters",
+        "status": 200,
+        "pass": true
+      }
+    ],
+    "redirects": [
+      {
+        "from": "/awnings/outdoor-blinds",
+        "expected": "/awnings",
+        "finalPath": "/awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "from": "/awnings/window-awnings",
+        "expected": "/awnings/auto-awnings",
+        "finalPath": "/awnings/auto-awnings",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "from": "/curtains/s-fold",
+        "expected": "/curtains/s-fold-curtains",
+        "finalPath": "/curtains/s-fold-curtains",
+        "status": 200,
+        "pass": true
+      },
+      {
+        "from": "/curtains/velvet-curtains",
+        "expected": "/curtains/velvet",
+        "finalPath": "/curtains/velvet",
+        "status": 200,
+        "pass": true
+      }
+    ],
+    "forbiddenOutdoorText": []
+  }
+}

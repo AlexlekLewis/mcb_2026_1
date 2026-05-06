@@ -13,10 +13,10 @@ export default function SecurityPage() {
     return (
         <ProductTemplate
             nearbyLocations={nearby}
-            title="Stainless Steel Security Doors Melbourne"
+            title="Security Doors, Fly Screens and Pet Mesh Melbourne"
             subtitle="Safer homes without losing light or airflow."
-            heroImage="/images/security-door-hero.webp"
-            description="Choose from stainless steel mesh security doors, diamond grille doors, fly screens and pet mesh. We custom measure and install each screen so your home feels safer, cooler and more comfortable."
+            heroImage="/images/product-unique/mcb-security-products-category-hero.webp"
+            description="Choose from stainless steel mesh security doors, privacy grilles, diamond grille doors, window grilles, security side panels, fly screens and pet mesh. We custom measure and install each screen so your home feels safer, cooler and more comfortable."
             intentLabel="Security, airflow and insect control"
             features={[
                 {
@@ -34,14 +34,15 @@ export default function SecurityPage() {
             ]}
             decisionGuide={[
                 { title: "Premium mesh security", description: "Best for clear views, airflow and stronger protection at entry doors." },
-                { title: "Diamond grille", description: "Best for a visible deterrent and reliable, cost-effective barrier." },
-                { title: "Fly screens", description: "Best for insect protection and natural ventilation." },
+                { title: "Privacy grille", description: "Best where you want added privacy with around 70% blockage from prying eyes." },
+                { title: "Fly screens and aluminium mesh", description: "Best for insect protection, natural ventilation and higher-traffic openings." },
                 { title: "Pet mesh", description: "Best for high-traffic doors and homes with pets." },
             ]}
             comparisonRows={[
                 { label: "Security mesh", bestFor: "Premium protection", notes: "Clear view, airflow and strong mesh options." },
+                { label: "Privacy grille", bestFor: "Privacy at doors and panels", notes: "Around 70% blockage from prying eyes." },
                 { label: "Diamond grille", bestFor: "Visible deterrent", notes: "Traditional security look at accessible price points." },
-                { label: "Fly screen", bestFor: "Insects and airflow", notes: "Keeps bugs out while letting fresh air in." },
+                { label: "Aluminium Mesh fly screen", bestFor: "Insects, airflow and traffic", notes: "Keeps bugs out with a stronger mesh option for busier openings." },
                 { label: "Pet mesh", bestFor: "Pets and traffic", notes: "Stronger mesh for claws and everyday use." },
             ]}
             types={[
@@ -58,7 +59,19 @@ export default function SecurityPage() {
                     href: "/security/security-doors"
                 },
                 {
-                    title: "Insect & Fly Screens",
+                    title: "Privacy Grille",
+                    description: "A privacy-focused grille option that blocks around 70% from prying eyes while keeping airflow.",
+                    image: "/images/product-unique/mcb-privacy-grille-security-door-detail.webp",
+                    href: "/security/security-doors"
+                },
+                {
+                    title: "Window Grilles and Security Side Panels",
+                    description: "Custom-measured grille and side panel options for vulnerable windows and entry surrounds.",
+                    image: "/assets/security_window_screen.png",
+                    href: "/security/security-doors"
+                },
+                {
+                    title: "Insect, Fly Screens and Aluminium Mesh",
                     description: "Partial security and full insect protection. Available in durable fibreglass or upgraded aluminium mesh for higher traffic areas and pet resistance.",
                     image: "/images/sec-fly.webp",
                     href: "/security/fly-screens"

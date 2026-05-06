@@ -4,16 +4,16 @@ import { FinalCTA } from "@/components/CROSections";
 
 export const metadata: Metadata = {
   title: "Project Gallery | Curtains, Blinds, Shutters & Security Screens",
-  description: "Browse product inspiration for custom curtains, blinds, shutters, security screens, outdoor blinds and motorisation by Modern Curtains and Blinds.",
+  description: "Browse product inspiration for custom curtains, blinds, shutters, security screens, outdoor products and motorisation by Modern Curtains and Blinds.",
 };
 
 const projects = [
-  { title: "Soft light living room", product: "S-Fold sheer curtains", image: "/images/sfold-curtain-detail.png" },
-  { title: "Bedroom privacy", product: "Blockout curtains and blinds", image: "/images/blockout-curtain-detail.webp" },
-  { title: "Energy-conscious windows", product: "Honeycomb blinds", image: "/assets/honeycomb_blinds.png" },
-  { title: "Alfresco comfort", product: "Zipscreens and outdoor shade", image: "/assets/zipscreen_blinds.png" },
-  { title: "Timeless shutters", product: "Plantation shutters", image: "/images/plantation-shutters-hero.webp" },
-  { title: "Airflow and security", product: "Security doors and fly screens", image: "/images/security-door-hero.webp" },
+  { title: "Soft light living room", product: "S-Fold sheer curtains", image: "/images/product-unique/mcb-project-soft-light-living-room.webp" },
+  { title: "Bedroom privacy", product: "Double curtains and blockout", image: "/images/product-unique/mcb-project-bedroom-privacy.webp" },
+  { title: "Energy-conscious windows", product: "Honeycomb blinds", image: "/images/product-unique/mcb-project-energy-conscious-windows.webp" },
+  { title: "Alfresco comfort", product: "Zipscreens and outdoor shade", image: "/images/product-unique/mcb-project-alfresco-comfort.webp" },
+  { title: "Timeless shutters", product: "Plantation shutters", image: "/images/product-unique/mcb-project-timeless-shutters.webp" },
+  { title: "Airflow and security", product: "Security doors and fly screens", image: "/images/product-unique/mcb-project-airflow-security.webp" },
 ];
 
 export default function ProjectsPage() {

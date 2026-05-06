@@ -345,7 +345,7 @@ export const productData: Product[] = [
         features: [
             { title: "Wind & Rain Protection", description: "Strong track system withstands gusts." },
             { title: "Insect Barrier", description: "Seals the space against mosquitoes." },
-            { title: "UV Block", description: "Reduces heat on your patio." }
+            { title: "UV Block", description: "Reduces heat on your patio, supports airflow and allows two-way vision." }
         ],
         benefits: [
             "Extends living space",
@@ -358,12 +358,12 @@ export const productData: Product[] = [
     {
         slug: "awnings",
         category: "Outdoor",
-        title: "Awnings | Shade & Style",
-        description: "Protect your windows and patios from the harsh Australian sun with our range of stylish awnings.",
-        heroImage: "/assets/awning_hero.webp",
+        title: "Outdoor Products | Shade & Style",
+        description: "Protect your windows, patios and alfresco areas with zipscreens, roller shutters, folding arm, straight drop, auto, fixed guide and wire guide awnings.",
+        heroImage: "/images/product-unique/mcb-outdoor-products-category-hero.webp",
         intro: {
-            heading: "Awnings: First Line of Defence",
-            body: "Stop the sun before it hits your glass. External Awnings are the most effective way to cool your home, preventing heat from entering your windows. From Auto-Lock arms to Folding Arm Awnings for patios, we have a solution for every exterior."
+            heading: "Outdoor Products: First Line of Defence",
+            body: "Stop the sun before it hits your glass and make outdoor spaces more comfortable. From zipscreens and roller shutters to folding arm, straight drop, auto, fixed guide and wire guide awnings, we help match the product to the opening."
         },
         features: [
             { title: "Heat Reduction", description: "Stops solar gain before it enters the home." },
@@ -455,12 +455,12 @@ export const productData: Product[] = [
     {
         slug: "fusion-plus-shutters",
         category: "Shutters",
-        title: "Fusion Plus Shutters | Waterproof Polymer",
-        description: "The ultimate wet-area shutter. Waterproof reinforced polymer with an aluminium core for superior strength.",
+        title: "Fusion Plus Shutters | Waterproof PVC",
+        description: "The ultimate wet-area shutter. Waterproof reinforced PVC with an aluminium core for superior strength.",
         heroImage: "/images/products/fusion-plus-shutters-hero.png",
         intro: {
             heading: "Fusion Plus: Engineered for Life",
-            body: "Fusion Plus shutters are crafted from a waterproof reinforced polymer extrusion, making them the perfect choice for bathrooms, laundries, and kitchens. Reinforced with an aluminium core, they offer the look of premium timber with the durability to withstand moisture and daily wear."
+            body: "Fusion Plus shutters are crafted from a waterproof reinforced PVC extrusion, making them the perfect choice for bathrooms, laundries, and kitchens. Reinforced with an aluminium core, they offer the look of premium timber with the durability to withstand moisture and daily wear."
         },
         features: [
             { title: "Waterproof", description: "Ideal for wet areas; will not warp, crack, or peel." },

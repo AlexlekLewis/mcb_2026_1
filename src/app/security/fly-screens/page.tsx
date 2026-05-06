@@ -29,13 +29,18 @@ export default function FlyScreensPage() {
             types={[
                 {
                     title: "Retractable Screens",
-                    description: "Disappear when not in use. Perfect for bi-folds.",
+                    description: "For bi-fold and difficult areas where a screen needs to disappear when not in use.",
                     image: "/images/retractable-screen.webp"
                 },
                 {
                     title: "Sliding Door Fly Screens",
                     description: "Custom-measured screens for sliding doors and everyday ventilation.",
                     image: "/assets/security_window_screen.png"
+                },
+                {
+                    title: "Aluminium Mesh",
+                    description: "A stronger mesh upgrade for higher traffic windows and doors.",
+                    image: "/images/product-unique/mcb-aluminium-mesh-flyscreen-detail.webp"
                 }
             ]}
         />

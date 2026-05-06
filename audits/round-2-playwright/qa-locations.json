@@ -1,0 +1,163 @@
+{
+  "check": "location-template-sweep",
+  "locationPageCount": 693,
+  "sampleSuburbs": [
+    "preston",
+    "clyde",
+    "mount-eliza"
+  ],
+  "passed": true,
+  "failures": {
+    "routes": [],
+    "products": [],
+    "redirects": []
+  },
+  "productChecks": [
+    {
+      "route": "/locations/preston/straight-drop-awnings",
+      "status": 200,
+      "h1": "Straight Drop Awnings Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/preston/auto-awnings",
+      "status": 200,
+      "h1": "Auto Awnings Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/preston/fixed-guide-awnings",
+      "status": 200,
+      "h1": "Fixed Guide Awnings Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/preston/motorised-outdoor-blinds",
+      "status": 200,
+      "h1": "Motorised Outdoor Blinds Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/preston/wire-guide-awnings",
+      "status": 200,
+      "h1": "Wire Guide Awnings Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/preston/double-curtains",
+      "status": 200,
+      "h1": "Double Curtains Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/preston/gathered-curtains",
+      "status": 200,
+      "h1": "Gathered Curtains Preston",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/straight-drop-awnings",
+      "status": 200,
+      "h1": "Straight Drop Awnings Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/auto-awnings",
+      "status": 200,
+      "h1": "Auto Awnings Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/fixed-guide-awnings",
+      "status": 200,
+      "h1": "Fixed Guide Awnings Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/motorised-outdoor-blinds",
+      "status": 200,
+      "h1": "Motorised Outdoor Blinds Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/wire-guide-awnings",
+      "status": 200,
+      "h1": "Wire Guide Awnings Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/double-curtains",
+      "status": 200,
+      "h1": "Double Curtains Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/clyde/gathered-curtains",
+      "status": 200,
+      "h1": "Gathered Curtains Clyde",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/straight-drop-awnings",
+      "status": 200,
+      "h1": "Straight Drop Awnings Mount Eliza",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/auto-awnings",
+      "status": 200,
+      "h1": "Auto Awnings Mount Eliza",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/fixed-guide-awnings",
+      "status": 200,
+      "h1": "Fixed Guide Awnings Mount Eliza",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/motorised-outdoor-blinds",
+      "status": 200,
+      "h1": "Motorised Outdoor Blinds Mount Eliza",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/wire-guide-awnings",
+      "status": 200,
+      "h1": "Wire Guide Awnings Mount Eliza",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/double-curtains",
+      "status": 200,
+      "h1": "Double Curtains Mount Eliza",
+      "pass": true
+    },
+    {
+      "route": "/locations/mount-eliza/gathered-curtains",
+      "status": 200,
+      "h1": "Gathered Curtains Mount Eliza",
+      "pass": true
+    }
+  ],
+  "redirectChecks": [
+    {
+      "from": "/locations/preston/outdoor-blinds",
+      "expected": "/locations/preston/awnings",
+      "finalPath": "/locations/preston/awnings",
+      "pass": true
+    },
+    {
+      "from": "/locations/preston/window-awnings",
+      "expected": "/locations/preston/auto-awnings",
+      "finalPath": "/locations/preston/auto-awnings",
+      "pass": true
+    },
+    {
+      "from": "/locations/preston/outdoor-shutters",
+      "expected": "/locations/preston/aluminium-shutters",
+      "finalPath": "/locations/preston/aluminium-shutters",
+      "pass": true
+    }
+  ]
+}
