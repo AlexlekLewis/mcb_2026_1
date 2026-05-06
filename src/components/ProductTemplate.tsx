@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, Star, Phone, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GoogleReviewsWidget } from "./GoogleReviewsWidget";
 import { ProcessTimeline } from "./ProcessTimeline";
@@ -236,21 +236,6 @@ export function ProductTemplate({
                     className="absolute inset-0 flex items-center justify-center container mx-auto px-6"
                 >
                     <div className="text-center max-w-4xl text-white">
-                        {/* Animated sparkle decoration */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                            className="flex justify-center mb-4"
-                        >
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                            >
-                                <Sparkles className="w-8 h-8 text-mcb-terracotta" />
-                            </motion.div>
-                        </motion.div>
-
                         <motion.h1
                             initial={false}
                             className="font-serif text-5xl md:text-7xl font-bold mb-6"
@@ -373,13 +358,11 @@ export function ProductTemplate({
                                 whileHover={{ y: -8, transition: { duration: 0.3 } }}
                                 className="bg-white p-8 rounded-sm shadow-sm border-t-4 border-mcb-earth cursor-pointer group"
                             >
-                                <motion.div
+                                <div
                                     className="w-12 h-12 bg-mcb-clay/10 rounded-full flex items-center justify-center text-mcb-terracotta mb-6 group-hover:bg-mcb-terracotta group-hover:text-white transition-colors duration-300"
-                                    whileHover={{ rotate: 360 }}
-                                    transition={{ duration: 0.5 }}
                                 >
-                                    <Star size={24} />
-                                </motion.div>
+                                    <Check size={24} />
+                                </div>
                                 <h3 className="font-serif text-xl mb-3 text-mcb-charcoal group-hover:text-mcb-terracotta transition-colors">{feature.title}</h3>
                                 <p className="text-stone-500 leading-relaxed">{feature.description}</p>
                             </motion.div>
