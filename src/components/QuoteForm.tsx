@@ -63,9 +63,6 @@ export default function QuoteForm() {
     referrerName: "",
   });
 
-  const section2Ref = useRef<HTMLDivElement | null>(null);
-  const section3Ref = useRef<HTMLDivElement | null>(null);
-
   const section1Valid = useMemo(() =>
     formData.suburb.trim().length > 1 &&
     formData.products.length > 0 &&
@@ -100,7 +97,6 @@ export default function QuoteForm() {
     if (section1Valid && !trackedSectionsRef.current.s1) {
       trackedSectionsRef.current.s1 = true;
       trackEvent("quote_step_1_complete", getQuoteTrackingPayload(formData));
-      requestAnimationFrame(() => section2Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
     }
   }, [section1Valid, formData]);
 
@@ -108,7 +104,6 @@ export default function QuoteForm() {
     if (section2Valid && !trackedSectionsRef.current.s2) {
       trackedSectionsRef.current.s2 = true;
       trackEvent("quote_step_2_complete", getQuoteTrackingPayload(formData));
-      requestAnimationFrame(() => section3Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
     }
   }, [section2Valid, formData]);
 
@@ -266,7 +261,7 @@ export default function QuoteForm() {
               </div>
             </SectionPanel>
 
-            <div ref={section2Ref}>
+            <div>
               <SectionPanel title="2. Your details" complete={section2Valid} open={section1Valid}>
                 <div className="space-y-6">
                   <div className="grid gap-6 md:grid-cols-2">
@@ -281,7 +276,7 @@ export default function QuoteForm() {
               </SectionPanel>
             </div>
 
-            <div ref={section3Ref}>
+            <div>
               <SectionPanel title="3. Best time & a few last details" complete={section3Valid} open={section2Valid}>
                 <div className="space-y-6">
                   <div className="grid gap-6 md:grid-cols-2">
