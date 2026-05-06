@@ -32,7 +32,7 @@ export default function SoftVerticalDrapesPage() {
             decisionGuide={[
                 { title: "Choose for sliding doors", description: "Best for doors used often, where walk-through access matters." },
                 { title: "Compare with vertical blinds", description: "Traditional verticals are practical and cost-effective; soft vertical drapes give a softer fabric finish." },
-                { title: "Compare with panel glide", description: "Panel glide suits a crisp architectural look; soft vertical drapes suit softer interiors and frequent access." },
+                { title: "Compare with curtain", description: "Panel glide suits a crisp architectural look; soft vertical drapes suit softer interiors and frequent access." },
             ]}
             comparisonRows={[
                 { label: "Vertical blinds", bestFor: "Value and simple function", notes: "Practical rotating vanes for large openings." },
