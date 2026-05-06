@@ -36,12 +36,12 @@ export default function GatheredCurtainsPage() {
                 {
                     title: "Gathered Heading Detail",
                     description: "A soft heading style with a relaxed fabric fall.",
-                    image: "/images/product-unique/mcb-gathered-curtain-heading-detail.webp",
+                    image: "/assets/pleated_pencil_bedroom.png",
                 },
                 {
                     title: "Gathered Room Finish",
                     description: "Made-to-measure gathered curtains for bedrooms, living rooms and softer interiors.",
-                    image: "/images/product-unique/mcb-gathered-curtains-bedroom.webp",
+                    image: "/assets/pleated_pinch_formal.webp",
                 },
             ]}
             faq={[
