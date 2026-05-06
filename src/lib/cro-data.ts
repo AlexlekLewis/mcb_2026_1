@@ -42,7 +42,7 @@ export const needCards = [
   },
   {
     title: "Security and airflow",
-    description: "Security doors, window screens, pet mesh and fly screens measured to fit.",
+    description: "Security doors, pet mesh and fly screens measured to fit.",
     href: "/security",
     icon: ShieldCheck,
   },
@@ -94,13 +94,13 @@ export const categoryCards = [
   },
   {
     title: "Plantation Shutters",
-    description: "Timber, polymer/PVC, aluminium, outdoor and roller shutter options.",
+    description: "Timber, polymer/PVC, aluminium and outdoor plantation shutter options.",
     href: "/shutters",
     image: "/images/plantation-shutters-hero.webp",
   },
   {
     title: "Security Doors & Screens",
-    description: "Security doors, fly screens, pet mesh, window screens and stainless mesh options.",
+    description: "Security doors, fly screens, pet mesh and stainless mesh options.",
     href: "/security",
     image: "/images/security-door-hero.webp",
   },
@@ -127,7 +127,6 @@ export const navItems = [
         title: "Popular",
         items: [
           { label: "Roller Blinds", href: "/blinds/roller-blinds" },
-          { label: "Sunscreen Blinds", href: "/blinds/roller-blinds/sunscreen" },
           { label: "Venetian Blinds", href: "/blinds/venetian-blinds" },
           { label: "Honeycomb Blinds", href: "/blinds/honeycomb-blinds" },
           { label: "Roman Blinds", href: "/blinds/roman-blinds" },
@@ -150,7 +149,7 @@ export const navItems = [
           { label: "Motorised Blinds", href: "/blinds/motorised-blinds" },
           { label: "Cassette Blinds", href: "/blinds/cassette-blinds" },
           { label: "Skylight Blinds", href: "/blinds/skylight-blinds" },
-          { label: "Veri Shades", href: "/blinds/veri-shades" },
+          { label: "Soft Vertical Drapes", href: "/blinds/soft-vertical-drapes" },
         ],
       },
     ],
@@ -189,7 +188,7 @@ export const navItems = [
     ],
   },
   {
-    label: "Shutters",
+    label: "Plantation Shutters",
     href: "/shutters",
     groups: [
       {
@@ -199,7 +198,6 @@ export const navItems = [
           { label: "Timber Shutters", href: "/shutters/plantation-shutters/timber" },
           { label: "Polymer/PVC Shutters", href: "/shutters/plantation-shutters/polymer" },
           { label: "Aluminium Shutters", href: "/shutters/plantation-shutters/aluminium" },
-          { label: "Roller Shutters", href: "/shutters/roller-shutters" },
         ],
       },
     ],
@@ -213,8 +211,7 @@ export const navItems = [
         items: [
           { label: "Security Doors", href: "/security/security-doors" },
           { label: "Fly Screens", href: "/security/fly-screens" },
-          { label: "Pet Mesh", href: "/security/fly-screens" },
-          { label: "Window Security Screens", href: "/security" },
+          { label: "Pet Mesh", href: "/security/pet-mesh" },
         ],
       },
     ],
@@ -227,9 +224,9 @@ export const navItems = [
         title: "Shade & Shelter",
         items: [
           { label: "Zipscreens", href: "/awnings/zipscreens" },
-          { label: "Outdoor Blinds", href: "/awnings/zipscreens" },
-          { label: "Folding Arm Awnings", href: "/awnings" },
-          { label: "Window Awnings", href: "/awnings" },
+          { label: "Outdoor Blinds", href: "/awnings/outdoor-blinds" },
+          { label: "Folding Arm Awnings", href: "/awnings/folding-arm-awnings" },
+          { label: "Window Awnings", href: "/awnings/window-awnings" },
           { label: "Outdoor Shutters", href: "/shutters/plantation-shutters/aluminium" },
         ],
       },
@@ -259,7 +256,7 @@ export const quoteProductOptions = [
   "Motorised Blinds",
   "Cassette Blinds",
   "Skylight Blinds",
-  "Veri Shades",
+  "Soft Vertical Drapes",
   "Plantation Shutters",
   "Roller Shutters",
   "Security Doors",
@@ -267,6 +264,8 @@ export const quoteProductOptions = [
   "Pet Mesh",
   "Outdoor Blinds",
   "Zipscreens",
+  "Folding Arm Awnings",
+  "Window Awnings",
   "Awnings",
   "Motorisation",
 ];

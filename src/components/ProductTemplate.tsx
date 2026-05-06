@@ -163,7 +163,6 @@ export function ProductTemplate({
     benefits,
     types,
     ctaText = "Book Free Measure & Quote",
-    nearbyLocations,
     faq = [],
     intentLabel = "Made-to-measure advice",
     decisionGuide,
@@ -398,7 +397,7 @@ export function ProductTemplate({
                                 Compare options
                             </span>
                             <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
-                                Product guide
+                                Product Guide
                             </h2>
                             <p className="text-stone-500 text-lg">
                                 A quick view of the most common choices before we bring samples to your home.
@@ -431,7 +430,7 @@ export function ProductTemplate({
                         <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
                             <div>
                                 <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-3 block">
-                                    The Modern Fit Promise
+                                    The Modern Promise
                                 </span>
                                 <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal">
                                     Measured right and installed properly
@@ -626,41 +625,6 @@ export function ProductTemplate({
                         </div>
                     </div>
                 </section>
-            )}
-
-            {/* Nearby Locations with hover animations */}
-            {nearbyLocations && nearbyLocations.length > 0 && (
-                <motion.section
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    className="py-20 bg-stone-50 border-t border-stone-100"
-                >
-                    <div className="container mx-auto px-6">
-                        <h3 className="font-serif text-2xl text-mcb-charcoal mb-8 text-center">
-                            Also Configuring Homes Near {title.replace('Curtains and Blinds ', '')}
-                        </h3>
-                        <motion.div
-                            variants={containerVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="flex flex-wrap justify-center gap-4 md:gap-8"
-                        >
-                            {nearbyLocations.map((loc) => (
-                                <motion.div key={loc.slug} variants={itemVariants}>
-                                    <Link
-                                        href={`/locations/${loc.slug}`}
-                                        className="relative text-stone-500 hover:text-mcb-terracotta transition-colors text-sm font-medium pb-0.5 group"
-                                    >
-                                        {loc.name} {loc.postcode}
-                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-mcb-terracotta group-hover:w-full transition-all duration-300" />
-                                    </Link>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </div>
-                </motion.section>
             )}
 
             {/* CTA Section with enhanced animations */}

@@ -19,7 +19,7 @@ export default function SunscreenBlindsPage() {
             title="Sunscreen Blinds"
             subtitle="Glare Reduction & UV Protection"
             heroImage="/images/sunscreen-blinds.png"
-            description="Preserve daytime outlook while reducing glare, UV exposure and harsh afternoon sun. Sunscreen blinds are ideal for bright living areas, offices and open-plan rooms."
+            description="Preserve daytime outlook while reducing glare, UV exposure and harsh afternoon sun. Sunscreen blinds let natural light through while helping provide privacy from outside during the day, making them ideal for bright living areas, offices and open-plan rooms."
             intentLabel={content.intentLabel}
             features={product.features}
             benefits={product.benefits}

@@ -3,8 +3,8 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Plantation Shutters Melbourne | Timber, PVC, Aluminium & Roller",
-    description: "Custom plantation and roller shutters in Melbourne including timber, PVC/polymer, aluminium and outdoor shutters. Free in-home measure and quote.",
+    title: "Plantation Shutters Melbourne | Timber, PVC & Aluminium",
+    description: "Custom plantation shutters in Melbourne including timber, PVC/polymer, aluminium and outdoor shutters. Free in-home measure and quote.",
 };
 
 export default function ShuttersPage() {
@@ -16,7 +16,7 @@ export default function ShuttersPage() {
             title="Plantation Shutters Melbourne"
             subtitle="Timber, PVC, Aluminium and Outdoor."
             heroImage="/images/product-unique/mcb-timber-plantation-shutters-hero.webp"
-            description="Add privacy, airflow, insulation and long-term value with shutters made to fit your windows. We help you choose timber for warmth, polymer for wet areas, aluminium for outdoors, or roller shutters for security and blockout."
+            description="Add privacy, airflow, insulation and long-term value with plantation shutters made to fit your windows. We help you choose timber for warmth, polymer for wet areas or aluminium for outdoor spaces."
             intentLabel="Long-term value and airflow"
             features={[
                 {
@@ -36,13 +36,11 @@ export default function ShuttersPage() {
                 { title: "Timber shutters", description: "Best for living spaces and bedrooms where natural warmth and a premium finish matter." },
                 { title: "PVC/polymer shutters", description: "Best for bathrooms, laundries, kitchens and family homes needing easy cleaning." },
                 { title: "Aluminium shutters", description: "Best for balconies, alfresco areas, patios and exposed outdoor spaces." },
-                { title: "Roller shutters", description: "Best for security, total blockout, noise reduction and weather protection." },
             ]}
             comparisonRows={[
                 { label: "Timber", bestFor: "Premium interiors", notes: "Lightweight, warm and classic." },
                 { label: "PVC/polymer", bestFor: "Wet areas", notes: "Moisture-resistant and easy to clean." },
                 { label: "Aluminium", bestFor: "Outdoor/alfresco", notes: "Durable in exposed areas." },
-                { label: "Roller shutters", bestFor: "Security and blockout", notes: "Exterior barrier for privacy, noise and heat control." },
             ]}
             types={[
                 {
@@ -63,12 +61,6 @@ export default function ShuttersPage() {
                     image: "/assets/outdoor_shutters_balcony.webp",
                     href: "/shutters/plantation-shutters/aluminium"
                 },
-                {
-                    title: "Roller Shutters",
-                    description: "Exterior aluminium shutters for stronger security, total blockout, insulation and noise reduction.",
-                    image: "/images/roller-shutters.webp",
-                    href: "/shutters/roller-shutters"
-                }
             ]}
             faq={[
                 { question: "Which shutters are best for bathrooms?", answer: "PVC or polymer shutters are the best fit for wet areas because they handle moisture better than timber." },

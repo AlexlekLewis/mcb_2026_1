@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Cassette Blinds Melbourne | Custom Roller Blind Headbox Systems",
-    description: "Custom cassette blinds in Melbourne for a cleaner enclosed roller blind finish. Blockout, translucent and motorised options subject to window suitability.",
+    description: "Custom cassette blinds in Melbourne for stronger room darkening, reduced light gaps and a cleaner enclosed roller blind finish. Free in-home measure and quote.",
     alternates: { canonical: "/blinds/cassette-blinds" },
 };
 
@@ -13,43 +13,43 @@ export default function CassetteBlindsPage() {
         <ProductTemplate
             nearbyLocations={getNearbyLocations("blinds", 8)}
             title="Cassette Blinds Melbourne"
-            subtitle="A cleaner enclosed headbox for selected roller blind applications."
+            subtitle="A stronger room-darkening blind system with a cleaner enclosed finish."
             heroImage="/images/product-unique/mcb-cassette-blinds-neat-headbox-hero.webp"
-            description="Cassette blinds hide the fabric roll inside a neat headbox, creating a more integrated finish than an exposed roller. They are useful where a cleaner architectural look matters or where the blind hardware needs to feel more considered."
-            intentLabel="A neater roller blind finish"
+            description="Cassette blinds are designed for rooms where stronger room darkening matters. The enclosed headbox and side-channel options can help reduce light gaps while also making the blind look cleaner and more finished than an exposed roller."
+            intentLabel="Room darkening and reduced light gaps"
             features={[
                 {
-                    title: "Enclosed Headbox",
-                    description: "Conceals the roll and bracket hardware for a cleaner finish at the top of the window."
+                    title: "Reduced Light Gaps",
+                    description: "Cassette and side-channel systems can help reduce the light that leaks around standard roller blinds."
                 },
                 {
-                    title: "Fabric Protection",
-                    description: "Helps keep the fabric roll protected when the blind is raised."
+                    title: "Room Darkening",
+                    description: "A strong option for theatre rooms, nurseries, bedrooms and night-shift workers who need a darker room."
                 },
                 {
-                    title: "Blockout and Motorised Options",
-                    description: "Can be considered with blockout fabrics and motorisation where the window size and hardware are suitable."
+                    title: "Cleaner Finished Look",
+                    description: "The headbox conceals the roll and brackets for a neater finish than an exposed roller blind."
                 }
             ]}
             decisionGuide={[
-                { title: "Choose cassette for visible living areas", description: "Best when an exposed roll would look unfinished in a prominent room." },
-                { title: "Ask about side gaps", description: "A cassette can clean up the top detail, but side light gaps still depend on fit, reveal and fabric system." },
+                { title: "Choose cassette for dark rooms", description: "Best for theatre rooms, nurseries and bedrooms where reducing light gaps is important." },
+                { title: "Ask about side channels", description: "Side channels can improve room darkening where the window reveal and product system are suitable." },
                 { title: "Consider motorisation early", description: "Motorisation can pair well with cassette blinds if the motor and headbox are selected together." },
             ]}
             comparisonRows={[
                 { label: "Standard roller", bestFor: "Simple value", notes: "Visible roll and brackets, lower hardware profile." },
-                { label: "Cassette roller", bestFor: "Finished interiors", notes: "Enclosed headbox for a more integrated look." },
-                { label: "Motorised cassette", bestFor: "Premium rooms", notes: "Pairs cleaner hardware with remote or app operation." },
+                { label: "Cassette roller", bestFor: "Room darkening", notes: "Enclosed headbox helps reduce top light gaps." },
+                { label: "Motorised cassette", bestFor: "Bedrooms and theatre rooms", notes: "Pairs room-darkening hardware with remote or app operation." },
             ]}
             types={[
                 {
                     title: "Standard Cassette Roller Blinds",
-                    description: "A tidy upgrade for living areas, home offices and visible window positions.",
+                    description: "A tidy enclosed system for rooms where top light gaps and exposed hardware are a concern.",
                     image: "/images/product-unique/mcb-cassette-roller-blind-headbox-detail.webp"
                 },
                 {
                     title: "Blockout Cassette Blinds",
-                    description: "Useful for bedrooms or media rooms where you want a cleaner top finish with stronger privacy and darkness.",
+                    description: "Useful for theatre rooms, nurseries and night-shift workers bedrooms where stronger darkness matters.",
                     image: "/images/product-unique/mcb-blockout-cassette-blinds-bedroom.webp"
                 },
                 {
@@ -59,7 +59,7 @@ export default function CassetteBlindsPage() {
                 }
             ]}
             faq={[
-                { question: "Do cassette blinds block all light gaps?", answer: "They can help tidy the top of the blind, but full light control depends on the window reveal, fitting method, side gaps and fabric choice." },
+                { question: "Do cassette blinds block all light gaps?", answer: "They can significantly improve room darkening, especially when paired with suitable side channels, but final light control depends on the window reveal, fitting method and fabric choice." },
                 { question: "Are cassette blinds available for every window?", answer: "Not always. We confirm suitability during the measure because cassette size, fixing surface and blind dimensions matter." },
                 { question: "Can cassette blinds be motorised?", answer: "Yes, many cassette blind systems can be motorised if the chosen hardware and blind size support it." },
             ]}

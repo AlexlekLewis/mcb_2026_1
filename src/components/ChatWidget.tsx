@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { trackEvent } from "@/lib/analytics";
+import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { quoteHref, SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +44,7 @@ const interestOptions = [
   "Shutters",
   "Security Doors",
   "Fly Screens",
+  "Pet Mesh",
   "Outdoor Blinds",
   "Motorisation",
 ];
@@ -64,15 +65,19 @@ const pathInterestMap: Array<[string, string]> = [
   ["panel-glide", "Panel Glide Blinds"],
   ["cassette", "Cassette Blinds"],
   ["skylight", "Skylight Blinds"],
-  ["veri-shades", "Veri Shades"],
+  ["soft-vertical-drapes", "Soft Vertical Drapes"],
   ["blinds", "Blinds"],
   ["plantation-shutters", "Plantation Shutters"],
   ["roller-shutters", "Roller Shutters"],
   ["shutters", "Shutters"],
   ["security-doors", "Security Doors"],
   ["fly-screens", "Fly Screens"],
+  ["pet-mesh", "Pet Mesh"],
   ["security", "Security Doors"],
   ["zipscreens", "Zipscreens"],
+  ["outdoor-blinds", "Outdoor Blinds"],
+  ["folding-arm-awnings", "Folding Arm Awnings"],
+  ["window-awnings", "Window Awnings"],
   ["awnings", "Outdoor Blinds"],
   ["motorisation", "Motorisation"],
 ];
@@ -114,7 +119,7 @@ export function ChatWidget() {
     }
   }, [hasCustomInterest, pageInterest]);
 
-  if (pathname?.startsWith("/quote")) return null;
+  if (pathname?.startsWith("/quote") || pathname?.startsWith("/dashboard")) return null;
 
   const handleToggle = () => {
     const nextOpen = !isOpen;
@@ -166,6 +171,8 @@ export function ChatWidget() {
       appointmentPreference: "",
       projectStage: "Just need advice",
       needsAdvice: selectedInterest === "Unsure / Need Advice",
+      source: "chat_widget",
+      trackingContext: getClientTrackingContext(),
       message: [
         "Quick callback request from the website chat assistant.",
         `Interest: ${selectedInterest}.`,
@@ -561,7 +568,7 @@ function getProductAdvice(productContext: string, normalizedQuestion: string) {
   }
 
   if (matches(normalizedQuestion, ["sliding", "wide", "door", "panel", "vertical", "veri"])) {
-    return "For wide windows and sliding doors, panel glide blinds, vertical blinds and Veri Shades are common options. Panel glides are clean and architectural, verticals are practical, and Veri Shades give a softer curtain-like feel.\n\nThe right choice depends on stack space, walk-through use, privacy and the style of the room.";
+    return "For wide windows and sliding doors, panel glide blinds, vertical blinds and soft vertical drapes are common options. Panel glides are clean and architectural, verticals are practical, and soft vertical drapes give a softer curtain-like feel.\n\nThe right choice depends on stack space, walk-through use, privacy and the style of the room.";
   }
 
   if (matches(normalizedQuestion, ["security", "door", "fly", "pest", "mesh", "screen"])) {

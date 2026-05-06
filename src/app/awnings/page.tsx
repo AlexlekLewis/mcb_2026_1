@@ -15,7 +15,7 @@ export default function AwningsPage() {
             nearbyLocations={nearby}
             title="Outdoor Awnings, Zipscreens and Alfresco Blinds Melbourne"
             subtitle="Use your deck, patio or alfresco area more often."
-            heroImage="/assets/awning_hero.webp"
+            heroImage="/images/product-unique/mcb-zipscreens-alfresco-hero.webp"
             description="Shade hot windows, protect alfresco areas and make outdoor spaces more comfortable in sun, wind and light rain. We help you choose between folding arm awnings, window awnings, zipscreens and outdoor shutters based on your exposure and how you use the space."
             intentLabel="Shade, heat control and outdoor comfort"
             features={[
@@ -49,13 +49,13 @@ export default function AwningsPage() {
                     title: "Folding Arm Awnings",
                     description: "Create an instant alfresco dining area. Retracts neatly against the wall when not in use for an unobtrusive look.",
                     image: "/assets/folding_arm_awning.webp",
-                    href: "/awnings"
+                    href: "/awnings/folding-arm-awnings"
                 },
                 {
                     title: "Auto Guide Awnings",
                     description: "The classic Australian sun solution. Perfect for ground floor windows, offering privacy and excellent heat reduction.",
                     image: "/assets/auto_guide_awning.webp",
-                    href: "/awnings"
+                    href: "/awnings/window-awnings"
                 },
                 {
                     title: "Zipscreen Blinds",

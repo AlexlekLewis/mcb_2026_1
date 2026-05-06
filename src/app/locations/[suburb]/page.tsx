@@ -83,7 +83,7 @@ export default async function LocationPage({ params }: Props) {
         },
         {
             title: "Security Doors & Screens",
-            description: "Security doors, fly screens, pet mesh and window screens custom fitted for peace of mind.",
+            description: "Security doors, fly screens and pet mesh custom fitted for peace of mind.",
             href: `/locations/${suburb.slug}/security-doors`,
             image: "/images/security-door-hero.webp"
         }
@@ -145,7 +145,7 @@ export default async function LocationPage({ params }: Props) {
                 decisionGuide={[
                     { title: "For bedrooms", description: "Blockout curtains, blockout roller blinds and roller shutters for privacy and better sleep." },
                     { title: "For living areas", description: "Sheers, S-Fold curtains, sunscreen blinds and translucent blinds for soft light and daytime privacy." },
-                    { title: "For security", description: "Security doors, fly screens and window screens can be quoted during the same visit." },
+                    { title: "For security", description: "Security doors, fly screens and pet mesh can be quoted during the same visit." },
                 ]}
                 types={types}
                 ctaText="Book Free Measure"

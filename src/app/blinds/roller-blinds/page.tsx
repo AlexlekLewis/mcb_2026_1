@@ -11,7 +11,7 @@ export default function RollerBlindsPage() {
             title="Roller Blinds"
             subtitle="The modern standard for simplicity and control."
             heroImage="/assets/roller_blinds_interior.png"
-            description="Our custom-made Roller Blinds offer a sleek, architectural look that fits perfectly into any modern home. Simple to operate and incredibly durable, they come in an extensive range of fabrics including blockout, light-filtering, and solar screen options."
+            description="Our custom-made Roller Blinds offer a sleek, architectural look that fits perfectly into any modern home. Simple to operate and incredibly durable, they come in an extensive range of fabrics including blockout, light-filtering, and screen options."
             intentLabel={content.intentLabel}
             features={[
                 {
@@ -34,7 +34,7 @@ export default function RollerBlindsPage() {
                     image: "/assets/roller_blockout_detail.webp"
                 },
                 {
-                    title: "Solar Control Screen",
+                    title: "Screen Blind",
                     description: "Engineered to cut glare and UV rays while preserving your view. Essential for protecting furniture and flooring from sun damage without losing connection to the outdoors.",
                     image: "/assets/roller_sunscreen_detail.webp"
                 },

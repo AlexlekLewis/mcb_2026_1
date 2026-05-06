@@ -29,7 +29,7 @@ export default function MotorisationPage() {
                 }
             ]}
             decisionGuide={[
-                { title: "Battery motors", description: "Best for retrofit projects and windows where running new wiring is not practical." },
+                { title: "Battery motors", description: "Best for adding motors after the fact where running new wiring is not practical." },
                 { title: "Wired motors", description: "Best for new builds, renovations and large banks of automated products." },
                 { title: "Smart hubs", description: "Best for app control, scheduling, voice assistants and scenes." },
                 { title: "Motorised curtains", description: "Best for wide openings, tall windows and protecting fabrics from handling." },
@@ -38,7 +38,7 @@ export default function MotorisationPage() {
                 { label: "Remote control", bestFor: "Simple operation", notes: "Open one or more products without wall switches." },
                 { label: "App control", bestFor: "Schedules and scenes", notes: "Useful for privacy, heat and routines." },
                 { label: "Voice control", bestFor: "Smart homes", notes: "Compatibility depends on the motor and hub." },
-                { label: "Battery motors", bestFor: "Retrofit installs", notes: "No electrician needed for many suitable products." },
+                { label: "Battery motors", bestFor: "Existing homes", notes: "No electrician needed for many suitable products." },
             ]}
             types={[
                 {
@@ -58,8 +58,8 @@ export default function MotorisationPage() {
                 }
             ]}
             faq={[
-                { question: "Can existing blinds be motorised?", answer: "Some products can be retrofitted, but it depends on the existing blind, size and hardware. We can assess this during a visit." },
-                { question: "Do battery motors need an electrician?", answer: "Many rechargeable battery motors do not require an electrician, making them useful for retrofit projects." },
+                { question: "Can existing blinds be motorised?", answer: "Some products can have battery motors added after the fact, often without damaging the property or running new wiring. It depends on the existing blind, size and hardware, which we can assess during a visit." },
+                { question: "Do battery motors need an electrician?", answer: "Many rechargeable battery motors do not require an electrician, making them useful for existing homes where you want motorisation without new wiring." },
                 { question: "Can motorisation help with child safety?", answer: "Yes. Motorised products reduce or remove the need for loose chains and cords." },
                 { question: "Can I control blinds with an app or voice assistant?", answer: "Many systems support app, schedule and voice control when paired with the right hub." },
             ]}

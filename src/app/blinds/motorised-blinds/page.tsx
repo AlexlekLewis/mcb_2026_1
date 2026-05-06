@@ -28,16 +28,16 @@ export default function MotorisedBlindsPage() {
                 },
                 {
                     title: "Retrofit or Renovation Options",
-                    description: "Battery and wired options can be assessed based on window access, product size and electrical planning."
+                    description: "Battery motors can often be added after the blinds are installed, without damaging the property or running new wiring."
                 }
             ]}
             decisionGuide={[
-                { title: "Choose battery motors for retrofit homes", description: "Often suitable where you want motorisation without new wiring." },
+                { title: "Choose battery motors for existing homes", description: "A practical way to add motors after the fact, often without new wiring or property damage." },
                 { title: "Choose wired motors for renovations", description: "Best considered early when walls, ceilings or electrical plans are already being opened." },
                 { title: "Choose smart hubs for routines", description: "Useful when you want timers, room scenes, app control or compatible voice control." },
             ]}
             comparisonRows={[
-                { label: "Battery motor", bestFor: "Existing homes", notes: "A practical option for many retrofit blind installations." },
+                { label: "Battery motor", bestFor: "Existing homes", notes: "Adds motorisation after the fact without new wiring in many homes." },
                 { label: "Wired motor", bestFor: "Renovations and new builds", notes: "Neat long-term power where electrical access is planned." },
                 { label: "Smart hub", bestFor: "Schedules and scenes", notes: "Adds app-based routines and broader automation options." },
             ]}
@@ -59,7 +59,7 @@ export default function MotorisedBlindsPage() {
                 }
             ]}
             faq={[
-                { question: "Can existing blinds be motorised?", answer: "Some existing blinds can be retrofitted, but it depends on the blind hardware, size, condition and motor compatibility. We can assess this during a visit." },
+                { question: "Can existing blinds be motorised?", answer: "Some blinds can have battery motors added after the fact, often without damaging the property or running new wiring. Suitability depends on the blind hardware, size, condition and motor compatibility, which we can assess during a visit." },
                 { question: "Are motorised blinds worth it?", answer: "They are especially useful for large windows, hard-to-reach glass, bedrooms, families wanting fewer cords and homes that benefit from scheduled heat or glare control." },
                 { question: "Do motorised blinds need an electrician?", answer: "Battery motor systems often do not. Wired motor systems usually need electrical planning and installation by a licensed professional." },
             ]}

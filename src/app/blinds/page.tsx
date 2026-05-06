@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Custom Blinds Melbourne | Roller, Honeycomb, Venetian & Specialty Blinds",
-    description: "Made-to-measure blinds in Melbourne including roller, sunscreen, blockout, translucent, honeycomb, Venetian, Roman, vertical, panel glide, cassette, skylight, Veri Shades and motorised blinds. Free in-home measure and quote.",
+    description: "Made-to-measure blinds in Melbourne including roller, sunscreen, blockout, translucent, honeycomb, Venetian, Roman, vertical, panel glide, cassette, skylight, soft vertical drapes and motorised blinds. Free in-home measure and quote.",
 };
 
 export default function BlindsPage() {
@@ -36,7 +36,7 @@ export default function BlindsPage() {
                 { title: "Need darkness?", description: "Choose blockout roller blinds for bedrooms, nurseries, media rooms and privacy." },
                 { title: "Need daytime view?", description: "Choose sunscreen blinds to reduce glare and heat while keeping a daytime outlook." },
                 { title: "Need insulation?", description: "Choose honeycomb blinds for a cellular air pocket that helps with summer heat and winter cold." },
-                { title: "Need sliding-door coverage?", description: "Choose vertical, Veri Shades or panel glide blinds for large glass doors and wide openings." },
+                { title: "Need sliding-door coverage?", description: "Choose vertical blinds, soft vertical drapes or panel glide blinds for large glass doors and wide openings." },
                 { title: "Need softness?", description: "Choose Roman blinds when you want fabric warmth without full curtains." },
                 { title: "Need airflow?", description: "Choose Venetians for tilt control, ventilation and adjustable privacy." },
                 { title: "Need a cleaner cassette finish?", description: "Choose cassette blinds when the headbox and roller hardware need to look more integrated." },
@@ -49,7 +49,7 @@ export default function BlindsPage() {
                 { label: "Double roller", bestFor: "Day and night control", notes: "Combines sunscreen and blockout on one bracket." },
                 { label: "Honeycomb", bestFor: "Insulation", notes: "Cellular structure helps reduce heat transfer." },
                 { label: "Venetian", bestFor: "Airflow and tilt control", notes: "Timber, PVC/faux wood and aluminium options." },
-                { label: "Vertical / panel glide / Veri Shades", bestFor: "Sliding doors", notes: "Practical coverage for wide openings." },
+                { label: "Vertical / panel glide / soft vertical drapes", bestFor: "Sliding doors", notes: "Practical coverage for wide openings." },
                 { label: "Cassette / skylight", bestFor: "Specialty windows", notes: "Neater hardware or hard-to-reach overhead window control." },
             ]}
             types={[
@@ -120,17 +120,17 @@ export default function BlindsPage() {
                     href: "/blinds/skylight-blinds"
                 },
                 {
-                    title: "Veri Shades",
+                    title: "Soft Vertical Drapes",
                     description: "Soft vertical fabric vanes with curtain-like movement for sliding doors and wide openings.",
                     image: "/images/product-unique/mcb-veri-shades-soft-vertical-hero.webp",
-                    href: "/blinds/veri-shades"
+                    href: "/blinds/soft-vertical-drapes"
                 }
             ]}
             faq={[
                 { question: "Which blinds are best for bedrooms?", answer: "Blockout roller blinds, double rollers and honeycomb blinds are the most common bedroom choices because they improve privacy and light control." },
                 { question: "What is the difference between sunscreen and blockout blinds?", answer: "Sunscreen blinds reduce glare and heat while preserving daytime views. Blockout blinds provide stronger privacy and darkness." },
                 { question: "What are translucent blinds best for?", answer: "Translucent blinds are best for rooms where you want soft daylight and privacy without the full darkness of a blockout blind." },
-                { question: "Do you supply specialty blinds like cassette, skylight and Veri Shades?", answer: "Yes. We can advise on specialty blind options during the in-home visit and confirm what is suitable for the window size, room and hardware requirements." },
+                { question: "Do you supply specialty blinds like cassette, skylight and soft vertical drapes?", answer: "Yes. We can advise on specialty blind options during the in-home visit and confirm what is suitable for the window size, room and hardware requirements." },
                 { question: "Can blinds be motorised?", answer: "Yes. Many roller, double roller, honeycomb and curtain products can be motorised depending on size, power access and control preference." },
                 { question: "Do you bring fabric samples?", answer: "Yes. We bring samples to your home so you can compare colours and opacity in your own light." },
             ]}

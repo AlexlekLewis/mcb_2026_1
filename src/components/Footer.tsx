@@ -1,9 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react";
 import { quoteHref, SITE } from "@/lib/site";
 
 export function Footer() {
+    const pathname = usePathname();
+    if (pathname?.startsWith("/dashboard")) return null;
+
     return (
         <footer className="bg-mcb-charcoal text-white pt-20 pb-10">
             <div className="container mx-auto px-4 md:px-6">
@@ -46,7 +52,7 @@ export function Footer() {
                     <div>
                         <h4 className="font-serif text-lg mb-6 text-mcb-clay-light">Company</h4>
                         <ul className="space-y-4 text-stone-300">
-                            <li><Link href="/about" className="hover:text-white transition-colors">Our Story</Link></li>
+                            <li><Link href="/our-story" className="hover:text-white transition-colors">Our Story</Link></li>
                             <li><Link href="/projects" className="hover:text-white transition-colors">Project Gallery</Link></li>
                             <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
                             <li><Link href={quoteHref()} className="hover:text-white transition-colors">Book Consultation</Link></li>

@@ -101,7 +101,7 @@ export function ProcessStrip() {
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">How it works</span>
-          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A clearer path from idea to install</h2>
+          <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A clear path from idea to install</h2>
           <p className="text-lg leading-relaxed text-stone-500">No pressure, no guesswork. We help you compare the right products before anything is ordered.</p>
         </div>
         <div className="grid gap-5 md:grid-cols-4">
@@ -151,7 +151,7 @@ export function FamilyBusinessStory() {
             </p>
           </div>
           <Link
-            href="/about"
+            href="/our-story"
             className="mt-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-mcb-terracotta transition-colors hover:text-mcb-charcoal"
           >
             Read our story <ArrowRight className="h-4 w-4" />
@@ -170,7 +170,7 @@ export function SecurityMoat() {
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB advantage</span>
           <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, blinds and security screens from one Melbourne team</h2>
           <p className="mb-8 max-w-2xl text-lg leading-relaxed text-stone-300">
-            While we are measuring your windows, we can also quote security doors, fly screens and window screens so every opening in your home is covered properly.
+            While we are measuring your windows, we can also quote security doors, fly screens and pet mesh so every opening in your home is covered properly.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link href={quoteHref("Security Doors")} className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal">
@@ -223,7 +223,7 @@ export function ModernFitPromise() {
         <div className="rounded-sm border border-mcb-clay/40 bg-mcb-paper p-8 md:p-10">
           <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
             <div>
-              <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">The Modern Fit Promise</span>
+              <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">The Modern Promise</span>
               <h2 className="font-serif text-3xl text-mcb-charcoal md:text-4xl">Measured right and installed properly</h2>
             </div>
             <div className="space-y-4 text-stone-600">

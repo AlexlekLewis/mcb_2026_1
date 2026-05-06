@@ -11,7 +11,7 @@ export default function RomanBlindsPage() {
             title="Roman Blinds"
             subtitle="Soft folds for a sophisticated, tailored look."
             heroImage="/assets/roman_blinds_closeup.png"
-            description="Roman Blinds combine the softness of curtains with the functionality of blinds. When raised, the fabric stacks neatly in distinct soft folds; when lowered, it creates a smooth, flat decorative finish. An elegant choice for bedrooms and formal living spaces."
+            description="Roman Blinds combine soft fabric folds with the functionality of a blind. When raised, the fabric stacks neatly; when lowered, it creates a smooth, tailored finish. Blockout Roman blinds are a main option for bedrooms, privacy and a softer room-darkening look."
             intentLabel={content.intentLabel}
             features={[
                 {
@@ -19,8 +19,8 @@ export default function RomanBlindsPage() {
                     description: "Adds warmth, depth, and texture to a room that roller blinds sometimes lack."
                 },
                 {
-                    title: "Custom Fabrics",
-                    description: "Available in a massive range of curtain fabrics, allowing for perfect coordination with other window treatments."
+                    title: "Blockout Option",
+                    description: "Choose lined blockout fabric when privacy, room darkening and bedroom comfort are the priority."
                 },
                 {
                     title: "Various Folds",
