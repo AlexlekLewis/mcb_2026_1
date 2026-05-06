@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
     title: "Pleated Curtains Melbourne | Pinch, Pencil & Box Pleat",
     description: "Custom pleated curtains for tailored classic interiors, bedrooms and formal rooms. Free Melbourne in-home measure and quote.",
-    image: "/assets/pleated_curtains_hero.png",
+    image: "/images/product-unique/mcb-pleated-curtains-modern-hero.png",
     path: "/curtains/pleated-curtains",
 });
 
@@ -13,7 +13,7 @@ export default function PleatedCurtainsPage() {
         <ProductTemplate
             title="Pleated Curtains"
             subtitle="Classic tailoring for a timeless, elegant finish."
-            heroImage="/assets/pleated_curtains_hero.png"
+            heroImage="/images/product-unique/mcb-pleated-curtains-modern-hero.png"
             description="Pleated curtains feature a header that gathers the fabric into uniform folds (pleats). From the classic French (Pinch) Pleat to the versatile Box Pleat, this style adds a touch of traditional formality and structure to any room."
             features={[
                 {
@@ -33,12 +33,12 @@ export default function PleatedCurtainsPage() {
                 {
                     title: "Formal Dining",
                     description: "Create a sense of occasion with heavy, pinch-pleated drapes.",
-                    image: "/assets/pleated_pinch_formal.webp"
+                    image: "/images/product-unique/mcb-pleated-curtains-formal-dining.png"
                 },
                 {
                     title: "Classic Bedroom",
                     description: "Add softness and romance with gathered pencil pleats.",
-                    image: "/assets/pleated_pencil_bedroom.png"
+                    image: "/images/product-unique/mcb-pleated-curtains-classic-bedroom.png"
                 }
             ]}
         />
