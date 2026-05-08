@@ -9,7 +9,15 @@ export async function POST(request: Request) {
   const dashboardUsername = process.env.DASHBOARD_USERNAME;
   const dashboardPassword = process.env.DASHBOARD_PASSWORD;
 
-  if (!dashboardUsername || !dashboardPassword || email !== dashboardUsername || password !== dashboardPassword) {
+  const normalizedEmail = email.toLowerCase();
+  const normalizedDashboardUsername = dashboardUsername?.trim().toLowerCase();
+
+  if (
+    !normalizedDashboardUsername ||
+    !dashboardPassword ||
+    normalizedEmail !== normalizedDashboardUsername ||
+    password !== dashboardPassword
+  ) {
     return NextResponse.redirect(new URL(`/dashboard/login?error=1&next=${encodeURIComponent(nextPath)}`, request.url), 303);
   }
 
