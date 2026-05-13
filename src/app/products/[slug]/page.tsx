@@ -1,6 +1,6 @@
 
 import { productData } from "@/lib/data";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ChevronDown, ShieldCheck, Ruler, Calendar, Phone } from "lucide-react";
 import type { Metadata } from 'next'
 import Image from "next/image";
@@ -44,6 +44,14 @@ export default async function ProductPage({ params }: Props) {
     }
     const canonicalPath = getProductCanonicalPath(product.slug);
     const hasStrongerGuide = canonicalPath !== `/products/${product.slug}`;
+
+    // 301 permanent redirect for products that have a richer category-page equivalent.
+    // The /products/* page used to render as a thin duplicate with `canonical` pointing
+    // to the category page — but Google still indexed both. A 301 collapses link equity
+    // and tells crawlers definitively that the category page is the only version.
+    if (hasStrongerGuide) {
+        permanentRedirect(canonicalPath);
+    }
 
     return (
         <div className="bg-white">
