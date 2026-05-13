@@ -31,6 +31,8 @@ import type { MapPoint } from "@/components/dashboard/MelbourneMap";
 import { LOCATIONS } from "@/lib/locations";
 import { ReleaseTracker } from "@/components/dashboard/ReleaseTracker";
 import { loadReleaseMetrics } from "@/lib/dashboard/release-metrics";
+import { RELEASES } from "@/lib/dashboard/releases";
+import type { TrendMarkers } from "@/components/dashboard/DashboardCharts";
 
 export const dynamic = "force-dynamic";
 
@@ -190,6 +192,7 @@ export default async function DashboardPage() {
   const totals = getTotals(data.daily.slice(0, 30));
   const latestDate = data.daily[0]?.metric_date;
   const trends = buildTrendBuckets(data.daily, data.todayHourly);
+  const trendMarkers = buildTrendMarkers();
 
   const trafficSources = data.trafficSources.slice(0, 6).map((row) => ({
     label: row.source,
@@ -295,7 +298,7 @@ export default async function DashboardPage() {
 
         <section className="mb-6">
           <Panel title="Traffic & Leads Trend" icon={<TrendingUp />}>
-            <TrendChart data={trends} />
+            <TrendChart data={trends} markers={trendMarkers} />
           </Panel>
         </section>
 
@@ -962,6 +965,52 @@ function startOfWeek(date: Date): Date {
   result.setDate(result.getDate() - diff);
   result.setHours(0, 0, 0, 0);
   return result;
+}
+
+/**
+ * Produce per-range "optimization checkpoint" markers for the trend chart.
+ * Each marker's `label` must match the X-axis bucket label produced by
+ * buildTrendBuckets and buildTodayHourly so Recharts can pin it in place.
+ *
+ * Daily markers only show if the release happened today (UTC, mirroring how
+ * the hourly buckets are produced server-side).
+ */
+function buildTrendMarkers(): TrendMarkers {
+  const today = new Date();
+  const todayKey = today.toISOString().slice(0, 10);
+
+  const daily: TrendMarkers["daily"] = [];
+  const weekly: TrendMarkers["weekly"] = [];
+  const monthly: TrendMarkers["monthly"] = [];
+
+  for (const release of RELEASES) {
+    const released = new Date(release.releasedAt);
+    const title = release.title.length > 28 ? `${release.title.slice(0, 27)}…` : release.title;
+
+    if (released.toISOString().slice(0, 10) === todayKey) {
+      daily.push({
+        label: formatHourLabel(released.getHours()),
+        title,
+        releasedAt: release.releasedAt,
+      });
+    }
+
+    const weekStart = startOfWeek(released);
+    weekly.push({
+      label: `Wk ${formatShortDate(weekStart.toISOString().slice(0, 10))}`,
+      title,
+      releasedAt: release.releasedAt,
+    });
+
+    const monthStart = new Date(released.getFullYear(), released.getMonth(), 1);
+    monthly.push({
+      label: new Intl.DateTimeFormat("en-AU", { month: "short", year: "2-digit" }).format(monthStart),
+      title,
+      releasedAt: release.releasedAt,
+    });
+  }
+
+  return { daily, weekly, monthly };
 }
 
 type TodayEventRow = {

@@ -11,6 +11,7 @@ import {
   LineChart,
   Pie,
   PieChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -54,6 +55,19 @@ type TrendBuckets = {
 
 type TrendRange = keyof TrendBuckets;
 
+/**
+ * An "Optimization checkpoint" — a marker pinned to a trend bucket so we can
+ * eyeball whether a release moved the metric. The `label` must exactly match
+ * the bucket label produced upstream for the given range (e.g. "Wk 13 May").
+ */
+export type TrendMarker = {
+  label: string;
+  title: string;
+  releasedAt: string;
+};
+
+export type TrendMarkers = Record<TrendRange, TrendMarker[]>;
+
 const RANGE_LABELS: Record<TrendRange, string> = {
   daily: "Daily",
   weekly: "Weekly",
@@ -66,9 +80,12 @@ const RANGE_CAPTIONS: Record<TrendRange, string> = {
   monthly: "Last 12 months",
 };
 
-export function TrendChart({ data }: { data: TrendBuckets }) {
+export function TrendChart({ data, markers }: { data: TrendBuckets; markers?: TrendMarkers }) {
   const [range, setRange] = useState<TrendRange>("daily");
   const series = data[range];
+  const activeMarkers = (markers?.[range] || []).filter((m) =>
+    series.some((point) => point.label === m.label)
+  );
 
   return (
     <div>
@@ -139,10 +156,33 @@ export function TrendChart({ data }: { data: TrendBuckets }) {
                 dot={false}
                 activeDot={{ r: 4 }}
               />
+              {activeMarkers.map((marker) => (
+                <ReferenceLine
+                  key={`${marker.releasedAt}-${marker.label}`}
+                  x={marker.label}
+                  stroke="#b85a3e"
+                  strokeDasharray="4 3"
+                  strokeWidth={1.5}
+                  ifOverflow="extendDomain"
+                  label={{
+                    value: `◆ ${marker.title}`,
+                    position: "insideTopLeft",
+                    fill: "#b85a3e",
+                    fontSize: 10,
+                    fontWeight: 700,
+                  }}
+                />
+              ))}
             </LineChart>
           </ResponsiveContainer>
         </div>
       )}
+      {activeMarkers.length > 0 ? (
+        <p className="mt-2 text-[11px] text-stone-500">
+          <span className="font-bold text-mcb-terracotta">◆ Optimization checkpoint</span>
+          {" — vertical dashes mark when a release shipped. Compare the metric before and after to judge impact."}
+        </p>
+      ) : null}
     </div>
   );
 }
