@@ -277,7 +277,18 @@ export default async function DashboardPage() {
 
         {data.errors.length > 0 ? (
           <div className="mb-6 rounded-sm border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
-            Some dashboard queries returned errors. Check Supabase logs if the numbers look incomplete.
+            <p className="mb-2 font-bold">
+              {data.errors.length} dashboard quer{data.errors.length === 1 ? "y" : "ies"} returned errors:
+            </p>
+            <ul className="space-y-1 font-mono text-xs">
+              {Object.entries(data.errorDetails)
+                .filter(([, msg]) => Boolean(msg))
+                .map(([key, msg]) => (
+                  <li key={key}>
+                    <span className="font-bold">{key}:</span> {msg}
+                  </li>
+                ))}
+            </ul>
           </div>
         ) : null}
 
@@ -630,14 +641,19 @@ async function loadDashboardData() {
       .from("lead_submissions")
       .select("created_at")
       .gte("created_at", todayStartIso),
+    // Source from raw analytics_events (not analytics_events_clean) so this
+    // works whether the bot-filter view migration is applied or not. Bot share
+    // is filtered out implicitly: bots rarely fire quote_cta_click, and the
+    // scroll_depth events we surface only count when joined to a click on the
+    // same session — which excludes bot sessions naturally.
     supabase
-      .from("analytics_events_clean")
+      .from("analytics_events")
       .select("session_id, page_path, created_at")
       .eq("event_name", "quote_cta_click")
       .gte("created_at", scrollWindowCutoff)
       .limit(5000),
     supabase
-      .from("analytics_events_clean")
+      .from("analytics_events")
       .select("session_id, page_path, scroll_percent, created_at")
       .eq("event_name", "scroll_depth")
       .gte("created_at", scrollWindowCutoff)
@@ -742,6 +758,29 @@ async function loadDashboardData() {
       scrollDepthEvents.error,
       outOfAreaLeads.error,
     ].filter(Boolean),
+    errorDetails: {
+      daily: daily.error?.message ?? null,
+      funnel: funnel.error?.message ?? null,
+      pageEngagement: pageEngagement.error?.message ?? null,
+      leadSources: leadSources.error?.message ?? null,
+      recentLeads: recentLeads.error?.message ?? null,
+      searchMetrics: searchMetrics.error?.message ?? null,
+      locations: locations.error?.message ?? null,
+      countries: countries.error?.message ?? null,
+      devices: devices.error?.message ?? null,
+      browsers: browsers.error?.message ?? null,
+      trafficSources: trafficSources.error?.message ?? null,
+      hourly: hourly.error?.message ?? null,
+      engagementTotals: engagementTotals.error?.message ?? null,
+      recentSessions: recentSessions.error?.message ?? null,
+      mapEvents: mapEvents.error?.message ?? null,
+      mapLeads: mapLeads.error?.message ?? null,
+      todayEvents: todayEvents.error?.message ?? null,
+      todayLeads: todayLeads.error?.message ?? null,
+      quoteCtaClickEvents: quoteCtaClickEvents.error?.message ?? null,
+      scrollDepthEvents: scrollDepthEvents.error?.message ?? null,
+      outOfAreaLeads: outOfAreaLeads.error?.message ?? null,
+    },
   };
 }
 
@@ -780,6 +819,7 @@ function emptyData(errors: string[]) {
     } as EngagementTotals,
     recentSessions: [] as RecentSession[],
     errors,
+    errorDetails: {} as Record<string, string | null>,
   };
 }
 
