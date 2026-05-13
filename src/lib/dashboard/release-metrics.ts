@@ -33,6 +33,13 @@ interface MetricCounts {
   quote_cta_clicks: number;
   phone_taps: number;
   leads: number;
+  /**
+   * Subset of `leads` where lead_submissions.gclid is non-null — meaning the
+   * lead arrived with Google Ads attribution attached. Ratio leads_with_gclid
+   * / leads is the headline signal for the 2026-05-14 conversion-tracking
+   * release. Should jump from ~0 to whatever share of real traffic is paid.
+   */
+  leads_with_gclid: number;
 }
 
 export interface ReleaseWindowMetrics {
@@ -134,11 +141,19 @@ async function getMetricCounts(
     .gte("created_at", sinceIso)
     .lt("created_at", untilIso);
 
-  const [pageViews, ctaClicks, phoneTaps, leads] = await Promise.all([
+  const leadsWithGclidQuery = supabase
+    .from("lead_submissions")
+    .select("*", COUNT_OPTS)
+    .not("gclid", "is", null)
+    .gte("created_at", sinceIso)
+    .lt("created_at", untilIso);
+
+  const [pageViews, ctaClicks, phoneTaps, leads, leadsWithGclid] = await Promise.all([
     eventQuery("page_view"),
     eventQuery("quote_cta_click"),
     eventQuery("phone_tap"),
     leadQuery,
+    leadsWithGclidQuery,
   ]);
 
   return {
@@ -146,11 +161,12 @@ async function getMetricCounts(
     quote_cta_clicks: ctaClicks.count ?? 0,
     phone_taps: phoneTaps.count ?? 0,
     leads: leads.count ?? 0,
+    leads_with_gclid: leadsWithGclid.count ?? 0,
   };
 }
 
 function emptyMetrics(): MetricCounts {
-  return { page_views: 0, quote_cta_clicks: 0, phone_taps: 0, leads: 0 };
+  return { page_views: 0, quote_cta_clicks: 0, phone_taps: 0, leads: 0, leads_with_gclid: 0 };
 }
 
 function addHours(date: Date, hours: number) {

@@ -44,13 +44,15 @@ export const RELEASES: Release[] = [
     title: "Google Ads conversion tracking for form submissions",
     releasedAt: "2026-05-14T00:00:00Z",
     summary:
-      "Form submit now reports A$1,179 conversion value to Google Ads with Enhanced Conversions (hashed email/phone/name). gclid persisted server-side for offline conversion upload.",
+      "Form submit now reports A$1,179 conversion value to Google Ads with Enhanced Conversions (hashed email/phone/name). gclid persisted server-side for offline conversion upload. The 'paid-attributed leads' bar on each release row is the headline signal for this change — it should go from ~0% to whatever share of real traffic is on Google Ads.",
     items: [
       "quote_success event carries value=1179, currency=AUD",
       "Hashed user_data (email/phone/firstName/lastName) attached for Enhanced Conversions",
       "gclid now persisted to mcb_gclid first-party cookie (180d) and to lead_submissions.gclid column",
+      "GTM container Version 7 published: two dead Google Ads tags rewired from generate_lead/phone_click to quote_success/phone_tap",
       "New quote_field_error event for form validation drop-off diagnostics",
     ],
+    commitUrl: "https://github.com/AlexlekLewis/mcb_2026_1/commit/2344285",
   },
   {
     id: "2026-05-13-seo-and-tracking",

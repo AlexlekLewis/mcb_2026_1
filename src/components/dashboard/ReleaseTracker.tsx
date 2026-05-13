@@ -104,6 +104,7 @@ function WindowComparison({ window }: { window: ReleaseWindowMetrics }) {
     { label: "CTA clicks", key: "quote_cta_clicks" },
     { label: "Phone taps", key: "phone_taps" },
     { label: "Leads", key: "leads" },
+    { label: "Leads w/ gclid", key: "leads_with_gclid" },
   ];
 
   return (
