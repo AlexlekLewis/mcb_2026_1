@@ -187,7 +187,7 @@ export default async function DashboardPage() {
   const data = await loadDashboardData();
   const totals = getTotals(data.daily.slice(0, 30));
   const latestDate = data.daily[0]?.metric_date;
-  const trends = buildTrendBuckets(data.daily);
+  const trends = buildTrendBuckets(data.daily, data.todayHourly);
 
   const trafficSources = data.trafficSources.slice(0, 6).map((row) => ({
     label: row.source,
@@ -355,11 +355,10 @@ export default async function DashboardPage() {
         <section className="mb-6 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
           <Panel title="Recent Sessions" icon={<Activity />}>
             <DataTable
-              columns={["When", "Where", "Device", "Pages", "Time", "Scroll", "Source", "Outcome"]}
+              columns={["When", "Where", "Pages", "Time", "Scroll", "Source", "Outcome"]}
               rows={data.recentSessions.slice(0, 14).map((session) => [
                 formatShortDateTime(session.started_at),
-                formatLocation(session),
-                formatDevice(session),
+                formatSessionLocation(session, data.sessionLeadSuburb),
                 session.page_views.toLocaleString(),
                 formatDuration(Math.max(session.engaged_seconds, session.duration_seconds)),
                 `${session.max_scroll_percent}%`,
@@ -451,7 +450,10 @@ async function loadDashboardData() {
     return emptyData(["Supabase is not configured"]);
   }
 
-  const mapEventCutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const mapEventCutoff = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const todayStartIso = todayStart.toISOString();
   const mapEventNames = [
     "page_view",
     "phone_tap",
@@ -477,6 +479,8 @@ async function loadDashboardData() {
     recentSessions,
     mapEvents,
     mapLeads,
+    todayEvents,
+    todayLeads,
   ] = await Promise.all([
     supabase.from("dashboard_daily_metrics").select("*").limit(400),
     supabase.from("dashboard_conversion_funnel_30d").select("*"),
@@ -502,17 +506,26 @@ async function loadDashboardData() {
     supabase.from("dashboard_recent_sessions_30d").select("*").limit(30),
     supabase
       .from("analytics_events")
-      .select("event_name, latitude, longitude, visitor_id, city")
+      .select("event_name, latitude, longitude, visitor_id, city, session_id")
       .gte("created_at", mapEventCutoff)
       .in("event_name", mapEventNames)
       .not("latitude", "is", null)
       .not("longitude", "is", null)
-      .limit(10000),
+      .limit(25000),
     supabase
       .from("lead_submissions")
-      .select("suburb")
-      .gte("created_at", mapEventCutoff)
-      .not("suburb", "is", null),
+      .select("suburb, tracking_context")
+      .gte("created_at", mapEventCutoff),
+    supabase
+      .from("analytics_events")
+      .select("event_name, visitor_id, created_at")
+      .gte("created_at", todayStartIso)
+      .eq("event_name", "page_view")
+      .limit(50000),
+    supabase
+      .from("lead_submissions")
+      .select("created_at")
+      .gte("created_at", todayStartIso),
   ]);
 
   const leads = (recentLeads.data || []) as RecentLead[];
@@ -542,9 +555,13 @@ async function loadDashboardData() {
     );
   }
 
-  const mapData = buildMapData(
-    (mapEvents.data || []) as MapEventRow[],
-    (mapLeads.data || []) as { suburb: string | null }[]
+  const mapLeadsRows = (mapLeads.data || []) as MapLeadRow[];
+  const mapEventsRows = (mapEvents.data || []) as MapEventRow[];
+  const mapData = buildMapData(mapEventsRows, mapLeadsRows);
+  const sessionLeadSuburb = buildSessionLeadSuburb(mapLeadsRows);
+  const todayHourly = buildTodayHourly(
+    (todayEvents.data || []) as TodayEventRow[],
+    (todayLeads.data || []) as { created_at: string }[]
   );
 
   return {
@@ -555,6 +572,8 @@ async function loadDashboardData() {
     recentLeads: leads,
     leadGeo,
     mapData,
+    sessionLeadSuburb,
+    todayHourly,
     searchTotals: getSearchTotals((searchMetrics.data || []) as SearchMetric[]),
     locations: (locations.data || []) as LocationRow[],
     countries: (countries.data || []) as CountryRow[],
@@ -587,6 +606,8 @@ async function loadDashboardData() {
       recentSessions.error,
       mapEvents.error,
       mapLeads.error,
+      todayEvents.error,
+      todayLeads.error,
     ].filter(Boolean),
   };
 }
@@ -605,6 +626,8 @@ function emptyData(errors: string[]) {
     recentLeads: [] as RecentLead[],
     leadGeo: {} as LeadGeoLookup,
     mapData: { views: [], visitors: [], leads: [], phone: [], forms: [] } as MelbourneMapData,
+    sessionLeadSuburb: {} as Record<string, string>,
+    todayHourly: [] as Array<{ label: string; page_views: number; visitors: number; leads: number }>,
     searchTotals: { clicks: 0, impressions: 0, position: null },
     locations: [] as LocationRow[],
     countries: [] as CountryRow[],
@@ -824,14 +847,18 @@ function formatDuration(seconds: number) {
   return `${hours}h ${mins}m`;
 }
 
-function formatLocation(session: RecentSession) {
-  const parts = [session.city, session.region, session.country].filter(Boolean);
-  return parts.length > 0 ? parts.join(", ") : "Unknown";
-}
+function formatSessionLocation(
+  session: RecentSession,
+  sessionLeadSuburb: Record<string, string>
+): string {
+  const leadSuburb = session.session_id ? sessionLeadSuburb[session.session_id] : undefined;
+  const ipParts = [session.city, session.region, session.country].filter(Boolean);
+  const ipLocation = ipParts.length > 0 ? ipParts.join(", ") : null;
 
-function formatDevice(session: RecentSession) {
-  const parts = [session.device_type, session.browser, session.os].filter(Boolean);
-  return parts.length > 0 ? parts.join(" · ") : "Unknown";
+  if (leadSuburb && ipLocation) return `${leadSuburb} · ${ipLocation}`;
+  if (leadSuburb) return leadSuburb;
+  if (ipLocation) return ipLocation;
+  return "Unknown (no IP geo)";
 }
 
 function formatSessionOutcome(session: RecentSession) {
@@ -869,15 +896,13 @@ function formatLeadLocation(lead: RecentLead, geo: LeadGeoLookup): string {
   return "Unknown";
 }
 
-function buildTrendBuckets(daily: DailyMetric[]) {
+function buildTrendBuckets(
+  daily: DailyMetric[],
+  todayHourly: Array<{ label: string; page_views: number; visitors: number; leads: number }>
+) {
   const ascending = [...daily].sort((a, b) => a.metric_date.localeCompare(b.metric_date));
 
-  const dailyPoints = ascending.slice(-30).map((day) => ({
-    label: formatShortDate(day.metric_date),
-    page_views: day.page_views,
-    visitors: day.visitors,
-    leads: day.leads,
-  }));
+  const dailyPoints = todayHourly;
 
   const weeklyMap = new Map<string, { date: Date; page_views: number; visitors: number; leads: number }>();
   for (const day of ascending) {
@@ -933,22 +958,125 @@ function startOfWeek(date: Date): Date {
   return result;
 }
 
+type TodayEventRow = {
+  event_name: string;
+  visitor_id: string | null;
+  created_at: string;
+};
+
+function buildTodayHourly(
+  events: TodayEventRow[],
+  leads: { created_at: string }[]
+): Array<{ label: string; page_views: number; visitors: number; leads: number }> {
+  const buckets: Array<{
+    hour: number;
+    page_views: number;
+    visitors: Set<string>;
+    leads: number;
+  }> = Array.from({ length: 24 }, (_, hour) => ({
+    hour,
+    page_views: 0,
+    visitors: new Set<string>(),
+    leads: 0,
+  }));
+
+  for (const event of events) {
+    const hour = new Date(event.created_at).getHours();
+    if (hour < 0 || hour > 23) continue;
+    const bucket = buckets[hour];
+    if (event.event_name === "page_view") {
+      bucket.page_views += 1;
+      if (event.visitor_id) bucket.visitors.add(event.visitor_id);
+    }
+  }
+
+  for (const lead of leads) {
+    const hour = new Date(lead.created_at).getHours();
+    if (hour < 0 || hour > 23) continue;
+    buckets[hour].leads += 1;
+  }
+
+  return buckets.map((bucket) => ({
+    label: formatHourLabel(bucket.hour),
+    page_views: bucket.page_views,
+    visitors: bucket.visitors.size,
+    leads: bucket.leads,
+  }));
+}
+
+function formatHourLabel(hour: number): string {
+  if (hour === 0) return "12am";
+  if (hour === 12) return "12pm";
+  return hour < 12 ? `${hour}am` : `${hour - 12}pm`;
+}
+
 type MapEventRow = {
   event_name: string;
   latitude: number | null;
   longitude: number | null;
   visitor_id: string | null;
   city: string | null;
+  session_id: string | null;
 };
+
+type MapLeadRow = {
+  suburb: string | null;
+  tracking_context: Record<string, unknown> | null;
+};
+
+const SUBURB_LOOKUP: Map<string, (typeof LOCATIONS)[number]> = (() => {
+  const map = new Map<string, (typeof LOCATIONS)[number]>();
+  for (const loc of LOCATIONS) {
+    map.set(loc.name.toLowerCase(), loc);
+    map.set(loc.slug.toLowerCase(), loc);
+  }
+  return map;
+})();
+
+function normalizeSuburbName(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[,\s]+(vic|victoria)\b[\s,]*\d{0,4}.*$/i, "")
+    .replace(/[,\s]+\d{4}\b.*$/i, "")
+    .replace(/[,\s]+(vic|victoria)\s*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function lookupSuburb(value: string | null) {
+  if (!value) return null;
+  const normalized = normalizeSuburbName(value);
+  if (!normalized) return null;
+  return SUBURB_LOOKUP.get(normalized) || null;
+}
+
+function sessionIdFromContext(context: Record<string, unknown> | null): string | null {
+  if (!context) return null;
+  const candidate = context.sessionId ?? context.session_id;
+  return typeof candidate === "string" && candidate.length > 0 ? candidate : null;
+}
+
+function buildSessionLeadSuburb(leads: MapLeadRow[]): Record<string, string> {
+  const map: Record<string, string> = {};
+  for (const lead of leads) {
+    if (!lead.suburb) continue;
+    const sessionId = sessionIdFromContext(lead.tracking_context);
+    if (!sessionId) continue;
+    map[sessionId] = lead.suburb;
+  }
+  return map;
+}
 
 function buildMapData(
   events: MapEventRow[],
-  leadSuburbs: { suburb: string | null }[]
+  leads: MapLeadRow[]
 ): MelbourneMapData {
   const viewBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
   const visitorBuckets = new Map<string, { lat: number; lng: number; visitors: Set<string>; label: string | null }>();
   const phoneBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
   const formBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
+  const sessionLatLng = new Map<string, { lat: number; lng: number; label: string | null }>();
 
   for (const event of events) {
     if (event.latitude == null || event.longitude == null) continue;
@@ -956,6 +1084,10 @@ function buildMapData(
     const lng = Math.round(event.longitude * 1000) / 1000;
     const key = `${lat},${lng}`;
     const label = event.city;
+
+    if (event.session_id && !sessionLatLng.has(event.session_id)) {
+      sessionLatLng.set(event.session_id, { lat, lng, label });
+    }
 
     if (event.event_name === "page_view") {
       const bucket = viewBuckets.get(key) || { lat, lng, count: 0, label };
@@ -983,26 +1115,41 @@ function buildMapData(
     }
   }
 
-  const leadCounts = new Map<string, number>();
-  for (const lead of leadSuburbs) {
-    if (!lead.suburb) continue;
-    const key = lead.suburb.trim().toLowerCase();
-    if (!key) continue;
-    leadCounts.set(key, (leadCounts.get(key) || 0) + 1);
+  const leadBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
+  for (const lead of leads) {
+    let lat: number | null = null;
+    let lng: number | null = null;
+    let label: string | null = null;
+
+    const suburbMatch = lookupSuburb(lead.suburb);
+    if (suburbMatch) {
+      lat = suburbMatch.latitude;
+      lng = suburbMatch.longitude;
+      label = suburbMatch.name;
+    } else {
+      const sessionId = sessionIdFromContext(lead.tracking_context);
+      if (sessionId) {
+        const fallback = sessionLatLng.get(sessionId);
+        if (fallback) {
+          lat = fallback.lat;
+          lng = fallback.lng;
+          label = lead.suburb || fallback.label || "Unknown suburb";
+        }
+      }
+    }
+
+    if (lat == null || lng == null) continue;
+
+    const key = `${lat.toFixed(3)},${lng.toFixed(3)}`;
+    const bucket = leadBuckets.get(key) || { lat, lng, count: 0, label };
+    bucket.count += 1;
+    if (!bucket.label && label) bucket.label = label;
+    leadBuckets.set(key, bucket);
   }
 
-  const leadPoints: MapPoint[] = [];
-  leadCounts.forEach((count, suburbKey) => {
-    const match = LOCATIONS.find((loc) => loc.name.toLowerCase() === suburbKey);
-    if (!match) return;
-    leadPoints.push({
-      lat: match.latitude,
-      lng: match.longitude,
-      count,
-      label: match.name,
-    });
-  });
-  leadPoints.sort((a, b) => b.count - a.count);
+  const leadPoints: MapPoint[] = Array.from(leadBuckets.values())
+    .map((bucket) => ({ lat: bucket.lat, lng: bucket.lng, count: bucket.count, label: bucket.label }))
+    .sort((a, b) => b.count - a.count);
 
   return {
     views: Array.from(viewBuckets.values()).map((b) => ({

@@ -1,5 +1,29 @@
 "use client";
 
+/**
+ * MCB analytics event vocabulary
+ * ------------------------------
+ * Owned by the lead agent. New events go through review.
+ *
+ *   page_view              fired by EventTracker on each route change
+ *   session_start          first event of a session (sets viewport, etc)
+ *   session_end            on pagehide / beforeunload (sendBeacon)
+ *   scroll_depth           25 / 50 / 75 / 100 thresholds, per page
+ *   engagement_tick        every 15s of active (visible + interacted) time
+ *   cta_impression         a CTA enters the viewport. payload: { location, variant?, product_context? }
+ *   cta_dwell              CTA in viewport >2s. same payload as impression
+ *   quote_cta_click        user clicks the Book Free Measure & Quote CTA. payload: { location, variant?, product_context? }
+ *   phone_tap              tel: link tapped
+ *   quote_form_start       first interaction with multi-step form
+ *   quote_step_3_submit    submit of step 3
+ *   quote_success          form completion (API 2xx)
+ *   chat_widget_open       chat panel opened
+ *   chat_lead_success      chat submitted a lead
+ *   experiment_exposure    first time a user is bucketed into an experiment. payload: { experiment, variant }
+ *
+ * `location` is one of: navbar | hero | section | sticky-mobile | sticky-desktop | inline | decision-card | nav-megamenu | mobile-menu
+ */
+
 type AnalyticsPayload = Record<string, string | number | boolean | undefined>;
 type ClientTrackingContext = {
   visitorId?: string;
@@ -42,6 +66,39 @@ export function trackEvent(event: string, payload: AnalyticsPayload = {}) {
   window.clarity?.("event", event);
 
   sendFirstPartyEvent(event, cleanPayload);
+}
+
+/**
+ * Fire `cta_impression` once per (location, variant) per session.
+ * Use with `useCtaImpression(ref, { location, variant })` from
+ * @/lib/hooks/useCtaImpression — or call directly when an element first becomes visible.
+ */
+export function trackImpression(payload: AnalyticsPayload & { location: string }) {
+  if (typeof window === "undefined") return;
+  const key = `mcb_imp_${payload.location}_${payload.variant || "default"}`;
+  try {
+    if (window.sessionStorage.getItem(key)) return;
+    window.sessionStorage.setItem(key, "1");
+  } catch {
+    // fall through and fire anyway
+  }
+  trackEvent("cta_impression", payload);
+}
+
+/**
+ * Fire `experiment_exposure` exactly once per (experiment, visitor).
+ * Called by getVariant() in lib/experiments.ts — components don't usually call this directly.
+ */
+export function trackExposure(experiment: string, variant: string) {
+  if (typeof window === "undefined") return;
+  const key = `mcb_exp_${experiment}`;
+  try {
+    if (window.localStorage.getItem(key) === variant) return;
+    window.localStorage.setItem(key, variant);
+  } catch {
+    // fall through and fire anyway
+  }
+  trackEvent("experiment_exposure", { experiment, variant });
 }
 
 export function getClientTrackingContext(): ClientTrackingContext {

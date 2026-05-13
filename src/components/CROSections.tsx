@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Phone } from "lucide-react";
 import { categoryCards, defaultFaq, needCards, processSteps, trustItems } from "@/lib/cro-data";
-import { quoteHref, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
+import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export function ProofBar({ className = "" }: { className?: string }) {
   return (
@@ -173,9 +174,14 @@ export function SecurityMoat() {
             While we are measuring your windows, we can also quote security doors, fly screens and pet mesh so every opening in your home is covered properly.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href={quoteHref("Security Doors")} className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal">
-              Ask about security <ArrowRight className="h-4 w-4" />
-            </Link>
+            <PrimaryCTA
+              location="section"
+              productContext="Security Doors"
+              label="Ask about security"
+              variant="primary"
+              className="px-6 py-4 hover:bg-white hover:text-mcb-charcoal"
+              extraPayload={{ section: "security-moat" }}
+            />
             <a href={SITE.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/30 px-6 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal">
               <Phone className="h-4 w-4" /> {SITE.phoneDisplay}
             </a>
@@ -204,9 +210,13 @@ export function FinalCTA({ product }: { product?: string }) {
           No obligation. We bring samples, measure your windows, explain your options and provide a clear written quote.
         </p>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link href={quoteHref(product)} className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-7 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-charcoal">
-            Book Free Measure & Quote <ArrowRight className="h-4 w-4" />
-          </Link>
+          <PrimaryCTA
+            location="section"
+            productContext={product}
+            variant="primary"
+            className="px-7 py-4 hover:bg-mcb-charcoal"
+            extraPayload={{ section: "final-cta" }}
+          />
           <a href={SITE.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-sm border border-mcb-charcoal/20 px-7 py-4 font-bold uppercase tracking-wider text-mcb-charcoal transition-colors hover:bg-mcb-charcoal hover:text-white">
             <Phone className="h-4 w-4" /> Call {SITE.phoneDisplay}
           </a>

@@ -61,7 +61,7 @@ const RANGE_LABELS: Record<TrendRange, string> = {
 };
 
 const RANGE_CAPTIONS: Record<TrendRange, string> = {
-  daily: "Last 30 days",
+  daily: "Today (per hour)",
   weekly: "Last 12 weeks",
   monthly: "Last 12 months",
 };

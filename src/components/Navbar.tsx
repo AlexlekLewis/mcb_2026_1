@@ -7,8 +7,9 @@ import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navItems } from "@/lib/cro-data";
-import { quoteHref, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -99,9 +100,13 @@ export function Navbar() {
                         <p className="mb-4 text-sm leading-relaxed text-stone-600">
                           Book a free visit and we will bring samples, measure and recommend the right options.
                         </p>
-                        <Link href={quoteHref("Unsure / Need Advice")} className="text-sm font-bold uppercase tracking-wider text-mcb-terracotta">
-                          Ask an expert
-                        </Link>
+                        <PrimaryCTA
+                          location="nav-megamenu"
+                          productContext="Unsure / Need Advice"
+                          label="Ask an expert"
+                          variant="link"
+                          hideIcon
+                        />
                       </div>
                     </motion.div>
                   )}
@@ -120,9 +125,12 @@ export function Navbar() {
                 <Phone size={18} />
                 {SITE.phoneDisplay}
               </a>
-              <Link href={quoteHref()} className="whitespace-nowrap rounded-sm bg-mcb-terracotta px-3 py-3 text-sm font-bold text-white shadow-lg transition-colors hover:bg-stone-800 xl:px-4">
-                Book Free Measure & Quote
-              </Link>
+              <PrimaryCTA
+                location="navbar"
+                variant="primary"
+                hideIcon
+                className="whitespace-nowrap px-3 py-3 text-sm xl:px-4"
+              />
             </div>
 
             <button
@@ -174,13 +182,13 @@ export function Navbar() {
               <a href={SITE.phoneHref} className="flex items-center justify-center gap-2 rounded-sm border border-stone-200 py-4 font-bold text-mcb-charcoal">
                 <Phone size={18} /> {SITE.phoneDisplay}
               </a>
-              <Link
-                href={quoteHref()}
+              <PrimaryCTA
+                location="mobile-menu"
+                variant="primary"
+                hideIcon
+                className="block w-full justify-center py-4 text-lg"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-sm bg-mcb-terracotta py-4 text-center text-lg font-bold text-white"
-              >
-                Book Free Measure & Quote
-              </Link>
+              />
             </div>
           </motion.div>
         )}

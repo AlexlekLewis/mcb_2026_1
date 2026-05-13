@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowRight, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import {
   BrowseByNeed,
   ExpandedCategoryGrid,
@@ -13,7 +12,8 @@ import {
 } from "@/components/CROSections";
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
 import { HeroScroll } from "@/components/HeroScroll";
-import { quoteHref, SITE } from "@/lib/site";
+import { PrimaryCTA } from "@/components/PrimaryCTA";
+import { SITE } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -31,12 +31,12 @@ export default function Home() {
               Book a free in-home measure and quote. We bring samples, help you choose the right product for each room, measure accurately, and install with care.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Link
-                href={quoteHref()}
-                className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-7 py-4 font-bold uppercase tracking-wider text-white shadow-xl transition-colors hover:bg-white hover:text-mcb-charcoal"
-              >
-                Book Free Measure & Quote <ArrowRight className="h-4 w-4" />
-              </Link>
+              <PrimaryCTA
+                location="hero"
+                variant="primary"
+                className="px-7 py-4 hover:bg-white hover:text-mcb-charcoal"
+                extraPayload={{ section: "home-hero" }}
+              />
               <a
                 href={SITE.phoneHref}
                 className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/30 px-7 py-4 font-bold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-mcb-charcoal"

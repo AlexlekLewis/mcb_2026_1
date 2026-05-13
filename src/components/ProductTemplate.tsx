@@ -4,12 +4,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, Phone } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { GoogleReviewsWidget } from "./GoogleReviewsWidget";
 import { ProcessTimeline } from "./ProcessTimeline";
 import { PaymentOptions } from "./PaymentOptions";
 import { useRef } from "react";
-import { quoteHref } from "@/lib/site";
+import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 interface ProductFeature {
     title: string;
@@ -103,36 +102,6 @@ const slideInRight = {
         }
     }
 };
-
-// Animated Button Component
-function AnimatedButton({ children, href, variant = "primary", className = "" }: {
-    children: React.ReactNode;
-    href: string;
-    variant?: "primary" | "secondary";
-    className?: string;
-}) {
-    return (
-        <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-        >
-            <Link
-                href={href}
-                className={cn(
-                    "relative group inline-flex items-center gap-2 overflow-hidden rounded-sm text-lg font-bold uppercase tracking-widest transition-all duration-300",
-                    variant === "primary"
-                        ? "bg-mcb-terracotta text-white px-10 py-5 shadow-xl hover:shadow-2xl"
-                        : "border border-white/30 text-white px-8 py-5 hover:bg-white hover:text-mcb-charcoal",
-                    className
-                )}
-            >
-                {/* Shine effect on hover */}
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                <span className="relative z-10 flex items-center gap-2">{children}</span>
-            </Link>
-        </motion.div>
-    );
-}
 
 // Animated Phone Button
 function AnimatedPhoneButton({ children, href }: { children: React.ReactNode; href: string }) {
@@ -250,12 +219,14 @@ export function ProductTemplate({
                         </motion.p>
 
                         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                            <Link
-                                href={quoteHref(quoteProduct)}
-                                className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-terracotta px-6 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-xl transition-colors hover:bg-white hover:text-mcb-charcoal"
-                            >
-                                Book free measure <ArrowRight className="h-4 w-4" />
-                            </Link>
+                            <PrimaryCTA
+                                location="hero"
+                                productContext={quoteProduct}
+                                label="Book free measure"
+                                variant="primary"
+                                className="px-6 py-4 hover:bg-white hover:text-mcb-charcoal"
+                                extraPayload={{ section: "product-template-hero" }}
+                            />
                             <a
                                 href="tel:1300732319"
                                 className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/40 px-6 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-mcb-charcoal"
@@ -663,12 +634,14 @@ export function ProductTemplate({
                         No obligation. We bring samples, measure your windows, explain your options, and provide a clear written quote.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <AnimatedButton
-                            href={quoteHref(quoteProduct)}
+                        <PrimaryCTA
+                            location="section"
+                            productContext={quoteProduct}
+                            label={ctaText}
                             variant="primary"
-                        >
-                            {ctaText}
-                        </AnimatedButton>
+                            className="px-10 py-5 text-lg shadow-xl hover:shadow-2xl"
+                            extraPayload={{ section: "product-template-final" }}
+                        />
                         <AnimatedPhoneButton href="tel:1300732319">
                             Call 1300 732 319
                         </AnimatedPhoneButton>
