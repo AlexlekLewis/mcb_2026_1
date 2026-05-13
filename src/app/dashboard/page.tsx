@@ -2,18 +2,33 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
+  Activity,
   ArrowRight,
   BarChart3,
-  CheckCircle2,
-  ClipboardList,
+  Clock,
+  Compass,
+  Globe2,
+  Laptop,
+  MapPin,
   MousePointerClick,
   PhoneCall,
   Search,
   Share2,
   ShieldAlert,
+  TrendingUp,
   Users,
 } from "lucide-react";
 import { hasSupabaseAdminConfig, getSupabaseAdmin } from "@/lib/supabase/admin";
+import {
+  DonutChart,
+  FunnelChart,
+  HorizontalBarChart,
+  HourlyActivityChart,
+  TrendChart,
+} from "@/components/dashboard/DashboardCharts";
+import MelbourneMapClient, { type MelbourneMapData } from "@/components/dashboard/MelbourneMapClient";
+import type { MapPoint } from "@/components/dashboard/MelbourneMap";
+import { LOCATIONS } from "@/lib/locations";
 
 export const dynamic = "force-dynamic";
 
@@ -46,13 +61,66 @@ type FunnelRow = {
   total: number;
 };
 
-type TopPage = {
+type PageEngagement = {
   page_path: string;
   page_views: number;
   visitors: number;
+  sessions: number;
+  avg_scroll_percent: number;
+  avg_engaged_seconds: number;
+};
+
+type LocationRow = {
+  city: string;
+  region: string;
+  country: string;
+  visitors: number;
+  sessions: number;
+  page_views: number;
   quote_clicks: number;
   phone_taps: number;
-  chat_opens: number;
+};
+
+type DeviceRow = {
+  device_type: string;
+  visitors: number;
+  sessions: number;
+  page_views: number;
+};
+
+type BrowserRow = {
+  browser: string;
+  visitors: number;
+  sessions: number;
+};
+
+type CountryRow = {
+  country: string;
+  visitors: number;
+  sessions: number;
+  page_views: number;
+};
+
+type TrafficSourceRow = {
+  source: string;
+  visitors: number;
+  sessions: number;
+  page_views: number;
+  quote_clicks: number;
+};
+
+type HourRow = {
+  hour: number;
+  page_views: number;
+  sessions: number;
+};
+
+type EngagementTotals = {
+  total_sessions: number;
+  avg_engaged_seconds: number;
+  avg_pages_per_session: number;
+  avg_max_scroll_percent: number;
+  bounced_sessions: number;
 };
 
 type LeadSource = {
@@ -75,6 +143,32 @@ type RecentLead = {
   tracking_context: Record<string, unknown> | null;
 };
 
+type RecentSession = {
+  session_id: string;
+  visitor_id: string | null;
+  started_at: string;
+  last_event_at: string;
+  duration_seconds: number;
+  engaged_seconds: number;
+  page_views: number;
+  unique_pages: number;
+  max_scroll_percent: number;
+  clicked_quote_cta: boolean;
+  tapped_phone: boolean;
+  completed_quote: boolean;
+  landing_path: string | null;
+  referrer_url: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  country: string | null;
+  region: string | null;
+  city: string | null;
+  device_type: string | null;
+  browser: string | null;
+  os: string | null;
+};
+
 type SearchMetric = {
   clicks: number;
   impressions: number;
@@ -91,8 +185,34 @@ export default async function DashboardPage() {
   }
 
   const data = await loadDashboardData();
-  const totals = getTotals(data.daily);
+  const totals = getTotals(data.daily.slice(0, 30));
   const latestDate = data.daily[0]?.metric_date;
+  const trends = buildTrendBuckets(data.daily);
+
+  const trafficSources = data.trafficSources.slice(0, 6).map((row) => ({
+    label: row.source,
+    value: row.visitors,
+  }));
+  const deviceMix = data.devices.map((row) => ({
+    label: row.device_type,
+    value: row.visitors,
+  }));
+  const topCountries = data.countries.slice(0, 8).map((row) => ({
+    label: row.country,
+    value: row.visitors,
+  }));
+  const topCities = data.locations.slice(0, 10).map((row) => ({
+    label: row.city + (row.region ? `, ${row.region}` : ""),
+    value: row.visitors,
+  }));
+  const hourly = ensureHourlySpread(data.hourly).map((row) => ({
+    hour: row.hour,
+    sessions: row.sessions,
+  }));
+
+  const bounceRate = data.engagementTotals.total_sessions > 0
+    ? Math.round((data.engagementTotals.bounced_sessions / data.engagementTotals.total_sessions) * 100)
+    : 0;
 
   return (
     <div className="min-h-screen bg-stone-100 px-4 py-8 text-stone-900">
@@ -103,6 +223,12 @@ export default async function DashboardPage() {
             <h1 className="font-serif text-4xl text-mcb-charcoal">Website Dashboard</h1>
           </div>
           <div className="flex flex-col gap-3 text-sm text-stone-500 md:items-end">
+            <Link
+              href="/dashboard/optimization"
+              className="inline-flex items-center justify-center gap-2 rounded-sm bg-gradient-to-r from-orange-600 to-amber-500 px-4 py-2 font-bold uppercase tracking-wide text-white shadow-lg shadow-orange-500/20 transition-transform hover:-translate-y-0.5"
+            >
+              <Activity className="h-4 w-4" /> Site Intelligence <ArrowRight className="h-4 w-4" />
+            </Link>
             <Link
               href="/dashboard/social"
               className="inline-flex items-center justify-center gap-2 rounded-sm bg-mcb-charcoal px-4 py-2 font-bold uppercase tracking-wide text-white transition-colors hover:bg-mcb-terracotta"
@@ -123,38 +249,138 @@ export default async function DashboardPage() {
         ) : null}
 
         <section className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <KpiCard icon={<BarChart3 />} label="Page Views" value={totals.pageViews} detail="Last 30 stored days" />
-          <KpiCard icon={<Users />} label="Visitors" value={totals.visitors} detail={`${totals.sessions.toLocaleString()} sessions`} />
-          <KpiCard icon={<ClipboardList />} label="Stored Leads" value={totals.leads} detail={`${totals.quoteSuccesses.toLocaleString()} quote successes`} />
-          <KpiCard icon={<PhoneCall />} label="Phone Taps" value={totals.phoneTaps} detail={`${totals.chatLeads.toLocaleString()} chat leads`} />
+          <KpiCard icon={<BarChart3 />} label="Page Views" value={totals.pageViews.toLocaleString()} detail="Last 30 stored days" />
+          <KpiCard
+            icon={<Users />}
+            label="Visitors"
+            value={totals.visitors.toLocaleString()}
+            detail={`${totals.sessions.toLocaleString()} sessions`}
+          />
+          <KpiCard
+            icon={<Clock />}
+            label="Avg Engaged Time"
+            value={formatDuration(data.engagementTotals.avg_engaged_seconds)}
+            detail={`${data.engagementTotals.avg_pages_per_session.toFixed(1)} pages / session`}
+          />
+          <KpiCard
+            icon={<Activity />}
+            label="Bounce Rate"
+            value={`${bounceRate}%`}
+            detail={`${data.engagementTotals.bounced_sessions.toLocaleString()} of ${data.engagementTotals.total_sessions.toLocaleString()} sessions`}
+          />
+        </section>
+
+        <section className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <KpiCard icon={<MousePointerClick />} label="Stored Leads" value={totals.leads.toLocaleString()} detail={`${totals.quoteSuccesses.toLocaleString()} quote successes`} />
+          <KpiCard icon={<PhoneCall />} label="Phone Taps" value={totals.phoneTaps.toLocaleString()} detail={`${totals.chatLeads.toLocaleString()} chat leads`} />
+          <KpiCard
+            icon={<TrendingUp />}
+            label="Avg Max Scroll"
+            value={`${data.engagementTotals.avg_max_scroll_percent}%`}
+            detail="Per-session deepest scroll"
+          />
+          <KpiCard
+            icon={<Globe2 />}
+            label="Countries Reached"
+            value={data.countries.length.toLocaleString()}
+            detail={`${data.locations.length.toLocaleString()} unique cities`}
+          />
+        </section>
+
+        <section className="mb-6">
+          <Panel title="Traffic & Leads Trend" icon={<TrendingUp />}>
+            <TrendChart data={trends} />
+          </Panel>
+        </section>
+
+        <section className="mb-6">
+          <Panel title="Melbourne Activity Map" icon={<MapPin />}>
+            <MelbourneMapClient data={data.mapData} />
+          </Panel>
         </section>
 
         <section className="mb-6 grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
-          <Panel title="30 Day Funnel" icon={<MousePointerClick />}>
-            <div className="space-y-3">
-              {data.funnel.map((row, index) => (
-                <FunnelBar key={row.stage} row={row} max={data.funnel[0]?.total || 0} previous={data.funnel[index - 1]?.total} />
-              ))}
-            </div>
+          <Panel title="Conversion Funnel" icon={<MousePointerClick />}>
+            <FunnelChart data={data.funnel} />
           </Panel>
 
-          <Panel title="Top Pages" icon={<BarChart3 />}>
+          <Panel title="Traffic Sources" icon={<Compass />}>
+            <DonutChart data={trafficSources} />
+            <p className="mt-3 text-xs text-stone-500">
+              Counts visitors by UTM source if present, otherwise by referring domain. &ldquo;direct&rdquo; means no referrer.
+            </p>
+          </Panel>
+        </section>
+
+        <section className="mb-6 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <Panel title="Top Pages — Engagement" icon={<BarChart3 />}>
             <DataTable
-              columns={["Page", "Views", "Visitors", "Quote Clicks", "Phone"]}
-              rows={data.topPages.map((page) => [
+              columns={["Page", "Views", "Visitors", "Avg Scroll", "Avg Time"]}
+              rows={data.pageEngagement.slice(0, 12).map((page) => [
                 page.page_path,
                 page.page_views.toLocaleString(),
                 page.visitors.toLocaleString(),
-                page.quote_clicks.toLocaleString(),
-                page.phone_taps.toLocaleString(),
+                `${page.avg_scroll_percent}%`,
+                formatDuration(page.avg_engaged_seconds),
               ])}
               empty="No page view events have been stored yet."
             />
           </Panel>
+
+          <Panel title="Devices" icon={<Laptop />}>
+            <DonutChart data={deviceMix} height={220} />
+            {data.browsers.length > 0 ? (
+              <div className="mt-4 space-y-2 text-sm">
+                {data.browsers.slice(0, 5).map((row) => (
+                  <div key={row.browser} className="flex items-center justify-between border-b border-stone-100 pb-1 last:border-0">
+                    <span className="font-medium text-stone-700">{row.browser}</span>
+                    <span className="text-stone-500">{row.visitors.toLocaleString()} visitors</span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </Panel>
         </section>
 
         <section className="mb-6 grid gap-4 lg:grid-cols-2">
-          <Panel title="Lead Sources" icon={<CheckCircle2 />}>
+          <Panel title="Top Countries" icon={<Globe2 />}>
+            <HorizontalBarChart data={topCountries} valueKey="value" labelKey="label" />
+          </Panel>
+
+          <Panel title="Top Cities" icon={<MapPin />}>
+            <HorizontalBarChart data={topCities} valueKey="value" labelKey="label" color="#3f4946" height={300} />
+          </Panel>
+        </section>
+
+        <section className="mb-6 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <Panel title="Recent Sessions" icon={<Activity />}>
+            <DataTable
+              columns={["When", "Where", "Device", "Pages", "Time", "Scroll", "Source", "Outcome"]}
+              rows={data.recentSessions.slice(0, 14).map((session) => [
+                formatShortDateTime(session.started_at),
+                formatLocation(session),
+                formatDevice(session),
+                session.page_views.toLocaleString(),
+                formatDuration(Math.max(session.engaged_seconds, session.duration_seconds)),
+                `${session.max_scroll_percent}%`,
+                session.utm_source || extractDomain(session.referrer_url) || "direct",
+                formatSessionOutcome(session),
+              ])}
+              empty="No sessions stored yet. Once visitors land on the site this table will populate."
+              monoFirstColumn
+            />
+          </Panel>
+
+          <Panel title="Activity by Hour (Melbourne)" icon={<Clock />}>
+            <HourlyActivityChart data={hourly} />
+            <p className="mt-3 text-xs text-stone-500">
+              Sessions broken down by hour-of-day. Useful for picking when to publish, run ads or staff phone lines.
+            </p>
+          </Panel>
+        </section>
+
+        <section className="mb-6 grid gap-4 lg:grid-cols-2">
+          <Panel title="Lead Sources" icon={<MousePointerClick />}>
             <DataTable
               columns={["Source", "Leads", "New", "Won", "Lost"]}
               rows={data.leadSources.map((source) => [
@@ -168,13 +394,13 @@ export default async function DashboardPage() {
             />
           </Panel>
 
-          <Panel title="Recent Leads" icon={<ClipboardList />}>
+          <Panel title="Recent Leads" icon={<MousePointerClick />}>
             <DataTable
-              columns={["Date", "Name", "Suburb", "Interest", "Source"]}
+              columns={["When", "Name", "Location", "Interest", "Source"]}
               rows={data.recentLeads.map((lead) => [
-                formatDate(lead.created_at),
+                formatShortDateTime(lead.created_at),
                 [lead.first_name, lead.last_name].filter(Boolean).join(" ") || "Unknown",
-                lead.suburb || "Unknown",
+                formatLeadLocation(lead, data.leadGeo),
                 lead.product_interests?.join(", ") || "Not selected",
                 lead.source,
               ])}
@@ -203,11 +429,14 @@ export default async function DashboardPage() {
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
               <MiniStat label="Clicks" value={data.searchTotals.clicks} />
               <MiniStat label="Impressions" value={data.searchTotals.impressions} />
-              <MiniStat label="Avg Position" value={data.searchTotals.position ? data.searchTotals.position.toFixed(1) : "N/A"} />
+              <MiniStat
+                label="Avg Position"
+                value={data.searchTotals.position ? data.searchTotals.position.toFixed(1) : "N/A"}
+              />
             </div>
             <p className="mt-4 text-sm leading-relaxed text-stone-500">
-              Search Console import is ready at the database level. Once connected, this panel can show queries, landing pages, clicks,
-              impressions, CTR, and ranking movement.
+              Once Search Console import is wired up this panel will surface queries, landing pages, clicks, impressions, CTR
+              and ranking movement.
             </p>
           </Panel>
         </section>
@@ -219,21 +448,39 @@ export default async function DashboardPage() {
 async function loadDashboardData() {
   const supabase = getSupabaseAdmin();
   if (!supabase) {
-    return {
-      daily: [],
-      funnel: [],
-      topPages: [],
-      leadSources: [],
-      recentLeads: [],
-      searchTotals: { clicks: 0, impressions: 0, position: null },
-      errors: ["Supabase is not configured"],
-    };
+    return emptyData(["Supabase is not configured"]);
   }
 
-  const [daily, funnel, topPages, leadSources, recentLeads, searchMetrics] = await Promise.all([
-    supabase.from("dashboard_daily_metrics").select("*").limit(30),
+  const mapEventCutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const mapEventNames = [
+    "page_view",
+    "phone_tap",
+    "quote_form_start",
+    "quote_step_3_submit",
+    "quote_success",
+  ];
+
+  const [
+    daily,
+    funnel,
+    pageEngagement,
+    leadSources,
+    recentLeads,
+    searchMetrics,
+    locations,
+    countries,
+    devices,
+    browsers,
+    trafficSources,
+    hourly,
+    engagementTotals,
+    recentSessions,
+    mapEvents,
+    mapLeads,
+  ] = await Promise.all([
+    supabase.from("dashboard_daily_metrics").select("*").limit(400),
     supabase.from("dashboard_conversion_funnel_30d").select("*"),
-    supabase.from("dashboard_top_pages_30d").select("*").limit(12),
+    supabase.from("dashboard_page_engagement_30d").select("*").limit(20),
     supabase.from("dashboard_lead_sources_30d").select("*").limit(12),
     supabase
       .from("lead_submissions")
@@ -245,16 +492,135 @@ async function loadDashboardData() {
       .select("clicks, impressions, position")
       .gte("metric_date", new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10))
       .limit(5000),
+    supabase.from("dashboard_locations_30d").select("*").limit(50),
+    supabase.from("dashboard_countries_30d").select("*").limit(20),
+    supabase.from("dashboard_devices_30d").select("*"),
+    supabase.from("dashboard_browsers_30d").select("*"),
+    supabase.from("dashboard_traffic_sources_30d").select("*").limit(20),
+    supabase.from("dashboard_hourly_30d").select("*"),
+    supabase.from("dashboard_engagement_totals_30d").select("*").maybeSingle(),
+    supabase.from("dashboard_recent_sessions_30d").select("*").limit(30),
+    supabase
+      .from("analytics_events")
+      .select("event_name, latitude, longitude, visitor_id, city")
+      .gte("created_at", mapEventCutoff)
+      .in("event_name", mapEventNames)
+      .not("latitude", "is", null)
+      .not("longitude", "is", null)
+      .limit(10000),
+    supabase
+      .from("lead_submissions")
+      .select("suburb")
+      .gte("created_at", mapEventCutoff)
+      .not("suburb", "is", null),
   ]);
+
+  const leads = (recentLeads.data || []) as RecentLead[];
+  const leadSessionIds = leads
+    .map((lead) => {
+      const context = lead.tracking_context as Record<string, unknown> | null;
+      const value = context?.sessionId ?? context?.session_id;
+      return typeof value === "string" && value.length > 0 ? value : null;
+    })
+    .filter((id): id is string => Boolean(id));
+
+  let leadGeo: LeadGeoLookup = {};
+  if (leadSessionIds.length > 0) {
+    const { data: geoRows } = await supabase
+      .from("dashboard_recent_sessions_30d")
+      .select("session_id, city, region, country")
+      .in("session_id", leadSessionIds);
+    leadGeo = Object.fromEntries(
+      (geoRows || []).map((row) => [
+        row.session_id as string,
+        {
+          city: (row.city as string | null) ?? null,
+          region: (row.region as string | null) ?? null,
+          country: (row.country as string | null) ?? null,
+        },
+      ])
+    );
+  }
+
+  const mapData = buildMapData(
+    (mapEvents.data || []) as MapEventRow[],
+    (mapLeads.data || []) as { suburb: string | null }[]
+  );
 
   return {
     daily: (daily.data || []) as DailyMetric[],
     funnel: (funnel.data || []) as FunnelRow[],
-    topPages: (topPages.data || []) as TopPage[],
+    pageEngagement: (pageEngagement.data || []) as PageEngagement[],
     leadSources: (leadSources.data || []) as LeadSource[],
-    recentLeads: (recentLeads.data || []) as RecentLead[],
+    recentLeads: leads,
+    leadGeo,
+    mapData,
     searchTotals: getSearchTotals((searchMetrics.data || []) as SearchMetric[]),
-    errors: [daily.error, funnel.error, topPages.error, leadSources.error, recentLeads.error, searchMetrics.error].filter(Boolean),
+    locations: (locations.data || []) as LocationRow[],
+    countries: (countries.data || []) as CountryRow[],
+    devices: (devices.data || []) as DeviceRow[],
+    browsers: (browsers.data || []) as BrowserRow[],
+    trafficSources: (trafficSources.data || []) as TrafficSourceRow[],
+    hourly: (hourly.data || []) as HourRow[],
+    engagementTotals: ((engagementTotals.data as EngagementTotals | null) || {
+      total_sessions: 0,
+      avg_engaged_seconds: 0,
+      avg_pages_per_session: 0,
+      avg_max_scroll_percent: 0,
+      bounced_sessions: 0,
+    }) as EngagementTotals,
+    recentSessions: (recentSessions.data || []) as RecentSession[],
+    errors: [
+      daily.error,
+      funnel.error,
+      pageEngagement.error,
+      leadSources.error,
+      recentLeads.error,
+      searchMetrics.error,
+      locations.error,
+      countries.error,
+      devices.error,
+      browsers.error,
+      trafficSources.error,
+      hourly.error,
+      engagementTotals.error,
+      recentSessions.error,
+      mapEvents.error,
+      mapLeads.error,
+    ].filter(Boolean),
+  };
+}
+
+type LeadGeoLookup = Record<
+  string,
+  { city: string | null; region: string | null; country: string | null }
+>;
+
+function emptyData(errors: string[]) {
+  return {
+    daily: [] as DailyMetric[],
+    funnel: [] as FunnelRow[],
+    pageEngagement: [] as PageEngagement[],
+    leadSources: [] as LeadSource[],
+    recentLeads: [] as RecentLead[],
+    leadGeo: {} as LeadGeoLookup,
+    mapData: { views: [], visitors: [], leads: [], phone: [], forms: [] } as MelbourneMapData,
+    searchTotals: { clicks: 0, impressions: 0, position: null },
+    locations: [] as LocationRow[],
+    countries: [] as CountryRow[],
+    devices: [] as DeviceRow[],
+    browsers: [] as BrowserRow[],
+    trafficSources: [] as TrafficSourceRow[],
+    hourly: [] as HourRow[],
+    engagementTotals: {
+      total_sessions: 0,
+      avg_engaged_seconds: 0,
+      avg_pages_per_session: 0,
+      avg_max_scroll_percent: 0,
+      bounced_sessions: 0,
+    } as EngagementTotals,
+    recentSessions: [] as RecentSession[],
+    errors,
   };
 }
 
@@ -297,14 +663,14 @@ function SetupRow({ complete, label }: { complete: boolean; label: string }) {
   );
 }
 
-function KpiCard({ icon, label, value, detail }: { icon: ReactNode; label: string; value: number; detail: string }) {
+function KpiCard({ icon, label, value, detail }: { icon: ReactNode; label: string; value: string; detail: string }) {
   return (
     <div className="rounded-sm border border-stone-300 bg-white p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <span className="text-sm font-bold uppercase tracking-wide text-stone-500">{label}</span>
         <span className="text-mcb-terracotta [&_svg]:h-5 [&_svg]:w-5">{icon}</span>
       </div>
-      <div className="text-3xl font-bold text-mcb-charcoal">{value.toLocaleString()}</div>
+      <div className="text-3xl font-bold text-mcb-charcoal">{value}</div>
       <p className="mt-1 text-sm text-stone-500">{detail}</p>
     </div>
   );
@@ -322,26 +688,17 @@ function Panel({ title, icon, children }: { title: string; icon: ReactNode; chil
   );
 }
 
-function FunnelBar({ row, max, previous }: { row: FunnelRow; max: number; previous?: number }) {
-  const width = max > 0 ? Math.max((row.total / max) * 100, row.total > 0 ? 4 : 0) : 0;
-  const conversion = previous && previous > 0 ? `${Math.round((row.total / previous) * 100)}% from previous` : "Start";
-
-  return (
-    <div>
-      <div className="mb-1 flex items-center justify-between gap-3 text-sm">
-        <span className="font-semibold text-stone-700">{row.stage}</span>
-        <span className="text-stone-500">{row.total.toLocaleString()}</span>
-      </div>
-      <div className="h-8 overflow-hidden rounded-sm bg-stone-100">
-        <div className="flex h-full items-center bg-mcb-terracotta px-3 text-xs font-bold text-white" style={{ width: `${width}%` }}>
-          {conversion}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DataTable({ columns, rows, empty }: { columns: string[]; rows: string[][]; empty: string }) {
+function DataTable({
+  columns,
+  rows,
+  empty,
+  monoFirstColumn,
+}: {
+  columns: string[];
+  rows: string[][];
+  empty: string;
+  monoFirstColumn?: boolean;
+}) {
   if (rows.length === 0) {
     return <p className="rounded-sm bg-stone-50 p-4 text-sm text-stone-500">{empty}</p>;
   }
@@ -362,7 +719,12 @@ function DataTable({ columns, rows, empty }: { columns: string[]; rows: string[]
           {rows.map((row, index) => (
             <tr key={`${row.join("-")}-${index}`} className="border-b border-stone-100 last:border-0">
               {row.map((cell, cellIndex) => (
-                <td key={`${cell}-${cellIndex}`} className="max-w-[280px] px-2 py-3 align-top text-stone-700">
+                <td
+                  key={`${cell}-${cellIndex}`}
+                  className={`max-w-[280px] px-2 py-3 align-top text-stone-700 ${
+                    monoFirstColumn && cellIndex === 0 ? "font-mono text-xs" : ""
+                  }`}
+                >
                   <span className="line-clamp-2">{cell}</span>
                 </td>
               ))}
@@ -418,10 +780,255 @@ function getSearchTotals(metrics: SearchMetric[]) {
   return { clicks, impressions, position };
 }
 
+function ensureHourlySpread(rows: HourRow[]): HourRow[] {
+  const map = new Map<number, HourRow>();
+  for (const row of rows) map.set(row.hour, row);
+  return Array.from({ length: 24 }, (_, hour) =>
+    map.get(hour) || { hour, page_views: 0, sessions: 0 }
+  );
+}
+
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-AU", {
     day: "2-digit",
     month: "short",
     year: "numeric",
   }).format(new Date(value));
+}
+
+function formatShortDate(value: string) {
+  return new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "short",
+  }).format(new Date(value));
+}
+
+function formatShortDateTime(value: string) {
+  return new Intl.DateTimeFormat("en-AU", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Australia/Melbourne",
+  }).format(new Date(value));
+}
+
+function formatDuration(seconds: number) {
+  if (!seconds || seconds <= 0) return "—";
+  if (seconds < 60) return `${Math.round(seconds)}s`;
+  const minutes = Math.floor(seconds / 60);
+  const remaining = Math.round(seconds % 60);
+  if (minutes < 60) return remaining > 0 ? `${minutes}m ${remaining}s` : `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return `${hours}h ${mins}m`;
+}
+
+function formatLocation(session: RecentSession) {
+  const parts = [session.city, session.region, session.country].filter(Boolean);
+  return parts.length > 0 ? parts.join(", ") : "Unknown";
+}
+
+function formatDevice(session: RecentSession) {
+  const parts = [session.device_type, session.browser, session.os].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : "Unknown";
+}
+
+function formatSessionOutcome(session: RecentSession) {
+  const flags: string[] = [];
+  if (session.completed_quote) flags.push("Quote ✓");
+  if (session.clicked_quote_cta) flags.push("CTA");
+  if (session.tapped_phone) flags.push("Phone");
+  return flags.length > 0 ? flags.join(", ") : "—";
+}
+
+function extractDomain(url: string | null): string | null {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    return parsed.host.replace(/^www\./, "");
+  } catch {
+    return null;
+  }
+}
+
+function formatLeadLocation(lead: RecentLead, geo: LeadGeoLookup): string {
+  const context = lead.tracking_context as Record<string, unknown> | null;
+  const sessionId =
+    (typeof context?.sessionId === "string" && context.sessionId) ||
+    (typeof context?.session_id === "string" && context.session_id) ||
+    null;
+  const session = sessionId ? geo[sessionId] : undefined;
+
+  const ipParts = session ? [session.city, session.region, session.country].filter(Boolean) : [];
+  const ipLocation = ipParts.length > 0 ? ipParts.join(", ") : null;
+
+  if (lead.suburb && ipLocation) return `${lead.suburb} · ${ipLocation}`;
+  if (lead.suburb) return lead.suburb;
+  if (ipLocation) return ipLocation;
+  return "Unknown";
+}
+
+function buildTrendBuckets(daily: DailyMetric[]) {
+  const ascending = [...daily].sort((a, b) => a.metric_date.localeCompare(b.metric_date));
+
+  const dailyPoints = ascending.slice(-30).map((day) => ({
+    label: formatShortDate(day.metric_date),
+    page_views: day.page_views,
+    visitors: day.visitors,
+    leads: day.leads,
+  }));
+
+  const weeklyMap = new Map<string, { date: Date; page_views: number; visitors: number; leads: number }>();
+  for (const day of ascending) {
+    const date = new Date(`${day.metric_date}T00:00:00`);
+    const weekStart = startOfWeek(date);
+    const key = weekStart.toISOString().slice(0, 10);
+    const bucket = weeklyMap.get(key) || { date: weekStart, page_views: 0, visitors: 0, leads: 0 };
+    bucket.page_views += day.page_views;
+    bucket.visitors += day.visitors;
+    bucket.leads += day.leads;
+    weeklyMap.set(key, bucket);
+  }
+  const weeklyPoints = Array.from(weeklyMap.values())
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
+    .slice(-12)
+    .map((bucket) => ({
+      label: `Wk ${formatShortDate(bucket.date.toISOString().slice(0, 10))}`,
+      page_views: bucket.page_views,
+      visitors: bucket.visitors,
+      leads: bucket.leads,
+    }));
+
+  const monthlyMap = new Map<string, { date: Date; page_views: number; visitors: number; leads: number }>();
+  for (const day of ascending) {
+    const date = new Date(`${day.metric_date}T00:00:00`);
+    const monthStart = new Date(date.getFullYear(), date.getMonth(), 1);
+    const key = `${monthStart.getFullYear()}-${monthStart.getMonth()}`;
+    const bucket = monthlyMap.get(key) || { date: monthStart, page_views: 0, visitors: 0, leads: 0 };
+    bucket.page_views += day.page_views;
+    bucket.visitors += day.visitors;
+    bucket.leads += day.leads;
+    monthlyMap.set(key, bucket);
+  }
+  const monthlyPoints = Array.from(monthlyMap.values())
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
+    .slice(-12)
+    .map((bucket) => ({
+      label: new Intl.DateTimeFormat("en-AU", { month: "short", year: "2-digit" }).format(bucket.date),
+      page_views: bucket.page_views,
+      visitors: bucket.visitors,
+      leads: bucket.leads,
+    }));
+
+  return { daily: dailyPoints, weekly: weeklyPoints, monthly: monthlyPoints };
+}
+
+function startOfWeek(date: Date): Date {
+  const result = new Date(date);
+  const day = result.getDay();
+  const diff = (day + 6) % 7;
+  result.setDate(result.getDate() - diff);
+  result.setHours(0, 0, 0, 0);
+  return result;
+}
+
+type MapEventRow = {
+  event_name: string;
+  latitude: number | null;
+  longitude: number | null;
+  visitor_id: string | null;
+  city: string | null;
+};
+
+function buildMapData(
+  events: MapEventRow[],
+  leadSuburbs: { suburb: string | null }[]
+): MelbourneMapData {
+  const viewBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
+  const visitorBuckets = new Map<string, { lat: number; lng: number; visitors: Set<string>; label: string | null }>();
+  const phoneBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
+  const formBuckets = new Map<string, { lat: number; lng: number; count: number; label: string | null }>();
+
+  for (const event of events) {
+    if (event.latitude == null || event.longitude == null) continue;
+    const lat = Math.round(event.latitude * 1000) / 1000;
+    const lng = Math.round(event.longitude * 1000) / 1000;
+    const key = `${lat},${lng}`;
+    const label = event.city;
+
+    if (event.event_name === "page_view") {
+      const bucket = viewBuckets.get(key) || { lat, lng, count: 0, label };
+      bucket.count += 1;
+      viewBuckets.set(key, bucket);
+
+      if (event.visitor_id) {
+        const visitorBucket =
+          visitorBuckets.get(key) || { lat, lng, visitors: new Set<string>(), label };
+        visitorBucket.visitors.add(event.visitor_id);
+        visitorBuckets.set(key, visitorBucket);
+      }
+    } else if (event.event_name === "phone_tap") {
+      const bucket = phoneBuckets.get(key) || { lat, lng, count: 0, label };
+      bucket.count += 1;
+      phoneBuckets.set(key, bucket);
+    } else if (
+      event.event_name === "quote_step_3_submit" ||
+      event.event_name === "quote_success" ||
+      event.event_name === "quote_form_start"
+    ) {
+      const bucket = formBuckets.get(key) || { lat, lng, count: 0, label };
+      bucket.count += 1;
+      formBuckets.set(key, bucket);
+    }
+  }
+
+  const leadCounts = new Map<string, number>();
+  for (const lead of leadSuburbs) {
+    if (!lead.suburb) continue;
+    const key = lead.suburb.trim().toLowerCase();
+    if (!key) continue;
+    leadCounts.set(key, (leadCounts.get(key) || 0) + 1);
+  }
+
+  const leadPoints: MapPoint[] = [];
+  leadCounts.forEach((count, suburbKey) => {
+    const match = LOCATIONS.find((loc) => loc.name.toLowerCase() === suburbKey);
+    if (!match) return;
+    leadPoints.push({
+      lat: match.latitude,
+      lng: match.longitude,
+      count,
+      label: match.name,
+    });
+  });
+  leadPoints.sort((a, b) => b.count - a.count);
+
+  return {
+    views: Array.from(viewBuckets.values()).map((b) => ({
+      lat: b.lat,
+      lng: b.lng,
+      count: b.count,
+      label: b.label,
+    })),
+    visitors: Array.from(visitorBuckets.values()).map((b) => ({
+      lat: b.lat,
+      lng: b.lng,
+      count: b.visitors.size,
+      label: b.label,
+    })),
+    leads: leadPoints,
+    phone: Array.from(phoneBuckets.values()).map((b) => ({
+      lat: b.lat,
+      lng: b.lng,
+      count: b.count,
+      label: b.label,
+    })),
+    forms: Array.from(formBuckets.values()).map((b) => ({
+      lat: b.lat,
+      lng: b.lng,
+      count: b.count,
+      label: b.label,
+    })),
+  };
 }

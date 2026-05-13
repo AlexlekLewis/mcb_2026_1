@@ -63,7 +63,7 @@ function escapeHtml(value) {
 
 const SITE_URL = 'https://www.moderncurtainsandblinds.com.au';
 const LOGO_URL = `${SITE_URL}/assets/logo-nav.png`;
-const OWNERS_PHOTO_URL = `${SITE_URL}/assets/mcb-owners.jpg`;
+const OWNERS_PHOTO_URL = `${SITE_URL}/assets/mcb-owners-email.jpg`;
 const GBP_REVIEWS_URL = 'https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9';
 
 function buildCustomerHtml(f) {

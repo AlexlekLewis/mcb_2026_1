@@ -5,6 +5,7 @@ import { ProductTemplate } from '@/components/ProductTemplate';
 import { SITE } from '@/lib/site';
 import { LOCATION_PRODUCTS } from '@/lib/location-products';
 import { PageViewTracker } from '@/components/PageViewTracker';
+import { LocalBusinessSchema, FaqPageSchema } from '@/components/RichSchema';
 
 interface Props {
     params: Promise<{
@@ -90,45 +91,13 @@ export default async function LocationPage({ params }: Props) {
         }
     ];
 
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": SITE.name,
-        "image": `${SITE.url}/assets/curtain_hero.png`,
-        "telephone": SITE.phoneDisplay,
-        "url": `${SITE.url}/locations/${suburb.slug}`,
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": suburb.name,
-            "addressRegion": "VIC",
-            "postalCode": suburb.postcode,
-            "addressCountry": "AU"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": suburb.latitude,
-            "longitude": suburb.longitude
-        },
-        "areaServed": {
-            "@type": "City",
-            "name": suburb.name
-        },
-        "priceRange": "$$",
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday"
-                ],
-                "opens": "09:00",
-                "closes": "17:00"
-            }
-        ]
-    };
+    const faqItems = [
+        { question: `Do you service ${suburb.name}?`, answer: `Yes. We offer in-home measure and quote appointments across ${suburb.name} ${suburb.postcode} and nearby Melbourne suburbs. Call 1300 732 319 or request a quote online.` },
+        { question: `How much does a quote cost in ${suburb.name}?`, answer: `Quotes are free. Modern Curtains and Blinds visits ${suburb.name} customers in-home, brings samples, measures every opening and provides a detailed written quote with no obligation.` },
+        { question: "Can you quote multiple products in one visit?", answer: "Yes. We can measure and quote curtains, blinds, shutters, security screens, fly screens, awnings and motorisation during one appointment." },
+        { question: "Do you bring samples?", answer: "Yes. We bring suitable fabric, colour and texture samples so you can compare them in your own home light before deciding." },
+        { question: `How long does delivery take in ${suburb.name}?`, answer: `Most standard curtain and blind orders are produced and installed within a few weeks of order confirmation. Specific lead time is provided in the written quote.` },
+    ];
 
     return (
         <>
@@ -141,10 +110,8 @@ export default async function LocationPage({ params }: Props) {
                     suburb_postcode: suburb.postcode,
                 }}
             />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
+            <LocalBusinessSchema suburb={suburb} />
+            <FaqPageSchema items={faqItems} />
             <ProductTemplate
                 title={`Curtains and Blinds ${suburb.name}`}
                 subtitle={`Free in-home measure and quote in ${suburb.name}`}
@@ -160,11 +127,7 @@ export default async function LocationPage({ params }: Props) {
                 types={types}
                 ctaText="Book Free Measure"
                 nearbyLocations={nearby}
-                faq={[
-                    { question: `Do you service ${suburb.name}?`, answer: `Yes. We offer in-home measure and quote appointments across ${suburb.name} and nearby Melbourne suburbs.` },
-                    { question: "Can you quote multiple products in one visit?", answer: "Yes. We can measure and quote curtains, blinds, shutters, security screens, awnings and motorisation during one appointment." },
-                    { question: "Do you bring samples?", answer: "Yes. We bring suitable samples so you can compare colours and textures in your own home." },
-                ]}
+                faq={faqItems}
                 internalLinks={{
                     title: `Popular products in ${suburb.name}`,
                     description: `Each product page is tailored for ${suburb.name} so customers can move from local intent to the right quote path quickly.`,

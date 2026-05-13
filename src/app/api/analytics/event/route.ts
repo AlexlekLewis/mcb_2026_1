@@ -24,7 +24,12 @@ export async function POST(request: Request) {
       return new NextResponse(null, { status: 204 });
     }
 
-    const { userAgent, ipHash } = getRequestMeta(request);
+    const { userAgent, ipHash, geo, device } = getRequestMeta(request);
+
+    const scrollPercent = clampInt(payload.scroll_percent, 0, 100);
+    const engagementSeconds = clampInt(payload.engagement_seconds, 0, 86400);
+    const viewportWidth = clampInt(payload.viewport_width, 0, 32767);
+    const viewportHeight = clampInt(payload.viewport_height, 0, 32767);
 
     const { error } = await supabase.from("analytics_events").insert({
       event_name: eventName,
@@ -48,6 +53,18 @@ export async function POST(request: Request) {
       fbclid: stringOrNull(context.fbclid, 300),
       user_agent: userAgent,
       ip_hash: ipHash,
+      country: geo.country,
+      region: geo.region,
+      city: geo.city,
+      latitude: geo.latitude,
+      longitude: geo.longitude,
+      device_type: device.deviceType,
+      browser: device.browser,
+      os: device.os,
+      scroll_percent: scrollPercent,
+      engagement_seconds: engagementSeconds,
+      viewport_width: viewportWidth,
+      viewport_height: viewportHeight,
     });
 
     if (error) {
@@ -59,4 +76,13 @@ export async function POST(request: Request) {
     console.error("Analytics event error:", error);
     return new NextResponse(null, { status: 204 });
   }
+}
+
+function clampInt(value: unknown, min: number, max: number): number | null {
+  const num = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(num)) return null;
+  const rounded = Math.round(num);
+  if (rounded < min) return min;
+  if (rounded > max) return max;
+  return rounded;
 }

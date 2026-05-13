@@ -4,10 +4,11 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
-import { JsonLd } from "@/components/JsonLd";
+import { OrganizationSchema } from "@/components/RichSchema";
 
 import { Analytics, AnalyticsNoScript } from "@/components/Analytics";
 import { EventTracker } from "@/components/EventTracker";
+import { EngagementTracker } from "@/components/EngagementTracker";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { PaymentOptions } from "@/components/PaymentOptions";
 import { SITE } from "@/lib/site";
@@ -79,9 +80,10 @@ export default function RootLayout({
         <Footer />
         <ChatWidget />
         <StickyMobileCTA />
-        <JsonLd />
+        <OrganizationSchema />
         <Analytics />
         <EventTracker />
+        <EngagementTracker />
       </body>
     </html>
   );

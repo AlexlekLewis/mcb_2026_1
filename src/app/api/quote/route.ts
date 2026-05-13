@@ -443,8 +443,9 @@ async function storeLeadSubmission(
 
   const { userAgent, ipHash } = getRequestMeta(request);
   const source = getLeadSource(body.source);
+  const trackingContext = objectOrEmpty(body.trackingContext);
 
-  const { error } = await supabase.from("lead_submissions").insert({
+  const { data: inserted, error } = await supabase.from("lead_submissions").insert({
     source,
     first_name: stringOrNull(body.firstName, 120),
     last_name: stringOrNull(body.lastName, 120),
@@ -460,14 +461,41 @@ async function storeLeadSubmission(
     project_stage: stringOrNull(body.projectStage, 180),
     needs_advice: booleanValue(body.needsAdvice),
     message: stringOrNull(body.message, 4000),
-    tracking_context: objectOrEmpty(body.trackingContext),
+    tracking_context: trackingContext,
     user_agent: userAgent,
     ip_hash: ipHash,
-  });
+  }).select("id").single();
 
   if (error) {
     console.error("Failed to store lead submission:", error);
+    return;
   }
+
+  // Emit server-side lead_submitted event — conversion funnel reflects server reality.
+  try {
+    await supabase.from("analytics_events").insert({
+      event_name: "lead_submitted",
+      visitor_id: stringOrNull((trackingContext as Record<string, unknown>).visitorId, 120),
+      session_id: stringOrNull((trackingContext as Record<string, unknown>).sessionId, 120),
+      page_path: "/api/quote",
+      properties: { lead_id: inserted?.id, source, product_count: selectedProducts.length },
+    });
+  } catch { /* non-fatal */ }
+
+  // Auto-trigger an optimization run on the live signal change (fire-and-forget).
+  triggerOptimizationRun().catch(() => undefined);
+}
+
+async function triggerOptimizationRun() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://moderncurtainsandblinds.com.au";
+  const secret = process.env.CRON_SECRET;
+  if (!secret) return;
+  try {
+    await fetch(`${baseUrl}/api/optimization/score?trigger=event`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${secret}` },
+    });
+  } catch { /* fire-and-forget */ }
 }
 
 function getLeadSource(value: unknown) {

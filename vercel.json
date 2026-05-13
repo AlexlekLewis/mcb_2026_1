@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/optimization-run",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/ai-citation-probe",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/learn-weights",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}

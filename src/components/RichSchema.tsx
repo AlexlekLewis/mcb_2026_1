@@ -1,0 +1,166 @@
+import { SITE } from "@/lib/site";
+import { CURATED_REVIEWS } from "@/lib/customer-reviews";
+
+const REVIEW_AGGREGATE = {
+  count: 47,
+  rating: 5.0,
+  best: 5,
+  worst: 1,
+};
+
+export function OrganizationSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": SITE.url,
+    name: SITE.name,
+    alternateName: ["MCB", "Modern Curtains & Blinds"],
+    image: `${SITE.url}/assets/logo.png`,
+    logo: `${SITE.url}/assets/logo.png`,
+    url: SITE.url,
+    telephone: SITE.phoneDisplay,
+    email: SITE.email,
+    foundingDate: "2018",
+    founders: [
+      { "@type": "Person", name: "Deane" },
+      { "@type": "Person", name: "Dee" },
+    ],
+    slogan: "Free in-home measure and quote across Melbourne",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Preston",
+      addressRegion: "VIC",
+      postalCode: "3072",
+      addressCountry: "AU",
+    },
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: SITE.serviceArea,
+    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "09:00",
+        closes: "17:00",
+      },
+    ],
+    priceRange: "$$",
+    paymentAccepted: ["Cash", "Credit Card", "Bank Transfer", "Finance"],
+    serviceType: [
+      "Custom curtains",
+      "Custom blinds",
+      "Plantation shutters",
+      "Security doors",
+      "Fly screens",
+      "Outdoor awnings",
+      "Motorisation",
+    ],
+    sameAs: [
+      "https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9",
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: REVIEW_AGGREGATE.rating.toFixed(1),
+      reviewCount: REVIEW_AGGREGATE.count,
+      bestRating: REVIEW_AGGREGATE.best,
+      worstRating: REVIEW_AGGREGATE.worst,
+    },
+    review: CURATED_REVIEWS.slice(0, 6).map((r) => ({
+      "@type": "Review",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: r.rating,
+        bestRating: 5,
+      },
+      author: { "@type": "Person", name: r.author },
+      reviewBody: r.text,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function FaqPageSchema({
+  items,
+}: {
+  items: Array<{ question: string; answer: string }>;
+}) {
+  if (!items || items.length === 0) return null;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function LocalBusinessSchema({
+  suburb,
+}: {
+  suburb: { name: string; slug: string; postcode: string; latitude: number; longitude: number };
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${SITE.url}/locations/${suburb.slug}#localbusiness`,
+    name: `${SITE.name} — ${suburb.name}`,
+    image: `${SITE.url}/assets/curtain_hero.png`,
+    telephone: SITE.phoneDisplay,
+    email: SITE.email,
+    url: `${SITE.url}/locations/${suburb.slug}`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: suburb.name,
+      addressRegion: "VIC",
+      postalCode: suburb.postcode,
+      addressCountry: "AU",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: suburb.latitude,
+      longitude: suburb.longitude,
+    },
+    areaServed: { "@type": "City", name: suburb.name },
+    priceRange: "$$",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "09:00",
+        closes: "17:00",
+      },
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: REVIEW_AGGREGATE.rating.toFixed(1),
+      reviewCount: REVIEW_AGGREGATE.count,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    parentOrganization: { "@id": SITE.url },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
