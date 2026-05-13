@@ -29,6 +29,8 @@ import {
 import MelbourneMapClient, { type MelbourneMapData } from "@/components/dashboard/MelbourneMapClient";
 import type { MapPoint } from "@/components/dashboard/MelbourneMap";
 import { LOCATIONS } from "@/lib/locations";
+import { ReleaseTracker } from "@/components/dashboard/ReleaseTracker";
+import { loadReleaseMetrics } from "@/lib/dashboard/release-metrics";
 
 export const dynamic = "force-dynamic";
 
@@ -184,7 +186,7 @@ export default async function DashboardPage() {
     return <SetupRequired hasPassword={hasPassword} hasUsername={hasUsername} hasSupabase={hasSupabase} />;
   }
 
-  const data = await loadDashboardData();
+  const [data, releases] = await Promise.all([loadDashboardData(), loadReleaseMetrics()]);
   const totals = getTotals(data.daily.slice(0, 30));
   const latestDate = data.daily[0]?.metric_date;
   const trends = buildTrendBuckets(data.daily, data.todayHourly);
@@ -285,6 +287,10 @@ export default async function DashboardPage() {
             value={data.countries.length.toLocaleString()}
             detail={`${data.locations.length.toLocaleString()} unique cities`}
           />
+        </section>
+
+        <section className="mb-6">
+          <ReleaseTracker releases={releases} />
         </section>
 
         <section className="mb-6">
