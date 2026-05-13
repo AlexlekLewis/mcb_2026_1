@@ -28,7 +28,8 @@ export const RELEASES: Release[] = [
   {
     id: "2026-05-14-uiux-pass-hero-quote-trust-and-polish",
     title: "Hero H1 + /quote trust panel + CTA contrast + small-text bumps",
-    releasedAt: "2026-05-14T12:00:00Z",
+    releasedAt: "2026-05-13T23:38:17Z",
+    commitUrl: "https://github.com/AlexlekLewis/mcb_2026_1/commit/a51c13f",
     summary:
       "Visual conversion pass from a UIUX Pro Max audit: shortened the homepage H1 from a 92-char SEO sentence to a scannable two-line headline (keywords moved into the subhead, so SEO is preserved); added a 5★ Google-reviews trust card to the top of the /quote aside; darkened the PrimaryCTA bg to lift contrast from AA-Large-only to AA-all-text; and raised the smallest disclaimer/promo text from 8–9px to 10–11px floor. Before: conversion page had zero social proof; primary CTA contrast was 4.07:1; finance disclaimer rendered at 8px on mobile.",
     items: [
