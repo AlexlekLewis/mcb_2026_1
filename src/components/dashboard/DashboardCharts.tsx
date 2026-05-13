@@ -224,6 +224,20 @@ export function HorizontalBarChart({
   );
 }
 
+function formatHour12(hour: number): string {
+  if (hour === 0) return "12am";
+  if (hour === 12) return "12pm";
+  return hour < 12 ? `${hour}am` : `${hour - 12}pm`;
+}
+
+function formatHour12Range(hour: number): string {
+  const start = formatHour12(hour);
+  // Closing minute of the same hour, e.g. 9am window -> "9am – 9:59am"
+  const suffix = hour < 12 ? "am" : "pm";
+  const minuteHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+  return `${start} – ${minuteHour}:59${suffix}`;
+}
+
 export function HourlyActivityChart({ data }: { data: Array<{ hour: number; sessions: number }> }) {
   if (data.length === 0) return <ChartEmpty>No hourly data yet.</ChartEmpty>;
 
@@ -237,13 +251,13 @@ export function HourlyActivityChart({ data }: { data: Array<{ hour: number; sess
             tick={axisStyle}
             tickLine={false}
             axisLine={{ stroke: "#d6d3d1" }}
-            tickFormatter={(value: number) => `${value}h`}
+            tickFormatter={(value: number) => formatHour12(value)}
           />
           <YAxis tick={axisStyle} tickLine={false} axisLine={false} width={30} />
           <Tooltip
             contentStyle={tooltipStyle}
             cursor={{ fill: "#fafaf9" }}
-            labelFormatter={(value) => `${value}:00 – ${value}:59 (Melbourne)`}
+            labelFormatter={(value) => `${formatHour12Range(Number(value))} (Melbourne)`}
           />
           <Bar dataKey="sessions" fill="#b85a3e" radius={[2, 2, 0, 0]} />
         </BarChart>
@@ -295,6 +309,20 @@ export function DonutChart({
   );
 }
 
+/**
+ * Plain-English explanations for each funnel stage. Keyed by lowercased stage
+ * name so we tolerate label casing drift in the view definition. If a stage
+ * has no entry we just show the name without a hint.
+ */
+const FUNNEL_STAGE_HELP: Record<string, string> = {
+  "page views": "All page-view events. The very top of the funnel — every session contributes.",
+  "quote cta clicks": "Clicks on any 'Book / Get a quote' button across the site.",
+  "quote form starts": "Of those clickers, who actually started typing into the form.",
+  "quote submits": "Of those who started, who pressed the final Submit button.",
+  "quote successes": "Of those who submitted, whose submission was accepted by the API (no validation / server error).",
+  "stored leads": "Of those successes, who actually landed as a row in the database. The bottom of the funnel — these are the leads you can follow up on.",
+};
+
 export function FunnelChart({
   data,
 }: {
@@ -304,32 +332,57 @@ export function FunnelChart({
   const max = Math.max(...data.map((row) => row.total), 1);
 
   return (
-    <div className="space-y-3">
-      {data.map((row, index) => {
-        const widthPercent = Math.max((row.total / max) * 100, row.total > 0 ? 4 : 0);
-        const previous = data[index - 1]?.total;
-        const dropoff =
-          previous && previous > 0
-            ? `${Math.round((row.total / previous) * 100)}% from previous`
-            : "Start";
+    <div>
+      <p className="mb-4 text-xs leading-relaxed text-stone-500">
+        Step-by-step view of how many people make it from &ldquo;saw a quote button&rdquo; through to
+        &ldquo;we stored their lead&rdquo;. Each bar is what survived from the row above. Hover any row
+        for a plain-English definition.
+      </p>
+      <div className="space-y-3">
+        {data.map((row, index) => {
+          const widthPercent = Math.max((row.total / max) * 100, row.total > 0 ? 4 : 0);
+          const previous = data[index - 1]?.total;
+          const dropoff =
+            previous && previous > 0
+              ? `${Math.round((row.total / previous) * 100)}% from previous`
+              : "Start";
+          const help = FUNNEL_STAGE_HELP[row.stage.toLowerCase().trim()];
 
-        return (
-          <div key={row.stage}>
-            <div className="mb-1 flex items-center justify-between gap-3 text-sm">
-              <span className="font-semibold text-stone-700">{row.stage}</span>
-              <span className="text-stone-500">{row.total.toLocaleString()}</span>
-            </div>
-            <div className="h-8 overflow-hidden rounded-sm bg-stone-100">
-              <div
-                className="flex h-full items-center bg-mcb-terracotta px-3 text-xs font-bold text-white transition-[width]"
-                style={{ width: `${widthPercent}%` }}
-              >
-                {dropoff}
+          return (
+            <div key={row.stage}>
+              <div className="mb-1 flex items-center justify-between gap-3 text-sm">
+                <span
+                  className="font-semibold text-stone-700"
+                  title={help || row.stage}
+                >
+                  {row.stage}
+                  {help ? (
+                    <span
+                      aria-hidden
+                      className="ml-1.5 cursor-help text-xs text-stone-400"
+                      title={help}
+                    >
+                      ⓘ
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-stone-500">{row.total.toLocaleString()}</span>
               </div>
+              <div className="h-8 overflow-hidden rounded-sm bg-stone-100">
+                <div
+                  className="flex h-full items-center bg-mcb-terracotta px-3 text-xs font-bold text-white transition-[width]"
+                  style={{ width: `${widthPercent}%` }}
+                >
+                  {dropoff}
+                </div>
+              </div>
+              {help ? (
+                <p className="mt-1 text-[11px] leading-snug text-stone-500">{help}</p>
+              ) : null}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

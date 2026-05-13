@@ -33,6 +33,7 @@ import { ReleaseTracker } from "@/components/dashboard/ReleaseTracker";
 import { loadReleaseMetrics } from "@/lib/dashboard/release-metrics";
 import { RELEASES } from "@/lib/dashboard/releases";
 import type { TrendMarkers } from "@/components/dashboard/DashboardCharts";
+import { tallyTopSuburbs, type SuburbTally } from "@/lib/dashboard/nearest-suburb";
 
 export const dynamic = "force-dynamic";
 
@@ -179,6 +180,31 @@ type SearchMetric = {
   position: number | null;
 };
 
+type CtaClickRow = {
+  session_id: string | null;
+  page_path: string | null;
+  created_at: string;
+};
+
+type ScrollDepthRow = {
+  session_id: string | null;
+  page_path: string | null;
+  scroll_percent: number | null;
+  created_at: string;
+};
+
+type PageScrollAtClick = {
+  page_path: string;
+  clicks: number;
+  median_scroll_at_click: number | null;
+};
+
+type ScrollAtClickResult = {
+  totalClicks: number;
+  medianScrollAtClick: number | null;
+  perPage: PageScrollAtClick[];
+};
+
 export default async function DashboardPage() {
   const hasPassword = Boolean(process.env.DASHBOARD_PASSWORD);
   const hasUsername = Boolean(process.env.DASHBOARD_USERNAME);
@@ -202,13 +228,15 @@ export default async function DashboardPage() {
     label: row.device_type,
     value: row.visitors,
   }));
-  const topCountries = data.countries.slice(0, 8).map((row) => ({
-    label: row.country,
-    value: row.visitors,
-  }));
   const topCities = data.locations.slice(0, 10).map((row) => ({
     label: row.city + (row.region ? `, ${row.region}` : ""),
     value: row.visitors,
+  }));
+  const outsideVic = getOutsideVicStats(data.locations);
+  const topSuburbs = data.topSuburbs.slice(0, 8);
+  const topSuburbsForChart = topSuburbs.map((row) => ({
+    label: row.name,
+    value: row.count,
   }));
   const hourly = ensureHourlySpread(data.hourly).map((row) => ({
     hour: row.hour,
@@ -282,13 +310,22 @@ export default async function DashboardPage() {
             icon={<TrendingUp />}
             label="Avg Max Scroll"
             value={`${data.engagementTotals.avg_max_scroll_percent}%`}
-            detail="Per-session deepest scroll"
+            detail={
+              data.scrollAtClick.medianScrollAtClick != null
+                ? `Per-session deepest scroll · Median ${data.scrollAtClick.medianScrollAtClick}% at quote click`
+                : "Per-session deepest scroll"
+            }
           />
           <KpiCard
             icon={<Globe2 />}
-            label="Countries Reached"
-            value={data.countries.length.toLocaleString()}
-            detail={`${data.locations.length.toLocaleString()} unique cities`}
+            label="% Outside VIC"
+            value={outsideVic.total > 0 ? `${outsideVic.percent}%` : "—"}
+            detail={
+              outsideVic.total > 0
+                ? `${outsideVic.outsideVic.toLocaleString()} of ${outsideVic.total.toLocaleString()} located visitors`
+                : "No geo data yet"
+            }
+            tone={outsideVicTone(outsideVic.percent, outsideVic.total)}
           />
         </section>
 
@@ -311,6 +348,13 @@ export default async function DashboardPage() {
         <section className="mb-6 grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
           <Panel title="Conversion Funnel" icon={<MousePointerClick />}>
             <FunnelChart data={data.funnel} />
+            {data.outOfAreaLeadsCount > 0 ? (
+              <p className="mt-4 rounded-sm border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+                <strong>{data.outOfAreaLeadsCount.toLocaleString()}</strong> out-of-area lead
+                {data.outOfAreaLeadsCount === 1 ? "" : "s"} in the last 30 days (postcode not in
+                Victoria). These submissions still go through — the form shows a soft warning.
+              </p>
+            ) : null}
           </Panel>
 
           <Panel title="Traffic Sources" icon={<Compass />}>
@@ -351,9 +395,56 @@ export default async function DashboardPage() {
           </Panel>
         </section>
 
+        <section className="mb-6">
+          <Panel title="Scroll Depth at Quote Click — By Page" icon={<TrendingUp />}>
+            {data.scrollAtClick.perPage.length > 0 ? (
+              <>
+                <DataTable
+                  columns={["Page", "Quote Clicks", "Median Scroll at Click"]}
+                  rows={data.scrollAtClick.perPage.slice(0, 12).map((row) => [
+                    row.page_path,
+                    row.clicks.toLocaleString(),
+                    row.median_scroll_at_click != null ? `${row.median_scroll_at_click}%` : "—",
+                  ])}
+                  empty="No quote-CTA clicks recorded yet."
+                  monoFirstColumn
+                />
+                <p className="mt-3 text-xs text-stone-500">
+                  For each click on a quote CTA, we take the deepest scroll the visitor reached on that page
+                  before clicking — then take the median per page. Low values mean the top of the page convinced
+                  them; high values mean below-fold content matters. Scroll resolution is 25/50/75/100% so values
+                  are rounded buckets.
+                </p>
+              </>
+            ) : (
+              <p className="rounded-sm bg-stone-50 p-4 text-sm text-stone-500">
+                No quote-CTA clicks recorded in the last 30 days.
+              </p>
+            )}
+          </Panel>
+        </section>
+
         <section className="mb-6 grid gap-4 lg:grid-cols-2">
-          <Panel title="Top Countries" icon={<Globe2 />}>
-            <HorizontalBarChart data={topCountries} valueKey="value" labelKey="label" />
+          <Panel title="Top Suburbs" icon={<MapPin />}>
+            {topSuburbs.length > 0 ? (
+              <>
+                <HorizontalBarChart
+                  data={topSuburbsForChart}
+                  valueKey="value"
+                  labelKey="label"
+                  height={300}
+                />
+                <p className="mt-3 text-xs text-stone-500">
+                  Visitor sessions mapped to the nearest VIC suburb in our service-area list using IP geolocation
+                  (last 90 days, bot-filtered). IP geo is accurate to roughly 5–10 km — treat this as a cluster
+                  signal, not pinpoint addresses.
+                </p>
+              </>
+            ) : (
+              <p className="rounded-sm bg-stone-50 p-4 text-sm text-stone-500">
+                No visitor sessions with usable coordinates have been recorded yet.
+              </p>
+            )}
           </Panel>
 
           <Panel title="Top Cities" icon={<MapPin />}>
@@ -460,6 +551,7 @@ async function loadDashboardData() {
   }
 
   const mapEventCutoff = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
+  const scrollWindowCutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
   const todayStartIso = todayStart.toISOString();
@@ -490,6 +582,9 @@ async function loadDashboardData() {
     mapLeads,
     todayEvents,
     todayLeads,
+    quoteCtaClickEvents,
+    scrollDepthEvents,
+    outOfAreaLeads,
   ] = await Promise.all([
     supabase.from("dashboard_daily_metrics").select("*").limit(400),
     supabase.from("dashboard_conversion_funnel_30d").select("*"),
@@ -535,6 +630,24 @@ async function loadDashboardData() {
       .from("lead_submissions")
       .select("created_at")
       .gte("created_at", todayStartIso),
+    supabase
+      .from("analytics_events_clean")
+      .select("session_id, page_path, created_at")
+      .eq("event_name", "quote_cta_click")
+      .gte("created_at", scrollWindowCutoff)
+      .limit(5000),
+    supabase
+      .from("analytics_events_clean")
+      .select("session_id, page_path, scroll_percent, created_at")
+      .eq("event_name", "scroll_depth")
+      .gte("created_at", scrollWindowCutoff)
+      .not("scroll_percent", "is", null)
+      .limit(25000),
+    supabase
+      .from("lead_submissions")
+      .select("id", { count: "exact", head: true })
+      .eq("is_victoria", false)
+      .gte("created_at", scrollWindowCutoff),
   ]);
 
   const leads = (recentLeads.data || []) as RecentLead[];
@@ -568,6 +681,11 @@ async function loadDashboardData() {
   const mapEventsRows = (mapEvents.data || []) as MapEventRow[];
   const mapData = buildMapData(mapEventsRows, mapLeadsRows);
   const sessionLeadSuburb = buildSessionLeadSuburb(mapLeadsRows);
+  const topSuburbs = getTopSuburbsFromEvents(mapEventsRows);
+  const scrollAtClick = computeScrollAtClick(
+    (quoteCtaClickEvents.data || []) as CtaClickRow[],
+    (scrollDepthEvents.data || []) as ScrollDepthRow[]
+  );
   const todayHourly = buildTodayHourly(
     (todayEvents.data || []) as TodayEventRow[],
     (todayLeads.data || []) as { created_at: string }[]
@@ -583,6 +701,9 @@ async function loadDashboardData() {
     mapData,
     sessionLeadSuburb,
     todayHourly,
+    topSuburbs,
+    scrollAtClick,
+    outOfAreaLeadsCount: outOfAreaLeads.count ?? 0,
     searchTotals: getSearchTotals((searchMetrics.data || []) as SearchMetric[]),
     locations: (locations.data || []) as LocationRow[],
     countries: (countries.data || []) as CountryRow[],
@@ -617,6 +738,9 @@ async function loadDashboardData() {
       mapLeads.error,
       todayEvents.error,
       todayLeads.error,
+      quoteCtaClickEvents.error,
+      scrollDepthEvents.error,
+      outOfAreaLeads.error,
     ].filter(Boolean),
   };
 }
@@ -636,6 +760,9 @@ function emptyData(errors: string[]) {
     leadGeo: {} as LeadGeoLookup,
     mapData: { views: [], visitors: [], leads: [], phone: [], forms: [] } as MelbourneMapData,
     sessionLeadSuburb: {} as Record<string, string>,
+    topSuburbs: [] as SuburbTally[],
+    scrollAtClick: emptyScrollAtClick(),
+    outOfAreaLeadsCount: 0,
     todayHourly: [] as Array<{ label: string; page_views: number; visitors: number; leads: number }>,
     searchTotals: { clicks: 0, impressions: 0, position: null },
     locations: [] as LocationRow[],
@@ -695,14 +822,35 @@ function SetupRow({ complete, label }: { complete: boolean; label: string }) {
   );
 }
 
-function KpiCard({ icon, label, value, detail }: { icon: ReactNode; label: string; value: string; detail: string }) {
+type KpiTone = "default" | "good" | "warn" | "bad";
+
+const KPI_TONE_CLASS: Record<KpiTone, string> = {
+  default: "text-mcb-charcoal",
+  good: "text-emerald-700",
+  warn: "text-amber-600",
+  bad: "text-red-700",
+};
+
+function KpiCard({
+  icon,
+  label,
+  value,
+  detail,
+  tone = "default",
+}: {
+  icon: ReactNode;
+  label: string;
+  value: string;
+  detail: string;
+  tone?: KpiTone;
+}) {
   return (
     <div className="rounded-sm border border-stone-300 bg-white p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <span className="text-sm font-bold uppercase tracking-wide text-stone-500">{label}</span>
         <span className="text-mcb-terracotta [&_svg]:h-5 [&_svg]:w-5">{icon}</span>
       </div>
-      <div className="text-3xl font-bold text-mcb-charcoal">{value}</div>
+      <div className={`text-3xl font-bold ${KPI_TONE_CLASS[tone]}`}>{value}</div>
       <p className="mt-1 text-sm text-stone-500">{detail}</p>
     </div>
   );
@@ -798,6 +946,126 @@ function getTotals(daily: DailyMetric[]) {
       chatLeads: 0,
     }
   );
+}
+
+/**
+ * Counts visitors split by VIC vs out-of-VIC from the locations view, which is
+ * already deduped by city/region. Rows with no region (no IP geo) are excluded
+ * from both numerator and denominator so unknowns don't inflate the bad number.
+ */
+function getOutsideVicStats(locations: LocationRow[]) {
+  let inVic = 0;
+  let outsideVic = 0;
+  for (const row of locations) {
+    if (!row.region) continue;
+    if (row.region.toUpperCase() === "VIC") inVic += row.visitors;
+    else outsideVic += row.visitors;
+  }
+  const total = inVic + outsideVic;
+  const percent = total > 0 ? Math.round((outsideVic / total) * 100) : 0;
+  return { inVic, outsideVic, total, percent };
+}
+
+/** Color the % Outside VIC card to flag drift — green ≤5%, amber 6–15%, red 16%+. */
+function outsideVicTone(percent: number, total: number): KpiTone {
+  if (total === 0) return "default";
+  if (percent <= 5) return "good";
+  if (percent <= 15) return "warn";
+  return "bad";
+}
+
+/**
+ * Dedupe MapEventRow[] down to one (lat, lon) per session, then bucket them by
+ * nearest VIC suburb. Sessions outside MAX_MATCH_DISTANCE_KM are dropped — they
+ * surface separately via the % Outside VIC card.
+ */
+function getTopSuburbsFromEvents(events: MapEventRow[]): SuburbTally[] {
+  const sessionCoord = new Map<string, { lat: number; lon: number }>();
+  for (const event of events) {
+    if (event.latitude == null || event.longitude == null) continue;
+    const key = event.session_id || `${event.visitor_id ?? ""}:${event.latitude},${event.longitude}`;
+    if (!key || sessionCoord.has(key)) continue;
+    sessionCoord.set(key, { lat: event.latitude, lon: event.longitude });
+  }
+  return tallyTopSuburbs(Array.from(sessionCoord.values()));
+}
+
+/**
+ * For each quote-CTA click, finds the deepest scroll the same session reached on
+ * the same page BEFORE the click. Returns the median across the cohort plus a
+ * per-page breakdown sorted by click volume.
+ *
+ * Why this metric: tells us at what scroll depth visitors decide to engage. If
+ * the median is 30%, the top of the page is doing the convincing; if it's 80%,
+ * everything below the fold matters. Per-page tells us which pages and which
+ * sections within them are pulling weight.
+ *
+ * Scroll resolution is 25/50/75/100% (event fires at those thresholds), so this
+ * is a rough bucket signal — directionally useful, not finer.
+ */
+function computeScrollAtClick(
+  clicks: CtaClickRow[],
+  scrolls: ScrollDepthRow[]
+): ScrollAtClickResult {
+  // Index scrolls by `${session_id}\0${page_path}` for fast lookup, sorted ascending by time
+  const scrollIndex = new Map<string, Array<{ time: number; pct: number }>>();
+  for (const s of scrolls) {
+    if (!s.session_id || !s.page_path || s.scroll_percent == null) continue;
+    const key = `${s.session_id} ${s.page_path}`;
+    const bucket = scrollIndex.get(key) || [];
+    bucket.push({ time: Date.parse(s.created_at), pct: s.scroll_percent });
+    scrollIndex.set(key, bucket);
+  }
+  for (const bucket of scrollIndex.values()) {
+    bucket.sort((a, b) => a.time - b.time);
+  }
+
+  const allScrollAtClick: number[] = [];
+  const perPageScrolls = new Map<string, number[]>();
+
+  for (const click of clicks) {
+    if (!click.session_id || !click.page_path) continue;
+    const key = `${click.session_id} ${click.page_path}`;
+    const bucket = scrollIndex.get(key);
+    let maxScroll = 0;
+    if (bucket) {
+      const clickTime = Date.parse(click.created_at);
+      for (const entry of bucket) {
+        if (entry.time > clickTime) break;
+        if (entry.pct > maxScroll) maxScroll = entry.pct;
+      }
+    }
+    allScrollAtClick.push(maxScroll);
+    const pagePath = click.page_path;
+    const pageBucket = perPageScrolls.get(pagePath) || [];
+    pageBucket.push(maxScroll);
+    perPageScrolls.set(pagePath, pageBucket);
+  }
+
+  const perPage: PageScrollAtClick[] = Array.from(perPageScrolls.entries())
+    .map(([page_path, values]) => ({
+      page_path,
+      clicks: values.length,
+      median_scroll_at_click: median(values),
+    }))
+    .sort((a, b) => b.clicks - a.clicks);
+
+  return {
+    totalClicks: clicks.length,
+    medianScrollAtClick: median(allScrollAtClick),
+    perPage,
+  };
+}
+
+function median(values: number[]): number | null {
+  if (values.length === 0) return null;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0 ? Math.round((sorted[mid - 1] + sorted[mid]) / 2) : sorted[mid];
+}
+
+function emptyScrollAtClick(): ScrollAtClickResult {
+  return { totalClicks: 0, medianScrollAtClick: null, perPage: [] };
 }
 
 function getSearchTotals(metrics: SearchMetric[]) {

@@ -15,6 +15,10 @@
  *   quote_cta_click        user clicks the Book Free Measure & Quote CTA. payload: { location, variant?, product_context? }
  *   phone_tap              tel: link tapped
  *   quote_form_start       first interaction with multi-step form
+ *   quote_out_of_area_warning
+ *                          fired once per session when the suburb/postcode entered in the quote form
+ *                          is recognised as non-Victorian. Soft signal only — submission isn't blocked.
+ *                          payload: { postcode: <string>, raw_suburb: <string> }
  *   quote_step_3_submit    submit of step 3
  *   quote_field_error      submit attempt blocked by validation. payload: { step, missing_fields, missing_count }
  *   quote_success          form completion (API 2xx). payload includes:

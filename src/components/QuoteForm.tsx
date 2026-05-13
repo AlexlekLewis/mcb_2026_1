@@ -2,11 +2,12 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
+import { AlertTriangle, CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
 import { quoteProductOptions } from "@/lib/cro-data";
 import { SITE } from "@/lib/site";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { hashUserData } from "@/lib/conversion-hashing";
+import { classifySuburbInput, extractPostcode } from "@/lib/postcodes";
 import { cn } from "@/lib/utils";
 
 // Per-lead conversion value sent to Google Ads.
@@ -54,6 +55,7 @@ export default function QuoteForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const trackedSectionsRef = useRef<{ s1: boolean; s2: boolean }>({ s1: false, s2: false });
+  const trackedOutOfAreaRef = useRef(false);
   const [formData, setFormData] = useState<QuoteFormData>({
     firstName: "",
     lastName: "",
@@ -76,6 +78,25 @@ export default function QuoteForm() {
     formData.products.length > 0 &&
     Boolean(formData.windowCount),
   [formData.suburb, formData.products, formData.windowCount]);
+
+  const suburbVicStatus = useMemo(
+    () => classifySuburbInput(formData.suburb),
+    [formData.suburb]
+  );
+  const showOutOfAreaWarning = suburbVicStatus === "out";
+
+  // Fire `quote_out_of_area_warning` at most once per session, the first time the
+  // user's suburb input resolves to a non-VIC postcode. Soft signal — submission
+  // is not blocked.
+  useEffect(() => {
+    if (!showOutOfAreaWarning) return;
+    if (trackedOutOfAreaRef.current) return;
+    trackedOutOfAreaRef.current = true;
+    trackEvent("quote_out_of_area_warning", {
+      postcode: extractPostcode(formData.suburb) || "",
+      raw_suburb: formData.suburb.slice(0, 80),
+    });
+  }, [showOutOfAreaWarning, formData.suburb]);
 
   const section2Valid = useMemo(() =>
     section1Valid &&
@@ -180,6 +201,7 @@ export default function QuoteForm() {
           source: "quote_form",
           gclid,
           trackingContext,
+          suburbVicStatus,
         }),
       });
 
@@ -257,7 +279,20 @@ export default function QuoteForm() {
           <form onSubmit={handleSubmit} onKeyDown={handleFormKeyDown} className="space-y-10">
             <SectionPanel title="1. Project basics" complete={section1Valid} open>
               <div className="space-y-7">
-                <InputField icon={<MapPin />} label="Suburb or postcode" name="suburb" value={formData.suburb} onChange={handleChange} placeholder="Preston, VIC" required />
+                <div>
+                  <InputField icon={<MapPin />} label="Suburb or postcode" name="suburb" value={formData.suburb} onChange={handleChange} placeholder="Preston, VIC" required />
+                  {showOutOfAreaWarning && (
+                    <div
+                      role="status"
+                      className="mt-3 flex items-start gap-3 rounded-sm border border-amber-300 bg-amber-50 p-3 text-sm leading-relaxed text-amber-900"
+                    >
+                      <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden />
+                      <span>
+                        <strong>Heads up — we currently service Victoria only.</strong> You can still send your details and we&apos;ll let you know if we can help. If you typed the wrong postcode, edit it above.
+                      </span>
+                    </div>
+                  )}
+                </div>
 
                 <div>
                   <label className="mb-3 block text-sm font-bold text-mcb-charcoal">

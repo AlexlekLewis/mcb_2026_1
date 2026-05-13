@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { booleanValue, getRequestMeta, objectOrEmpty, stringArray, stringOrNull } from '@/lib/server/request-meta';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { selectReviewsForProducts, type CuratedReview } from '@/lib/customer-reviews';
+import { classifySuburbInput } from '@/lib/postcodes';
 
 const GBP_REVIEWS_URL = 'https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9';
 
@@ -453,6 +454,12 @@ async function storeLeadSubmission(
     stringOrNull(body.gclid, 200) ||
     stringOrNull((trackingContext as Record<string, unknown>).gclid, 200);
 
+  // Re-classify suburb server-side so we never trust client-claimed status.
+  // null = no postcode in the input (can't tell); true = VIC; false = outside VIC.
+  const suburbStatus = classifySuburbInput(stringOrNull(body.suburb, 180));
+  const isVictoria: boolean | null =
+    suburbStatus === "vic" ? true : suburbStatus === "out" ? false : null;
+
   const { data: inserted, error } = await supabase.from("lead_submissions").insert({
     source,
     first_name: stringOrNull(body.firstName, 120),
@@ -460,6 +467,7 @@ async function storeLeadSubmission(
     email: stringOrNull(body.email, 254),
     phone: stringOrNull(body.phone, 80),
     suburb: stringOrNull(body.suburb, 180),
+    is_victoria: isVictoria,
     product_interests: selectedProducts,
     window_count: stringOrNull(body.windowCount, 80),
     referral: stringOrNull(body.referral, 180),

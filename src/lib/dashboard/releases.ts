@@ -26,6 +26,20 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-14-vic-postcode-warning",
+    title: "Quote form flags non-Victorian postcodes",
+    releasedAt: "2026-05-14T00:00:00Z",
+    summary:
+      "Soft warning shown if the suburb / postcode in the quote form falls outside Victoria. Submission still allowed; lead is server-tagged so out-of-area entries can be triaged from the dashboard.",
+    items: [
+      "Postcode classified against VIC ranges (3000–3999, 8000–8999)",
+      "Amber inline warning appears under the suburb field if non-VIC",
+      "quote_out_of_area_warning event fires once per session when shown",
+      "lead_submissions.is_victoria (boolean) populated server-side — never trusts the client",
+      "Dashboard surfaces 30-day out-of-area lead count alongside the funnel",
+    ],
+  },
+  {
     id: "2026-05-14-google-ads-conversions",
     title: "Google Ads conversion tracking for form submissions",
     releasedAt: "2026-05-14T00:00:00Z",
