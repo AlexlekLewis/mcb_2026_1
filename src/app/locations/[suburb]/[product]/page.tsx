@@ -113,7 +113,7 @@ export default async function LocationProductPage({ params }: Props) {
               {product.description}
             </p>
             <p className="mb-8 text-lg leading-relaxed text-stone-500">
-              {product.localIntent} We provide free in-home measure and quote appointments across {suburb.name} and nearby suburbs within the Preston service radius.
+              {product.localIntent} We provide free in-home measure and quote appointments across {suburb.name} {suburb.postcode} and nearby Melbourne suburbs.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link

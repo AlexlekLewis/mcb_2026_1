@@ -4,6 +4,14 @@ import { productData } from '@/lib/data'
 import { LOCATION_PRODUCTS } from '@/lib/location-products'
 import { getProductCanonicalPath } from '@/lib/product-canonicals'
 
+// Stable lastModified dates per content tier. Using `new Date()` here causes
+// every build to bump every URL to "just now", which signals content-farm-like
+// freshness to Google across 600+ URLs. Bump these constants when the underlying
+// templates change meaningfully.
+const CORE_LAST_MODIFIED = new Date('2026-05-01')
+const PRODUCT_LAST_MODIFIED = new Date('2026-05-01')
+const LOCATION_LAST_MODIFIED = new Date('2026-01-01')
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://moderncurtainsandblinds.com.au'
 
@@ -70,7 +78,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     const coreRoutes = routes.map((route) => ({
         url: `${baseUrl}${route}`,
-        lastModified: new Date(),
+        lastModified: CORE_LAST_MODIFIED,
         changeFrequency: route === '' ? 'yearly' as const : 'monthly' as const,
         priority: route === '' ? 1 : 0.8,
     }))
@@ -79,23 +87,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
         .filter((product) => getProductCanonicalPath(product.slug) === `/products/${product.slug}`)
         .map((product) => ({
             url: `${baseUrl}/products/${product.slug}`,
-            lastModified: new Date(),
+            lastModified: PRODUCT_LAST_MODIFIED,
             changeFrequency: 'monthly' as const,
             priority: 0.8,
         }))
 
     const locationRoutes = LOCATIONS.map((loc) => ({
         url: `${baseUrl}/locations/${loc.slug}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly' as const,
+        lastModified: LOCATION_LAST_MODIFIED,
+        changeFrequency: 'yearly' as const,
         priority: 0.7,
     }))
 
     const locationProductRoutes = LOCATIONS.flatMap((loc) =>
         LOCATION_PRODUCTS.map((product) => ({
             url: `${baseUrl}/locations/${loc.slug}/${product.slug}`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly' as const,
+            lastModified: LOCATION_LAST_MODIFIED,
+            changeFrequency: 'yearly' as const,
             priority: 0.65,
         }))
     )

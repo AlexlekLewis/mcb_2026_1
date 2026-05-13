@@ -148,13 +148,9 @@ export function LocalBusinessSchema({
         closes: "17:00",
       },
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: REVIEW_AGGREGATE.rating.toFixed(1),
-      reviewCount: REVIEW_AGGREGATE.count,
-      bestRating: 5,
-      worstRating: 1,
-    },
+    // Per-suburb LocalBusiness schemas intentionally omit aggregateRating —
+    // the rating belongs on the single OrganizationSchema (above) to avoid the
+    // spam signal of 693 "locations" all reporting identical ratings.
     parentOrganization: { "@id": SITE.url },
   };
   return (

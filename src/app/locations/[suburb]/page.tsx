@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LOCATIONS, getLocationBySlug, getNearbyLocations } from '@/lib/locations';
 import { ProductTemplate } from '@/components/ProductTemplate';
-import { SITE } from '@/lib/site';
 import { LOCATION_PRODUCTS } from '@/lib/location-products';
 import { PageViewTracker } from '@/components/PageViewTracker';
 import { LocalBusinessSchema, FaqPageSchema } from '@/components/RichSchema';
+import { getSuburbContent } from '@/lib/region-content';
 
 interface Props {
     params: Promise<{
@@ -48,19 +48,22 @@ export default async function LocationPage({ params }: Props) {
         notFound();
     }
 
-    // Dynamic features content based on location to reduce "duplicate content" feel
+    // Region-keyed content so each suburb reads differently to Google and humans.
+    const regionContent = getSuburbContent(suburb);
+
+    // Features rotate the angle by region to break the boilerplate-across-693-pages pattern.
     const features = [
         {
             title: `Local to ${suburb.name}`,
-            description: `We provide in-home measure and quote appointments across ${suburb.name} and nearby Melbourne suburbs.`
+            description: regionContent.installationContext,
         },
         {
             title: "Samples Brought to You",
             description: "Compare fabrics, colours, textures and mesh options in your own home before choosing."
         },
         {
-            title: "Every Opening Covered",
-            description: "Ask about curtains, blinds, shutters, security doors, fly screens, awnings and motorisation during one visit."
+            title: `Popular in this part of Melbourne`,
+            description: regionContent.productEmphasis,
         }
     ];
 
@@ -116,7 +119,7 @@ export default async function LocationPage({ params }: Props) {
                 title={`Curtains and Blinds ${suburb.name}`}
                 subtitle={`Free in-home measure and quote in ${suburb.name}`}
                 heroImage="/assets/curtain_hero.png"
-                description={`We provide free in-home measure and quote appointments across ${suburb.name}, bringing fabric samples, product advice and professional measuring to your home. Choose from custom curtains, roller blinds, plantation shutters, security doors, fly screens, awnings and motorisation.`}
+                description={`${regionContent.regionalAngle} ${regionContent.localTrustSignal}`}
                 features={features}
                 intentLabel={`${suburb.name} service area`}
                 decisionGuide={[
@@ -131,7 +134,9 @@ export default async function LocationPage({ params }: Props) {
                 internalLinks={{
                     title: `Popular products in ${suburb.name}`,
                     description: `Each product page is tailored for ${suburb.name} so customers can move from local intent to the right quote path quickly.`,
-                    links: LOCATION_PRODUCTS.map((product) => ({
+                    // Cap at 12 featured products per suburb. Linking all 47 from every suburb
+                    // creates ~32k thin internal links and signals content-farm behaviour to Google.
+                    links: LOCATION_PRODUCTS.slice(0, 12).map((product) => ({
                         label: `${product.title} ${suburb.name}`,
                         href: `/locations/${suburb.slug}/${product.slug}`,
                         description: product.bestFor,
