@@ -6,7 +6,15 @@ import { CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldC
 import { quoteProductOptions } from "@/lib/cro-data";
 import { SITE } from "@/lib/site";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
+import { hashUserData } from "@/lib/conversion-hashing";
 import { cn } from "@/lib/utils";
+
+// Per-lead conversion value sent to Google Ads.
+//   Avg sale A$4,717 × 25% close rate = A$1,179
+// Smart Bidding (Max Conversion Value @ 1500% target ROAS) needs this signal
+// to compare clicks. If you change this, also update the Call Leads action
+// in Google Ads so call and form leads carry the same value.
+const LEAD_CONVERSION_VALUE_AUD = 1179;
 
 const windowOptions = ["1-5", "5-10", "10-20", "20+"];
 const contactTimes = ["Morning", "Afternoon", "Evening", "Anytime"];
@@ -152,10 +160,16 @@ export default function QuoteForm() {
     // keyboard path) is rejected. The submit button is also disabled until allValid.
     const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
     if (!submitter || submitter.dataset.role !== "quote-submit") return;
-    if (!allValid) return;
+    if (!allValid) {
+      reportMissingFields(formData, section1Valid, section2Valid, referralComplete);
+      return;
+    }
 
     setStatus("loading");
     trackEvent("quote_step_3_submit", getQuoteTrackingPayload(formData));
+
+    const trackingContext = getClientTrackingContext();
+    const gclid = trackingContext.gclid || "";
 
     try {
       const res = await fetch("/api/quote", {
@@ -164,12 +178,38 @@ export default function QuoteForm() {
         body: JSON.stringify({
           ...formData,
           source: "quote_form",
-          trackingContext: getClientTrackingContext(),
+          gclid,
+          trackingContext,
         }),
       });
 
-      trackEvent(res.ok ? "quote_success" : "quote_error", getQuoteTrackingPayload(formData));
-      setStatus(res.ok ? "success" : "error");
+      if (res.ok) {
+        // Enhanced Conversions: hash PII client-side and attach to quote_success.
+        // Hashing happens off the critical path — if it errors, fire the event
+        // without ec_* fields and let GA4/Ads still record the conversion.
+        let ecData = {};
+        try {
+          ecData = await hashUserData({
+            email: formData.email,
+            phone: formData.phone,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+          });
+        } catch (hashError) {
+          console.error("Enhanced Conversion hashing failed:", hashError);
+        }
+        trackEvent("quote_success", {
+          ...getQuoteTrackingPayload(formData),
+          value: LEAD_CONVERSION_VALUE_AUD,
+          currency: "AUD",
+          gclid: gclid || undefined,
+          ...ecData,
+        });
+        setStatus("success");
+      } else {
+        trackEvent("quote_error", getQuoteTrackingPayload(formData));
+        setStatus("error");
+      }
     } catch (error) {
       console.error(error);
       trackEvent("quote_error", getQuoteTrackingPayload(formData));
@@ -424,6 +464,31 @@ function SectionPanel({ title, complete, open, children }: { title: string; comp
       )}
     </section>
   );
+}
+
+function reportMissingFields(
+  formData: QuoteFormData,
+  section1Valid: boolean,
+  section2Valid: boolean,
+  referralComplete: boolean,
+) {
+  const missing: string[] = [];
+  if (formData.suburb.trim().length <= 1) missing.push("suburb");
+  if (formData.products.length === 0) missing.push("products");
+  if (!formData.windowCount) missing.push("windowCount");
+  if (formData.firstName.trim().length <= 1) missing.push("firstName");
+  if (formData.phone.trim().length <= 5) missing.push("phone");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) missing.push("email");
+  if (!formData.bestContactTime) missing.push("bestContactTime");
+  if (!formData.projectStage) missing.push("projectStage");
+  if (!referralComplete) missing.push("referral");
+
+  const step = !section1Valid ? 1 : !section2Valid ? 2 : 3;
+  trackEvent("quote_field_error", {
+    step,
+    missing_fields: missing.join(","),
+    missing_count: missing.length,
+  });
 }
 
 function getQuoteTrackingPayload(formData: QuoteFormData) {

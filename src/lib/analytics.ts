@@ -16,7 +16,13 @@
  *   phone_tap              tel: link tapped
  *   quote_form_start       first interaction with multi-step form
  *   quote_step_3_submit    submit of step 3
- *   quote_success          form completion (API 2xx)
+ *   quote_field_error      submit attempt blocked by validation. payload: { step, missing_fields, missing_count }
+ *   quote_success          form completion (API 2xx). payload includes:
+ *                            value: 1179, currency: "AUD" — for Google Ads Smart Bidding
+ *                            gclid: <string> — when present in sessionStorage / cookie
+ *                            ec_email_sha256, ec_phone_e164_sha256,
+ *                            ec_first_name_sha256, ec_last_name_sha256
+ *                              — Enhanced Conversions user_data (mapped in GTM)
  *   chat_widget_open       chat panel opened
  *   chat_lead_success      chat submitted a lead
  *   experiment_exposure    first time a user is bucketed into an experiment. payload: { experiment, variant }
@@ -107,6 +113,18 @@ export function getClientTrackingContext(): ClientTrackingContext {
   const currentUrl = new URL(window.location.href);
   const pagePath = `${currentUrl.pathname}${currentUrl.search}`;
 
+  // gclid resolves in this order: URL param > sessionStorage > first-party cookie.
+  // Cookie persists 180 days so a user can land via an ad and convert weeks later
+  // and we still attribute it correctly for offline conversion upload.
+  const gclidFromUrl = currentUrl.searchParams.get("gclid") || "";
+  const gclid =
+    getOrCreateValue(window.sessionStorage, "mcb_gclid", gclidFromUrl) ||
+    readCookie("mcb_gclid") ||
+    undefined;
+  if (gclid && readCookie("mcb_gclid") !== gclid) {
+    writeCookie("mcb_gclid", gclid, 15552000);
+  }
+
   return {
     visitorId: getOrCreateId(window.localStorage, "mcb_visitor_id"),
     sessionId: getOrCreateId(window.sessionStorage, "mcb_session_id"),
@@ -120,9 +138,21 @@ export function getClientTrackingContext(): ClientTrackingContext {
     utmCampaign: getOrCreateValue(window.sessionStorage, "mcb_utm_campaign", currentUrl.searchParams.get("utm_campaign") || ""),
     utmTerm: getOrCreateValue(window.sessionStorage, "mcb_utm_term", currentUrl.searchParams.get("utm_term") || ""),
     utmContent: getOrCreateValue(window.sessionStorage, "mcb_utm_content", currentUrl.searchParams.get("utm_content") || ""),
-    gclid: getOrCreateValue(window.sessionStorage, "mcb_gclid", currentUrl.searchParams.get("gclid") || ""),
+    gclid,
     fbclid: getOrCreateValue(window.sessionStorage, "mcb_fbclid", currentUrl.searchParams.get("fbclid") || ""),
   };
+}
+
+function readCookie(name: string): string {
+  if (typeof document === "undefined") return "";
+  const match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "=([^;]*)"));
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+function writeCookie(name: string, value: string, maxAgeSeconds: number) {
+  if (typeof document === "undefined" || !value) return;
+  const secure = typeof window !== "undefined" && window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax${secure}`;
 }
 
 function sendFirstPartyEvent(event: string, payload: Record<string, unknown>) {

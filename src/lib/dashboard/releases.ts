@@ -26,6 +26,19 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-14-google-ads-conversions",
+    title: "Google Ads conversion tracking for form submissions",
+    releasedAt: "2026-05-14T00:00:00Z",
+    summary:
+      "Form submit now reports A$1,179 conversion value to Google Ads with Enhanced Conversions (hashed email/phone/name). gclid persisted server-side for offline conversion upload.",
+    items: [
+      "quote_success event carries value=1179, currency=AUD",
+      "Hashed user_data (email/phone/firstName/lastName) attached for Enhanced Conversions",
+      "gclid now persisted to mcb_gclid first-party cookie (180d) and to lead_submissions.gclid column",
+      "New quote_field_error event for form validation drop-off diagnostics",
+    ],
+  },
+  {
     id: "2026-05-13-seo-and-tracking",
     title: "SEO fixes + CTA tracking + Search Console sync",
     releasedAt: "2026-05-13T11:30:00Z",

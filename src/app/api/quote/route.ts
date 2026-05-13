@@ -445,6 +445,14 @@ async function storeLeadSubmission(
   const source = getLeadSource(body.source);
   const trackingContext = objectOrEmpty(body.trackingContext);
 
+  // gclid is also stored in tracking_context JSON, but we surface it as a top-level
+  // column so we can JOIN / filter efficiently when uploading offline conversions
+  // back to Google Ads. Prefer the top-level body.gclid (sent by QuoteForm) and
+  // fall back to whatever is in tracking_context for older clients.
+  const gclid =
+    stringOrNull(body.gclid, 200) ||
+    stringOrNull((trackingContext as Record<string, unknown>).gclid, 200);
+
   const { data: inserted, error } = await supabase.from("lead_submissions").insert({
     source,
     first_name: stringOrNull(body.firstName, 120),
@@ -461,6 +469,7 @@ async function storeLeadSubmission(
     project_stage: stringOrNull(body.projectStage, 180),
     needs_advice: booleanValue(body.needsAdvice),
     message: stringOrNull(body.message, 4000),
+    gclid,
     tracking_context: trackingContext,
     user_agent: userAgent,
     ip_hash: ipHash,
