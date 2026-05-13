@@ -80,7 +80,7 @@ type Props = {
 
 const STYLES: Record<NonNullable<Props["variant"]>, string> = {
   primary:
-    "inline-flex items-center gap-2 rounded-sm bg-mcb-terracotta px-5 py-3 text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-colors hover:bg-stone-800",
+    "inline-flex items-center gap-2 rounded-sm bg-mcb-terracotta-deep px-5 py-3 text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-colors hover:bg-stone-800",
   light:
     "inline-flex items-center gap-3 rounded-sm bg-white px-8 py-4 text-sm font-bold uppercase tracking-widest text-mcb-charcoal transition-all duration-300 hover:bg-mcb-terracotta hover:text-white",
   ghost:

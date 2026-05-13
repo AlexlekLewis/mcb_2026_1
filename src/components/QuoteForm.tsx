@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { AlertTriangle, CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, User } from "lucide-react";
+import { AlertTriangle, ArrowRight, CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, Star, User } from "lucide-react";
 import { quoteProductOptions } from "@/lib/cro-data";
+import { CURATED_REVIEWS, REVIEW_AGGREGATE } from "@/lib/customer-reviews";
 import { SITE } from "@/lib/site";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { hashUserData } from "@/lib/conversion-hashing";
@@ -424,6 +426,7 @@ export default function QuoteForm() {
         </div>
 
         <aside className="space-y-5">
+          <TrustCard />
           <div className="rounded-sm bg-mcb-charcoal p-7 text-white shadow-xl">
             <h2 className="mb-4 font-serif text-3xl">What Happens Next?</h2>
             <div className="space-y-5">
@@ -452,6 +455,45 @@ export default function QuoteForm() {
         </aside>
       </div>
     </section>
+  );
+}
+
+function TrustCard() {
+  // Highest-signal short review for the conversion page.
+  // If you want to feature a different one, change the index — the source of
+  // truth is CURATED_REVIEWS in src/lib/customer-reviews.ts.
+  const featured = CURATED_REVIEWS[1];
+  const snippet = featured.text.length > 200
+    ? `${featured.text.slice(0, 197).trimEnd()}…`
+    : featured.text;
+
+  return (
+    <div className="rounded-sm border border-mcb-terracotta/30 bg-mcb-paper p-7 shadow-sm">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="flex gap-0.5" aria-hidden="true">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <Star
+              key={idx}
+              className="h-5 w-5 fill-mcb-terracotta text-mcb-terracotta"
+            />
+          ))}
+        </div>
+        <span className="text-sm font-bold text-mcb-charcoal">
+          {REVIEW_AGGREGATE.rating.toFixed(1)} from {REVIEW_AGGREGATE.count} Google reviews
+        </span>
+      </div>
+      <blockquote className="mb-4 leading-relaxed text-stone-700">
+        &ldquo;{snippet}&rdquo;
+      </blockquote>
+      <p className="text-sm font-semibold text-mcb-charcoal">— {featured.author}</p>
+      <Link
+        href="/#google-reviews"
+        className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-mcb-terracotta transition-colors hover:text-mcb-charcoal"
+      >
+        Read more reviews
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
   );
 }
 

@@ -34,14 +34,14 @@ export function PaymentOptions({ topOffset = false, variant = "section" }: Payme
               </div>
               <div className="min-w-0">
                 <div className="flex flex-col gap-0.5 lg:flex-row lg:items-baseline lg:gap-3">
-                  <p className="text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-white md:text-xs md:tracking-widest">
+                  <p className="text-[11px] font-bold uppercase leading-tight tracking-[0.1em] text-white md:text-xs md:tracking-widest">
                     Interest free payment plans available
                   </p>
-                  <p className="hidden text-[11px] leading-snug text-stone-200 md:block md:text-xs">
+                  <p className="hidden text-[12px] leading-snug text-stone-200 md:block md:text-xs">
                     Ask about Payright during your free in-home measure and quote.
                   </p>
                 </div>
-                <p className="mt-0.5 text-[8px] leading-none text-stone-400 md:text-[10px] md:leading-tight">
+                <p className="mt-0.5 text-[10px] leading-snug text-stone-400 md:text-[11px] md:leading-tight">
                   {disclaimer}
                 </p>
               </div>

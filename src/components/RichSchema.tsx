@@ -1,12 +1,5 @@
 import { SITE } from "@/lib/site";
-import { CURATED_REVIEWS } from "@/lib/customer-reviews";
-
-const REVIEW_AGGREGATE = {
-  count: 47,
-  rating: 5.0,
-  best: 5,
-  worst: 1,
-};
+import { CURATED_REVIEWS, REVIEW_AGGREGATE } from "@/lib/customer-reviews";
 
 export function OrganizationSchema() {
   const schema = {

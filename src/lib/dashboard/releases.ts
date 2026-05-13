@@ -26,6 +26,24 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-14-uiux-pass-hero-quote-trust-and-polish",
+    title: "Hero H1 + /quote trust panel + CTA contrast + small-text bumps",
+    releasedAt: "2026-05-14T12:00:00Z",
+    summary:
+      "Visual conversion pass from a UIUX Pro Max audit: shortened the homepage H1 from a 92-char SEO sentence to a scannable two-line headline (keywords moved into the subhead, so SEO is preserved); added a 5★ Google-reviews trust card to the top of the /quote aside; darkened the PrimaryCTA bg to lift contrast from AA-Large-only to AA-all-text; and raised the smallest disclaimer/promo text from 8–9px to 10–11px floor. Before: conversion page had zero social proof; primary CTA contrast was 4.07:1; finance disclaimer rendered at 8px on mobile.",
+    items: [
+      "Homepage H1 cut from 92 chars to 36 chars ('Made for your home. Made in Melbourne.')",
+      "Hero subhead rewritten to retain all SEO keywords (curtains, blinds, shutters, security, outdoor, Melbourne)",
+      "New TrustCard on /quote: 5★, 47-review count, featured Google review snippet, link to full reviews",
+      "REVIEW_AGGREGATE moved from RichSchema.tsx to customer-reviews.ts as single source of truth",
+      "New --color-mcb-terracotta-deep token (#8E5520) for CTA buttons; raises white-on-bg contrast 4.07 → 5.2",
+      "PrimaryCTA 'primary' variant now uses terracotta-deep (every nav/section/sticky CTA on the site)",
+      "Promo strip text bumped 12px → 13px mobile / 14px desktop",
+      "PaymentOptions banner: 9px heading → 11px, 8px disclaimer → 10px (mobile); 10px disclaimer → 11px (desktop)",
+      "No Hero CTA changes — still parked for the future experiment per the May-13 commit",
+    ],
+  },
+  {
     id: "2026-05-14-vic-postcode-warning",
     title: "Quote form flags non-Victorian postcodes",
     releasedAt: "2026-05-14T00:00:00Z",

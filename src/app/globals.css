@@ -10,6 +10,9 @@
   --color-mcb-sage-dark: #748B69;
   --color-mcb-sand: #F3EFE6;
   --color-mcb-terracotta: #B26E2D;
+  /* Darker terracotta reserved for CTA buttons. Lifts white-on-bg contrast
+     from 4.07:1 (AA Large only) to ~5.2:1 (passes AA for all text sizes). */
+  --color-mcb-terracotta-deep: #8E5520;
   --color-mcb-charcoal: #2D2D2D;
   --color-mcb-paper: #F9F8F6;
 }

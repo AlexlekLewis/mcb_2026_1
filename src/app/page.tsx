@@ -24,11 +24,11 @@ export default function Home() {
             <span className="mb-3 hidden rounded-sm border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-mcb-clay-light backdrop-blur md:mb-5 md:inline-flex md:px-4 md:py-2 md:text-xs">
               Free in-home measure and quote across Melbourne
             </span>
-            <h1 className="mb-4 font-serif text-[2rem] font-bold leading-[1.08] md:mb-6 md:text-6xl md:leading-tight lg:text-7xl">
-              Custom Curtains, Blinds, Shutters, Outdoor Products, Security Doors and Screens in Melbourne
+            <h1 className="mb-4 font-serif text-[2.25rem] font-bold leading-[1.05] md:mb-6 md:text-6xl md:leading-[1.05] lg:text-7xl">
+              Made for your home.<br className="hidden md:block" /> Made in Melbourne.
             </h1>
             <p className="mb-6 max-w-3xl text-base leading-relaxed text-stone-100 md:mb-9 md:text-2xl">
-              Book a free in-home measure and quote. We bring samples, help you choose the right product for each room, measure accurately, and install with care.
+              Custom curtains, blinds, shutters, security doors and outdoor — designed for your home, measured by us. Free in-home quote across Melbourne.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <PrimaryCTA

@@ -2,6 +2,18 @@
 // Refresh manually every 6-12 months: replace text, update timeAgo, re-tag.
 // Source: https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9 (MCB Google Business Profile)
 
+/**
+ * Canonical aggregate rating values for the business. Single source of truth
+ * for any UI that quotes a rating + review count (RichSchema, trust panels,
+ * trust bars, etc). Refresh alongside CURATED_REVIEWS.
+ */
+export const REVIEW_AGGREGATE = {
+  count: 47,
+  rating: 5.0,
+  best: 5,
+  worst: 1,
+} as const;
+
 export type ReviewTag =
   | 'curtains'
   | 'blinds'

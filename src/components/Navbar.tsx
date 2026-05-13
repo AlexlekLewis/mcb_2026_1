@@ -30,7 +30,7 @@ export function Navbar() {
 
   return (
     <>
-      <div className="fixed left-0 right-0 top-0 z-50 bg-mcb-charcoal px-4 py-2 text-center text-xs font-bold uppercase tracking-widest text-white">
+      <div className="fixed left-0 right-0 top-0 z-50 bg-mcb-charcoal px-4 py-2 text-center text-[13px] font-bold uppercase tracking-widest text-white md:text-sm">
         Free in-home measure and quote across Melbourne
       </div>
       <nav
