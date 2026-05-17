@@ -28,7 +28,7 @@ const LAYER_META: Record<LayerKey, { label: string; color: string; description: 
   visitors: { label: "Visitors", color: "#0f766e", description: "Unique visitors by location" },
   leads: { label: "Leads", color: "#9333ea", description: "Lead submissions (by suburb)" },
   phone: { label: "Phone Taps", color: "#ea580c", description: "Click-to-call interactions" },
-  forms: { label: "Form Submits", color: "#1d4ed8", description: "Quote form submissions" },
+  forms: { label: "Form Starts", color: "#1d4ed8", description: "Where visitors began filling the quote form" },
 };
 
 const MELBOURNE_CENTER: [number, number] = [-37.81, 144.96];

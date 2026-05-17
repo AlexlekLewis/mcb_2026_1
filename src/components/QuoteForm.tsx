@@ -2,15 +2,20 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { AlertTriangle, ArrowRight, CalendarDays, Check, Clock, Mail, MapPin, MessageSquare, Phone, ShieldCheck, Star, User } from "lucide-react";
-import { quoteProductOptions } from "@/lib/cro-data";
+import { ArrowRight, CalendarDays, Check, Clock, Info, Mail, MapPin, MessageSquare, Phone, ShieldCheck, Star, User } from "lucide-react";
+import {
+  quoteProductCategories,
+  resolveProductCategoryFromDeepLink,
+  type QuoteProductCategory,
+} from "@/lib/cro-data";
 import { CURATED_REVIEWS, REVIEW_AGGREGATE } from "@/lib/customer-reviews";
 import { SITE } from "@/lib/site";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { hashUserData } from "@/lib/conversion-hashing";
 import { classifySuburbInput, extractPostcode } from "@/lib/postcodes";
 import { cn } from "@/lib/utils";
+
+const NEEDS_ADVICE_CATEGORY: QuoteProductCategory = "Not sure — need advice";
 
 // Per-lead conversion value sent to Google Ads.
 //   Avg sale A$4,717 × 25% close rate = A$1,179
@@ -51,9 +56,8 @@ type QuoteFormData = {
   referrerName: string;
 };
 
-export default function QuoteForm() {
-  const searchParams = useSearchParams();
-  const initialProduct = getInitialProduct(searchParams.get("product"));
+export default function QuoteForm({ initialProductParam }: { initialProductParam?: string } = {}) {
+  const initialCategory = resolveProductCategoryFromDeepLink(initialProductParam);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [hasTrackedStart, setHasTrackedStart] = useState(false);
   const trackedSectionsRef = useRef<{ s1: boolean; s2: boolean }>({ s1: false, s2: false });
@@ -64,12 +68,12 @@ export default function QuoteForm() {
     email: "",
     phone: "",
     suburb: "",
-    products: initialProduct ? [initialProduct] : [],
+    products: initialCategory ? [initialCategory] : [],
     windowCount: "",
     bestContactTime: "",
     appointmentPreference: "",
     projectStage: "",
-    needsAdvice: initialProduct === "Unsure / Need Advice",
+    needsAdvice: initialCategory === NEEDS_ADVICE_CATEGORY,
     message: "",
     referral: "",
     referrerName: "",
@@ -147,7 +151,7 @@ export default function QuoteForm() {
       return {
         ...prev,
         products: selected,
-        needsAdvice: selected.includes("Unsure / Need Advice"),
+        needsAdvice: selected.includes(NEEDS_ADVICE_CATEGORY),
       };
     });
   };
@@ -164,7 +168,7 @@ export default function QuoteForm() {
     if (hasTrackedStart) return;
     setHasTrackedStart(true);
     trackEvent("quote_form_start", {
-      has_product_context: Boolean(initialProduct),
+      has_product_context: Boolean(initialCategory),
     });
   };
 
@@ -264,12 +268,28 @@ export default function QuoteForm() {
     <section className="min-h-screen bg-mcb-paper px-4 py-28">
       <div className="container mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.72fr]">
         <div className="rounded-sm bg-white p-6 shadow-xl md:p-10">
-          <div className="mb-8">
+          <div className="mb-6">
             <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Free in-home measure</span>
             <h1 className="mb-4 font-serif text-4xl text-mcb-charcoal md:text-5xl">Book Your Free In-Home Measure & Quote</h1>
             <p className="max-w-3xl text-lg leading-relaxed text-stone-500">
-              No obligation. We bring samples, measure your windows, recommend suitable products and provide a clear written quote.
+              <strong className="text-mcb-charcoal">Takes about 60 seconds.</strong> We&apos;ll call within 24 business hours to book a time that suits — no obligation, samples brought to you.
             </p>
+          </div>
+
+          {/* Mobile-only trust strip — desktop has the right sidebar for this */}
+          <div className="mb-8 grid grid-cols-3 gap-2 rounded-sm border border-stone-200 bg-white p-3 text-center text-xs leading-tight text-stone-600 lg:hidden">
+            <div>
+              <Star className="mx-auto mb-1 h-4 w-4 fill-mcb-terracotta text-mcb-terracotta" aria-hidden />
+              <span className="font-bold text-mcb-charcoal">{REVIEW_AGGREGATE.rating.toFixed(1)}/5</span> from {REVIEW_AGGREGATE.count} Google reviews
+            </div>
+            <div>
+              <ShieldCheck className="mx-auto mb-1 h-4 w-4 text-mcb-terracotta" aria-hidden />
+              Family-owned in Melbourne
+            </div>
+            <div>
+              <Check className="mx-auto mb-1 h-4 w-4 text-mcb-terracotta" aria-hidden />
+              Free &amp; no obligation
+            </div>
           </div>
 
           <div className="mb-8 grid gap-3 sm:grid-cols-3">
@@ -282,34 +302,48 @@ export default function QuoteForm() {
             <SectionPanel title="1. Project basics" complete={section1Valid} open>
               <div className="space-y-7">
                 <div>
-                  <InputField icon={<MapPin />} label="Suburb or postcode" name="suburb" value={formData.suburb} onChange={handleChange} placeholder="Preston, VIC" required />
+                  <InputField
+                    icon={<MapPin />}
+                    label="Suburb or postcode"
+                    name="suburb"
+                    value={formData.suburb}
+                    onChange={handleChange}
+                    placeholder="e.g. 3072 or Preston"
+                    autoComplete="postal-code"
+                    inputMode="text"
+                    enterKeyHint="next"
+                    required
+                  />
                   {showOutOfAreaWarning && (
                     <div
                       role="status"
-                      className="mt-3 flex items-start gap-3 rounded-sm border border-amber-300 bg-amber-50 p-3 text-sm leading-relaxed text-amber-900"
+                      className="mt-3 flex items-start gap-3 rounded-sm border border-sky-200 bg-sky-50 p-3 text-sm leading-relaxed text-sky-900"
                     >
-                      <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden />
+                      <Info className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden />
                       <span>
-                        <strong>Heads up — we currently service Victoria only.</strong> You can still send your details and we&apos;ll let you know if we can help. If you typed the wrong postcode, edit it above.
+                        We mainly cover Victoria — if you&apos;re nearby, send your details anyway and we&apos;ll let you know if we can help. If you typed the wrong postcode, just edit it above.
                       </span>
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="mb-3 block text-sm font-bold text-mcb-charcoal">
-                    What products are you interested in?
+                  <label className="mb-1 block text-sm font-bold text-mcb-charcoal">
+                    What are you looking for?
                     <span className="ml-1 text-mcb-terracotta">*</span>
                   </label>
+                  <p className="mb-3 text-sm text-stone-500">
+                    Don&apos;t worry about specifics — we&apos;ll work out the right products together at the free visit.
+                  </p>
                   <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                    {quoteProductOptions.map((product) => (
+                    {quoteProductCategories.map((product) => (
                       <button
                         key={product}
                         type="button"
                         onClick={() => handleProductToggle(product)}
                         aria-pressed={formData.products.includes(product)}
                         className={cn(
-                          "min-h-12 rounded-sm border px-3 py-3 text-sm font-semibold transition-all",
+                          "min-h-14 rounded-sm border px-3 py-3 text-sm font-semibold transition-all",
                           formData.products.includes(product)
                             ? "border-mcb-charcoal bg-mcb-charcoal text-white"
                             : "border-stone-200 bg-white text-stone-600 hover:border-mcb-terracotta"
@@ -322,10 +356,13 @@ export default function QuoteForm() {
                 </div>
 
                 <div>
-                  <label className="mb-3 block text-sm font-bold text-mcb-charcoal">
+                  <label className="mb-1 block text-sm font-bold text-mcb-charcoal">
                     How many windows or doors?
                     <span className="ml-1 text-mcb-terracotta">*</span>
                   </label>
+                  <p className="mb-3 text-sm text-stone-500">
+                    Rough estimate is fine — we&apos;ll measure exactly when we visit.
+                  </p>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     {windowOptions.map((option) => (
                       <label key={option} className={cn("cursor-pointer rounded-sm border p-3 text-center text-sm font-semibold", formData.windowCount === option ? "border-mcb-terracotta bg-mcb-paper text-mcb-charcoal" : "border-stone-200 text-stone-600")}>
@@ -342,13 +379,16 @@ export default function QuoteForm() {
               <SectionPanel title="2. Your details" complete={section2Valid} open={section1Valid}>
                 <div className="space-y-6">
                   <div className="grid gap-6 md:grid-cols-2">
-                    <InputField icon={<User />} label="First name" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Jane" required />
-                    <InputField icon={<User />} label="Last name (optional)" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Smith" />
+                    <InputField icon={<User />} label="First name" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Jane" autoComplete="given-name" enterKeyHint="next" required />
+                    <InputField icon={<User />} label="Last name (optional)" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Smith" autoComplete="family-name" enterKeyHint="next" />
                   </div>
                   <div className="grid gap-6 md:grid-cols-2">
-                    <InputField icon={<Phone />} label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="0400 000 000" required />
-                    <InputField icon={<Mail />} label="Email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="jane@example.com" required />
+                    <InputField icon={<Phone />} label="Phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="0400 000 000" autoComplete="tel" inputMode="tel" enterKeyHint="next" required />
+                    <InputField icon={<Mail />} label="Email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="jane@example.com" autoComplete="email" inputMode="email" enterKeyHint="next" required />
                   </div>
+                  <p className="text-xs text-stone-500">
+                    We&apos;ll call once to book your visit. No marketing calls or spam emails.
+                  </p>
                 </div>
               </SectionPanel>
             </div>
@@ -412,9 +452,6 @@ export default function QuoteForm() {
               >
                 {status === "loading" ? "Sending..." : "Request My Free Measure & Quote"}
               </button>
-              {!allValid && (
-                <p className="mt-3 text-sm text-stone-500">Please complete every required field above to submit.</p>
-              )}
             </div>
 
             {status === "error" && (
@@ -585,14 +622,6 @@ function getQuoteTrackingPayload(formData: QuoteFormData) {
   };
 }
 
-function getInitialProduct(productParam: string | null) {
-  if (!productParam) return "";
-  const decoded = decodeURIComponent(productParam).replace(/\+/g, " ");
-  const matched = quoteProductOptions.find((option) => option.toLowerCase() === decoded.toLowerCase());
-  if (matched) return matched;
-  return decoded.toLowerCase().includes("unsure") ? "Unsure / Need Advice" : decoded;
-}
-
 function InputField({
   label,
   name,
@@ -602,6 +631,9 @@ function InputField({
   onChange,
   icon,
   required,
+  autoComplete,
+  inputMode,
+  enterKeyHint,
 }: {
   label: string;
   name: string;
@@ -611,6 +643,9 @@ function InputField({
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   icon: React.ReactNode;
   required?: boolean;
+  autoComplete?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  enterKeyHint?: React.HTMLAttributes<HTMLInputElement>["enterKeyHint"];
 }) {
   return (
     <div>
@@ -627,6 +662,9 @@ function InputField({
           onChange={onChange}
           placeholder={placeholder}
           required={required}
+          autoComplete={autoComplete}
+          inputMode={inputMode}
+          enterKeyHint={enterKeyHint}
           className="w-full rounded-sm border border-stone-200 bg-white py-3 pl-12 pr-4 text-stone-700 outline-none transition placeholder:text-stone-300 focus:border-mcb-terracotta focus:ring-2 focus:ring-mcb-clay/30"
         />
       </div>

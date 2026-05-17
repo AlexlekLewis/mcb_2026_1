@@ -111,8 +111,19 @@ export function trackExposure(experiment: string, variant: string) {
   trackEvent("experiment_exposure", { experiment, variant });
 }
 
+// Cached per pathname+search so repeat events (keystrokes, heartbeats) don't
+// re-read cookie/localStorage/sessionStorage on every call. Invalidates the
+// moment the user navigates client-side. The cache itself doesn't change the
+// stored identifiers — those still persist normally in localStorage/cookies.
+let contextCache: { key: string; context: ClientTrackingContext } | null = null;
+
 export function getClientTrackingContext(): ClientTrackingContext {
   if (typeof window === "undefined") return {};
+
+  const cacheKey = `${window.location.pathname}${window.location.search}`;
+  if (contextCache && contextCache.key === cacheKey) {
+    return contextCache.context;
+  }
 
   const currentUrl = new URL(window.location.href);
   const pagePath = `${currentUrl.pathname}${currentUrl.search}`;
@@ -129,7 +140,7 @@ export function getClientTrackingContext(): ClientTrackingContext {
     writeCookie("mcb_gclid", gclid, 15552000);
   }
 
-  return {
+  const context: ClientTrackingContext = {
     visitorId: getOrCreateId(window.localStorage, "mcb_visitor_id"),
     sessionId: getOrCreateId(window.sessionStorage, "mcb_session_id"),
     pagePath,
@@ -145,6 +156,9 @@ export function getClientTrackingContext(): ClientTrackingContext {
     gclid,
     fbclid: getOrCreateValue(window.sessionStorage, "mcb_fbclid", currentUrl.searchParams.get("fbclid") || ""),
   };
+
+  contextCache = { key: cacheKey, context };
+  return context;
 }
 
 function readCookie(name: string): string {

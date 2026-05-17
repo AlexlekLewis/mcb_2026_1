@@ -1467,11 +1467,7 @@ function buildMapData(
       const bucket = phoneBuckets.get(key) || { lat, lng, count: 0, label };
       bucket.count += 1;
       phoneBuckets.set(key, bucket);
-    } else if (
-      event.event_name === "quote_step_3_submit" ||
-      event.event_name === "quote_success" ||
-      event.event_name === "quote_form_start"
-    ) {
+    } else if (event.event_name === "quote_form_start") {
       const bucket = formBuckets.get(key) || { lat, lng, count: 0, label };
       bucket.count += 1;
       formBuckets.set(key, bucket);

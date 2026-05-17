@@ -26,6 +26,29 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-17-quote-form-friction-pass",
+    title: "Quote form: SSR shell, 6-category products, autofill, soft warnings",
+    releasedAt: "2026-05-17T00:00:00Z",
+    summary:
+      "Diagnosed via dual UX + technical audit after dashboard showed 14 form-starts but only 4 leads in 30 days (64% drop between form-start and step-1 complete). The form previously rendered client-only behind a Suspense skeleton (useSearchParams forced this), shipping ~2-4s of grey rectangles on mobile before users could type. Also surfaced 35 product chips in step 1 — fine for a customer who already knows what they want, hostile to the 'not sure, need advice' customer the homepage actually targets. This release ships SSR + a flatter category model + the mobile autofill / keyboards / reassurance that should have been there from day one.",
+    items: [
+      "QuoteForm no longer uses useSearchParams; receives initialProductParam as a prop from the now-async server page. Suspense boundary and skeleton removed — form HTML ships in the initial server response",
+      "35-item product grid collapsed to 6 broad categories (Curtains / Blinds / Shutters / Security Doors & Screens / Awnings & Outdoor / Not sure — need advice). Deep-link map preserves ?product= behavior by routing specific products to their parent category",
+      "All form inputs gained autoComplete + inputMode + enterKeyHint (postal-code, given-name, family-name, tel/tel, email/email). Mobile autofill + correct keyboards now work",
+      "Header subhead now leads with 'Takes about 60 seconds' (goal-gradient effect)",
+      "New mobile-only trust strip above the form: ★4.9/47 reviews · family-owned in Melbourne · free & no obligation",
+      "Out-of-area suburb warning softened: amber AlertTriangle → blue Info, copy rewritten from 'Heads up — we only service Victoria' to 'We mainly cover Victoria — if you're nearby, send your details anyway'",
+      "Suburb placeholder: 'Preston, VIC' → 'e.g. 3072 or Preston'",
+      "Inline reassurance under window count: 'Rough estimate is fine — we'll measure exactly when we visit.'",
+      "Phone-anxiety reassurance under step 2: 'We'll call once to book your visit. No marketing calls or spam emails.'",
+      "Removed the 'Please complete every required field above to submit' nag — disabled button already communicates this",
+      "Canonical tag added on /quote (alternates.canonical = '/quote'). Layout-wide canonical intentionally deferred — would de-index every non-overridden page",
+      "ContactPage + Service (free in-home measure, $0 Offer) JSON-LD on /quote",
+      "Analytics: getClientTrackingContext now cached per pathname so repeat events (keystrokes, heartbeats) skip the cookie + storage reads",
+      "Map metric 'Form Submits' on the dashboard renamed to 'Form Starts' and the bucket now counts only quote_form_start (was lumping form_start + step_3_submit + quote_success, producing misleading totals)",
+    ],
+  },
+  {
     id: "2026-05-14-uiux-pass-hero-quote-trust-and-polish",
     title: "Hero H1 + /quote trust panel + CTA contrast + small-text bumps",
     releasedAt: "2026-05-13T23:38:17Z",

@@ -79,6 +79,63 @@ export function OrganizationSchema() {
   );
 }
 
+export function ContactPageSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${SITE.url}/quote#contactpage`,
+    name: "Book a Free In-Home Measure & Quote",
+    description:
+      "Book a free in-home measure and quote for custom curtains, blinds, shutters, security doors, fly screens, awnings and motorisation in Melbourne.",
+    url: `${SITE.url}/quote`,
+    isPartOf: { "@id": SITE.url },
+    about: { "@id": SITE.url },
+    mainEntity: {
+      "@type": "Organization",
+      "@id": SITE.url,
+      name: SITE.name,
+      telephone: SITE.phoneDisplay,
+      email: SITE.email,
+      areaServed: { "@type": "AdministrativeArea", name: SITE.serviceArea },
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function QuoteServiceSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE.url}/quote#service`,
+    name: "Free in-home measure and quote",
+    serviceType: "Window furnishings measure and quote",
+    provider: { "@id": SITE.url },
+    areaServed: { "@type": "AdministrativeArea", name: SITE.serviceArea },
+    audience: { "@type": "Audience", audienceType: "Homeowners and renovators" },
+    description:
+      "A consultant visits your home with samples, measures your windows or doors and provides a clear written quote — free and with no obligation.",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "AUD",
+      availability: "https://schema.org/InStock",
+      url: `${SITE.url}/quote`,
+      description: "Free in-home measure and written quote, no obligation.",
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export function FaqPageSchema({
   items,
 }: {

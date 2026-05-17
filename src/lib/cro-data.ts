@@ -281,6 +281,83 @@ export const quoteProductOptions = [
   "Motorisation",
 ];
 
+// Six broad categories rendered in the quote form. Step-1 friction review
+// (May 2026): the previous 35-chip wall was the #1 cause of form abandonment.
+// "Not sure" is intentionally a first-class option — the homepage and FAQ both
+// promise customers don't need to know what they want before booking.
+export const quoteProductCategories = [
+  "Curtains",
+  "Blinds",
+  "Shutters",
+  "Security Doors & Screens",
+  "Awnings & Outdoor",
+  "Not sure — need advice",
+] as const;
+
+export type QuoteProductCategory = (typeof quoteProductCategories)[number];
+
+// Maps any specific deep-linked product (e.g. ?product=Sheer%20Curtains from
+// older CTAs / nav megamenu links) to its parent category, so users still see
+// the right chip pre-selected when they land on /quote.
+const PRODUCT_TO_CATEGORY: Record<string, QuoteProductCategory> = {
+  "curtains": "Curtains",
+  "sheer curtains": "Curtains",
+  "blockout curtains": "Curtains",
+  "double curtains": "Curtains",
+  "wavefold curtains": "Curtains",
+  "gathered curtains": "Curtains",
+  "smart drapes": "Curtains",
+  "blinds": "Blinds",
+  "roller blinds": "Blinds",
+  "blockout blinds": "Blinds",
+  "double roller blinds": "Blinds",
+  "sunscreen blinds": "Blinds",
+  "translucent blinds": "Blinds",
+  "honeycomb blinds": "Blinds",
+  "venetian blinds": "Blinds",
+  "roman blinds": "Blinds",
+  "vertical blinds": "Blinds",
+  "panel glide blinds": "Blinds",
+  "motorised blinds": "Blinds",
+  "cassette blinds": "Blinds",
+  "skylight blinds": "Blinds",
+  "motorisation": "Blinds",
+  "plantation shutters": "Shutters",
+  "roller shutters": "Shutters",
+  "shutters": "Shutters",
+  "security doors": "Security Doors & Screens",
+  "fly screens": "Security Doors & Screens",
+  "pet mesh": "Security Doors & Screens",
+  "security doors & screens": "Security Doors & Screens",
+  "awnings": "Awnings & Outdoor",
+  "zipscreens": "Awnings & Outdoor",
+  "folding arm awnings": "Awnings & Outdoor",
+  "straight drop awnings": "Awnings & Outdoor",
+  "auto awnings": "Awnings & Outdoor",
+  "fixed guide awnings": "Awnings & Outdoor",
+  "motorised outdoor blinds": "Awnings & Outdoor",
+  "wire guide awnings": "Awnings & Outdoor",
+  "awnings & outdoor": "Awnings & Outdoor",
+  "unsure / need advice": "Not sure — need advice",
+  "not sure": "Not sure — need advice",
+  "not sure — need advice": "Not sure — need advice",
+};
+
+export function resolveProductCategoryFromDeepLink(
+  raw: string | undefined | null
+): QuoteProductCategory | null {
+  if (!raw) return null;
+  let decoded: string;
+  try {
+    decoded = decodeURIComponent(String(raw));
+  } catch {
+    decoded = String(raw);
+  }
+  const key = decoded.replace(/\+/g, " ").toLowerCase().trim();
+  if (!key) return null;
+  return PRODUCT_TO_CATEGORY[key] ?? null;
+}
+
 export const defaultFaq = [
   {
     question: "Is the measure and quote really free?",
