@@ -15,6 +15,17 @@
   --color-mcb-terracotta-deep: #8E5520;
   --color-mcb-charcoal: #2D2D2D;
   --color-mcb-paper: #F9F8F6;
+
+  /* Dashboard v2 derived tokens — live inside the warm brand palette.
+     Added 2026-05-22 for the redesigned admin dashboard. Marketing site
+     does NOT use these; safe to consume in /dashboard surfaces only. */
+  --color-mcb-sand-deep: #E8E2D7;            /* card borders, table dividers */
+  --color-mcb-warm-grey: #6B6457;            /* muted text, axis labels */
+  --color-mcb-warm-grey-light: #A39E92;      /* disabled text */
+  --color-mcb-terracotta-red: #B23A2D;       /* critical state — 5.3:1 on white */
+  --color-mcb-state-good-bg: #EAEFE5;        /* sage tint, chip background */
+  --color-mcb-state-attention-bg: #F4E6D7;   /* clay tint, chip background */
+  --color-mcb-state-critical-bg: #F5DDD8;    /* terracotta-red tint, chip background */
 }
 
 :root {
@@ -50,4 +61,19 @@ p {
 
 summary {
   text-transform: capitalize;
+}
+
+/* Dashboard v2 surface — override the global capitalize rule so labels like
+   "AI" and "GBP" render correctly. Scoped to anything inside a root with
+   data-surface="dashboard-v2" (set by src/app/dashboard/layout.tsx in PR 2). */
+[data-surface="dashboard-v2"],
+[data-surface="dashboard-v2"] p,
+[data-surface="dashboard-v2"] h1,
+[data-surface="dashboard-v2"] h2,
+[data-surface="dashboard-v2"] h3,
+[data-surface="dashboard-v2"] h4,
+[data-surface="dashboard-v2"] h5,
+[data-surface="dashboard-v2"] h6,
+[data-surface="dashboard-v2"] summary {
+  text-transform: none;
 }

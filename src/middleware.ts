@@ -65,9 +65,70 @@ export function middleware(request: NextRequest) {
         ua,
       })
     );
+
+    // Fire-and-forget structured logging to Supabase via internal API route.
+    // Wrapped in try/catch and never awaited — the response goes out without
+    // waiting for the DB write. Failure here MUST NOT affect the user request.
+    logBotCrawl(request, botId, ua, url);
   }
 
   return response;
+}
+
+/**
+ * Fire-and-forget POST to /api/internal/bot-log. Never awaited.
+ *
+ * Uses keepalive so Vercel's runtime keeps the function alive long enough to
+ * dispatch the request, then the response is returned. The internal route
+ * verifies the call via a sha256 prefix of the service-role key.
+ */
+function logBotCrawl(request: NextRequest, botId: string, ua: string, url: URL): void {
+  try {
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!serviceKey) return; // No Supabase configured — silently skip.
+
+    // Compute the same internal key the API route expects.
+    // Done inline to avoid pulling node:crypto into the edge bundle — we use
+    // the Web Crypto API which is available in the Next.js edge runtime.
+    // We can't compute it synchronously, so we do the whole thing async,
+    // unawaited.
+    void (async () => {
+      try {
+        const encoder = new TextEncoder();
+        const digest = await crypto.subtle.digest("SHA-256", encoder.encode(serviceKey));
+        const internalKey = Array.from(new Uint8Array(digest))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("")
+          .slice(0, 16);
+
+        const ip =
+          request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+          request.headers.get("x-real-ip") ||
+          undefined;
+
+        await fetch(`${url.origin}/api/internal/bot-log`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "x-mcb-internal-key": internalKey,
+          },
+          body: JSON.stringify({
+            bot_id: botId,
+            user_agent: ua,
+            path: url.pathname,
+            host: url.host,
+            ip,
+          }),
+          // keepalive: keep the request alive even if the function ends.
+          keepalive: true,
+        });
+      } catch {
+        // Swallow — bot logging must never block or surface.
+      }
+    })();
+  } catch {
+    // Same — swallow.
+  }
 }
 
 function getDashboardAuthResponse(request: NextRequest) {
