@@ -59,6 +59,7 @@ export interface GbpReviewPending {
   id: number;
   reviewer_name: string | null;
   rating: number | null;
+  review_text: string | null;
   review_created_at: string | null;
 }
 
@@ -219,24 +220,165 @@ export async function fetchAiCitationSummary(): Promise<AiCitationSummary> {
 
   const sevenAgo = new Date();
   sevenAgo.setUTCDate(sevenAgo.getUTCDate() - 7);
+  const sevenAgoIso = sevenAgo.toISOString();
+
+  // Read from BOTH probe stores:
+  //   - ai_citations: new manual / future-Otterly entries (PR 1)
+  //   - ai_citation_probes: existing automated Perplexity probes
+  // Sum them — they capture the same conceptual data via different sources.
+  let total = 0;
+  let cited = 0;
+
+  try {
+    const { data } = await supabase
+      .from("ai_citations")
+      .select("mcb_cited")
+      .gte("probed_at", sevenAgoIso);
+    if (data) {
+      const rows = data as Array<{ mcb_cited: boolean }>;
+      total += rows.length;
+      cited += rows.filter((r) => r.mcb_cited).length;
+    }
+  } catch {
+    // table not yet created
+  }
+
+  try {
+    const { data } = await supabase
+      .from("ai_citation_probes")
+      .select("cited")
+      .gte("probed_at", sevenAgoIso);
+    if (data) {
+      const rows = data as Array<{ cited: boolean }>;
+      total += rows.length;
+      cited += rows.filter((r) => r.cited).length;
+    }
+  } catch {
+    // table not present in this deployment
+  }
+
+  return {
+    total_probes_7d: total,
+    mcb_cited_count_7d: cited,
+    share_of_voice_7d: total > 0 ? cited / total : 0,
+  };
+}
+
+// ---------------------------------------------------------------------
+// Tracked questions + per-question latest probe status
+// ---------------------------------------------------------------------
+
+export interface TrackedQuestion {
+  id: number;
+  question: string;
+  category: string;
+  intent: string;
+  priority: number;
+  expected_volume: number | null;
+  is_active: boolean;
+}
+
+export interface CitationEntryRow {
+  id: number;
+  probed_at: string;
+  question_id: number;
+  engine: string;
+  mcb_cited: boolean;
+  mcb_cited_url: string | null;
+  competitor_brands: string[];
+  source: string;
+}
+
+export async function fetchTrackedQuestions(): Promise<TrackedQuestion[]> {
+  if (!hasSupabaseAdminConfig()) return [];
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  try {
+    const { data, error } = await supabase
+      .from("tracked_questions")
+      .select("id, question, category, intent, priority, expected_volume, is_active")
+      .eq("is_active", true)
+      .order("priority", { ascending: true })
+      .order("id", { ascending: true });
+
+    if (error || !data) return [];
+    return data as TrackedQuestion[];
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchLatestCitationsByQuestion(): Promise<
+  Map<number, Map<string, CitationEntryRow>>
+> {
+  // Returns: questionId → engine → most recent CitationEntryRow.
+  const empty = new Map<number, Map<string, CitationEntryRow>>();
+  if (!hasSupabaseAdminConfig()) return empty;
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return empty;
 
   try {
     const { data, error } = await supabase
       .from("ai_citations")
-      .select("mcb_cited")
-      .gte("probed_at", sevenAgo.toISOString());
+      .select("id, probed_at, question_id, engine, mcb_cited, mcb_cited_url, competitor_brands, source")
+      .order("probed_at", { ascending: false })
+      .limit(500);
 
     if (error || !data) return empty;
-    const rows = data as Array<{ mcb_cited: boolean }>;
-    const total = rows.length;
-    const cited = rows.filter((r) => r.mcb_cited).length;
-    return {
-      total_probes_7d: total,
-      mcb_cited_count_7d: cited,
-      share_of_voice_7d: total > 0 ? cited / total : 0,
-    };
+    const rows = data as CitationEntryRow[];
+
+    const result = new Map<number, Map<string, CitationEntryRow>>();
+    for (const r of rows) {
+      const inner = result.get(r.question_id) ?? new Map<string, CitationEntryRow>();
+      if (!inner.has(r.engine)) inner.set(r.engine, r);
+      result.set(r.question_id, inner);
+    }
+    return result;
   } catch {
     return empty;
+  }
+}
+
+// ---------------------------------------------------------------------
+// Content backlog (PR 1's table — populated by question-discovery cron)
+// ---------------------------------------------------------------------
+
+export interface BacklogRow {
+  id: number;
+  discovered_at: string;
+  question: string;
+  source: string;
+  source_url: string | null;
+  category: string | null;
+  est_volume: number | null;
+  commercial_intent_score: number | null;
+  content_gap_score: number | null;
+  total_score: number;
+  status: string;
+}
+
+export async function fetchBacklog(status: "new" | "approved" | "all" = "new", limit = 50): Promise<BacklogRow[]> {
+  if (!hasSupabaseAdminConfig()) return [];
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  try {
+    let query = supabase
+      .from("content_backlog")
+      .select("*")
+      .order("total_score", { ascending: false })
+      .limit(limit);
+
+    if (status !== "all") {
+      query = query.eq("status", status);
+    }
+
+    const { data, error } = await query;
+    if (error || !data) return [];
+    return data as BacklogRow[];
+  } catch {
+    return [];
   }
 }
 
@@ -276,7 +418,7 @@ export async function fetchPendingReviews(limit = 5): Promise<GbpReviewPending[]
   try {
     const { data, error } = await supabase
       .from("gbp_reviews")
-      .select("id, reviewer_name, rating, review_created_at")
+      .select("id, reviewer_name, rating, review_text, review_created_at")
       .eq("response_status", "pending")
       .order("review_created_at", { ascending: true, nullsFirst: false })
       .limit(limit);
