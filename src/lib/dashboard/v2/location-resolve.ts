@@ -24,8 +24,14 @@ export interface ResolvedLocation {
   suburb: string;
   latitude: number;
   longitude: number;
-  source: "explicit_postcode" | "extracted_postcode" | "suburb_name";
+  source: "explicit_postcode" | "extracted_postcode" | "suburb_name" | "fuzzy_suburb_name";
 }
+
+// Fuzzy match tolerance — max Levenshtein distance for a suburb-name match.
+// 2 catches "nortcote"→"northcote", "preson"→"preston", but rejects more
+// distant typos that would risk false positives.
+const FUZZY_MAX_DISTANCE = 2;
+const FUZZY_MIN_INPUT_LEN = 4; // skip 1-3 char inputs — too many false matches
 
 interface ResolveInput {
   suburb?: string | null;
@@ -95,7 +101,7 @@ export function resolveLocation(input: ResolveInput): ResolvedLocation | null {
       }
     }
 
-    // 3. Suburb-name match
+    // 3. Suburb-name exact match
     const normalised = normaliseName(input.suburb);
     const loc = nameIndex!.get(normalised);
     if (loc && loc.postcode) {
@@ -107,9 +113,62 @@ export function resolveLocation(input: ResolveInput): ResolvedLocation | null {
         source: "suburb_name",
       };
     }
+
+    // 4. Fuzzy suburb-name match (typo tolerance)
+    const fuzzy = fuzzyMatchName(normalised);
+    if (fuzzy && fuzzy.postcode) {
+      return {
+        postcode: fuzzy.postcode,
+        suburb: fuzzy.name,
+        latitude: fuzzy.latitude,
+        longitude: fuzzy.longitude,
+        source: "fuzzy_suburb_name",
+      };
+    }
   }
 
   return null;
+}
+
+/**
+ * Levenshtein distance — small implementation (no deps). Used only at
+ * resolveLocation read time, on inputs that already failed every cheaper
+ * lookup, so scanning ~693 names is fine.
+ */
+function levenshtein(a: string, b: string): number {
+  if (a === b) return 0;
+  const al = a.length;
+  const bl = b.length;
+  if (!al) return bl;
+  if (!bl) return al;
+  let prev = Array.from({ length: bl + 1 }, (_, i) => i);
+  for (let i = 1; i <= al; i++) {
+    const cur = [i];
+    for (let j = 1; j <= bl; j++) {
+      const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      cur[j] = Math.min(cur[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    prev = cur;
+  }
+  return prev[bl];
+}
+
+function fuzzyMatchName(normalised: string): (typeof LOCATIONS)[number] | null {
+  if (normalised.length < FUZZY_MIN_INPUT_LEN) return null;
+  let best: (typeof LOCATIONS)[number] | null = null;
+  let bestDist = FUZZY_MAX_DISTANCE + 1;
+  for (const loc of LOCATIONS) {
+    const candidate = normaliseName(loc.name);
+    // Cheap pre-filter: skip if length differs by more than the tolerance.
+    if (Math.abs(candidate.length - normalised.length) > FUZZY_MAX_DISTANCE) continue;
+    const dist = levenshtein(normalised, candidate);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = loc;
+      if (dist === 0) break; // perfect match (shouldn't happen, exact lookup ran first)
+    }
+  }
+  return bestDist <= FUZZY_MAX_DISTANCE ? best : null;
 }
 
 /**
@@ -131,6 +190,9 @@ export function derivePostcode(input: ResolveInput): string | null {
     const normalised = normaliseName(input.suburb);
     const loc = nameIndex!.get(normalised);
     if (loc?.postcode) return loc.postcode;
+    // Fuzzy fallback — same Levenshtein logic as resolveLocation.
+    const fuzzy = fuzzyMatchName(normalised);
+    if (fuzzy?.postcode) return fuzzy.postcode;
   }
   return null;
 }

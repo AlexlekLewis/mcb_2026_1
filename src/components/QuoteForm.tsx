@@ -13,6 +13,7 @@ import { SITE } from "@/lib/site";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { hashUserData } from "@/lib/conversion-hashing";
 import { classifySuburbInput, extractPostcode } from "@/lib/postcodes";
+import { SUBURB_OPTIONS } from "@/lib/suburb-options";
 import { cn } from "@/lib/utils";
 
 const NEEDS_ADVICE_CATEGORY: QuoteProductCategory = "Not sure — need advice";
@@ -312,8 +313,18 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
                     autoComplete="postal-code"
                     inputMode="text"
                     enterKeyHint="next"
+                    list="mcb-suburb-options"
                     required
                   />
+                  {/* Native browser autocomplete from the known VIC suburb
+                      list. Free-text typing still works — the list just
+                      shortlists matches as the user types, eliminating
+                      typos like "Nortcote" at source. */}
+                  <datalist id="mcb-suburb-options">
+                    {SUBURB_OPTIONS.map((opt) => (
+                      <option key={opt} value={opt} />
+                    ))}
+                  </datalist>
                   {showOutOfAreaWarning && (
                     <div
                       role="status"
@@ -634,6 +645,7 @@ function InputField({
   autoComplete,
   inputMode,
   enterKeyHint,
+  list,
 }: {
   label: string;
   name: string;
@@ -646,6 +658,12 @@ function InputField({
   autoComplete?: string;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   enterKeyHint?: React.HTMLAttributes<HTMLInputElement>["enterKeyHint"];
+  /**
+   * Optional id of a sibling <datalist>. When set, browsers render the
+   * datalist options as a native autocomplete dropdown. The input remains
+   * free-text — users can still type anything not in the list.
+   */
+  list?: string;
 }) {
   return (
     <div>
@@ -665,6 +683,7 @@ function InputField({
           autoComplete={autoComplete}
           inputMode={inputMode}
           enterKeyHint={enterKeyHint}
+          list={list}
           className="w-full rounded-sm border border-stone-200 bg-white py-3 pl-12 pr-4 text-stone-700 outline-none transition placeholder:text-stone-300 focus:border-mcb-terracotta focus:ring-2 focus:ring-mcb-clay/30"
         />
       </div>
