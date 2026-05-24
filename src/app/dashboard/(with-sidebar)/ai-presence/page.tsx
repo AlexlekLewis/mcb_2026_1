@@ -8,6 +8,8 @@ import {
   fetchAiCitationSummary,
   fetchTrackedQuestions,
   fetchLatestCitationsByQuestion,
+  fetchAnswerPerformance,
+  fetchLatestSkillRun,
   formatPercent,
 } from "@/lib/dashboard/v2/data";
 
@@ -28,12 +30,22 @@ const ENGINE_LABELS: Record<string, string> = {
 };
 
 export default async function AiPresencePage() {
-  const [botSummary, citationSummary, questions, latestByQuestion] = await Promise.all([
+  const [
+    botSummary,
+    citationSummary,
+    questions,
+    latestByQuestion,
+    answerPerformance,
+    latestSkillRun,
+  ] = await Promise.all([
     fetchBotCrawlSummary(),
     fetchAiCitationSummary(),
     fetchTrackedQuestions(),
     fetchLatestCitationsByQuestion(),
+    fetchAnswerPerformance(),
+    fetchLatestSkillRun(),
   ]);
+  const answeredQuestionIds = new Set(answerPerformance.map((r) => r.question_id));
 
   return (
     <div className="space-y-8">
@@ -92,6 +104,7 @@ export default async function AiPresencePage() {
                   <thead className="sticky top-0 bg-white">
                     <tr className="text-left text-xs uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
                       <th className="py-2 font-semibold">Question</th>
+                      <th className="py-2 font-semibold text-center w-20">Answered</th>
                       {ENGINES.map((e) => (
                         <th key={e} className="py-2 font-semibold text-center w-20">
                           {ENGINE_LABELS[e]}
@@ -102,10 +115,28 @@ export default async function AiPresencePage() {
                   <tbody className="divide-y divide-[var(--color-mcb-sand-deep)]">
                     {questions.map((q) => {
                       const inner = latestByQuestion.get(q.id);
+                      const answered = answeredQuestionIds.has(q.id);
                       return (
                         <tr key={q.id} className="hover:bg-[var(--color-mcb-sand)]">
                           <td className="py-2 pr-3 text-[var(--color-mcb-charcoal)] text-sm">
                             {q.question}
+                          </td>
+                          <td className="py-2 text-center">
+                            {answered ? (
+                              <Check
+                                size={16}
+                                strokeWidth={2.5}
+                                className="inline-block text-[var(--color-mcb-sage-dark)]"
+                                aria-label="Answer published"
+                              />
+                            ) : (
+                              <span
+                                className="inline-block text-[var(--color-mcb-warm-grey)] text-xs"
+                                aria-label="No answer yet"
+                              >
+                                ·
+                              </span>
+                            )}
                           </td>
                           {ENGINES.map((e) => {
                             const row = inner?.get(e);
@@ -128,6 +159,141 @@ export default async function AiPresencePage() {
         <div className="xl:col-span-2">
           <CitationEntryForm questions={questions} />
         </div>
+      </section>
+
+      {/* Content performance — reads from answer_performance view */}
+      <section className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+            Content performance · per published answer
+          </h2>
+          {latestSkillRun ? (
+            <span className="text-xs text-[var(--color-mcb-warm-grey)]">
+              Last run: {new Date(latestSkillRun.started_at).toLocaleDateString("en-AU")}
+              {" · "}
+              {latestSkillRun.pieces_published} published
+              {" · "}
+              status {latestSkillRun.status}
+            </span>
+          ) : (
+            <span className="text-xs text-[var(--color-mcb-warm-grey)]">
+              No skill runs yet
+            </span>
+          )}
+        </div>
+        {answerPerformance.length === 0 ? (
+          <p className="mt-4 text-sm text-[var(--color-mcb-warm-grey)]">
+            No published answers yet. First weekly run of the AI Content Engine
+            will populate this table. See{" "}
+            <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">
+              .claude/skills/ai-content-engine
+            </code>
+            .
+          </p>
+        ) : (
+          <div className="mt-4 max-h-[500px] overflow-y-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-white">
+                <tr className="text-left text-xs uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+                  <th className="py-2 font-semibold">Question</th>
+                  <th className="py-2 font-semibold">Anchor</th>
+                  <th className="py-2 font-semibold text-right w-16">Age</th>
+                  <th className="py-2 font-semibold text-right w-20">
+                    AI bots
+                    <br />
+                    <span className="font-normal normal-case text-[10px]">7d / 30d</span>
+                  </th>
+                  <th className="py-2 font-semibold text-right w-20">
+                    Views
+                    <br />
+                    <span className="font-normal normal-case text-[10px]">7d / 30d</span>
+                  </th>
+                  <th className="py-2 font-semibold text-right w-20">
+                    Leads
+                    <br />
+                    <span className="font-normal normal-case text-[10px]">30d</span>
+                  </th>
+                  <th className="py-2 font-semibold text-center w-16">Cited?</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--color-mcb-sand-deep)]">
+                {answerPerformance.map((row) => (
+                  <tr key={row.registry_id} className="hover:bg-[var(--color-mcb-sand)]">
+                    <td className="py-2 pr-3 text-[var(--color-mcb-charcoal)] text-sm align-top">
+                      {row.question_text}
+                    </td>
+                    <td className="py-2 pr-3 align-top">
+                      <a
+                        href={row.full_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-xs text-[var(--color-mcb-terracotta)] hover:underline"
+                      >
+                        {row.full_url}
+                      </a>
+                    </td>
+                    <td className="py-2 text-right tabular-nums text-xs text-[var(--color-mcb-warm-grey)] align-top">
+                      {row.days_since_publish}d
+                    </td>
+                    <td className="py-2 text-right tabular-nums text-sm align-top">
+                      <span className="text-[var(--color-mcb-charcoal)]">
+                        {row.ai_bot_hits_7d.toLocaleString("en-AU")}
+                      </span>
+                      <span className="text-[var(--color-mcb-warm-grey)]">
+                        {" / "}
+                        {row.ai_bot_hits_30d.toLocaleString("en-AU")}
+                      </span>
+                    </td>
+                    <td className="py-2 text-right tabular-nums text-sm align-top">
+                      <span className="text-[var(--color-mcb-charcoal)]">
+                        {row.page_views_7d.toLocaleString("en-AU")}
+                      </span>
+                      <span className="text-[var(--color-mcb-warm-grey)]">
+                        {" / "}
+                        {row.page_views_30d.toLocaleString("en-AU")}
+                      </span>
+                    </td>
+                    <td className="py-2 text-right tabular-nums text-sm align-top">
+                      <span
+                        className={
+                          row.leads_attributed_30d > 0
+                            ? "font-medium text-[var(--color-mcb-sage-dark)]"
+                            : "text-[var(--color-mcb-warm-grey)]"
+                        }
+                      >
+                        {row.leads_attributed_30d}
+                      </span>
+                    </td>
+                    <td className="py-2 text-center align-top">
+                      {row.latest_cited === true ? (
+                        <Check
+                          size={16}
+                          strokeWidth={2.5}
+                          className="inline-block text-[var(--color-mcb-sage-dark)]"
+                          aria-label="Cited"
+                        />
+                      ) : row.latest_cited === false ? (
+                        <X
+                          size={16}
+                          strokeWidth={2.5}
+                          className="inline-block text-[var(--color-mcb-terracotta-red)]"
+                          aria-label="Not cited"
+                        />
+                      ) : (
+                        <span className="text-[var(--color-mcb-warm-grey)] text-xs">·</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {latestSkillRun?.hypothesis ? (
+          <p className="mt-4 text-xs text-[var(--color-mcb-warm-grey)] italic">
+            Hypothesis this cycle: {latestSkillRun.hypothesis}
+          </p>
+        ) : null}
       </section>
 
       {botSummary.byBot.length > 0 && (

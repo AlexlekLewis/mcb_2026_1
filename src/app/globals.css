@@ -52,28 +52,14 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-playfair), serif;
-  text-transform: capitalize;
 }
 
-p {
-  text-transform: capitalize;
-}
-
-summary {
-  text-transform: capitalize;
-}
-
-/* Dashboard v2 surface — override the global capitalize rule so labels like
-   "AI" and "GBP" render correctly. Scoped to anything inside a root with
-   data-surface="dashboard-v2" (set by src/app/dashboard/layout.tsx in PR 2). */
-[data-surface="dashboard-v2"],
-[data-surface="dashboard-v2"] p,
-[data-surface="dashboard-v2"] h1,
-[data-surface="dashboard-v2"] h2,
-[data-surface="dashboard-v2"] h3,
-[data-surface="dashboard-v2"] h4,
-[data-surface="dashboard-v2"] h5,
-[data-surface="dashboard-v2"] h6,
-[data-surface="dashboard-v2"] summary {
-  text-transform: none;
-}
+/* Typography case convention — DO NOT add `text-transform: capitalize` to
+   site-wide selectors. CSS capitalize title-cases every word, which
+   mangles proper nouns (PVC → Pvc), conjunctions (vs → Vs), and
+   abbreviations (AI → Ai). Body copy and headings should render in
+   whatever case the writer typed — sentence case is the project default.
+   Removed 2026-05-24 (released alongside AI Content Engine v1). The old
+   rule had been blanket-applied to p, h1-h6, and summary; a
+   data-surface="dashboard-v2" override existed to undo it for the admin
+   surface, but is no longer needed since the global rule is gone. */

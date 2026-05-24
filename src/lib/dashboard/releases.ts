@@ -26,6 +26,36 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-24-ai-content-engine-v1-dry-run",
+    title: "AI Content Engine v1 — first batch shipped (3 inline answers on plantation-shutters)",
+    releasedAt: "2026-05-24T13:45:00Z",
+    summary:
+      "First batch from the new AI Content Engine skill. Three Q&A inline answers added to /shutters/plantation-shutters, wrapped in FAQPage JSON-LD with per-answer anchor IDs for AI deep-linking: 'PVC vs basswood plantation shutters: which suits Melbourne homes best?', 'How much do plantation shutters cost per window in Melbourne?' (answered with the honest-broker no-published-pricing pattern), and 'Can plantation shutters be installed in a bathroom (moisture)?'. All three passed 14 deterministic gates + judgement gates: voice checklist (first-person plural, defensible numbers, named local refs, opinion-bearing), AI-tell scan, AU spelling, regulatory check, price-approval gate (hard-blocks any $ or /m² without an approved fact). Watch: organic clicks to /shutters/plantation-shutters, AI bot crawls (GPTBot/ClaudeBot/PerplexityBot) on that URL, and quote-form submissions attributed via session within 14d of viewing those anchors.",
+    items: [
+      "/shutters/plantation-shutters#q-pvc-basswood-comparison — PVC vs basswood comparison (58 words, named brand Basswood + Tilia Americana)",
+      "/shutters/plantation-shutters#q-plantation-shutters-cost — honest-broker pricing answer (59 words, no numbers per brand guide §8)",
+      "/shutters/plantation-shutters#q-shutters-bathroom-moisture — bathroom shutters (60 words, references shutters-pvc-bathrooms fact)",
+      "Block rendered via new InlineAnswer component (src/components/InlineAnswer.tsx): hybrid accordion (first open desktop / all closed mobile), 48px tap targets, hash-link auto-expand, FAQPage JSON-LD",
+      "v1 placement caveat: block mounts after ProductTemplate (page bottom), not top-30% sweet spot — v1.5 fix is to extend ProductTemplate with inlineAnswerSlot prop",
+      "Run id: dry-run-2026-05-24 (not yet logged to skill_runs — migration applies on Alex's side)",
+      "Best-practices spec hash: ad919c3b… (initial)",
+    ],
+  },
+  {
+    id: "2026-05-24-sentence-case-typography",
+    title: "Typography: drop site-wide text-transform: capitalize",
+    releasedAt: "2026-05-24T13:30:00Z",
+    summary:
+      "Removed the site-wide `text-transform: capitalize` rule from globals.css that was title-casing every word in every <p>, <h1-h6>, and <summary> on the marketing site. Every page of body copy and every heading was rendering with each word's first letter capitalised — \"PVC vs basswood\" became \"PVC Vs Basswood\", \"AI presence\" would have read \"Ai Presence\" (the admin dashboard already had a scoped override for this exact reason). The site copy as written is in proper sentence case, so this CSS rule was visibly degrading otherwise-clean prose into 2010s-marketing-template look. Caught while previewing the new InlineAnswer block — symptom looked like bad copy, root cause was the global CSS. No content was changed; every page now renders the text the writer actually typed.",
+    items: [
+      "globals.css: removed `text-transform: capitalize` from h1-h6, p, and summary selectors",
+      "globals.css: removed the now-redundant [data-surface=\"dashboard-v2\"] override that existed solely to undo the global capitalize rule on the admin surface",
+      "Replaced both blocks with a comment documenting the case convention (sentence case, never CSS capitalize) so the rule isn't accidentally re-introduced",
+      "No content edits — every page just renders sentence-case prose now instead of title-cased",
+      "Affects: every page on moderncurtainsandblinds.com.au. Spot-check homepage, /shutters, /curtains, /blinds, /quote post-deploy",
+    ],
+  },
+  {
     id: "2026-05-24-suburb-autocomplete-fuzzy-resolver",
     title: "Quote form: native suburb autocomplete + fuzzy postcode resolver",
     releasedAt: "2026-05-24T11:00:00Z",

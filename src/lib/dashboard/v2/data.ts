@@ -528,6 +528,93 @@ export async function fetchPendingReviews(limit = 5): Promise<GbpReviewPending[]
 }
 
 // ---------------------------------------------------------------------
+// AI Content Engine — per-published-answer performance
+// Reads from the answer_performance view created in
+// supabase/migrations/20260524_ai_content_engine.sql
+// ---------------------------------------------------------------------
+
+export interface AnswerPerformanceRow {
+  registry_id: number;
+  question_id: number;
+  question_text: string;
+  url: string;
+  anchor: string;
+  full_url: string;
+  mode: string;
+  product_slug: string | null;
+  byline_author: string;
+  published_at: string;
+  last_revised_at: string;
+  days_since_publish: number;
+  ai_bot_hits_7d: number;
+  distinct_ai_bots_7d: number;
+  last_bot_hit: string | null;
+  ai_bot_hits_30d: number;
+  page_views_7d: number;
+  sessions_7d: number;
+  page_views_30d: number;
+  leads_attributed_30d: number;
+  latest_cited: boolean | null;
+  latest_probe_at: string | null;
+  latest_cited_url: string | null;
+}
+
+export async function fetchAnswerPerformance(): Promise<AnswerPerformanceRow[]> {
+  if (!hasSupabaseAdminConfig()) return [];
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  try {
+    const { data, error } = await supabase
+      .from("answer_performance")
+      .select("*")
+      .order("ai_bot_hits_30d", { ascending: false })
+      .order("page_views_30d", { ascending: false })
+      .limit(50);
+    if (error || !data) return [];
+    return data as AnswerPerformanceRow[];
+  } catch {
+    // View not yet created — first-run state.
+    return [];
+  }
+}
+
+export async function fetchLatestSkillRun(): Promise<{
+  id: number;
+  started_at: string;
+  finished_at: string | null;
+  status: string;
+  pieces_published: number;
+  hypothesis: string | null;
+  release_id: string | null;
+} | null> {
+  if (!hasSupabaseAdminConfig()) return null;
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from("skill_runs")
+      .select("id, started_at, finished_at, status, pieces_published, hypothesis, release_id")
+      .order("started_at", { ascending: false })
+      .limit(1)
+      .single();
+    if (error || !data) return null;
+    return data as {
+      id: number;
+      started_at: string;
+      finished_at: string | null;
+      status: string;
+      pieces_published: number;
+      hypothesis: string | null;
+      release_id: string | null;
+    };
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------
 
