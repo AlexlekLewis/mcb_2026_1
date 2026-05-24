@@ -4,6 +4,7 @@ import { booleanValue, getRequestMeta, objectOrEmpty, stringArray, stringOrNull 
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { selectReviewsForProducts, type CuratedReview } from '@/lib/customer-reviews';
 import { classifySuburbInput } from '@/lib/postcodes';
+import { derivePostcode } from '@/lib/dashboard/v2/location-resolve';
 
 const GBP_REVIEWS_URL = 'https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9';
 
@@ -456,9 +457,17 @@ async function storeLeadSubmission(
 
   // Re-classify suburb server-side so we never trust client-claimed status.
   // null = no postcode in the input (can't tell); true = VIC; false = outside VIC.
-  const suburbStatus = classifySuburbInput(stringOrNull(body.suburb, 180));
+  const suburbInput = stringOrNull(body.suburb, 180);
+  const suburbStatus = classifySuburbInput(suburbInput);
   const isVictoria: boolean | null =
     suburbStatus === "vic" ? true : suburbStatus === "out" ? false : null;
+
+  // Derive the canonical postcode for this lead. Tries (in order):
+  //   1. Numeric run inside the suburb input ("3088", "Greensborough 3088")
+  //   2. Suburb-name match against LOCATIONS → derive postcode
+  // Returns null if neither resolves — lead is still stored, just unmappable
+  // on the Geography surface until backfilled.
+  const postcode = derivePostcode({ suburb: suburbInput });
 
   const { data: inserted, error } = await supabase.from("lead_submissions").insert({
     source,
@@ -466,7 +475,8 @@ async function storeLeadSubmission(
     last_name: stringOrNull(body.lastName, 120),
     email: stringOrNull(body.email, 254),
     phone: stringOrNull(body.phone, 80),
-    suburb: stringOrNull(body.suburb, 180),
+    suburb: suburbInput,
+    postcode,
     is_victoria: isVictoria,
     product_interests: selectedProducts,
     window_count: stringOrNull(body.windowCount, 80),

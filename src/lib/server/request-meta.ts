@@ -4,6 +4,7 @@ export type RequestGeo = {
   country: string | null;
   region: string | null;
   city: string | null;
+  postcode: string | null;
   latitude: number | null;
   longitude: number | null;
 };
@@ -52,6 +53,10 @@ export function getRequestGeo(request: Request): RequestGeo {
     decode(headers.get("x-vercel-ip-city")) ||
     decode(headers.get("cf-ipcity")) ||
     null;
+  // Vercel sets x-vercel-ip-postal-code for known IPs. We only persist the
+  // raw value here — region-validity (must be AU 4-digit) is enforced by
+  // resolveLocation() at read-time. For AU traffic this is usually present.
+  const postcode = decode(headers.get("x-vercel-ip-postal-code")) || null;
   const latitudeRaw =
     headers.get("x-vercel-ip-latitude") || headers.get("cf-iplatitude");
   const longitudeRaw =
@@ -64,6 +69,7 @@ export function getRequestGeo(request: Request): RequestGeo {
     country,
     region,
     city,
+    postcode,
     latitude: Number.isFinite(latitude) ? latitude : null,
     longitude: Number.isFinite(longitude) ? longitude : null,
   };
