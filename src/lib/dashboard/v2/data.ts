@@ -358,6 +358,53 @@ export interface BacklogRow {
   status: string;
 }
 
+// ---------------------------------------------------------------------
+// Suburb audit (PR 1's table — populated by the monthly suburb cron)
+// ---------------------------------------------------------------------
+
+export interface SuburbAuditRow {
+  id: number;
+  audited_at: string;
+  url: string;
+  suburb_slug: string;
+  product_slug: string | null;
+  region_cluster: string | null;
+  unique_word_count: number | null;
+  unique_pct: number | null;
+  organic_clicks_30d: number | null;
+  recommendation: string | null;
+  cluster_target_url: string | null;
+  notes: string | null;
+}
+
+export async function fetchLatestSuburbAudit(limit = 800): Promise<SuburbAuditRow[]> {
+  if (!hasSupabaseAdminConfig()) return [];
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  try {
+    const { data, error } = await supabase
+      .from("suburb_audit")
+      .select("*")
+      .order("audited_at", { ascending: false })
+      .limit(limit);
+
+    if (error || !data) return [];
+
+    // De-dupe to most recent per url
+    const seen = new Set<string>();
+    const result: SuburbAuditRow[] = [];
+    for (const row of data as SuburbAuditRow[]) {
+      if (seen.has(row.url)) continue;
+      seen.add(row.url);
+      result.push(row);
+    }
+    return result;
+  } catch {
+    return [];
+  }
+}
+
 export async function fetchBacklog(status: "new" | "approved" | "all" = "new", limit = 50): Promise<BacklogRow[]> {
   if (!hasSupabaseAdminConfig()) return [];
   const supabase = getSupabaseAdmin();

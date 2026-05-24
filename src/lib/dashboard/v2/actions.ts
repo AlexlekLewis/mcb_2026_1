@@ -159,3 +159,30 @@ export async function addManualReview(input: AddManualReviewInput): Promise<
   revalidatePath("/dashboard/reputation");
   return { ok: true };
 }
+
+// ---------------------------------------------------------------------
+// Suburb consolidation: bulk-update recommendations + plan export
+// ---------------------------------------------------------------------
+
+export async function setSuburbRecommendation(
+  ids: number[],
+  recommendation: "keep" | "consolidate" | "redirect" | "delete",
+  clusterTargetUrl?: string,
+): Promise<{ ok: boolean; updated: number; error?: string }> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return { ok: false, updated: 0, error: "Supabase not configured" };
+  if (ids.length === 0) return { ok: true, updated: 0 };
+
+  const update: Record<string, unknown> = { recommendation };
+  if (clusterTargetUrl) update.cluster_target_url = clusterTargetUrl;
+
+  const { error, count } = await supabase
+    .from("suburb_audit")
+    .update(update, { count: "exact" })
+    .in("id", ids);
+
+  if (error) return { ok: false, updated: 0, error: error.message };
+
+  revalidatePath("/dashboard/content/suburb-audit");
+  return { ok: true, updated: count ?? 0 };
+}
