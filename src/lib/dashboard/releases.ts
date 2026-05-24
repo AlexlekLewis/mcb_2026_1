@@ -26,6 +26,21 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-24-suburb-autocomplete-fuzzy-resolver",
+    title: "Quote form: native suburb autocomplete + fuzzy postcode resolver",
+    releasedAt: "2026-05-24T11:00:00Z",
+    summary:
+      "Triggered by Geography map showing only 9 of 11 recent leads mappable — the misses were a 'Nortcote' typo (real Melbourne lead lost to a single-letter slip) and a NSW postcode (out-of-state). Adds a native HTML5 <datalist> autocomplete to the suburb input on the quote form (suggests from ~693 known VIC suburbs as the user types) so future typos can't happen at source. Also hardens the server-side derivePostcode resolver with a Levenshtein-distance fuzzy match (≤2) so any typos that DO slip through still bucket onto the right postcode on the dashboard. Free-text entry still works for anyone whose suburb isn't in the list.",
+    items: [
+      "QuoteForm suburb input now has list='mcb-suburb-options' wired to a <datalist> of every VIC suburb-name + postcode pair from src/lib/locations.ts (~693 entries, +4 KB gzipped)",
+      "InputField component extended to accept an optional `list` prop (additive — no impact on other inputs)",
+      "src/lib/suburb-options.ts: new client-safe export, one 'Suburb 3072' string per location, alphabetised",
+      "src/lib/dashboard/v2/location-resolve.ts: resolveLocation() and derivePostcode() gain a 4th-tier fuzzy fallback using Levenshtein distance with FUZZY_MAX_DISTANCE=2 + FUZZY_MIN_INPUT_LEN=4 (rejects very short ambiguous inputs)",
+      "Sample patches via SQL: Annette (suburb 'Nortcote' → 'Northcote 3070', is_victoria=true), Olivia (suburb '2148' → is_victoria=false, NSW)",
+    ],
+    commitUrl: "https://github.com/AlexlekLewis/mcb_2026_1/tree/feat/fuzzy-resolver-and-suburb-autocomplete",
+  },
+  {
     id: "2026-05-17-quote-form-friction-pass",
     title: "Quote form: SSR shell, 6-category products, autofill, soft warnings",
     releasedAt: "2026-05-17T00:00:00Z",
