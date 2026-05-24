@@ -56,6 +56,7 @@ export async function POST(request: Request) {
       country: geo.country,
       region: geo.region,
       city: geo.city,
+      postcode: geo.postcode,
       latitude: geo.latitude,
       longitude: geo.longitude,
       device_type: device.deviceType,
