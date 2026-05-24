@@ -147,6 +147,45 @@ export async function fetchFunnelRows(): Promise<FunnelRow[]> {
 }
 
 // ---------------------------------------------------------------------
+// Recent phone taps — every dimension we capture for a `phone_tap` event,
+// including the attribution columns (gclid / fbclid / utm_* / referrer).
+// Used by the Leads-page call panel to show where each caller came from.
+// ---------------------------------------------------------------------
+
+export interface RecentPhoneTap {
+  created_at: string;
+  source_path: string | null;
+  landing_path: string | null;
+  city: string | null;
+  region: string | null;
+  country: string | null;
+  device_type: string | null;
+  browser: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  gclid: string | null;
+  fbclid: string | null;
+  referrer_url: string | null;
+}
+
+export async function fetchRecentPhoneTaps(limit = 25): Promise<RecentPhoneTap[]> {
+  if (!hasSupabaseAdminConfig()) return [];
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("analytics_events_clean")
+    .select("*")
+    .eq("event_name", "phone_tap")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data) return [];
+  return data as unknown as RecentPhoneTap[];
+}
+
+// ---------------------------------------------------------------------
 // Bot crawl summary (reads from PR 1's new bot_crawls table)
 // ---------------------------------------------------------------------
 

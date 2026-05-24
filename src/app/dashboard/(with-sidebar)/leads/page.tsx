@@ -4,11 +4,13 @@ import { KpiCard } from "@/components/dashboard/v2/KpiCard";
 import {
   fetchLeadsHeroData,
   fetchFunnelRows,
+  fetchRecentPhoneTaps,
   sumColumn,
   formatPercent,
   formatPercentPoints,
   formatDelta,
   deltaDirection,
+  type RecentPhoneTap,
 } from "@/lib/dashboard/v2/data";
 import { classifyValue, thresholds } from "@/lib/dashboard/v2/tokens";
 import { Sparkline } from "@/components/dashboard/v2/Sparkline";
@@ -21,9 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default async function LeadsPage() {
-  const [{ current, prior }, funnel] = await Promise.all([
+  const [{ current, prior }, funnel, recentPhoneTaps] = await Promise.all([
     fetchLeadsHeroData(),
     fetchFunnelRows(),
+    fetchRecentPhoneTaps(25),
   ]);
 
   const leadsCurrent = sumColumn(current, "leads");
@@ -165,12 +168,104 @@ export default async function LeadsPage() {
         </article>
       </section>
 
-      <aside className="rounded-xl border border-dashed border-[var(--color-mcb-sand-deep)] bg-white/40 p-5 text-sm text-[var(--color-mcb-warm-grey)]">
-        <p>
-          Lead-detail and per-suburb geography tabs are wired in PR 3 alongside
-          the Melbourne map (lifted from the legacy dashboard).
-        </p>
-      </aside>
+      <article className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
+        <header className="flex items-baseline justify-between gap-4">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+            Call taps · last {recentPhoneTaps.length}
+          </h3>
+          <span className="text-[11px] text-[var(--color-mcb-warm-grey)]">
+            tap on <code>tel:</code> link — call duration not captured
+          </span>
+        </header>
+
+        {recentPhoneTaps.length === 0 ? (
+          <p className="mt-4 text-sm text-[var(--color-mcb-warm-grey)]">
+            No phone taps recorded yet.
+          </p>
+        ) : (
+          <div className="mt-4 overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr className="text-left text-[11px] uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+                  <th className="py-2 pr-4 font-medium">When (AEST)</th>
+                  <th className="py-2 pr-4 font-medium">Channel</th>
+                  <th className="py-2 pr-4 font-medium">Location</th>
+                  <th className="py-2 pr-4 font-medium">Tapped from</th>
+                  <th className="py-2 pr-4 font-medium">Landed on</th>
+                  <th className="py-2 pr-4 font-medium">Device</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--color-mcb-sand)]">
+                {recentPhoneTaps.map((tap, i) => (
+                  <tr key={`${tap.created_at}-${i}`} className="text-[var(--color-mcb-charcoal)]">
+                    <td className="py-2 pr-4 tabular-nums whitespace-nowrap">
+                      {formatTapTime(tap.created_at)}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      {formatChannel(tap)}
+                    </td>
+                    <td className="py-2 pr-4">
+                      {formatLocation(tap.city, tap.region, tap.country)}
+                    </td>
+                    <td className="py-2 pr-4 font-mono text-[12px]">
+                      {tap.source_path ?? "—"}
+                    </td>
+                    <td className="py-2 pr-4 font-mono text-[12px]">
+                      {tap.landing_path ?? "—"}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      {[tap.device_type, tap.browser].filter(Boolean).join(" · ") || "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </article>
     </div>
   );
+}
+
+function formatTapTime(iso: string): string {
+  try {
+    return new Date(iso).toLocaleString("en-AU", {
+      timeZone: "Australia/Melbourne",
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  } catch {
+    return iso;
+  }
+}
+
+function formatLocation(
+  city: string | null,
+  region: string | null,
+  country: string | null,
+): string {
+  const parts = [city, region, country].filter((p): p is string => Boolean(p));
+  return parts.length > 0 ? parts.join(", ") : "—";
+}
+
+function formatChannel(tap: RecentPhoneTap): string {
+  if (tap.gclid) {
+    return tap.utm_campaign ? `Google Ads · ${tap.utm_campaign}` : "Google Ads";
+  }
+  if (tap.fbclid) return "Meta";
+  if (tap.utm_source) {
+    return tap.utm_campaign ? `${tap.utm_source} · ${tap.utm_campaign}` : tap.utm_source;
+  }
+  if (tap.referrer_url) {
+    try {
+      const host = new URL(tap.referrer_url).hostname.replace(/^www\./, "");
+      return host || "direct";
+    } catch {
+      return "direct";
+    }
+  }
+  return "direct";
 }
