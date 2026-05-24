@@ -479,14 +479,25 @@ export async function fetchStaleContent(limit = 5): Promise<ContentFreshnessRow[
   if (!supabase) return [];
 
   try {
+    // days_stale is computed client-side — Postgres generated columns can't
+    // use now() (not immutable). Order by last_refreshed asc (oldest first)
+    // with nulls first so never-refreshed pages surface at the top.
     const { data, error } = await supabase
       .from("content_freshness")
-      .select("url, title, days_stale, ai_citations_30d, visits_30d, last_refreshed")
-      .order("days_stale", { ascending: false, nullsFirst: false })
+      .select("url, title, ai_citations_30d, visits_30d, last_refreshed")
+      .order("last_refreshed", { ascending: true, nullsFirst: true })
       .limit(limit);
 
     if (error || !data) return [];
-    return data as ContentFreshnessRow[];
+    return (data as Omit<ContentFreshnessRow, "days_stale">[]).map((row) => ({
+      ...row,
+      days_stale:
+        row.last_refreshed === null
+          ? null
+          : Math.floor(
+              (Date.now() - new Date(row.last_refreshed).getTime()) / 86_400_000,
+            ),
+    }));
   } catch {
     return [];
   }

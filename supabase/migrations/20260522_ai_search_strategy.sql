@@ -141,19 +141,18 @@ create table if not exists public.content_freshness (
   -- read-side cache, refreshed by the weekly freshness sweep
   ai_citations_30d int default 0,
   visits_30d int default 0,
-  leads_attributed_90d int default 0,
-  days_stale int generated always as (
-    case when last_refreshed is null then null
-    else floor(extract(epoch from (now() - last_refreshed)) / 86400)::int
-    end
-  ) stored
+  leads_attributed_90d int default 0
+  -- days_stale is computed client-side from last_refreshed in
+  -- src/lib/dashboard/v2/data.ts. Postgres generated columns can't use
+  -- now() (not immutable). Order queries by last_refreshed asc nulls
+  -- last to surface oldest-refreshed pages first.
 );
 
 create index if not exists idx_content_freshness_url
   on public.content_freshness (url);
 
-create index if not exists idx_content_freshness_stale
-  on public.content_freshness (days_stale desc nulls last);
+create index if not exists idx_content_freshness_last_refreshed
+  on public.content_freshness (last_refreshed asc nulls first);
 
 comment on table public.content_freshness is
   'Cornerstone URLs tracked for refresh cadence. Powers /dashboard/content Refresh queue tab. The 30d/90d caches are written by the weekly cron.';
