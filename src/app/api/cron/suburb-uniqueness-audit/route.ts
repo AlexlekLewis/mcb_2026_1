@@ -42,13 +42,18 @@ export async function GET(request: Request) {
   // — keeps this route self-contained.
   const { LOCATIONS } = await import("@/lib/locations");
 
+  // Use the www host directly — the apex 307-redirects, and fetch from a
+  // Vercel function doesn't always preserve the Authorization-less request
+  // shape through the redirect.
   const origin =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://moderncurtainsandblinds.com.au";
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.moderncurtainsandblinds.com.au";
 
   // Cap per-run scan to 60 pages so we stay under maxDuration. Rotate
-  // through the full set by offset based on day-of-month.
+  // through the full set by day-of-month, wrapping with modulo so we never
+  // overshoot LOCATIONS.length (~693 in this repo).
   const CAP = 60;
-  const offset = (new Date().getUTCDate() - 1) * CAP;
+  const offsetRaw = (new Date().getUTCDate() - 1) * CAP;
+  const offset = LOCATIONS.length > 0 ? offsetRaw % LOCATIONS.length : 0;
   const slice = LOCATIONS.slice(offset, offset + CAP);
 
   const samples: PageSample[] = [];

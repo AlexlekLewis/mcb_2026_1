@@ -34,16 +34,18 @@ export async function GET(request: Request) {
   }
 
   const since30 = new Date(Date.now() - 30 * 86_400_000).toISOString();
-  const since90 = new Date(Date.now() - 90 * 86_400_000).toISOString();
+  // since90 was for leads_attributed_90d; attribution lookup deferred
+  // (see leadsCount = 0 note below).
 
   let updated = 0;
   for (const page of pages) {
     try {
-      // Visits 30d (from analytics_events_clean)
+      // Visits 30d (from analytics_events_clean). The events vocabulary
+      // uses event_name (not event_type) — see src/lib/analytics.ts.
       const visitsResp = await supabase
         .from("analytics_events_clean")
         .select("id", { count: "exact", head: true })
-        .eq("event_type", "page_view")
+        .eq("event_name", "page_view")
         .eq("page_path", page.url)
         .gte("created_at", since30);
 
@@ -63,17 +65,16 @@ export async function GET(request: Request) {
           .gte("probed_at", since30),
       ]);
 
-      // Leads attributed 90d — page_path on lead_submissions if present
-      const leadsResp = await supabase
-        .from("lead_submissions")
-        .select("id", { count: "exact", head: true })
-        .eq("page_path", page.url)
-        .gte("created_at", since90);
+      // Leads attributed 90d — lead_submissions has no page_path column;
+      // attribution requires parsing tracking_context. Skipping for now —
+      // proper attribution can ship in a follow-up once we land an
+      // intermediate denormalised view.
+      const leadsCount = 0;
 
       const updateData = {
         visits_30d: visitsResp.count ?? 0,
         ai_citations_30d: (probesNew.count ?? 0) + (probesOld.count ?? 0),
-        leads_attributed_90d: leadsResp.count ?? 0,
+        leads_attributed_90d: leadsCount,
       };
 
       await supabase.from("content_freshness").update(updateData).eq("id", page.id);
