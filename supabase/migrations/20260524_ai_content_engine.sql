@@ -220,20 +220,32 @@ views_30d as (
     and created_at >= now() - interval '30 days'
   group by page_path
 ),
--- Sessions that hit a given URL within 14d before submitting a lead
+-- Lead attribution: stubbed out for now. The proper version joins
+-- analytics_events_clean.session_id to lead_submissions.session_id within
+-- a 14d window — but lead_submissions doesn't carry session_id yet. To
+-- enable real attribution: add session_id column to lead_submissions, then
+-- replace this CTE with the commented-out version below.
 attributed_leads as (
-  select distinct
-    e.page_path,
-    l.id as lead_id,
-    l.created_at as lead_created_at
-  from public.analytics_events_clean e
-  join public.lead_submissions l
-    on e.session_id = l.session_id
-   and e.created_at <= l.created_at
-   and e.created_at >= l.created_at - interval '14 days'
-  where e.event_name = 'page_view'
-    and l.created_at >= now() - interval '30 days'
+  select
+    null::text as page_path,
+    null::bigint as lead_id,
+    null::timestamptz as lead_created_at
+  where false
 ),
+-- Real attribution (uncomment after adding session_id to lead_submissions):
+-- attributed_leads as (
+--   select distinct
+--     e.page_path,
+--     l.id as lead_id,
+--     l.created_at as lead_created_at
+--   from public.analytics_events_clean e
+--   join public.lead_submissions l
+--     on e.session_id = l.session_id
+--    and e.created_at <= l.created_at
+--    and e.created_at >= l.created_at - interval '14 days'
+--   where e.event_name = 'page_view'
+--     and l.created_at >= now() - interval '30 days'
+-- ),
 leads_30d as (
   select page_path, count(distinct lead_id) as leads_30d
   from attributed_leads
