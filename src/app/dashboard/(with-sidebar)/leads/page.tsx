@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { PageHeader } from "@/components/dashboard/v2/PageHeader";
 import { KpiCard } from "@/components/dashboard/v2/KpiCard";
 import {
   fetchLeadsHeroData,
   fetchFunnelRows,
   fetchRecentPhoneTaps,
+  fetchRecentLeads,
   sumColumn,
   formatPercent,
   formatPercentPoints,
   formatDelta,
   deltaDirection,
   type RecentPhoneTap,
+  type RecentLead,
 } from "@/lib/dashboard/v2/data";
 import { classifyValue, thresholds } from "@/lib/dashboard/v2/tokens";
 import { Sparkline } from "@/components/dashboard/v2/Sparkline";
@@ -23,10 +26,11 @@ export const metadata: Metadata = {
 };
 
 export default async function LeadsPage() {
-  const [{ current, prior }, funnel, recentPhoneTaps] = await Promise.all([
+  const [{ current, prior }, funnel, recentPhoneTaps, recentLeads] = await Promise.all([
     fetchLeadsHeroData(),
     fetchFunnelRows(),
     fetchRecentPhoneTaps(25),
+    fetchRecentLeads(25),
   ]);
 
   const leadsCurrent = sumColumn(current, "leads");
@@ -171,6 +175,89 @@ export default async function LeadsPage() {
       <article className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
         <header className="flex items-baseline justify-between gap-4">
           <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+            Recent leads · last {recentLeads.length}
+          </h3>
+          <span className="text-[11px] text-[var(--color-mcb-warm-grey)]">
+            quote-form submissions, newest first
+          </span>
+        </header>
+
+        {recentLeads.length === 0 ? (
+          <p className="mt-4 text-sm text-[var(--color-mcb-warm-grey)]">
+            No lead submissions yet.
+          </p>
+        ) : (
+          <div className="mt-4 overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr className="text-left text-[11px] uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+                  <th className="py-2 pr-4 font-medium">When (AEST)</th>
+                  <th className="py-2 pr-4 font-medium">Name</th>
+                  <th className="py-2 pr-4 font-medium">Contact</th>
+                  <th className="py-2 pr-4 font-medium">Location</th>
+                  <th className="py-2 pr-4 font-medium">Interest</th>
+                  <th className="py-2 pr-4 font-medium">Channel</th>
+                  <th className="py-2 pr-4 font-medium">Area</th>
+                  <th className="py-2 pr-4 font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--color-mcb-sand)]">
+                {recentLeads.map((lead) => (
+                  <tr key={lead.id} className="text-[var(--color-mcb-charcoal)] align-top">
+                    <td className="py-2 pr-4 tabular-nums whitespace-nowrap">
+                      {formatTapTime(lead.created_at)}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap font-medium">
+                      {[lead.first_name, lead.last_name].filter(Boolean).join(" ") || "—"}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      <div className="flex flex-col gap-0.5">
+                        {lead.phone && (
+                          <a
+                            href={`tel:${lead.phone}`}
+                            className="text-[var(--color-mcb-terracotta-deep)] hover:underline tabular-nums"
+                          >
+                            {lead.phone}
+                          </a>
+                        )}
+                        {lead.email && (
+                          <a
+                            href={`mailto:${lead.email}`}
+                            className="text-[12px] text-[var(--color-mcb-warm-grey)] hover:text-[var(--color-mcb-charcoal)] truncate max-w-[220px]"
+                            title={lead.email}
+                          >
+                            {lead.email}
+                          </a>
+                        )}
+                        {!lead.phone && !lead.email && "—"}
+                      </div>
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      {formatLeadLocation(lead)}
+                    </td>
+                    <td className="py-2 pr-4">
+                      {formatInterests(lead)}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      {formatLeadChannel(lead)}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      {formatArea(lead.is_victoria)}
+                    </td>
+                    <td className="py-2 pr-4 whitespace-nowrap">
+                      {formatStatus(lead.status)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </article>
+
+      <article className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
+        <header className="flex items-baseline justify-between gap-4">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
             Call taps · last {recentPhoneTaps.length}
           </h3>
           <span className="text-[11px] text-[var(--color-mcb-warm-grey)]">
@@ -268,4 +355,86 @@ function formatChannel(tap: RecentPhoneTap): string {
     }
   }
   return "direct";
+}
+
+function formatLeadLocation(lead: RecentLead): ReactNode {
+  const parts: string[] = [];
+  if (lead.suburb) parts.push(lead.suburb);
+  if (lead.postcode && !parts.join(" ").includes(lead.postcode)) parts.push(lead.postcode);
+  return parts.length > 0 ? parts.join(" · ") : "—";
+}
+
+function formatInterests(lead: RecentLead): ReactNode {
+  const interests = lead.product_interests ?? [];
+  const visible = interests.filter(Boolean);
+  if (visible.length === 0 && lead.needs_advice) {
+    return <span className="italic text-[var(--color-mcb-warm-grey)]">needs advice</span>;
+  }
+  if (visible.length === 0) return "—";
+  const display = visible.slice(0, 2).join(", ");
+  const extra = visible.length - 2;
+  return extra > 0 ? `${display} +${extra}` : display;
+}
+
+function formatLeadChannel(lead: RecentLead): string {
+  if (lead.gclid) return "Google Ads";
+  if (lead.referral) return lead.referral;
+  if (lead.source) return lead.source;
+  return "direct";
+}
+
+function formatArea(isVictoria: boolean | null): ReactNode {
+  if (isVictoria === true) {
+    return (
+      <span className="inline-flex items-center rounded-full bg-[var(--color-mcb-state-good-bg)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-mcb-sage-dark)]">
+        VIC
+      </span>
+    );
+  }
+  if (isVictoria === false) {
+    return (
+      <span className="inline-flex items-center rounded-full bg-[var(--color-mcb-state-critical-bg)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-mcb-terracotta-red)]">
+        Out
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center rounded-full bg-[var(--color-mcb-sand)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-mcb-warm-grey)]">
+      ?
+    </span>
+  );
+}
+
+function formatStatus(status: string | null): ReactNode {
+  const value = (status ?? "new").toLowerCase();
+  const palette: Record<string, { bg: string; text: string }> = {
+    new: {
+      bg: "bg-[var(--color-mcb-state-attention-bg)]",
+      text: "text-[var(--color-mcb-terracotta-deep)]",
+    },
+    contacted: {
+      bg: "bg-[var(--color-mcb-sand)]",
+      text: "text-[var(--color-mcb-charcoal)]",
+    },
+    booked: {
+      bg: "bg-[var(--color-mcb-state-good-bg)]",
+      text: "text-[var(--color-mcb-sage-dark)]",
+    },
+    won: {
+      bg: "bg-[var(--color-mcb-state-good-bg)]",
+      text: "text-[var(--color-mcb-sage-dark)]",
+    },
+    lost: {
+      bg: "bg-[var(--color-mcb-state-critical-bg)]",
+      text: "text-[var(--color-mcb-terracotta-red)]",
+    },
+  };
+  const colour = palette[value] ?? palette.contacted;
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${colour.bg} ${colour.text}`}
+    >
+      {value}
+    </span>
+  );
 }
