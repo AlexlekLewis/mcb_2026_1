@@ -186,6 +186,48 @@ export async function fetchRecentPhoneTaps(limit = 25): Promise<RecentPhoneTap[]
 }
 
 // ---------------------------------------------------------------------
+// Recent leads — chronological list of the most recent quote-form
+// submissions, surfaced on /dashboard/leads. Mirrors the table the
+// legacy 1540-line dashboard used to show.
+// ---------------------------------------------------------------------
+
+export interface RecentLead {
+  id: string;
+  created_at: string;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  phone: string | null;
+  suburb: string | null;
+  postcode: string | null;
+  is_victoria: boolean | null;
+  product_interests: string[] | null;
+  window_count: string | null;
+  referral: string | null;
+  needs_advice: boolean | null;
+  source: string | null;
+  status: string | null;
+  gclid: string | null;
+}
+
+export async function fetchRecentLeads(limit = 25): Promise<RecentLead[]> {
+  if (!hasSupabaseAdminConfig()) return [];
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("lead_submissions")
+    .select(
+      "id, created_at, first_name, last_name, email, phone, suburb, postcode, is_victoria, product_interests, window_count, referral, needs_advice, source, status, gclid",
+    )
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data) return [];
+  return data as unknown as RecentLead[];
+}
+
+// ---------------------------------------------------------------------
 // Bot crawl summary (reads from PR 1's new bot_crawls table)
 // ---------------------------------------------------------------------
 
