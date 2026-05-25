@@ -488,6 +488,7 @@ async function storeLeadSubmission(
     needs_advice: booleanValue(body.needsAdvice),
     message: stringOrNull(body.message, 4000),
     gclid,
+    session_id: stringOrNull((trackingContext as Record<string, unknown>).sessionId, 120),
     tracking_context: trackingContext,
     user_agent: userAgent,
     ip_hash: ipHash,

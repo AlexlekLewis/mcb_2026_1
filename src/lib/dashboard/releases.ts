@@ -26,6 +26,20 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-24-lead-session-attribution",
+    title: "Lead attribution: session_id on lead_submissions + view rewire",
+    releasedAt: "2026-05-24T14:30:00Z",
+    summary:
+      "Promotes session_id from the tracking_context JSONB blob to a top-level column on lead_submissions so the answer_performance view can join sessions to leads within a 14-day look-back window. The client side has been sending sessionId in trackingContext for ages (analytics_events has used it the whole time) — this just promotes it to a queryable column and backfills all 13 historic leads from the JSONB. The /dashboard/ai-presence Content Performance panel's `leads_attributed_30d` column can now show real numbers per published answer instead of always 0.",
+    items: [
+      "supabase/migrations/20260524_lead_session_id_attribution.sql: ADD COLUMN session_id text + index + backfill from tracking_context",
+      "Same migration: CREATE OR REPLACE VIEW answer_performance with the real attributed_leads CTE (was stubbed yesterday because the column didn't exist)",
+      "src/app/api/quote/route.ts: one new field on the lead_submissions INSERT — session_id from trackingContext.sessionId, same pattern as the analytics_events insert nearby",
+      "Backfill stats: 13 of 13 historic leads now carry session_id (every one had it in tracking_context all along)",
+      "Migration applied via Supabase SQL editor",
+    ],
+  },
+  {
     id: "2026-05-24-ai-content-engine-v1-dry-run",
     title: "AI Content Engine v1 — first batch shipped (3 inline answers on plantation-shutters)",
     releasedAt: "2026-05-24T13:45:00Z",
