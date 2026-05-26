@@ -43,7 +43,10 @@ export default async function DashboardHome() {
   const leadsCurrent = sumColumn(current, "leads");
   const leadsPrior = sumColumn(prior, "leads");
   const leadsDelta = leadsCurrent - leadsPrior;
-  const leadsSparkline = current.map((d) => d.leads);
+  const leadsSeries = current.map((d) => ({
+    date: d.metric_date,
+    value: d.leads,
+  }));
 
   // ---------- Secondary KPIs ----------
   const visitorsCurrent = sumColumn(current, "visitors");
@@ -123,7 +126,7 @@ export default async function DashboardHome() {
           <HeroMetric
             label="Leads · 28 days"
             value={leadsCurrent}
-            sparklineData={leadsSparkline}
+            series={leadsSeries}
             deltaLabel={`${formatDelta(leadsDelta)} vs prior 28d`}
             deltaDirection={deltaDirection(leadsCurrent, leadsPrior)}
             state={leadsCurrent >= leadsPrior ? "good" : "attention"}
