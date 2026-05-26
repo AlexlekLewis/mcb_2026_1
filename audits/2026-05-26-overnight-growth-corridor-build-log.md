@@ -136,7 +136,55 @@ Each entry: `[time AEST] [phase/letter] [action] [file] [notes]`.
 
 ### Release log entries
 
-*(entries appended below as work proceeds)*
+- **[REL.1]** Added `2026-05-27-growth-corridor-scaffolding` entry to `src/lib/dashboard/releases.ts` with `affectsGrowthCorridor: true`. Covers Round 1A + Round 1B (constants, dashboard, /pricing-policy, ai_citation_log migration, analytics events).
+- **[REL.2]** Added `2026-05-27-growth-corridor-pilot-content` entry with `affectsGrowthCorridor: true`. Covers Round 1C + Round 1D + Round 1E (3 pilot pages).
+- **[REL.3]** Added `2026-05-27-growth-corridor-answer-gap-pages-2` entry with `affectsGrowthCorridor: true`. Covers Round 2A + Round 2B (pooja + estate covenant answer-gap pages).
+
+All three release entries flagged `affectsGrowthCorridor: true` so they surface on /dashboard/growth-corridors panel 6 (release impact, corridor-filtered).
+
+### Deployment
+
+- **[DEP.1]** Round 1 — `git add` for the 13 changed/new files, then `git commit` with detailed message (Co-Authored-By Claude Opus 4.7). Push to `origin/main` clean (commit 563b95e).
+- **[DEP.2]** Vercel auto-deploy from main triggered. Monitored via `vercel ls`. Production deploy status: Ready after 51s build (deploy URL `https://mcb20261-atqsxr89s-alex-lewis-projects-6e9bb13b.vercel.app`).
+- **[DEP.3]** Production verification — `curl -sL` against `https://moderncurtainsandblinds.com.au` (apex redirects to www, 307 → 200 after redirect-follow). All 5 new URLs return 200 with expected content + schema markers:
+  - `/pricing-policy` — "Pricing Policy", "About these indicative prices" present
+  - `/guides/new-build-window-furnishings-not-included` — "Are window furnishings", "new-build buyer", FAQPage schema present
+  - `/locations/clyde-north` — "Smiths Lane", "Metricon", FAQPage + LocalBusiness schema present
+  - `/blinds/roller-blinds/blockout` — "Blockout roller", "pricing-policy" link, FAQPage schema present
+  - `/dashboard/growth-corridors` (local prod smoke only — production auth-gated as designed)
+- **[DEP.4]** Round 2 — *(populated after Round 2 push)*
+
+### Morning verification checklist (for Alex)
+
+When you wake up, work through this list to sign off on the overnight build.
+
+**1. Production URLs return 200 and look right (open each):**
+- [ ] `https://www.moderncurtainsandblinds.com.au/pricing-policy` — full T&Cs page, links back to /quote at bottom
+- [ ] `https://www.moderncurtainsandblinds.com.au/guides/new-build-window-furnishings-not-included` — ~2,400-word answer-gap page, named volume builders, indicative pricing block, CTA + related links
+- [ ] `https://www.moderncurtainsandblinds.com.au/guides/pooja-prayer-room-blackout-curtains-australia` — *(Round 2)* ~1,800-word cultural-living answer-gap page
+- [ ] `https://www.moderncurtainsandblinds.com.au/guides/estate-covenant-roller-shutters-zipscreens-melbourne` — *(Round 2)* corridor-by-corridor covenant walkthrough
+- [ ] `https://www.moderncurtainsandblinds.com.au/locations/clyde-north` — Clyde North pilot in woven style with named estates and builders
+- [ ] `https://www.moderncurtainsandblinds.com.au/blinds/roller-blinds/blockout` — Blockout roller pilot in woven prose; indicative pricing block links to /pricing-policy
+
+**2. Dashboard works (login first):**
+- [ ] `https://www.moderncurtainsandblinds.com.au/dashboard/growth-corridors` — three panels render: corridor KPI strip, per-page table (18 rows), corridor-filtered releases (3 entries from this session). Numbers will be sparse until traffic builds.
+
+**3. Apply the Supabase migration (~5 min):**
+- [ ] Open https://supabase.com/dashboard/project/lrhgrmklpvwyjzaipioh/sql/new
+- [ ] Paste the contents of `supabase/migrations/20260526_ai_citation_log.sql` and run
+- [ ] Confirm `public.ai_citation_log` exists in the Tables view — this enables panel 5 (AI-citation tracker) in a future release
+
+**4. Tone/copy spot-check on the woven pages:**
+- [ ] Does the prose read in MCB voice? No third-party brand names slipped in? (Bunnings/Spotlight/Kmart/Crimsafe/Luxaflex should NOT appear; Metricon/Henley/Simonds/Carlisle/Burbank etc. are allowed)
+- [ ] Does the indicative pricing match what you sent (rolled into the relevant pages)?
+- [ ] Any tone tweaks you'd make before we replicate the template across the remaining suburbs and products?
+
+**5. What's NOT shipped tonight (deliberately) — for your follow-up:**
+- [ ] 18 other product pages still on the legacy ProductTemplate. Blockout roller is the validated template; once you sign it off we can clone to the other 18 over the next few days. Still missing pricing for 9 products (translucent curtains, sunscreen rollers, double rollers, roman, venetian, vertical, honeycomb, security doors, fixed fly screens) — send those and they ship next.
+- [ ] 11 other suburb pages still on the legacy dynamic template. Clyde North is the validated template; same clone pattern.
+- [ ] 3 corridor pillar guides — each ~3,500 words of authority content, follow once we know the suburb + product templates are converting.
+- [ ] Dashboard panels 3, 4, 5 — need new events firing for several days + `ai_citation_log` table applied. Will come in a follow-up release.
+- [ ] **The 15-leads-per-week target is a 2-12 week compounding effect, not a next-morning result.** AI systems need to crawl the new content and start citing it; Search Console takes days to weeks to register new ranking pages. Expect the first lift in 2-4 weeks; full effect 8-12 weeks.
 
 ### Deployment
 

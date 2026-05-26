@@ -32,6 +32,20 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-27-growth-corridor-answer-gap-pages-2",
+    title: "Growth Corridor — 2 more answer-gap pages live (pooja blackout + estate covenants)",
+    releasedAt: "2026-05-27T15:00:00Z",
+    summary:
+      "Round 2 of the growth-corridor content launch. Two more first-mover answer-gap pages live, each owning a query no Australian competitor has FAQ-schema content for. /guides/pooja-prayer-room-blackout-curtains-australia targets the cultural-living blackout query for the northern and western corridors (Tarneit, Wollert, Mickleham, Truganina) — pooja-room darkness, mandir-corner curtaining, diya draft control, multigenerational parents' suite privacy, Diwali decorating on builder tracks. /guides/estate-covenant-roller-shutters-zipscreens-melbourne owns the covenant query across all three corridors with named estates (Smiths Lane, Five Farms, Aurora, Lyndarum, Cloverton, Riverdale, Atherstone) and a clear walkthrough of when external isn't allowed and the covenant-friendly internal alternatives. Both written in woven prose with FAQPage JSON-LD schema; same MCB-only voice as Round 1.",
+    items: [
+      "src/app/guides/pooja-prayer-room-blackout-curtains-australia/page.tsx — ~1,800-word answer-gap page; 5-item FAQPage schema; covers pooja blackout, mandir corner, diya draft, parents' suite, Diwali decorating; indicative pricing block ($600-$1,000 blockout-only / $1,500-$2,000 layered) wired to /pricing-policy",
+      "src/app/guides/estate-covenant-roller-shutters-zipscreens-melbourne/page.tsx — ~1,800-word answer-gap page; 5-item FAQPage schema; corridor-by-corridor coverage of the covenant question (Casey/Cardinia, Whittlesea/Hume/Mitchell, Wyndham/Melton); names major estates without disparaging any",
+      "src/lib/growth-corridors.ts — confirmed both URLs already listed in the 18-URL cohort; no constants update needed",
+      "Quality gates: tsc clean, eslint clean, production smoke on local prod-mode server confirmed 200 + schema markers present on both URLs",
+    ],
+    affectsGrowthCorridor: true,
+  },
+  {
     id: "2026-05-27-growth-corridor-pilot-content",
     title: "Growth Corridor pilot content — answer-gap guide + Clyde North + blockout roller (woven style)",
     releasedAt: "2026-05-27T14:00:00Z",
