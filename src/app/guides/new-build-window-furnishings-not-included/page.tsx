@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
+import { WovenQuestion } from "@/components/WovenQuestion";
 
 export const metadata: Metadata = {
   title:
@@ -75,7 +76,7 @@ export default function NewBuildInclusionsGuide() {
           </header>
 
           <div className="space-y-12 text-stone-700">
-            <section>
+            <WovenQuestion questionId="q-builder-contracts-window-furnishings">
               <h2 className="mb-4 font-serif text-2xl leading-tight text-mcb-charcoal md:text-3xl">
                 The honest answer: builder contracts almost never include window furnishings
               </h2>
@@ -94,9 +95,9 @@ export default function NewBuildInclusionsGuide() {
                 common surprises in the final weeks of a build. The good news is there&apos;s
                 enough time to do this properly if you start at the right stage.
               </p>
-            </section>
+            </WovenQuestion>
 
-            <section>
+            <WovenQuestion questionId="q-builder-allowance-what-it-buys">
               <h2 className="mb-4 font-serif text-2xl leading-tight text-mcb-charcoal md:text-3xl">
                 What a builder&apos;s &ldquo;window furnishings allowance&rdquo; actually buys you
               </h2>
@@ -127,9 +128,9 @@ export default function NewBuildInclusionsGuide() {
                 not with the homeowner. Then they need to replace the lot, and they&apos;ve
                 effectively paid twice for the same windows.
               </p>
-            </section>
+            </WovenQuestion>
 
-            <section>
+            <WovenQuestion questionId="q-new-build-realistic-budget">
               <h2 className="mb-4 font-serif text-2xl leading-tight text-mcb-charcoal md:text-3xl">
                 What the realistic budget looks like
               </h2>
@@ -180,9 +181,9 @@ export default function NewBuildInclusionsGuide() {
                 <Link href="/pricing-policy" className="underline">pricing policy</Link>{" "}
                 for what&apos;s included in each range and what can change the price.
               </p>
-            </section>
+            </WovenQuestion>
 
-            <section>
+            <WovenQuestion questionId="q-when-during-build-to-start">
               <h2 className="mb-4 font-serif text-2xl leading-tight text-mcb-charcoal md:text-3xl">
                 When during the build to start the conversation
               </h2>
@@ -202,9 +203,9 @@ export default function NewBuildInclusionsGuide() {
                 until after move-in for the obvious reason — bare windows at night, no privacy,
                 and the install crew working around your furniture and kids.
               </p>
-            </section>
+            </WovenQuestion>
 
-            <section>
+            <WovenQuestion questionId="q-how-to-handle-builder-allowance">
               <h2 className="mb-4 font-serif text-2xl leading-tight text-mcb-charcoal md:text-3xl">
                 How to handle the builder&apos;s allowance
               </h2>
@@ -230,7 +231,7 @@ export default function NewBuildInclusionsGuide() {
                 point of contact for the life of the product instead of bouncing between the
                 builder&apos;s supply chain and a fitter you&apos;ve never met.
               </p>
-            </section>
+            </WovenQuestion>
 
             <section>
               <h2 className="mb-4 font-serif text-2xl leading-tight text-mcb-charcoal md:text-3xl">

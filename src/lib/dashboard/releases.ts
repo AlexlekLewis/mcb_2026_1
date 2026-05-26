@@ -32,6 +32,24 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-27-growth-corridor-pillars-and-dashboard-panels",
+    title: "Growth Corridor — 3 pillar guides + dashboard panels 3, 4, 5",
+    releasedAt: "2026-05-27T18:00:00Z",
+    summary:
+      "Three corridor pillar guides live (/guides/window-furnishings-south-east-growth-corridor, /northern-growth-corridor, /western-growth-corridor) — ~2,000-word authority pages per corridor with builder mix, named estates, product mix rationale, pricing depth, covenant overview, and cultural framing where appropriate. Each links the suburb pages, the answer-gap pages, and the pricing policy into a single internal-link spine. Dashboard panels 3 (question-level engagement), 4 (scroll-depth heatmap reading existing scroll_depth events), and 5 (AI citation tracker reading ai_citation_log) are now live with appropriate empty states until data populates. WovenQuestion client component built — fires question_scrolled_into_view (once/session/q_id) and question_section_dwell (after 8s + on exit) via IntersectionObserver. First instrumented on the new-build inclusions answer-gap page (5 q_ids); broader rollout follows in a future pass.",
+    items: [
+      "src/app/guides/window-furnishings-south-east-growth-corridor/page.tsx — net-new ~2,000-word SE corridor pillar; FAQPage schema; named estates (Smiths Lane, Five Farms, Eliston, Arcadia, Timbertop, Orana, Kaduna Park, Brompton, Arbourwood); builder mix",
+      "src/app/guides/window-furnishings-northern-growth-corridor/page.tsx — net-new northern corridor pillar with multigenerational + pooja-room cultural framing; estates Aurora, Lyndarum, Cloverton, Olivine, Mickleham Rises, Mandalay, Greenvale Gardens",
+      "src/app/guides/window-furnishings-western-growth-corridor/page.tsx — net-new western corridor pillar with wind-exposure and multicultural community framing; estates Riverdale, Habitat, Newgate, Newhaven, Bloomdale, Atherstone, Taylors Run, Aspect",
+      "src/components/WovenQuestion.tsx — net-new client component. IntersectionObserver-driven question event firing. Once-per-session guarantees via sessionStorage. Exit dwell on pagehide + unmount.",
+      "src/app/guides/new-build-window-furnishings-not-included/page.tsx — retrofitted with WovenQuestion wrapping 5 prose sections (q-builder-contracts-window-furnishings, q-builder-allowance-what-it-buys, q-new-build-realistic-budget, q-when-during-build-to-start, q-how-to-handle-builder-allowance). Smoke test of the instrumentation; broader rollout follows.",
+      "src/lib/dashboard/growth-corridor-metrics.ts — extended with loadScrollDepthRows (panel 4), loadQuestionEngagementRows (panel 3), loadAiCitations (panel 5). All have graceful fallback when underlying tables/events are missing.",
+      "src/app/dashboard/(with-sidebar)/growth-corridors/page.tsx — extended with three new panel sections (CorridorQuestionTable, CorridorScrollDepthTable, CorridorAiCitationsTable) and appropriate empty states.",
+      "Quality gates: tsc clean, eslint clean, npm run build clean, local prod-mode smoke confirmed 200 + content + schema + new dashboard panels rendering.",
+    ],
+    affectsGrowthCorridor: true,
+  },
+  {
     id: "2026-05-27-growth-corridor-template-rollout",
     title: "Growth Corridor rollout — 11 suburb pages + 9 product pages in woven style",
     releasedAt: "2026-05-27T16:30:00Z",

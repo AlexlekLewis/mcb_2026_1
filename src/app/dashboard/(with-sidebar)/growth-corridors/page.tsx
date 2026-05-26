@@ -5,6 +5,10 @@ import { KpiCard } from "@/components/dashboard/v2/KpiCard";
 import {
   loadGrowthCorridorDashboard,
   type CorridorPageRow,
+  type CorridorScrollDepthRow,
+  type CorridorQuestionEngagementRow,
+  type CorridorAiCitationRow,
+  type CorridorAiCitationCell,
 } from "@/lib/dashboard/growth-corridor-metrics";
 import { formatCorridor } from "@/lib/growth-corridors";
 
@@ -85,6 +89,52 @@ export default async function GrowthCorridorsDashboardPage() {
         <CorridorPageTable rows={data.pages} />
       </section>
 
+      {/* Panel 3 — Question-level engagement */}
+      <section aria-labelledby="question-heading" className="space-y-3">
+        <h2
+          id="question-heading"
+          className="text-xs font-semibold uppercase tracking-wider text-[var(--color-mcb-warm-grey)]"
+        >
+          Question-level engagement — 28-day woven sections
+        </h2>
+        <CorridorQuestionTable rows={data.questionEngagement} />
+      </section>
+
+      {/* Panel 4 — Scroll-depth heatmap */}
+      <section aria-labelledby="scroll-heading" className="space-y-3">
+        <h2
+          id="scroll-heading"
+          className="text-xs font-semibold uppercase tracking-wider text-[var(--color-mcb-warm-grey)]"
+        >
+          Scroll-depth heatmap — % of humans reaching each threshold (28d)
+        </h2>
+        <CorridorScrollDepthTable rows={data.scrollDepth} />
+      </section>
+
+      {/* Panel 5 — AI citation tracker */}
+      <section aria-labelledby="ai-citations-heading" className="space-y-3">
+        <h2
+          id="ai-citations-heading"
+          className="text-xs font-semibold uppercase tracking-wider text-[var(--color-mcb-warm-grey)]"
+        >
+          AI citation tracker — latest quarterly sweep
+        </h2>
+        {data.aiCitationsTableMissing ? (
+          <div className="rounded-xl border border-dashed border-[var(--color-mcb-sand-deep)] bg-white/40 p-5 text-sm text-[var(--color-mcb-warm-grey)]">
+            <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">ai_citation_log</code>{" "}
+            table not found. Apply{" "}
+            <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">supabase/migrations/20260526_ai_citation_log.sql</code>{" "}
+            via the Supabase SQL editor to enable this panel.
+          </div>
+        ) : data.aiCitations.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-[var(--color-mcb-sand-deep)] bg-white/40 p-5 text-sm text-[var(--color-mcb-warm-grey)]">
+            No AI citation sweeps logged yet. Run a quarterly sweep by querying each tracked question on ChatGPT, Perplexity, Gemini and Google AI Overview, then insert rows into <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">public.ai_citation_log</code> via the Supabase SQL editor (columns: question_id, source, cited, notes, checked_at).
+          </div>
+        ) : (
+          <CorridorAiCitationsTable rows={data.aiCitations} />
+        )}
+      </section>
+
       {/* Panel 6 — Release impact (corridor-filtered) */}
       <section aria-labelledby="releases-heading" className="space-y-3">
         <h2
@@ -127,12 +177,10 @@ export default async function GrowthCorridorsDashboardPage() {
 
       <aside className="rounded-xl border border-dashed border-[var(--color-mcb-sand-deep)] bg-white/40 p-5 text-sm text-[var(--color-mcb-warm-grey)]">
         <p>
-          Panels 3 (question-level engagement), 4 (drop-off heatmap), and 5 (AI-citation tracker)
-          arrive once the new <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">question_scrolled_into_view</code>{" "}
+          Panel 3 populates once <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">question_scrolled_into_view</code>{" "}
           and <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">question_section_dwell</code>{" "}
-          events have been firing for a few days and the{" "}
-          <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">ai_citation_log</code>{" "}
-          table has been applied via the Supabase SQL editor.
+          events have been firing for a few days from the WovenQuestion components on the corridor pages.
+          Panel 5 reads from the <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">ai_citation_log</code> table — log a quarterly sweep there to populate.
         </p>
         <p className="mt-2">
           Last updated{" "}
@@ -268,4 +316,140 @@ function formatHoursSince(hours: number): string {
   if (days < 14) return `${days}d`;
   const weeks = Math.round(days / 7);
   return `${weeks}w`;
+}
+
+// --- Panel 3: question-level engagement ---
+
+function CorridorQuestionTable({ rows }: { rows: CorridorQuestionEngagementRow[] }) {
+  if (rows.length === 0) {
+    return (
+      <div className="rounded-xl border border-dashed border-[var(--color-mcb-sand-deep)] bg-white/40 p-5 text-sm text-[var(--color-mcb-warm-grey)]">
+        No question-level engagement events recorded in the last 28 days. The{" "}
+        <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">WovenQuestion</code> component fires{" "}
+        <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">question_scrolled_into_view</code>{" "}
+        when a tagged section enters the viewport and{" "}
+        <code className="font-mono text-xs text-[var(--color-mcb-charcoal)]">question_section_dwell</code>{" "}
+        on exit. Once growth-corridor pages have been live with these events for a few days, this panel populates.
+      </div>
+    );
+  }
+  return (
+    <div className="overflow-x-auto rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white">
+      <table className="min-w-full text-sm">
+        <thead className="border-b border-[var(--color-mcb-sand-deep)] bg-[var(--color-mcb-paper)]">
+          <tr className="text-left text-[11px] uppercase tracking-wider text-[var(--color-mcb-warm-grey)]">
+            <th scope="col" className="px-4 py-3 font-semibold">Page</th>
+            <th scope="col" className="px-4 py-3 font-semibold">Question</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">Scroll-ins 28d</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">Median dwell</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-[var(--color-mcb-sand-deep)]">
+          {rows.map((r) => (
+            <tr key={`${r.pageUrl}::${r.questionId}`} className="hover:bg-[var(--color-mcb-paper)]/50">
+              <td className="px-4 py-3 text-[var(--color-mcb-charcoal)]">{r.pageLabel}</td>
+              <td className="px-4 py-3 font-mono text-[11px] text-[var(--color-mcb-warm-grey)]">{r.questionId}</td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">{r.scrollIns28d}</td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">
+                {r.medianDwellSec === null ? "—" : `${r.medianDwellSec.toFixed(0)}s`}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// --- Panel 4: scroll-depth heatmap ---
+
+function CorridorScrollDepthTable({ rows }: { rows: CorridorScrollDepthRow[] }) {
+  return (
+    <div className="overflow-x-auto rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white">
+      <table className="min-w-full text-sm">
+        <thead className="border-b border-[var(--color-mcb-sand-deep)] bg-[var(--color-mcb-paper)]">
+          <tr className="text-left text-[11px] uppercase tracking-wider text-[var(--color-mcb-warm-grey)]">
+            <th scope="col" className="px-4 py-3 font-semibold">Page</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">Views 28d</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">25%</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">50%</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">75%</th>
+            <th scope="col" className="px-4 py-3 text-right font-semibold tabular-nums">100%</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-[var(--color-mcb-sand-deep)]">
+          {rows.map((r) => (
+            <tr key={r.url} className="hover:bg-[var(--color-mcb-paper)]/50">
+              <td className="px-4 py-3">
+                <div className="text-[var(--color-mcb-charcoal)]">{r.label}</div>
+                <div className="mt-0.5 font-mono text-[10px] text-[var(--color-mcb-warm-grey)]">{r.url}</div>
+              </td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">{r.pageViews}</td>
+              <td className="px-4 py-3 text-right tabular-nums">{formatScrollPct(r.pct25)}</td>
+              <td className="px-4 py-3 text-right tabular-nums">{formatScrollPct(r.pct50)}</td>
+              <td className="px-4 py-3 text-right tabular-nums">{formatScrollPct(r.pct75)}</td>
+              <td className="px-4 py-3 text-right tabular-nums">{formatScrollPct(r.pct100)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function formatScrollPct(v: number | null): string {
+  if (v === null) return "—";
+  return `${v.toFixed(0)}%`;
+}
+
+// --- Panel 5: AI citation tracker ---
+
+function CorridorAiCitationsTable({ rows }: { rows: CorridorAiCitationRow[] }) {
+  return (
+    <div className="overflow-x-auto rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white">
+      <table className="min-w-full text-sm">
+        <thead className="border-b border-[var(--color-mcb-sand-deep)] bg-[var(--color-mcb-paper)]">
+          <tr className="text-left text-[11px] uppercase tracking-wider text-[var(--color-mcb-warm-grey)]">
+            <th scope="col" className="px-4 py-3 font-semibold">Question ID</th>
+            <th scope="col" className="px-4 py-3 font-semibold">ChatGPT</th>
+            <th scope="col" className="px-4 py-3 font-semibold">Perplexity</th>
+            <th scope="col" className="px-4 py-3 font-semibold">Gemini</th>
+            <th scope="col" className="px-4 py-3 font-semibold">Google AI Overview</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-[var(--color-mcb-sand-deep)]">
+          {rows.map((r) => (
+            <tr key={r.questionId} className="hover:bg-[var(--color-mcb-paper)]/50">
+              <td className="px-4 py-3 font-mono text-[11px] text-[var(--color-mcb-warm-grey)]">{r.questionId}</td>
+              <td className="px-4 py-3">{formatCitationCell(r.chatgpt)}</td>
+              <td className="px-4 py-3">{formatCitationCell(r.perplexity)}</td>
+              <td className="px-4 py-3">{formatCitationCell(r.gemini)}</td>
+              <td className="px-4 py-3">{formatCitationCell(r.googleAiOverview)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function formatCitationCell(cell: CorridorAiCitationCell | null) {
+  if (!cell) {
+    return <span className="text-[var(--color-mcb-warm-grey)]">—</span>;
+  }
+  if (cell.cited === true) {
+    return (
+      <span title={`cited as at ${cell.checkedAtIso}${cell.notes ? ` — ${cell.notes}` : ""}`} className="font-semibold text-[var(--color-mcb-sage-dark)]">
+        ✓
+      </span>
+    );
+  }
+  if (cell.cited === false) {
+    return (
+      <span title={`not cited as at ${cell.checkedAtIso}`} className="text-[var(--color-mcb-terracotta-red)]">
+        ✗
+      </span>
+    );
+  }
+  return <span className="text-[var(--color-mcb-warm-grey)]">–</span>;
 }
