@@ -12,6 +12,7 @@ import {
   Compass,
   Share2,
   Activity,
+  TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 
@@ -39,8 +40,9 @@ const SECTIONS: NavSection[] = [
   {
     label: "Intelligence",
     items: [
-      { href: "/dashboard/ai-presence", label: "AI Presence", icon: Sparkles },
-      { href: "/dashboard/content",     label: "Content",     icon: FileText },
+      { href: "/dashboard/ai-presence",      label: "AI Presence",      icon: Sparkles },
+      { href: "/dashboard/content",          label: "Content",          icon: FileText },
+      { href: "/dashboard/growth-corridors", label: "Growth corridors", icon: TrendingUp },
     ],
   },
   {

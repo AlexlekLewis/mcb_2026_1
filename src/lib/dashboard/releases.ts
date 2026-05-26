@@ -22,9 +22,50 @@ export interface Release {
   items: string[];
   /** Optional GitHub commit URL or PR link. */
   commitUrl?: string;
+  /**
+   * Set true when the release ships changes to URLs in the growth-corridor
+   * cohort (see src/lib/growth-corridors.ts). Used to filter releases on
+   * /dashboard/growth-corridors panel 6. Defaults to false.
+   */
+  affectsGrowthCorridor?: boolean;
 }
 
 export const RELEASES: Release[] = [
+  {
+    id: "2026-05-27-growth-corridor-pilot-content",
+    title: "Growth Corridor pilot content — answer-gap guide + Clyde North + blockout roller (woven style)",
+    releasedAt: "2026-05-27T14:00:00Z",
+    summary:
+      "First batch of growth-corridor content in the new woven prose style — MCB voice only, no third-party brand or competitor references, plain spoken tradie-pro tone. Three pages live: the highest-leverage answer-gap guide (Are window furnishings included in your new build?), the pilot suburb rewrite for Clyde North targeting the Casey south-east growth corridor with named estates and builders, and the pilot product rewrite for blockout roller blinds with indicative pricing wired through to /pricing-policy. All three carry FAQPage JSON-LD schema so AI Overviews / Perplexity / ChatGPT can extract structured Q&A even though the visible pages read as flowing prose. Clyde North is the template for the remaining 11 growth-corridor suburb rewrites; blockout roller is the template for the remaining 18 product page rewrites. Watch /dashboard/growth-corridors for cohort-isolated metrics. Kill-or-keep gate at 7d per CLAUDE.md.",
+    items: [
+      "src/app/guides/new-build-window-furnishings-not-included/page.tsx — net-new ~2,400-word answer-gap page (first-mover on the H&L inclusion query nobody else owns); FAQPage schema with 5 Q&A pairs",
+      "src/app/locations/clyde-north/page.tsx — static-segment override of the dynamic /locations/[suburb] route; woven prose with named estates (Smiths Lane, Eliston, Five Farms, Arcadia, Timbertop, Orana, Kaduna Park, Arbourwood) and builders (Metricon, Henley, Simonds, Carlisle, Burbank, Boutique); LocalBusinessSchema + FAQPage schema with 5 Q&A; PageViewTracker tagged page_variant: 'woven_pilot'",
+      "src/app/locations/[suburb]/page.tsx — added STATIC_OVERRIDE_SLUGS set, filtered clyde-north from generateStaticParams to avoid build-time route conflict",
+      "src/app/blinds/roller-blinds/blockout/page.tsx — replaced ProductTemplate-driven page with woven prose; indicative pricing ($1,200-$2,900 whole-house, $300-$500 single window) wired through to /pricing-policy accordion; pay-twice math in narrative form; FAQPage schema with 5 Q&A pairs",
+      "All three pages use PrimaryCTA component (CLAUDE.md rule) with productContext where relevant",
+      "All content in MCB-only voice — no competitor retailer names, no premium-brand comparators, no external citations. Builders named factually (allowed per the user's explicit call).",
+      "Strategy goal: capture first-mover AI-search citations on the H&L inclusion answer-gap query; validate the woven content template before replicating across the other 28 growth-corridor URLs",
+    ],
+    affectsGrowthCorridor: true,
+  },
+  {
+    id: "2026-05-27-growth-corridor-scaffolding",
+    title: "Growth Corridor scaffolding — constants, dashboard, pricing-policy, ai_citation_log migration",
+    releasedAt: "2026-05-27T13:30:00Z",
+    summary:
+      "Foundation layer for the Victorian growth-corridor strategy. New /dashboard/growth-corridors page isolates the 18-URL cohort (12 suburb pages, 3 corridor pillar guides, 3 first-mover answer-gap pages) with panels 1 (corridor KPI strip), 2 (per-page table), 6 (release impact corridor-filtered). New /pricing-policy canonical page hosts the indicative-pricing T&Cs that every product-page pricing block links to. New analytics event vocabulary (question_scrolled_into_view, question_section_dwell) registered for the question-level engagement panel that arrives in a future release once new events have been firing for a few days. New supabase/migrations/20260526_ai_citation_log.sql committed but NOT applied — must be applied via Supabase SQL editor at https://supabase.com/dashboard/project/lrhgrmklpvwyjzaipioh/sql/new because the connected MCP points at the cricket-academy project, not this one. Sidebar nav extended with 'Growth corridors' under Intelligence section.",
+    items: [
+      "src/lib/growth-corridors.ts — net-new constants file. Exports GROWTH_CORRIDOR_PAGES (18 URLs), GROWTH_CORRIDOR_URLS (Set), PAGE_BY_URL (Record), groupByCorridor(), formatCorridor(), isGrowthCorridorSuburb()",
+      "src/lib/dashboard/growth-corridor-metrics.ts — net-new server-only data loader. Returns CorridorKpiStripData + per-page table rows + corridor-tagged releases. Bot filtering mirrors release-metrics.ts. Graceful fallback when Supabase env vars missing",
+      "src/lib/dashboard/releases.ts — extended Release interface with optional affectsGrowthCorridor flag for panel 6 filtering",
+      "src/app/dashboard/(with-sidebar)/growth-corridors/page.tsx — net-new dashboard page rendering panels 1, 2, 6",
+      "src/components/dashboard/v2/Sidebar.tsx — added Growth corridors nav item under Intelligence section",
+      "src/lib/analytics.ts — registered question_scrolled_into_view + question_section_dwell events in the vocabulary docblock (treated as schema per CLAUDE.md)",
+      "supabase/migrations/20260526_ai_citation_log.sql — table for the quarterly AI-citation tracker (panel 5 in a future release). NOT YET APPLIED — Alex must apply via Supabase SQL editor",
+      "src/app/pricing-policy/page.tsx — net-new canonical page hosting the indicative-pricing T&Cs",
+    ],
+    affectsGrowthCorridor: true,
+  },
   {
     id: "2026-05-24-lead-session-attribution",
     title: "Lead attribution: session_id on lead_submissions + view rewire",

@@ -13,11 +13,26 @@ interface Props {
     }>;
 }
 
-// Generate static params for all locations at build time
+/**
+ * Slugs with their own dedicated static-segment page that overrides this
+ * dynamic route. Filter them out of generateStaticParams so we don't double-
+ * generate at build (Next.js errors when a static + dynamic route both claim
+ * the same path).
+ *
+ * Add a slug here whenever a /locations/{slug}/page.tsx is created in the
+ * woven-content style. The dynamic route below continues to serve every
+ * other suburb in the legacy template.
+ */
+const STATIC_OVERRIDE_SLUGS = new Set<string>([
+    "clyde-north", // pilot suburb — woven prose, growth-corridor cohort
+]);
+
+// Generate static params for all locations at build time, excluding any
+// that have their own dedicated static-segment page.
 export async function generateStaticParams() {
-    return LOCATIONS.map((loc) => ({
-        suburb: loc.slug,
-    }));
+    return LOCATIONS
+        .filter((loc) => !STATIC_OVERRIDE_SLUGS.has(loc.slug))
+        .map((loc) => ({ suburb: loc.slug }));
 }
 
 // Generate unique metadata for each location

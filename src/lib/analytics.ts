@@ -30,6 +30,15 @@
  *   chat_widget_open       chat panel opened
  *   chat_lead_success      chat submitted a lead
  *   experiment_exposure    first time a user is bucketed into an experiment. payload: { experiment, variant }
+ *   question_scrolled_into_view
+ *                          a woven Q&A section enters the viewport on a growth-corridor page.
+ *                          Fired ONCE per session per question_id. Feeds the question-level
+ *                          engagement panel on /dashboard/growth-corridors.
+ *                          payload: { question_id, page_url, corridor?, category? }
+ *   question_section_dwell first heartbeat dwell event for a Q&A section — fires after the
+ *                          section has been ≥50% in-viewport for 8 continuous seconds, and
+ *                          again on section exit with total dwell time.
+ *                          payload: { question_id, page_url, dwell_ms, kind: "first" | "exit" }
  *
  * `location` is one of: navbar | hero | section | sticky-mobile | sticky-desktop | inline | decision-card | nav-megamenu | mobile-menu
  */
