@@ -1,3 +1,5 @@
+import { PRESTON_RADIUS_LOCATIONS } from "./location-data";
+
 /**
  * Victorian growth-corridor cohort
  * --------------------------------
@@ -118,3 +120,48 @@ export function formatCorridor(c: GrowthCorridor): string {
 export function isGrowthCorridorSuburb(suburbSlug: string): GrowthCorridorPage | undefined {
   return SUBURB_PAGES.find((p) => p.url === `/locations/${suburbSlug}`);
 }
+
+// ---------------------------------------------------------------------
+// Growth-corridor suburb cohort with resolved postcodes.
+// Used by the Geography dashboard surface to filter lead-by-postcode
+// counts to corridor suburbs specifically. Resolved at module load
+// from src/lib/location-data so postcodes stay in sync with the rest
+// of the site.
+// ---------------------------------------------------------------------
+
+export interface GrowthCorridorSuburb {
+  slug: string;
+  name: string;
+  postcode: string;
+  corridor: GrowthCorridor;
+  url: string;
+}
+
+const _LOC_BY_SLUG: Map<string, { name: string; slug: string; postcode: string }> = new Map(
+  PRESTON_RADIUS_LOCATIONS.map((l) => [l.slug, l]),
+);
+
+export const GROWTH_CORRIDOR_SUBURBS: GrowthCorridorSuburb[] = SUBURB_PAGES
+  .map((page) => {
+    const slug = page.url.replace("/locations/", "");
+    const loc = _LOC_BY_SLUG.get(slug);
+    if (!loc) return null;
+    return {
+      slug,
+      name: loc.name,
+      postcode: loc.postcode,
+      corridor: page.corridor,
+      url: page.url,
+    } satisfies GrowthCorridorSuburb;
+  })
+  .filter((s): s is GrowthCorridorSuburb => s !== null);
+
+/** Postcode → corridor mapping for fast lookups. */
+export const GROWTH_CORRIDOR_POSTCODES: ReadonlyMap<string, GrowthCorridorSuburb> = new Map(
+  GROWTH_CORRIDOR_SUBURBS.map((s) => [s.postcode, s]),
+);
+
+/** Plain set — `if (GROWTH_CORRIDOR_POSTCODE_SET.has(postcode))` */
+export const GROWTH_CORRIDOR_POSTCODE_SET: ReadonlySet<string> = new Set(
+  GROWTH_CORRIDOR_SUBURBS.map((s) => s.postcode),
+);

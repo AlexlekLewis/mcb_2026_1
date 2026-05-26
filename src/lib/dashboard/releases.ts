@@ -32,6 +32,22 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-05-27-growth-corridor-template-rollout",
+    title: "Growth Corridor rollout — 11 suburb pages + 9 product pages in woven style",
+    releasedAt: "2026-05-27T16:30:00Z",
+    summary:
+      "Full template rollout following sign-off on the Clyde North suburb and blockout roller pilot templates. All 11 remaining growth-corridor suburbs (Clyde, Officer, Officer South, Wollert, Donnybrook, Beveridge, Mickleham, Greenvale, Tarneit, Deanside, Fraser Rise) now run on the woven content style with corridor-aware framing, suburb-genuinely-unique micro-notes, named estates per suburb, FAQPage schema, LocalBusinessSchema, and PageViewTracker tagged `page_variant: woven_pilot` so the dashboard can isolate cohort engagement from the legacy template traffic. 9 product pages with confirmed pricing data (sheer curtains, blockout curtains, timber/polymer/aluminium plantation shutters, roller shutters, zipscreens, awnings, motorisation) rewritten in the same woven prose style with indicative pricing wired through to /pricing-policy and FAQPage JSON-LD schema. The 9 product pages awaiting pricing data (translucent curtains, sunscreen rollers, double rollers, roman, venetian, vertical, honeycomb, security doors, fixed fly screens) remain on the legacy ProductTemplate until pricing is supplied.",
+    items: [
+      "src/components/WovenSuburbPage.tsx — shared composition component for the 12 growth-corridor suburb pages. Takes suburb-specific props (estates, micro-note, nearby, FAQs) and composes corridor-aware shared framing. Avoids the thin-content trap by mandating unique entity density per suburb.",
+      "11 new static-segment suburb override pages: /locations/clyde, /officer, /officer-south, /wollert, /donnybrook, /beveridge, /mickleham, /greenvale, /tarneit, /deanside, /fraser-rise. Each with hero, micro-note, named estates, FAQPage schema (suburb-named + corridor-shared questions), LocalBusinessSchema, PageViewTracker.",
+      "src/app/locations/[suburb]/page.tsx — STATIC_OVERRIDE_SLUGS extended to filter all 12 growth-corridor slugs from the dynamic generateStaticParams.",
+      "9 product page rewrites with confirmed pricing: /curtains/sheer (~$3,000-$4,000 whole house), /curtains/blockout ($600-$2,000 per bedroom layered), /shutters/plantation-shutters/{timber,polymer,aluminium} ($100-$1,000 per window, ~$299/sqm avg), /shutters/roller-shutters ($500-$1,200 per window), /awnings/zipscreens ($1,500-$2,500), /awnings ($2,500-$4,000 folding-arm), /motorisation ($180-$280 retrofit).",
+      "All 20 pages composed in MCB-only voice, woven prose (FAQPage schema invisible in JSON-LD), PrimaryCTA per CLAUDE.md, indicative pricing wired to /pricing-policy.",
+      "Quality gates: tsc clean, eslint --max-warnings 0 clean, npm run build clean, local prod-mode smoke confirmed 200 + schema markers + key entity names on all 20 URLs.",
+    ],
+    affectsGrowthCorridor: true,
+  },
+  {
     id: "2026-05-27-growth-corridor-answer-gap-pages-2",
     title: "Growth Corridor — 2 more answer-gap pages live (pooja blackout + estate covenants)",
     releasedAt: "2026-05-27T15:00:00Z",
@@ -81,9 +97,9 @@ export const RELEASES: Release[] = [
     affectsGrowthCorridor: true,
   },
   {
-    id: "2026-05-24-lead-session-attribution",
+    id: "2026-05-26-lead-session-attribution",
     title: "Lead attribution: session_id on lead_submissions + view rewire",
-    releasedAt: "2026-05-24T14:30:00Z",
+    releasedAt: "2026-05-26T14:45:00Z",
     summary:
       "Promotes session_id from the tracking_context JSONB blob to a top-level column on lead_submissions so the answer_performance view can join sessions to leads within a 14-day look-back window. The client side has been sending sessionId in trackingContext for ages (analytics_events has used it the whole time) — this just promotes it to a queryable column and backfills all 13 historic leads from the JSONB. The /dashboard/ai-presence Content Performance panel's `leads_attributed_30d` column can now show real numbers per published answer instead of always 0.",
     items: [
@@ -95,9 +111,9 @@ export const RELEASES: Release[] = [
     ],
   },
   {
-    id: "2026-05-24-ai-content-engine-v1-dry-run",
+    id: "2026-05-26-ai-content-engine-v1-dry-run",
     title: "AI Content Engine v1 — first batch shipped (3 inline answers on plantation-shutters)",
-    releasedAt: "2026-05-24T13:45:00Z",
+    releasedAt: "2026-05-26T14:15:00Z",
     summary:
       "First batch from the new AI Content Engine skill. Three Q&A inline answers added to /shutters/plantation-shutters, wrapped in FAQPage JSON-LD with per-answer anchor IDs for AI deep-linking: 'PVC vs basswood plantation shutters: which suits Melbourne homes best?', 'How much do plantation shutters cost per window in Melbourne?' (answered with the honest-broker no-published-pricing pattern), and 'Can plantation shutters be installed in a bathroom (moisture)?'. All three passed 14 deterministic gates + judgement gates: voice checklist (first-person plural, defensible numbers, named local refs, opinion-bearing), AI-tell scan, AU spelling, regulatory check, price-approval gate (hard-blocks any $ or /m² without an approved fact). Watch: organic clicks to /shutters/plantation-shutters, AI bot crawls (GPTBot/ClaudeBot/PerplexityBot) on that URL, and quote-form submissions attributed via session within 14d of viewing those anchors.",
     items: [
@@ -111,9 +127,9 @@ export const RELEASES: Release[] = [
     ],
   },
   {
-    id: "2026-05-24-sentence-case-typography",
+    id: "2026-05-26-sentence-case-typography",
     title: "Typography: drop site-wide text-transform: capitalize",
-    releasedAt: "2026-05-24T13:30:00Z",
+    releasedAt: "2026-05-26T14:00:00Z",
     summary:
       "Removed the site-wide `text-transform: capitalize` rule from globals.css that was title-casing every word in every <p>, <h1-h6>, and <summary> on the marketing site. Every page of body copy and every heading was rendering with each word's first letter capitalised — \"PVC vs basswood\" became \"PVC Vs Basswood\", \"AI presence\" would have read \"Ai Presence\" (the admin dashboard already had a scoped override for this exact reason). The site copy as written is in proper sentence case, so this CSS rule was visibly degrading otherwise-clean prose into 2010s-marketing-template look. Caught while previewing the new InlineAnswer block — symptom looked like bad copy, root cause was the global CSS. No content was changed; every page now renders the text the writer actually typed.",
     items: [

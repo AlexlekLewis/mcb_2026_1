@@ -24,7 +24,21 @@ interface Props {
  * other suburb in the legacy template.
  */
 const STATIC_OVERRIDE_SLUGS = new Set<string>([
-    "clyde-north", // pilot suburb — woven prose, growth-corridor cohort
+    // Growth-corridor suburbs running the woven prose template.
+    // Each has its own /locations/{slug}/page.tsx; see src/components/WovenSuburbPage.tsx
+    // for the shared composition.
+    "clyde-north",
+    "clyde",
+    "officer",
+    "officer-south",
+    "wollert",
+    "donnybrook",
+    "beveridge",
+    "mickleham",
+    "greenvale",
+    "tarneit",
+    "deanside",
+    "fraser-rise",
 ]);
 
 // Generate static params for all locations at build time, excluding any

@@ -6,6 +6,10 @@ import MelbourneMapClient, {
 import type { MapPoint } from "@/components/dashboard/MelbourneMap";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { resolveLocation } from "@/lib/dashboard/v2/location-resolve";
+import {
+  GROWTH_CORRIDOR_SUBURBS,
+  formatCorridor,
+} from "@/lib/growth-corridors";
 
 export const dynamic = "force-dynamic";
 
@@ -83,6 +87,32 @@ export default async function LeadsGeographyPage() {
     forms: [],
   };
 
+  // Build the growth-corridor postcode rows. Joins our cohort of 12 suburbs
+  // against the leadPoints buckets so each row shows lead count even if 0.
+  // Sorted by lead count desc, then postcode for stable order.
+  const leadCountByPostcode = new Map<string, number>();
+  for (const p of leadPoints) {
+    // p.label is "Suburb · 3072"; pull the trailing 4-digit run.
+    if (!p.label) continue;
+    const m = /\b(\d{4})\b\s*$/.exec(p.label);
+    if (m) leadCountByPostcode.set(m[1], p.count);
+  }
+
+  const growthRows = GROWTH_CORRIDOR_SUBURBS
+    .map((s) => ({
+      ...s,
+      leads90d: leadCountByPostcode.get(s.postcode) ?? 0,
+    }))
+    .sort((a, b) =>
+      b.leads90d !== a.leads90d
+        ? b.leads90d - a.leads90d
+        : a.postcode.localeCompare(b.postcode),
+    );
+
+  const growthTotal = growthRows.reduce((a, b) => a + b.leads90d, 0);
+  const growthShareOfMapped =
+    mappedLeads > 0 ? Math.round((growthTotal / mappedLeads) * 100) : 0;
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -117,6 +147,69 @@ export default async function LeadsGeographyPage() {
           </ul>
         </section>
       )}
+
+      {/* Growth-corridor cohort — always rendered, even when 0 leads, so
+          the table acts as a watch-list. Tracks the 12 corridor suburbs
+          independently of the top-postcodes-by-lead-count list above. */}
+      <section className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+            Growth-corridor postcodes · 90d
+          </h2>
+          <span className="text-xs text-[var(--color-mcb-warm-grey)]">
+            {growthTotal} lead{growthTotal === 1 ? "" : "s"} across{" "}
+            {GROWTH_CORRIDOR_SUBURBS.length} corridor suburbs
+            {mappedLeads > 0 ? ` · ${growthShareOfMapped}% of mapped` : ""}
+          </span>
+        </div>
+        <p className="mt-2 text-xs text-[var(--color-mcb-warm-grey)]">
+          The 12 corridor suburbs the AI-content + growth-corridor strategy
+          targets specifically. Tracked separately from the broader top-postcodes
+          list above so corridor performance is visible even when leads come from
+          elsewhere. Postcode set lives in{" "}
+          <code className="font-mono text-[11px] text-[var(--color-mcb-charcoal)]">
+            src/lib/growth-corridors.ts
+          </code>
+          .
+        </p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+                <th className="py-2 pr-3 font-semibold">Suburb</th>
+                <th className="py-2 pr-3 font-semibold">Postcode</th>
+                <th className="py-2 pr-3 font-semibold">Corridor</th>
+                <th className="py-2 pr-3 font-semibold text-right">Leads · 90d</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--color-mcb-sand-deep)]">
+              {growthRows.map((row) => (
+                <tr key={row.slug}>
+                  <td className="py-2 pr-3 text-[var(--color-mcb-charcoal)]">
+                    {row.name}
+                  </td>
+                  <td className="py-2 pr-3 font-mono text-xs text-[var(--color-mcb-warm-grey)]">
+                    {row.postcode}
+                  </td>
+                  <td className="py-2 pr-3 text-xs text-[var(--color-mcb-warm-grey)]">
+                    {formatCorridor(row.corridor)}
+                  </td>
+                  <td
+                    className={
+                      "py-2 pr-3 text-right tabular-nums " +
+                      (row.leads90d > 0
+                        ? "font-medium text-[var(--color-mcb-charcoal)]"
+                        : "text-[var(--color-mcb-warm-grey-light)]")
+                    }
+                  >
+                    {row.leads90d}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       {unresolved > 0 && (
         <aside className="rounded-xl border border-dashed border-[var(--color-mcb-sand-deep)] bg-white/40 p-5 text-sm text-[var(--color-mcb-warm-grey)]">
