@@ -152,7 +152,11 @@ All three release entries flagged `affectsGrowthCorridor: true` so they surface 
   - `/locations/clyde-north` — "Smiths Lane", "Metricon", FAQPage + LocalBusiness schema present
   - `/blinds/roller-blinds/blockout` — "Blockout roller", "pricing-policy" link, FAQPage schema present
   - `/dashboard/growth-corridors` (local prod smoke only — production auth-gated as designed)
-- **[DEP.4]** Round 2 — *(populated after Round 2 push)*
+- **[DEP.4]** Round 2 — `git commit` (Co-Authored-By Claude Opus 4.7) → `git push origin main` (commit 2a4bdaa). Vercel auto-deploy triggered. Production deploy status: Ready after 56s build (deploy URL `https://mcb20261-ne811anvx-alex-lewis-projects-6e9bb13b.vercel.app`).
+- **[DEP.5]** Round 2 production verification — `curl -sL` against `https://moderncurtainsandblinds.com.au` for the two new URLs:
+  - `/guides/pooja-prayer-room-blackout-curtains-australia` → 200, "pooja", "mandir", FAQPage schema present
+  - `/guides/estate-covenant-roller-shutters-zipscreens-melbourne` → 200, "Estate covenant", "Aurora", "Smiths Lane", "Riverdale", FAQPage schema present
+- **[DEP.6]** Final state — main is at commit 2a4bdaa, two Vercel production deploys ready (atqsxr89s and ne811anvx), seven new/rewritten URLs live, two static-file deltas (sidebar nav + [suburb] route override), one dashboard page live (behind auth), one migration file committed (NOT yet applied), three release-log entries flagged for growth-corridor panel 6, full change log preserved here.
 
 ### Morning verification checklist (for Alex)
 
