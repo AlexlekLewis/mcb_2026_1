@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { PageHeader } from "@/components/dashboard/v2/PageHeader";
 import { KpiCard } from "@/components/dashboard/v2/KpiCard";
 import {
@@ -16,7 +17,8 @@ import {
   type RecentLead,
 } from "@/lib/dashboard/v2/data";
 import { classifyValue, thresholds } from "@/lib/dashboard/v2/tokens";
-import { Sparkline } from "@/components/dashboard/v2/Sparkline";
+import { MetricTrendChart } from "@/components/dashboard/v2/MetricTrendChart";
+import { RELEASES } from "@/lib/dashboard/releases";
 
 export const dynamic = "force-dynamic";
 
@@ -25,9 +27,26 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function LeadsPage() {
+type SearchParams = Promise<{ window?: string }>;
+
+const WINDOW_OPTIONS: ReadonlyArray<{ days: number; label: string }> = [
+  { days: 28, label: "28d" },
+  { days: 90, label: "90d" },
+  { days: 180, label: "180d" },
+];
+
+function resolveWindowDays(raw: string | undefined): number {
+  const found = WINDOW_OPTIONS.find((o) => o.label === raw);
+  return found?.days ?? 28;
+}
+
+export default async function LeadsPage({ searchParams }: { searchParams: SearchParams }) {
+  const params = await searchParams;
+  const windowDays = resolveWindowDays(params.window);
+  const windowLabel = WINDOW_OPTIONS.find((o) => o.days === windowDays)?.label ?? "28d";
+
   const [{ current, prior }, funnel, recentPhoneTaps, recentLeads] = await Promise.all([
-    fetchLeadsHeroData(),
+    fetchLeadsHeroData(windowDays),
     fetchFunnelRows(),
     fetchRecentPhoneTaps(25),
     fetchRecentLeads(25),
@@ -45,20 +64,50 @@ export default async function LeadsPage() {
   const leadRateState = classifyValue(leadRate, thresholds.leadRate);
 
   const sparkLeads = current.map((d) => d.leads);
-  const sparkVisitors = current.map((d) => d.visitors);
   const sparkPhoneTaps = current.map((d) => d.phone_taps);
+
+  const trendData = current.map((d) => ({
+    date: d.metric_date,
+    leads: d.leads ?? 0,
+    visitors: d.visitors ?? 0,
+  }));
+  const releaseMarkers = RELEASES.map((r) => ({
+    id: r.id,
+    releasedAt: r.releasedAt,
+    title: r.title,
+  }));
 
   return (
     <div className="space-y-8">
       <PageHeader
         title="Leads &amp; conversion"
-        subtitle="The bottom of the funnel. Default window: 28 days, with prior-28d comparison."
-        meta="28d window"
+        subtitle={`The bottom of the funnel. Window: ${windowLabel}, with prior-${windowLabel} comparison.`}
+        meta={`${windowLabel} window`}
       />
+
+      <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+        <span className="font-semibold">Window</span>
+        {WINDOW_OPTIONS.map((opt) => {
+          const active = opt.days === windowDays;
+          return (
+            <Link
+              key={opt.label}
+              href={`/dashboard/leads?window=${opt.label}`}
+              className={
+                active
+                  ? "rounded-full bg-[var(--color-mcb-terracotta-deep)] px-3 py-1 text-white"
+                  : "rounded-full border border-[var(--color-mcb-sand-deep)] px-3 py-1 text-[var(--color-mcb-charcoal)] hover:bg-[var(--color-mcb-sand)]"
+              }
+            >
+              {opt.label}
+            </Link>
+          );
+        })}
+      </div>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
-          label="Leads · 28d"
+          label={`Leads · ${windowLabel}`}
           value={leadsCurrent}
           state={leadsCurrent >= leadsPrior ? "good" : "attention"}
           deltaLabel={`${formatDelta(leadsCurrent - leadsPrior)} vs prior`}
@@ -66,7 +115,7 @@ export default async function LeadsPage() {
           sparklineData={sparkLeads}
         />
         <KpiCard
-          label="Lead rate · 28d"
+          label={`Lead rate · ${windowLabel}`}
           value={formatPercent(leadRate)}
           state={leadRateState}
           deltaLabel={
@@ -80,13 +129,13 @@ export default async function LeadsPage() {
           footer="leads ÷ visitors"
         />
         <KpiCard
-          label="Quote submits · 28d"
+          label={`Quote submits · ${windowLabel}`}
           value={quoteSubmitsCurrent}
           footer="multi-step form completions"
           sparklineData={current.map((d) => d.quote_submits)}
         />
         <KpiCard
-          label="Phone taps · 28d"
+          label={`Phone taps · ${windowLabel}`}
           value={phoneTapsCurrent}
           sparklineData={sparkPhoneTaps}
           footer="tel: link clicks"
@@ -95,40 +144,16 @@ export default async function LeadsPage() {
 
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <article className="lg:col-span-2 rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
-          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
-            Leads &amp; visitors · 28d
-          </h3>
-          <div className="mt-4 space-y-5">
-            <div>
-              <div className="flex items-baseline justify-between">
-                <span className="text-sm text-[var(--color-mcb-charcoal)]">Leads</span>
-                <span className="text-2xl font-semibold tabular-nums text-[var(--color-mcb-terracotta-deep)]">
-                  {leadsCurrent}
-                </span>
-              </div>
-              <Sparkline
-                data={sparkLeads}
-                color="var(--color-mcb-terracotta-deep)"
-                ariaLabel="Leads daily, 28 days"
-                height={48}
-                strokeWidth={2}
-              />
-            </div>
-            <div>
-              <div className="flex items-baseline justify-between">
-                <span className="text-sm text-[var(--color-mcb-charcoal)]">Visitors</span>
-                <span className="text-2xl font-semibold tabular-nums text-[var(--color-mcb-sage-dark)]">
-                  {visitorsCurrent.toLocaleString("en-AU")}
-                </span>
-              </div>
-              <Sparkline
-                data={sparkVisitors}
-                color="var(--color-mcb-sage-dark)"
-                ariaLabel="Visitors daily, 28 days"
-                height={48}
-                strokeWidth={2}
-              />
-            </div>
+          <header className="flex items-baseline justify-between gap-4">
+            <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+              Leads &amp; visitors · {windowLabel}
+            </h3>
+            <span className="text-[11px] text-[var(--color-mcb-warm-grey)]">
+              hover the line for daily values · dashed lines mark releases
+            </span>
+          </header>
+          <div className="mt-4">
+            <MetricTrendChart data={trendData} releases={releaseMarkers} />
           </div>
         </article>
 

@@ -93,7 +93,7 @@ export function sumColumn(rows: DailyMetric[], col: keyof DailyMetric): number {
   return rows.reduce((acc, r) => acc + (typeof r[col] === "number" ? (r[col] as number) : 0), 0);
 }
 
-export async function fetchLeadsHeroData(): Promise<{
+export async function fetchLeadsHeroData(days: number = 28): Promise<{
   current: DailyMetric[];
   prior: DailyMetric[];
 }> {
@@ -101,11 +101,12 @@ export async function fetchLeadsHeroData(): Promise<{
   const supabase = getSupabaseAdmin();
   if (!supabase) return { current: [], prior: [] };
 
+  const window = Math.max(1, Math.floor(days));
   const today = new Date();
   const start = new Date(today);
-  start.setUTCDate(start.getUTCDate() - 28);
+  start.setUTCDate(start.getUTCDate() - window);
   const priorStart = new Date(today);
-  priorStart.setUTCDate(priorStart.getUTCDate() - 56);
+  priorStart.setUTCDate(priorStart.getUTCDate() - window * 2);
 
   const startIso = start.toISOString().slice(0, 10);
   const priorStartIso = priorStart.toISOString().slice(0, 10);
