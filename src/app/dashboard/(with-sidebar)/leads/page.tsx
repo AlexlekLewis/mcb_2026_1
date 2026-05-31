@@ -19,6 +19,7 @@ import {
 import { classifyValue, thresholds } from "@/lib/dashboard/v2/tokens";
 import { MetricTrendChart } from "@/components/dashboard/v2/MetricTrendChart";
 import { RELEASES } from "@/lib/dashboard/releases";
+import { resolveLocation } from "@/lib/dashboard/v2/location-resolve";
 
 export const dynamic = "force-dynamic";
 
@@ -383,6 +384,30 @@ function formatChannel(tap: RecentPhoneTap): string {
 }
 
 function formatLeadLocation(lead: RecentLead): ReactNode {
+  // Always try to canonicalise to "Suburb · Postcode". The suburb field is
+  // free-text — customers sometimes type a postcode ("3088"), partial name,
+  // or typo. resolveLocation handles all four lookup paths (explicit
+  // postcode → extracted postcode → name → fuzzy name) and returns the
+  // canonical pair when any of them hit.
+  const resolved = resolveLocation({ suburb: lead.suburb, postcode: lead.postcode });
+
+  if (resolved) {
+    const canonical = `${resolved.suburb} · ${resolved.postcode}`;
+    // If the customer typed something noticeably different (typo case), keep
+    // the original visible as a hover-tooltip so the row stays auditable.
+    const typedSuburb = (lead.suburb ?? "").trim();
+    const showRawTooltip =
+      typedSuburb.length > 0 &&
+      typedSuburb.toLowerCase() !== resolved.suburb.toLowerCase() &&
+      typedSuburb !== resolved.postcode;
+    return (
+      <span title={showRawTooltip ? `typed: ${typedSuburb}` : undefined}>
+        {canonical}
+      </span>
+    );
+  }
+
+  // Fallback: nothing resolved. Show whatever we have, joined by " · ".
   const parts: string[] = [];
   if (lead.suburb) parts.push(lead.suburb);
   if (lead.postcode && !parts.join(" ").includes(lead.postcode)) parts.push(lead.postcode);
