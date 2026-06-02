@@ -32,6 +32,18 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-06-02-quote-form-windowcount-optional",
+    title: "Quote form — window count made optional (unblock Section 1)",
+    releasedAt: "2026-06-02T12:20:00Z",
+    summary:
+      "Data-driven micro-CRO. The quote form's only on-site conversion leak was Section 1: clean 30d funnel showed quote_form_start 40 → quote_step_1_complete 25 (a 38% drop), then ~96% completion the rest of the way (step_2 24 → submit 24 → success 24). Section 1 required suburb + product + 'How many windows or doors?' before the contact section unlocked. Window count is a triage nicety we re-measure on-site, so requiring it gated would-be leads out before they could give contact details. Made windowCount optional: Section 1 now completes on suburb + product alone. Server already treated windowCount as optional, so no submission-path risk. Watch step_1_complete / lead count over the 7d window; revert if no lift.",
+    items: [
+      "src/components/QuoteForm.tsx — removed Boolean(formData.windowCount) from section1Valid (and its dep); '*' → '(optional)' on the window-count label; removed `required` from the windowCount radio inputs; dropped windowCount from reportMissingFields.",
+      "No server change needed — /api/quote already defaults windowCount to 'N/A' and stores it null-safe.",
+      "Hypothesis: recovers a share of the 15/40 Section-1 drop-offs; at ~96% downstream completion that should convert to incremental leads. Single-variable, reversible.",
+    ],
+  },
+  {
     id: "2026-05-27-growth-corridor-pillars-and-dashboard-panels",
     title: "Growth Corridor — 3 pillar guides + dashboard panels 3, 4, 5",
     releasedAt: "2026-05-27T18:00:00Z",

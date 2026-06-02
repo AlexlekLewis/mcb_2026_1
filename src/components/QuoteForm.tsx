@@ -80,11 +80,18 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
     referrerName: "",
   });
 
+  // windowCount is intentionally NOT required to complete Section 1. It's a
+  // triage nicety (we measure exactly on-site regardless), and gating the
+  // contact section behind it was the single on-site conversion leak: 38% of
+  // form-starters dropped at Section 1 (clean 30d: form_start 40 →
+  // step_1_complete 25), while post-Section-1 completion ran ~96%. Suburb +
+  // product is enough to unlock contact capture; windowCount is still collected
+  // when offered, just optional. The /api/quote route already treats it as
+  // optional (defaults to 'N/A'), so this can't turn a submission into an error.
   const section1Valid = useMemo(() =>
     formData.suburb.trim().length > 1 &&
-    formData.products.length > 0 &&
-    Boolean(formData.windowCount),
-  [formData.suburb, formData.products, formData.windowCount]);
+    formData.products.length > 0,
+  [formData.suburb, formData.products]);
 
   const suburbVicStatus = useMemo(
     () => classifySuburbInput(formData.suburb),
@@ -369,7 +376,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
                 <div>
                   <label className="mb-1 block text-sm font-bold text-mcb-charcoal">
                     How many windows or doors?
-                    <span className="ml-1 text-mcb-terracotta">*</span>
+                    <span className="ml-1 font-normal text-stone-400">(optional)</span>
                   </label>
                   <p className="mb-3 text-sm text-stone-500">
                     Rough estimate is fine — we&apos;ll measure exactly when we visit.
@@ -377,7 +384,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     {windowOptions.map((option) => (
                       <label key={option} className={cn("cursor-pointer rounded-sm border p-3 text-center text-sm font-semibold", formData.windowCount === option ? "border-mcb-terracotta bg-mcb-paper text-mcb-charcoal" : "border-stone-200 text-stone-600")}>
-                        <input type="radio" name="windowCount" value={option} checked={formData.windowCount === option} onChange={handleChange} className="sr-only" required />
+                        <input type="radio" name="windowCount" value={option} checked={formData.windowCount === option} onChange={handleChange} className="sr-only" />
                         {option}
                       </label>
                     ))}
@@ -600,7 +607,6 @@ function reportMissingFields(
   const missing: string[] = [];
   if (formData.suburb.trim().length <= 1) missing.push("suburb");
   if (formData.products.length === 0) missing.push("products");
-  if (!formData.windowCount) missing.push("windowCount");
   if (formData.firstName.trim().length <= 1) missing.push("firstName");
   if (formData.phone.trim().length <= 5) missing.push("phone");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) missing.push("email");
