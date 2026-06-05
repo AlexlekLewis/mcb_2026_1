@@ -85,14 +85,6 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-stone-500">
                     <p>© {new Date().getFullYear()} Modern Curtains and Blinds. Australian Made & Owned.</p>
-                    <div className="flex gap-6">
-                        <a href="https://facebook.com/moderncurtains" target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                            <Facebook size={20} />
-                        </a>
-                        <a href="https://instagram.com/moderncurtains" target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                            <Instagram size={20} />
-                        </a>
-                    </div>
                 </div>
             </div>
         </footer>
