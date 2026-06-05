@@ -284,33 +284,86 @@ export function ProductTemplate({
                 </div>
             </motion.section>
 
-            {/* Decision Guide */}
-            {decisionGuide && decisionGuide.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6">
-                        <div className="max-w-3xl mx-auto text-center mb-12">
-                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
-                                Choose with confidence
-                            </span>
-                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
-                                Which option is right for you?
-                            </h2>
-                            <p className="text-stone-500 text-lg">
-                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
-                            </p>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                            {decisionGuide.map((item) => (
-                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
-                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
-                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
-                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
+            {/* Product Types / Collection with alternating slide animations */}
+            <section className="py-24 container mx-auto px-6">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-16 text-center"
+                >
+                    Choose with confidence
+                </motion.h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    {types.map((type, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: "-50px" }}
+                            variants={idx % 2 === 0 ? slideInLeft : slideInRight}
+                            className="group flex flex-col md:flex-row gap-8 items-center"
+                        >
+                            <motion.div
+                                className="w-full md:w-1/2 overflow-hidden rounded-sm relative aspect-[4/3] cursor-pointer"
+                                whileHover={{ scale: 1.02 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                {type.href ? (
+                                    <Link href={type.href} className="absolute inset-0 z-30">
+                                        <span className="sr-only">View {type.title}</span>
+                                    </Link>
+                                ) : null}
+                                <div className="absolute inset-0 bg-mcb-clay/10 z-10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
+                                <Image
+                                    src={type.image || heroImage}
+                                    alt={type.title}
+                                    fill
+                                    sizes="(min-width: 768px) 50vw, 100vw"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                                {/* Corner accent on hover */}
+                                <div className="absolute bottom-0 right-0 w-0 h-0 bg-mcb-terracotta group-hover:w-16 group-hover:h-16 transition-all duration-300 z-20 pointer-events-none" />
+                            </motion.div>
+                            <div className="w-full md:w-1/2">
+                                <motion.h3
+                                    className="font-serif text-2xl mb-4 text-mcb-charcoal group-hover:text-mcb-terracotta transition-colors duration-300"
+                                >
+                                    {type.href ? (
+                                        <Link href={type.href} className="hover:underline decoration-mcb-terracotta underline-offset-4">
+                                            {type.title}
+                                        </Link>
+                                    ) : (
+                                        type.title
+                                    )}
+                                </motion.h3>
+                                <p className="text-stone-500 mb-6 leading-relaxed">{type.description}</p>
+                                <motion.div
+                                    className="flex items-center gap-2 text-mcb-terracotta font-medium uppercase text-sm tracking-wider"
+                                    whileHover={{ x: 5 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <Check size={16} />
+                                    <span>Custom Made</span>
+                                    {type.href && (
+                                        <motion.span
+                                            animate={{ x: [0, 5, 0] }}
+                                            transition={{ duration: 1.5, repeat: Infinity }}
+                                        >
+                                            <ArrowRight size={16} className="ml-2" />
+                                        </motion.span>
+                                    )}
+                                </motion.div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Payment Options Integration */}
+                <div className="max-w-4xl mx-auto mt-16">
+                    <PaymentOptions />
+                </div>
+            </section>
 
             {/* Features Grid with staggered animations */}
             <section className="py-20 bg-mcb-paper">
@@ -461,86 +514,33 @@ export function ProductTemplate({
                 </section>
             )}
 
-            {/* Product Types / Collection with alternating slide animations */}
-            <section className="py-24 container mx-auto px-6">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-16 text-center"
-                >
-                    Which option is right for you?
-                </motion.h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                    {types.map((type, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true, margin: "-50px" }}
-                            variants={idx % 2 === 0 ? slideInLeft : slideInRight}
-                            className="group flex flex-col md:flex-row gap-8 items-center"
-                        >
-                            <motion.div
-                                className="w-full md:w-1/2 overflow-hidden rounded-sm relative aspect-[4/3] cursor-pointer"
-                                whileHover={{ scale: 1.02 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                {type.href ? (
-                                    <Link href={type.href} className="absolute inset-0 z-30">
-                                        <span className="sr-only">View {type.title}</span>
-                                    </Link>
-                                ) : null}
-                                <div className="absolute inset-0 bg-mcb-clay/10 z-10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
-                                <Image
-                                    src={type.image || heroImage}
-                                    alt={type.title}
-                                    fill
-                                    sizes="(min-width: 768px) 50vw, 100vw"
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                {/* Corner accent on hover */}
-                                <div className="absolute bottom-0 right-0 w-0 h-0 bg-mcb-terracotta group-hover:w-16 group-hover:h-16 transition-all duration-300 z-20 pointer-events-none" />
-                            </motion.div>
-                            <div className="w-full md:w-1/2">
-                                <motion.h3
-                                    className="font-serif text-2xl mb-4 text-mcb-charcoal group-hover:text-mcb-terracotta transition-colors duration-300"
-                                >
-                                    {type.href ? (
-                                        <Link href={type.href} className="hover:underline decoration-mcb-terracotta underline-offset-4">
-                                            {type.title}
-                                        </Link>
-                                    ) : (
-                                        type.title
-                                    )}
-                                </motion.h3>
-                                <p className="text-stone-500 mb-6 leading-relaxed">{type.description}</p>
-                                <motion.div
-                                    className="flex items-center gap-2 text-mcb-terracotta font-medium uppercase text-sm tracking-wider"
-                                    whileHover={{ x: 5 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <Check size={16} />
-                                    <span>Custom Made</span>
-                                    {type.href && (
-                                        <motion.span
-                                            animate={{ x: [0, 5, 0] }}
-                                            transition={{ duration: 1.5, repeat: Infinity }}
-                                        >
-                                            <ArrowRight size={16} className="ml-2" />
-                                        </motion.span>
-                                    )}
-                                </motion.div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Payment Options Integration */}
-                <div className="max-w-4xl mx-auto mt-16">
-                    <PaymentOptions />
-                </div>
-            </section>
+            {/* Decision Guide */}
+            {decisionGuide && decisionGuide.length > 0 && (
+                <section className="py-20 bg-white">
+                    <div className="container mx-auto px-6">
+                        <div className="max-w-3xl mx-auto text-center mb-12">
+                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
+                                Choose with confidence
+                            </span>
+                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
+                                Which option is right for you?
+                            </h2>
+                            <p className="text-stone-500 text-lg">
+                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {decisionGuide.map((item) => (
+                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
+                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {internalLinks && internalLinks.links.length > 0 && (
                 <section className="bg-white py-20">

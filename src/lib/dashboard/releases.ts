@@ -32,6 +32,19 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-06-05-product-options-section-reorder",
+    title: "Product pages — image 'options' section moved above the fold + retitled 'Choose with confidence'",
+    releasedAt: "2026-06-05T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "Layout + copy on every ProductTemplate-driven page (38 product pages across blinds/curtains/shutters/awnings/security, plus the dynamic locations/[suburb] landing route). The product-types image grid — the visual 'options' section — used to sit near the bottom of the page (below Features / Comparison / Process / Fit promise / Benefits / FAQ). Moved it up to render immediately after the intro so buyers reach the actual product choices + imagery first, and renamed its heading 'Which option is right for you?' → 'Choose with confidence'. The text 'decision guide' cards swapped down to just above the local-links block (they still carry their own 'Choose with confidence' eyebrow + 'Which option is right for you?' heading). Note: the PaymentOptions block is nested in the image-grid section, so it moved up too. Pure block swap, reversible. Watch scroll-depth into the grid, engaged time and quote CTA clicks; nothing should regress.",
+    items: [
+      "src/components/ProductTemplate.tsx — swapped the order of the always-on 'Product Types / Collection' image-grid section and the conditional 'Decision Guide' text-card section (symmetric 107/107-line block move). Image grid + PaymentOptions now render right after the Introduction; decision-guide cards now render just above the internal-links section.",
+      "Renamed the image-grid H2 'Which option is right for you?' → 'Choose with confidence'. The decision-guide section is otherwise untouched, so the phrase 'Choose with confidence' now appears in both sections (one early as a heading, one late as an eyebrow). Flagged for follow-up if the repeat is unwanted.",
+      "Unaffected: custom product pages (polymer/timber/aluminium shutters, sheer/velvet/blockout/s-fold curtains, veri-shades, outdoor-blinds, zipscreens, window-awnings, motorisation) use bespoke layouts. No growth-corridor URL renders via ProductTemplate (the 12 corridor suburb pages are static woven-style overrides), so affectsGrowthCorridor stays false.",
+      "Quality gates: tsc clean, eslint clean, npm run build clean.",
+    ],
+  },
+  {
     id: "2026-06-02-quote-form-windowcount-optional",
     title: "Quote form — window count made optional (unblock Section 1)",
     releasedAt: "2026-06-02T12:20:00Z",
