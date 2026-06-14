@@ -39,8 +39,10 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        // Collapse the old 2-hop chain: velvet-curtains → velvet → theatre-velvet.
+        // Point straight at the final destination so there's a single 308.
         source: '/curtains/velvet-curtains',
-        destination: '/curtains/velvet',
+        destination: '/curtains/theatre-velvet',
         permanent: true,
       },
     ];

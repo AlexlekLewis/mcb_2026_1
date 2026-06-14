@@ -28,6 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    // The ~33k suburb×product pages are templated thin content (doorway-page
+    // risk). Noindex the entire tier; keep follow so link equity reaches the
+    // money pages. 2026-06-14 growth audit.
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `/locations/${suburb.slug}/${product.slug}`,
     },

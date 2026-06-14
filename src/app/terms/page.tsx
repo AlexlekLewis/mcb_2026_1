@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/terms" },
   title: "Terms and Conditions, Warranty & Customer Policies",
   description: "Modern Curtains and Blinds Terms and Conditions, warranty policy, returns, installation policy, payment policy, product-specific terms and online roller blind order conditions.",
 };

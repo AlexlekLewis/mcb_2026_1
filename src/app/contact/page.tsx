@@ -4,6 +4,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { quoteHref, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact | Free Measure & Quote",
   description: "Contact Modern Curtains and Blinds for a free in-home measure and quote across Melbourne.",
 };

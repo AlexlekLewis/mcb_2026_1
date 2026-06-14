@@ -3,6 +3,7 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+    alternates: { canonical: "/security" },
     title: "Security Doors Melbourne | Fly Screens & Pet Mesh",
     description: "Custom security doors, fly screens and pet mesh in Melbourne. Protect your home without losing light or airflow.",
 };

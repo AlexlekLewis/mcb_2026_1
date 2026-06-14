@@ -4,6 +4,7 @@ import ProjectGallery from "@/components/ProjectGallery";
 import { fetchProjects } from "@/lib/projects";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/projects" },
   title: "Project Gallery | Curtains, Blinds, Shutters & Security Screens",
   description:
     "Real Modern Curtains and Blinds installations across Melbourne — curtains, blinds, shutters, security screens and outdoor shading.",

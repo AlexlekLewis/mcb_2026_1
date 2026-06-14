@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { LOCATIONS, getLocationBySlug, getNearbyLocations } from '@/lib/locations';
+import { LOCATIONS, getLocationBySlug, getNearbyLocations, WOVEN_SUBURB_SLUGS, isSuburbHubIndexable } from '@/lib/locations';
 import { ProductTemplate } from '@/components/ProductTemplate';
 import { LOCATION_PRODUCTS } from '@/lib/location-products';
 import { PageViewTracker } from '@/components/PageViewTracker';
@@ -13,39 +13,14 @@ interface Props {
     }>;
 }
 
-/**
- * Slugs with their own dedicated static-segment page that overrides this
- * dynamic route. Filter them out of generateStaticParams so we don't double-
- * generate at build (Next.js errors when a static + dynamic route both claim
- * the same path).
- *
- * Add a slug here whenever a /locations/{slug}/page.tsx is created in the
- * woven-content style. The dynamic route below continues to serve every
- * other suburb in the legacy template.
- */
-const STATIC_OVERRIDE_SLUGS = new Set<string>([
-    // Growth-corridor suburbs running the woven prose template.
-    // Each has its own /locations/{slug}/page.tsx; see src/components/WovenSuburbPage.tsx
-    // for the shared composition.
-    "clyde-north",
-    "clyde",
-    "officer",
-    "officer-south",
-    "wollert",
-    "donnybrook",
-    "beveridge",
-    "mickleham",
-    "greenvale",
-    "tarneit",
-    "deanside",
-    "fraser-rise",
-]);
-
-// Generate static params for all locations at build time, excluding any
-// that have their own dedicated static-segment page.
+// Woven suburbs have their own dedicated static-segment page that overrides
+// this dynamic route. Filter them out of generateStaticParams so we don't
+// double-generate at build (Next.js errors when a static + dynamic route both
+// claim the same path). The canonical list lives in @/lib/locations.
+// Generate static params for all other locations at build time.
 export async function generateStaticParams() {
     return LOCATIONS
-        .filter((loc) => !STATIC_OVERRIDE_SLUGS.has(loc.slug))
+        .filter((loc) => !WOVEN_SUBURB_SLUGS.has(loc.slug))
         .map((loc) => ({ suburb: loc.slug }));
 }
 
@@ -58,6 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
         title: `Curtains & Blinds ${suburb.name} | Free Quote`,
         description: `Curtains and blinds in ${suburb.name} ${suburb.postcode}. Custom curtains, roller blinds, shutters, security doors, fly screens and awnings with free in-home measure and quote.`,
+        // Thin long-tail suburb hubs are noindexed (follow kept so link equity
+        // still flows to money pages). Only priority/woven suburbs stay indexable.
+        robots: isSuburbHubIndexable(slug) ? undefined : { index: false, follow: true },
         alternates: {
             canonical: `/locations/${suburb.slug}`,
         },

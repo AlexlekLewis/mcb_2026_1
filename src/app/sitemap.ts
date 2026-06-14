@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next'
-import { LOCATIONS } from '@/lib/locations'
+import { LOCATIONS, isSuburbHubIndexable } from '@/lib/locations'
 import { productData } from '@/lib/data'
-import { LOCATION_PRODUCTS } from '@/lib/location-products'
 import { getProductCanonicalPath } from '@/lib/product-canonicals'
 
 // Stable lastModified dates per content tier. Using `new Date()` here causes
@@ -92,21 +91,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         }))
 
-    const locationRoutes = LOCATIONS.map((loc) => ({
-        url: `${baseUrl}/locations/${loc.slug}`,
-        lastModified: LOCATION_LAST_MODIFIED,
-        changeFrequency: 'yearly' as const,
-        priority: 0.7,
-    }))
-
-    const locationProductRoutes = LOCATIONS.flatMap((loc) =>
-        LOCATION_PRODUCTS.map((product) => ({
-            url: `${baseUrl}/locations/${loc.slug}/${product.slug}`,
+    // Only indexable suburb hubs (woven + priority core suburbs). The thin
+    // long-tail hubs and ALL suburb×product pages are noindexed and therefore
+    // omitted from the sitemap. 2026-06-14 growth audit — see @/lib/locations.
+    const locationRoutes = LOCATIONS
+        .filter((loc) => isSuburbHubIndexable(loc.slug))
+        .map((loc) => ({
+            url: `${baseUrl}/locations/${loc.slug}`,
             lastModified: LOCATION_LAST_MODIFIED,
             changeFrequency: 'yearly' as const,
-            priority: 0.65,
+            priority: 0.7,
         }))
-    )
 
-    return [...coreRoutes, ...productRoutes, ...locationRoutes, ...locationProductRoutes]
+    return [...coreRoutes, ...productRoutes, ...locationRoutes]
 }

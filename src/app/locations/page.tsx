@@ -3,6 +3,7 @@ import { LOCATIONS } from '@/lib/locations';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+    alternates: { canonical: "/locations" },
     title: "Melbourne & Mornington Peninsula Service Areas",
     description: "Free in-home measure and quote for curtains, blinds, shutters, security screens, awnings and motorisation across Melbourne, Clyde and selected Mornington Peninsula suburbs.",
 };

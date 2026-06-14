@@ -13,11 +13,19 @@ import {
 import { GoogleReviewsWidget } from "@/components/GoogleReviewsWidget";
 import { HeroScroll } from "@/components/HeroScroll";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
+import { OrganizationReviewSchema } from "@/components/RichSchema";
 import { SITE } from "@/lib/site";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { url: "/" },
+};
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
+      <OrganizationReviewSchema />
       <HeroScroll>
         <div className="container mx-auto px-4 pb-20 pt-4 md:pt-36">
           <div className="max-w-4xl">

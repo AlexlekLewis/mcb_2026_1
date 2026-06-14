@@ -3,6 +3,7 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+    alternates: { canonical: "/curtains" },
     title: "Custom Curtains Melbourne | Sheer, Blockout, Wavefold & Motorised",
     description: "Custom made-to-measure curtains in Melbourne including sheer, blockout, Wavefold, double, pleated, velvet and motorised curtains. Free in-home measure and quote.",
 };

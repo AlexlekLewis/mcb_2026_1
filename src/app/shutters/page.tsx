@@ -3,6 +3,7 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+    alternates: { canonical: "/shutters" },
     title: "Plantation Shutters Melbourne | Timber, PVC & Aluminium",
     description: "Custom plantation shutters in Melbourne including timber, PVC and aluminium shutters. Free in-home measure and quote.",
 };

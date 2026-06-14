@@ -52,6 +52,36 @@ export function OrganizationSchema() {
     sameAs: [
       "https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9",
     ],
+    // NOTE: aggregateRating + review are intentionally NOT included here.
+    // OrganizationSchema is mounted in the global layout (every URL). Emitting
+    // ratings/reviews on all ~33k URLs is the schema-spam pattern CLAUDE.md
+    // forbids, and risks Google's "review snippet not on page" policy. The
+    // rating/reviews are emitted once, on the homepage only, via
+    // OrganizationReviewSchema below (merged into this node by shared @id).
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/**
+ * Homepage-only review/rating node. Uses the SAME @id as OrganizationSchema so
+ * Google merges it into the single business entity, while keeping the review
+ * markup scoped to one page instead of stamping it across every URL.
+ *
+ * Reviews are MCB's genuine Google Business Profile reviews (src/lib/customer-reviews.ts).
+ * Per the 2026-06-14 audit this is the "scope-only" step; rendering the reviews
+ * as visible on-page HTML (so the snippet is policy-clean) is still pending.
+ */
+export function OrganizationReviewSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "@id": SITE.url,
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: REVIEW_AGGREGATE.rating.toFixed(1),

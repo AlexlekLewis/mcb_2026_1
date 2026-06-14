@@ -3,6 +3,7 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+    alternates: { canonical: "/blinds" },
     title: "Custom Blinds Melbourne | Roller, Honeycomb, Venetian & Specialty Blinds",
     description: "Made-to-measure blinds in Melbourne including roller, sunscreen, blockout, translucent, honeycomb, Venetian, Roman, vertical, panel glide, cassette, skylight, soft vertical drapes and motorised blinds. Free in-home measure and quote.",
 };

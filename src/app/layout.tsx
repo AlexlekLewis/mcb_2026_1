@@ -26,7 +26,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_AU',
-    url: '/',
+    // No `url` here: a root-level og:url is inherited by every page that doesn't
+    // set its own, making all pages advertise the homepage as their OG URL.
+    // The homepage sets og:url '/' itself; other pages set their own canonical.
     siteName: 'Modern Curtains and Blinds',
     title: "Custom Curtains, Blinds, Shutters & Security Screens Melbourne",
     description: "Free in-home measure and quote. Samples brought to you, clear written pricing and professional installation across Melbourne.",

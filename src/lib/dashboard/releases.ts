@@ -32,6 +32,22 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-06-14-growth-audit-sprint1",
+    title: "Growth audit Sprint 1 — doorway noindex, review-schema scope, canonicals, redirect chain",
+    releasedAt: "2026-06-14T08:10:32Z",
+    summary:
+      "Structural SEO/AEO cleanup from the 2026-06-14 five-lens growth audit (repo/audits/2026-06-14-growth-audit/). Biggest lever: the ~33k templated suburb×product URLs and the thin long-tail suburb hubs are now noindexed + removed from the sitemap (33,321 URLs → 89), keeping a 32-suburb shortlist (12 woven corridor + 20 priority core suburbs) indexed. Also: the AggregateRating/Review JSON-LD that was stamped on every URL via the global OrganizationSchema is now homepage-only (kills the schema-spam + Google review-snippet-policy risk); self-referencing canonicals added to the homepage + 11 static-metadata hub/info pages; og:url no longer wrongly inherits the homepage on every page; and the velvet-curtains 2-hop redirect chain collapsed to a single 308. Watch: crawl stats / indexed-page count dropping (intended), and that money-page + corridor impressions hold or rise as crawl budget refocuses. Report-first audit, shipped on branch audit/sprint-1-quick-wins.",
+    items: [
+      "Doorway noindex: src/app/locations/[suburb]/[product]/page.tsx → robots noindex,follow on the whole tier; src/app/locations/[suburb]/page.tsx → noindex,follow unless woven/priority (new isSuburbHubIndexable in src/lib/locations.ts: 12 woven + 20 priority core suburbs from llms.txt). Long tail still reachable + link-equity-passing, just out of index.",
+      "Sitemap: src/app/sitemap.ts now emits only indexable suburb hubs and drops the suburb×product tier entirely (verified 89 total <loc>, 0 suburb-product, 32 hubs).",
+      "Review schema scope-only: src/components/RichSchema.tsx — removed aggregateRating/review from the global OrganizationSchema; new homepage-only OrganizationReviewSchema (same @id, merges) mounted in src/app/page.tsx. NOTE: 'scope-only' step — reviews are still schema-only, not yet rendered as visible on-page HTML (deferred policy decision).",
+      "Canonicals/OG: added alternates.canonical to homepage + blinds/curtains/shutters/security/locations hubs + about/contact/our-story/projects/privacy/terms; removed the root openGraph.url so pages stop inheriting the homepage og:url (homepage sets its own). Product pages already had canonicals via the pageMetadata(path) helper — audit's '~24 product pages missing' was a false positive.",
+      "Redirects: next.config.ts velvet-curtains now points straight to /curtains/theatre-velvet (was a 2-hop chain); curtains/velvet/page.tsx uses permanentRedirect (308) instead of redirect (307).",
+      "Quality gates: tsc clean, eslint clean, npm run build clean; rendered output verified on local preview (noindex tags, canonicals, sitemap count, homepage-only review schema, no console errors).",
+    ],
+    affectsGrowthCorridor: true,
+  },
+  {
     id: "2026-06-05-product-options-section-reorder",
     title: "Product pages — image 'options' section moved above the fold + retitled 'Choose with confidence'",
     releasedAt: "2026-06-05T00:00:00Z", // TODO: set to actual deploy time when shipped
@@ -41,6 +57,19 @@ export const RELEASES: Release[] = [
       "src/components/ProductTemplate.tsx — swapped the order of the always-on 'Product Types / Collection' image-grid section and the conditional 'Decision Guide' text-card section (symmetric 107/107-line block move). Image grid + PaymentOptions now render right after the Introduction; decision-guide cards now render just above the internal-links section.",
       "Renamed the image-grid H2 'Which option is right for you?' → 'Choose with confidence'. The decision-guide section is otherwise untouched, so the phrase 'Choose with confidence' now appears in both sections (one early as a heading, one late as an eyebrow). Flagged for follow-up if the repeat is unwanted.",
       "Unaffected: custom product pages (polymer/timber/aluminium shutters, sheer/velvet/blockout/s-fold curtains, veri-shades, outdoor-blinds, zipscreens, window-awnings, motorisation) use bespoke layouts. No growth-corridor URL renders via ProductTemplate (the 12 corridor suburb pages are static woven-style overrides), so affectsGrowthCorridor stays false.",
+      "Quality gates: tsc clean, eslint clean, npm run build clean.",
+    ],
+  },
+  {
+    id: "2026-06-05-google-reviews-compact",
+    title: "Google reviews section — compact rebuild (homepage + all product pages)",
+    releasedAt: "2026-06-05T00:00:00Z",
+    summary:
+      "Footprint reduction. The #google-reviews section (renders on the homepage and every product page via ProductTemplate) was a tall two-column marketing block: a big serif heading + paragraph + 3 trust badges + CTA on the left, and a separately-labelled feed on the right. Rebuilt it as a slim header bar (brand icon + 'Google reviews' eyebrow + heading + CTA) above a full-width live Google feed. Roughly halves the section's height on mobile and trims ~20% on desktop, lifting the reviews higher in the scroll and giving the feed more width to show more cards. Same Elfsight embed, same #google-reviews anchor (QuoteForm links to it). Watch scroll-depth past this section / engaged time; nothing should regress.",
+    items: [
+      "src/components/GoogleReviewsWidget.tsx — removed the left marketing column (descriptive paragraph + 3 trust badges that duplicate ProofBar/ProcessStrip) and the redundant in-feed 'Customer feedback / Live review feed / Google feed' header chrome. Header is now one row; feed is full-width. Outer padding py-12/md:py-14 → py-8/md:py-10; heading text-3xl/md:text-4xl → text-xl/md:text-2xl. Brand gradient rule retained as a thin top accent.",
+      "Elfsight widget container height unchanged (300/320px) so no reviews get clipped — the savings come from the surrounding chrome, not the feed.",
+      "Section CTA now routes through <PrimaryCTA location=\"google-reviews\" label=\"Book a free quote\"> — it was previously a raw <Link> with no tracking, so this also closes a gap: the reviews-section CTA now emits cta_impression + quote_cta_click like every other quote CTA.",
       "Quality gates: tsc clean, eslint clean, npm run build clean.",
     ],
   },

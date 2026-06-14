@@ -14,6 +14,41 @@ export const SERVICE_RADIUS_KM = PRESTON_SERVICE_RADIUS_KM;
 
 export const LOCATIONS: Suburb[] = PRESTON_RADIUS_LOCATIONS.map((location) => ({ ...location }));
 
+/**
+ * Suburb-page indexation policy (2026-06-14 growth audit).
+ *
+ * The site has 693 suburbs. Indexing all of them — plus a product page for each
+ * (~33k thin URLs) — is the doorway-page / scaled-content pattern that was
+ * suppressing the whole domain. We keep a curated shortlist indexable and
+ * noindex the long tail (still reachable, still passes link equity via
+ * follow, just out of the index and out of the sitemap).
+ *
+ * INDEXABLE suburb hubs = woven (own unique static page) + priority core suburbs.
+ * Everything else (incl. ALL /locations/[suburb]/[product] pages) is noindexed.
+ */
+
+// Growth-corridor suburbs with genuinely-unique woven content and their own
+// /locations/{slug}/page.tsx (see WovenSuburbPage). Always indexable.
+export const WOVEN_SUBURB_SLUGS = new Set<string>([
+  "clyde-north", "clyde", "officer", "officer-south", "wollert", "donnybrook",
+  "beveridge", "mickleham", "greenvale", "tarneit", "deanside", "fraser-rise",
+]);
+
+// Core Preston-radius suburbs kept indexable on the legacy template — MCB's
+// stated top serviced suburbs (public/llms.txt). The thin long-tail beyond
+// these is noindexed; promote suburbs into the woven template to re-index them.
+export const PRIORITY_SUBURB_SLUGS = new Set<string>([
+  "preston", "northcote", "brunswick", "coburg", "reservoir", "thornbury",
+  "carlton", "fitzroy", "heidelberg", "bundoora", "ivanhoe", "kew", "hawthorn",
+  "richmond", "doncaster", "templestowe", "eltham", "greensborough",
+  "diamond-creek", "mernda",
+]);
+
+/** A suburb HUB page (/locations/[suburb]) is indexable if it's woven or priority. */
+export function isSuburbHubIndexable(slug: string): boolean {
+  return WOVEN_SUBURB_SLUGS.has(slug) || PRIORITY_SUBURB_SLUGS.has(slug);
+}
+
 export function getLocationBySlug(slug: string): Suburb | undefined {
   return LOCATIONS.find((loc) => loc.slug === slug);
 }
