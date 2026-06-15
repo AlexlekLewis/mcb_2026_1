@@ -210,10 +210,31 @@ const installationSections: Section[] = [
 
 const paymentSections: Section[] = [
   {
+    title: "Consultations",
+    bullets: [
+      "Your first consultation is free and carries no obligation.",
+      "A second consultation is charged at $250, payable at the time of the consultation. If your job proceeds, the $250 is deducted from your quoted price — so the second consultation is effectively free. If you choose not to proceed, the $250 is retained as the consultation fee.",
+    ],
+  },
+  {
     title: "Order Placement and Deposit",
     bullets: [
       "All orders must be submitted in writing and include a 50% deposit of the total price, unless otherwise agreed.",
+      "Once you confirm your order, the deposit becomes immediately due and payable. We do not schedule production or place your order with our suppliers until the deposit has been received.",
       "We reserve the right to accept or decline any orders at our discretion.",
+    ],
+  },
+  {
+    title: "Commercial Orders",
+    paragraphs: [
+      "We recognise that commercial and trade customers typically procure through purchase orders and written instructions rather than an upfront deposit. In line with standard industry practice, we accommodate this for approved commercial clients.",
+    ],
+    bullets: [
+      "At our discretion, the 50% deposit requirement may be waived for approved commercial and trade customers.",
+      "In place of a deposit, a commercial order may be accepted and scheduled for production upon our receipt of a valid purchase order or written confirmation (including by email) from an authorised representative of the customer.",
+      "A purchase order or written confirmation constitutes the customer's binding acceptance of the order, the quoted price, and these Terms and Conditions, and authorises us to proceed.",
+      "Where the deposit is waived, the order price falls due for payment in accordance with the applicable quote, the accepted purchase order, or as otherwise agreed in writing.",
+      "We reserve the right to require a deposit, progress payment, or payment in full prior to delivery for any commercial order at our discretion.",
     ],
   },
   {

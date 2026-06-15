@@ -32,6 +32,18 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-06-15-terms-consult-fee-deposit-timing",
+    title: "T&Cs — second-consult fee, deposit timing + commercial PO terms",
+    releasedAt: "2026-06-15T06:54:00Z",
+    summary:
+      "Policy wording update on /terms (Payment and Order Policies). Added a Consultations clause: first consultation is free/no-obligation; a second consultation is charged at $250 (payable at the time of the consult) and deducted from the client's quoted price if the job proceeds — making the second consult effectively free — and retained as the consultation fee if they do not proceed. Tightened deposit timing: the 50% deposit is now stated as immediately due and payable once the client confirms the order, with production/supplier orders not scheduled until it is received. Added a Commercial Orders clause: per standard industry practice, the 50% deposit may be waived at our discretion for approved commercial/trade clients, with orders accepted and scheduled on receipt of a valid purchase order or written confirmation (incl. email) — which constitutes the customer's binding acceptance of the order, price and T&Cs — while we reserve the right to still require a deposit/progress payment. Legal/policy change, not a CRO experiment — no metric movement expected; logged per repo discipline.",
+    items: [
+      "src/app/terms/page.tsx — new 'Consultations' section in paymentSections (first consult free; $250 second consult charged upfront, deducted from quoted price on proceed = effectively free, retained as the consultation fee if not).",
+      "src/app/terms/page.tsx — 'Order Placement and Deposit' now states the deposit is immediately due and payable on client confirmation; production/supplier orders not scheduled until deposit received.",
+      "src/app/terms/page.tsx — new 'Commercial Orders' section in paymentSections (50% deposit may be waived for approved commercial/trade at our discretion; order accepted/scheduled on a valid purchase order or written confirmation incl. email = binding acceptance of order/price/T&Cs; payment per quote/PO/written agreement; right to require deposit/progress payment reserved).",
+    ],
+  },
+  {
     id: "2026-06-14-growth-audit-sprint1",
     title: "Growth audit Sprint 1 — doorway noindex, review-schema scope, canonicals, redirect chain",
     releasedAt: "2026-06-14T08:10:32Z",
