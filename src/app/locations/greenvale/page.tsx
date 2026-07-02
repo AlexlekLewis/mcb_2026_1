@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Greenvale 3059 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Greenvale 3059",
   description:
     "Window furnishings for new-build and established homes in Greenvale 3059. Curtains, blinds, plantation shutters and roller shutters across Greenvale Gardens, Providence and the Hume growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/greenvale" },

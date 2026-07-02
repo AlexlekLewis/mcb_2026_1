@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Donnybrook 3064 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Donnybrook 3064",
   description:
     "Window furnishings for new-build homes in Donnybrook 3064. Curtains, blinds, plantation shutters and roller shutters fitted across the Cloverton master-plan and the wider Whittlesea / Mitchell growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/donnybrook" },

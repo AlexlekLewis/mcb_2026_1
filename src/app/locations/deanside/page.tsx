@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Deanside 3336 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Deanside 3336",
   description:
     "Window furnishings for new-build homes in Deanside 3336. Custom curtains, blinds, plantation shutters and outdoor blinds across Bloomdale, Westbrook and the Melton growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/deanside" },

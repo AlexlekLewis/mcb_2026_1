@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Clyde 3978 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Clyde 3978",
   description:
     "Window furnishings for new-build and established homes in Clyde 3978. Custom curtains, blinds, plantation shutters and roller shutters fitted across the Casey growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/clyde" },

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Beveridge 3753 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Beveridge 3753",
   description:
     "Window furnishings for new-build homes in Beveridge 3753. Custom curtains, blinds and shutters fitted across Mandalay, Mandalay Rises and the northern edge of the Melbourne growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/beveridge" },

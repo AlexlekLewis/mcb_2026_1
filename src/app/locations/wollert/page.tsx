@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Wollert 3750 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Wollert 3750",
   description:
     "Window furnishings for new-build homes in Wollert 3750. Custom curtains, blinds, plantation shutters and roller shutters across Aurora, Lyndarum, Olivine and the wider Whittlesea growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/wollert" },

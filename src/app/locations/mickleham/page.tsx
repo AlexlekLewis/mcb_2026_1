@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Mickleham 3064 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Mickleham 3064",
   description:
     "Window furnishings for new-build homes in Mickleham 3064. Custom curtains, blinds, plantation shutters and roller shutters across Mickleham Rises, Annadale and the Hume growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/mickleham" },

@@ -24,7 +24,7 @@ const SUBURB = {
 };
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Clyde North 3978 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Clyde North 3978",
   description:
     "Window furnishings for new-build homes in Clyde North 3978. Curtains, blinds, plantation shutters and roller shutters fitted across Smiths Lane, Eliston, Five Farms and the wider Casey growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/clyde-north" },

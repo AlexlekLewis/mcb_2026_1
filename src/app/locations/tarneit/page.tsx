@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Tarneit 3029 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Tarneit 3029",
   description:
     "Window furnishings for new-build homes in Tarneit 3029. Custom curtains, blinds, plantation shutters and outdoor blinds across Riverdale, Habitat, Newgate and the wider Wyndham growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/tarneit" },

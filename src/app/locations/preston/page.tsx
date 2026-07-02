@@ -30,7 +30,9 @@ const SUBURB = {
 };
 
 export const metadata: Metadata = {
-  title: "Curtains, Blinds & Shutters Preston 3072 | Modern Curtains and Blinds",
+  // Brand suffix is appended by the root layout title template
+  // ("%s | Modern Curtains and Blinds") — do NOT repeat it here or it doubles.
+  title: "Curtains, Blinds & Shutters Preston 3072",
   description:
     "Curtains, blinds, plantation shutters and security screens in Preston 3072 — our home suburb. Period cottages, Californian bungalows, renovations and new apartments, all measured and fitted by a local team based in Preston. Free in-home measure and quote.",
   alternates: { canonical: "/locations/preston" },

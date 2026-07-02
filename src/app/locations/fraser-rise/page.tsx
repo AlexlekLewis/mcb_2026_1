@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Fraser Rise 3336 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Fraser Rise 3336",
   description:
     "Window furnishings for new-build homes in Fraser Rise 3336. Custom curtains, blinds and shutters across Taylors Run, Aspect and the Melton growth corridor. Free in-home measure and quote.",
   alternates: { canonical: "/locations/fraser-rise" },

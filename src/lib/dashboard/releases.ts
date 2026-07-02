@@ -32,6 +32,17 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-07-03-location-title-brand-dedup",
+    title: "Fix doubled brand suffix in location page titles (12 corridor pages + Preston)",
+    releasedAt: "2026-07-03T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "Title-tag correctness fix. The root layout applies a title template ('%s | Modern Curtains and Blinds'), but the 12 woven growth-corridor location pages plus the new Preston page were ALSO hardcoding the brand in their own title, producing '… | Modern Curtains and Blinds | Modern Curtains and Blinds' in SERPs. Removed the redundant suffix from each page title so the brand appears exactly once and the head-term + suburb + postcode sits at the front of the tag. Affects the tracked growth-corridor cohort (Clyde North, Clyde, Officer, Officer South, Wollert, Donnybrook, Beveridge, Mickleham, Greenvale, Tarneit, Deanside, Fraser Rise) plus Preston. Pre-existing bug on the woven pages; introduced-then-fixed same-day on Preston. Watch: corridor-page SERP CTR (title is the clickable line).",
+    items: [
+      "src/app/locations/{clyde-north,clyde,officer,officer-south,wollert,donnybrook,beveridge,mickleham,greenvale,tarneit,deanside,fraser-rise}/page.tsx — removed ' | Modern Curtains and Blinds' from the metadata title (root layout template re-adds it once).",
+      "src/app/locations/preston/page.tsx — same fix on the new established-suburb page; added a comment noting the layout template appends the brand.",
+    ],
+  },
+  {
     id: "2026-07-03-preston-established-suburb-page",
     title: "Preston — bespoke established-suburb location page (Phase 2b pilot)",
     releasedAt: "2026-07-03T00:00:00Z", // TODO: set to actual deploy time when shipped

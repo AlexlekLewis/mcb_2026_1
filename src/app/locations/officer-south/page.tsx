@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WovenSuburbPage } from "@/components/WovenSuburbPage";
 
 export const metadata: Metadata = {
-  title: "Curtains & Blinds Officer South 3809 | Modern Curtains and Blinds",
+  title: "Curtains & Blinds Officer South 3809",
   description:
     "Window furnishings for new-build homes in Officer South 3809. Curtains, blinds, plantation shutters and roller shutters fitted across Arcadia, Kaduna Park and the newer Cardinia releases. Free in-home measure and quote.",
   alternates: { canonical: "/locations/officer-south" },
