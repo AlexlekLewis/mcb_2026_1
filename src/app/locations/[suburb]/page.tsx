@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { LOCATIONS, getLocationBySlug, getNearbyLocations, WOVEN_SUBURB_SLUGS, isSuburbHubIndexable } from '@/lib/locations';
+import { LOCATIONS, getLocationBySlug, getNearbyLocations, hasDedicatedSuburbPage, isSuburbHubIndexable } from '@/lib/locations';
 import { ProductTemplate } from '@/components/ProductTemplate';
 import { LOCATION_PRODUCTS } from '@/lib/location-products';
 import { PageViewTracker } from '@/components/PageViewTracker';
@@ -13,14 +13,14 @@ interface Props {
     }>;
 }
 
-// Woven suburbs have their own dedicated static-segment page that overrides
-// this dynamic route. Filter them out of generateStaticParams so we don't
-// double-generate at build (Next.js errors when a static + dynamic route both
-// claim the same path). The canonical list lives in @/lib/locations.
-// Generate static params for all other locations at build time.
+// Suburbs with their own dedicated static-segment page (woven corridor pages
+// and established-suburb pages) override this dynamic route. Filter them out of
+// generateStaticParams so we don't double-generate at build (Next.js errors
+// when a static + dynamic route both claim the same path). The canonical check
+// lives in @/lib/locations (hasDedicatedSuburbPage).
 export async function generateStaticParams() {
     return LOCATIONS
-        .filter((loc) => !WOVEN_SUBURB_SLUGS.has(loc.slug))
+        .filter((loc) => !hasDedicatedSuburbPage(loc.slug))
         .map((loc) => ({ suburb: loc.slug }));
 }
 

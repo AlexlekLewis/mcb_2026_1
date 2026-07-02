@@ -44,9 +44,30 @@ export const PRIORITY_SUBURB_SLUGS = new Set<string>([
   "diamond-creek", "mernda",
 ]);
 
-/** A suburb HUB page (/locations/[suburb]) is indexable if it's woven or priority. */
+// Established inner-suburb pages with their own bespoke /locations/{slug}/page.tsx
+// (genuinely-unique, non-corridor content — period housing, heritage, strata).
+// The counterpart to WOVEN_SUBURB_SLUGS for non-growth-corridor suburbs.
+export const ESTABLISHED_SUBURB_SLUGS = new Set<string>([
+  "preston",
+]);
+
+/**
+ * True if this suburb has its own dedicated /locations/{slug}/page.tsx (a woven
+ * corridor page or an established-suburb page) that overrides the dynamic route.
+ * Such slugs MUST be excluded from the dynamic route's generateStaticParams or
+ * Next.js errors on the static/dynamic collision.
+ */
+export function hasDedicatedSuburbPage(slug: string): boolean {
+  return WOVEN_SUBURB_SLUGS.has(slug) || ESTABLISHED_SUBURB_SLUGS.has(slug);
+}
+
+/** A suburb HUB page (/locations/[suburb]) is indexable if it's woven, priority or established. */
 export function isSuburbHubIndexable(slug: string): boolean {
-  return WOVEN_SUBURB_SLUGS.has(slug) || PRIORITY_SUBURB_SLUGS.has(slug);
+  return (
+    WOVEN_SUBURB_SLUGS.has(slug) ||
+    PRIORITY_SUBURB_SLUGS.has(slug) ||
+    ESTABLISHED_SUBURB_SLUGS.has(slug)
+  );
 }
 
 export function getLocationBySlug(slug: string): Suburb | undefined {

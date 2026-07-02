@@ -32,6 +32,18 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-07-03-preston-established-suburb-page",
+    title: "Preston — bespoke established-suburb location page (Phase 2b pilot)",
+    releasedAt: "2026-07-03T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "First 'established suburb' page — the non-corridor counterpart to the woven pilot (Clyde North). Preston (MCB's home suburb) gets a bespoke, genuinely-unique /locations/preston page instead of the region-templated hub: home-base trust story, real local housing stock (period cottages/bungalows + medium-density infill around High St / Bell St / Preston Market / the station), heritage-overlay guidance, the west-facing-extension sun problem, owners'-corporation rules for the new apartments, and indicative pricing carrying protective T&Cs (baseline spec, on-site measure required, July-2026 refresh date). Wired so the static page overrides the dynamic /locations/[suburb] route (hasDedicatedSuburbPage) and stays indexable (ESTABLISHED_SUBURB_SLUGS). Kill-or-keep pilot: if 7d GSC/engagement beats the old templated Preston hub, replicate the pattern to the other established priority suburbs. Watch: Preston impressions/clicks/avg position + engaged time vs the templated version.",
+    items: [
+      "src/app/locations/preston/page.tsx — new bespoke established-suburb page (home-base story, period housing, heritage-overlay + body-corporate guidance, indicative pricing with protective T&Cs, FAQPage schema with Preston-named questions).",
+      "src/lib/locations.ts — new ESTABLISHED_SUBURB_SLUGS set + hasDedicatedSuburbPage(); isSuburbHubIndexable now also covers established slugs.",
+      "src/app/locations/[suburb]/page.tsx — generateStaticParams now excludes any slug with a dedicated page (woven or established), preventing the static/dynamic collision for /locations/preston.",
+    ],
+  },
+  {
     id: "2026-07-01-suburb-h1-heading-semantics-geo-accuracy",
     title: "Suburb pages — intent-matched H1s, heading-semantics fix, inner-north region-copy accuracy",
     releasedAt: "2026-07-01T00:00:00Z", // TODO: set to actual deploy time when shipped
