@@ -73,6 +73,22 @@ export function getMelbourneRegion(suburb: { latitude: number; longitude: number
   return "north-west"; // 292.5 - 337.5
 }
 
+/**
+ * Manual region overrides, keyed by suburb slug. The CBD-bearing bucketing in
+ * getMelbourneRegion misfires for a handful of inner-north and northern suburbs
+ * that sit slightly east of the CBD meridian: their bearing tips into
+ * "north-east", so they'd be served the Eltham mud-brick / bushland copy
+ * despite being due-north bungalow, terrace or brick-veneer suburbs. These are
+ * factual corrections (the 2026-06-14 on-page audit flagged Thornbury being
+ * served north-east copy). Overrides win over the computed bearing.
+ */
+export const SUBURB_REGION_OVERRIDES: Record<string, MelbourneRegion> = {
+  thornbury: "north", // inner-north bungalows/terraces beside Preston — not Eltham mud-brick
+  northcote: "north", // inner-north Victorian/Edwardian + bungalows — not bush north-east
+  bundoora: "north",  // brick-veneer family homes (named in the north copy) — not mud-brick
+  mernda: "north",    // northern new-build / brick-veneer growth suburb — not Eltham bushland
+};
+
 export interface RegionContent {
   /** 60-80 words of hand-written context for the region: architecture, light, common window types. */
   regionalAngle: string;
@@ -192,7 +208,8 @@ export const REGION_CONTENT: Record<MelbourneRegion, RegionContent> = {
  * regionalAngle only — keeps the bulk of the copy intact.
  */
 export function getSuburbContent(suburb: SuburbLike): RegionContent & { region: MelbourneRegion } {
-  const region = getMelbourneRegion(suburb);
+  const region =
+    (suburb.slug ? SUBURB_REGION_OVERRIDES[suburb.slug] : undefined) ?? getMelbourneRegion(suburb);
   const base = REGION_CONTENT[region];
 
   const variantSeed = hashString(suburb.slug ?? suburb.name);

@@ -32,6 +32,19 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-07-01-suburb-h1-heading-semantics-geo-accuracy",
+    title: "Suburb pages — intent-matched H1s, heading-semantics fix, inner-north region-copy accuracy",
+    releasedAt: "2026-07-01T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "On-page SEO pass on the location tier (Phase 1 + 2a of the hyperlocalisation plan). (1) Suburb H1 upgraded from the bare 'Curtains and Blinds {Suburb}' to 'Curtains, Blinds & Shutters in {Suburb}' — adds the shutters head term (a whole category previously absent from the H1) and reads as natural local intent; title tag matched ('Curtains, Blinds & Shutters {Suburb} | Free Quote'). Applies to the dynamic /locations/[suburb] route (all non-woven suburbs; the 12 woven corridor pages set their own titles). (2) Heading-semantics fix in ProductTemplate: the 60-100-word regional intro prose was rendering inside an <h2> (heading-misuse signal flagged P2 in the 2026-06-14 audit) — now a styled <p>, visuals identical, real section headings ('Choose with confidence' etc.) stay <h2>. Affects every ProductTemplate page (38 product money pages + the suburb route). (3) Region-copy accuracy: new manual overrides so Thornbury, Northcote, Bundoora and Mernda are served the correct 'north' copy instead of the 'north-east' Eltham mud-brick/bushland copy the CBD-bearing bucketing mis-assigned (audit-flagged trust + AI-citation risk; Bundoora is literally named in the north copy). Verified on local prod build: Thornbury H1 correct, now renders northern copy (Preston/Californian bungalows), zero mud-brick; Eltham control still north-east. tsc/eslint/build clean. Watch: impressions/CTR on the 20 indexed priority suburbs, and that money-page rankings hold through the heading change.",
+    items: [
+      "src/app/locations/[suburb]/page.tsx — H1 (ProductTemplate title) 'Curtains and Blinds {Suburb}' -> 'Curtains, Blinds & Shutters in {Suburb}'; metadata title gains '& Shutters'.",
+      "src/components/ProductTemplate.tsx — intro description node motion.h2 -> motion.p (same className, identical rendering); fixes the 60-100-word-prose-inside-an-h2 heading misuse across all ProductTemplate pages.",
+      "src/lib/region-content.ts — new SUBURB_REGION_OVERRIDES map consulted before the CBD-bearing bucketing in getSuburbContent; thornbury/northcote/bundoora/mernda -> 'north'. Fixes wrong-region copy on indexed inner-north/northern suburbs.",
+      "Verified via local `next start`: Thornbury H1 = 'Curtains, Blinds & Shutters in Thornbury', region lede now a <p> with northern copy (Preston x11, zero mud-brick); Eltham control unchanged (north-east, mud-brick present). tsc clean, eslint --max-warnings 0 clean, npm run build clean.",
+    ],
+  },
+  {
     id: "2026-06-15-terms-consult-fee-deposit-timing",
     title: "T&Cs — second-consult fee, deposit timing + commercial PO terms",
     releasedAt: "2026-06-15T06:54:00Z",

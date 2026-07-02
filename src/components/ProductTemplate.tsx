@@ -271,12 +271,12 @@ export function ProductTemplate({
                     >
                         {intentLabel}
                     </motion.span>
-                    <motion.h2
+                    <motion.p
                         variants={itemVariants}
                         className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 leading-tight"
                     >
                         {description}
-                    </motion.h2>
+                    </motion.p>
                     <motion.div
                         variants={itemVariants}
                         className="w-24 h-1 bg-mcb-sage mx-auto rounded-full"

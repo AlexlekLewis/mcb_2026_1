@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!suburb) return {};
 
     return {
-        title: `Curtains & Blinds ${suburb.name} | Free Quote`,
+        title: `Curtains, Blinds & Shutters ${suburb.name} | Free Quote`,
         description: `Curtains and blinds in ${suburb.name} ${suburb.postcode}. Custom curtains, roller blinds, shutters, security doors, fly screens and awnings with free in-home measure and quote.`,
         // Thin long-tail suburb hubs are noindexed (follow kept so link equity
         // still flows to money pages). Only priority/woven suburbs stay indexable.
@@ -123,7 +123,7 @@ export default async function LocationPage({ params }: Props) {
             <LocalBusinessSchema suburb={suburb} />
             <FaqPageSchema items={faqItems} />
             <ProductTemplate
-                title={`Curtains and Blinds ${suburb.name}`}
+                title={`Curtains, Blinds & Shutters in ${suburb.name}`}
                 subtitle={`Free in-home measure and quote in ${suburb.name}`}
                 heroImage="/assets/curtain_hero.png"
                 description={`${regionContent.regionalAngle} ${regionContent.localTrustSignal}`}
