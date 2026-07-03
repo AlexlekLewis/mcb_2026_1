@@ -74,7 +74,7 @@ export default function BlockoutCurtainsPage() {
           title: "Triple-Pass Blockout",
           description:
             "Three bonded blockout layers on a heavier base fabric for genuine darkness on demand and a 10-plus-year residential life.",
-          image: "/images/blockout-curtain-detail.webp",
+          image: "/images/product-unique/mcb-blockout-curtains-dark-bedroom.webp",
         },
         {
           title: "Sheer + Blockout Layered",
@@ -87,7 +87,7 @@ export default function BlockoutCurtainsPage() {
           title: "Pooja & Prayer-Room Darkness",
           description:
             "Ceiling-to-floor, wall-to-wall triple-pass blockout that gives proper darkness in use and a draft-free space for a steady flame.",
-          image: "/images/product-unique/mcb-blockout-curtains-dark-bedroom.webp",
+          image: "/images/product-unique/mcb-double-curtains-blockout-layer-detail.webp",
           href: "/guides/pooja-prayer-room-blackout-curtains-australia",
         },
       ]}
