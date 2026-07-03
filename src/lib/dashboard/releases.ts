@@ -32,6 +32,17 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-07-03-google-reviews-widget-compress",
+    title: "Compress Google Reviews widget (homepage + all product/location pages)",
+    releasedAt: "2026-07-03T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "Layout density fix. The Google Reviews section (GoogleReviewsWidget) was eating ~110-120px of vertical space more than it needed — pushing content further below the fold on the homepage and every ProductTemplate page (38 product money pages + the suburb route). Tightened four things without dropping any content or the 'Book a free quote' CTA: section padding (py-8/10 -> py-5/6), header block (40px icon -> 32px, py-4 -> py-3, heading xl/2xl -> lg/xl), inner padding (p-3/4 -> p-2.5/3), and the fixed Elfsight review frame (300/320px -> 230/250px). Verified on local dev at both breakpoints that the Elfsight carousel (renders ~225px tall) still fits with headroom — mobile 375px: 225px in a 230px frame (5px spare); desktop 1280px: 225px in a 250px frame (25px spare) — so nothing is clipped and reviews + star ratings render intact. Watch: engaged time / scroll depth on the homepage and product pages (more above-the-fold density), plus any CLS improvement from the shorter reserved frame. No regression expected.",
+    items: [
+      "src/components/GoogleReviewsWidget.tsx — section py-8 md:py-10 -> py-5 md:py-6; header px-5 py-4 -> px-4 py-3 and gap-4 -> gap-3; icon badge h-10 w-10 (icon h-5 w-5) -> h-8 w-8 (icon h-4 w-4); label text-[11px] -> text-[10px]; heading text-xl md:text-2xl -> text-lg md:text-xl; inner padding p-3 md:p-4 -> p-2.5 md:p-3; review frame h-[300px] md:h-[320px] -> h-[230px] md:h-[250px].",
+      "Verified via local `next dev`: Elfsight carousel measures ~225px at both 375px and 1280px; fits both compressed frame heights with no clipping; real review content + stars render.",
+    ],
+  },
+  {
     id: "2026-07-03-location-title-brand-dedup",
     title: "Fix doubled brand suffix in location page titles (12 corridor pages + Preston)",
     releasedAt: "2026-07-03T00:00:00Z", // TODO: set to actual deploy time when shipped
