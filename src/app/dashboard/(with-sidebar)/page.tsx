@@ -1,280 +1,382 @@
 import type { Metadata } from "next";
-import { HeroMetric } from "@/components/dashboard/v2/HeroMetric";
+import type { ReactNode } from "react";
 import { KpiCard } from "@/components/dashboard/v2/KpiCard";
-import { ActionCard } from "@/components/dashboard/v2/ActionCard";
-import { AttentionStrip, type AttentionItem } from "@/components/dashboard/v2/AttentionStrip";
-import { ReleaseTicker } from "@/components/dashboard/v2/ReleaseTicker";
 import { PageHeader } from "@/components/dashboard/v2/PageHeader";
-import {
-  fetchLeadsHeroData,
-  fetchBotCrawlSummary,
-  fetchAiCitationSummary,
-  fetchStaleContent,
-  fetchPendingReviews,
-  sumColumn,
-  formatPercent,
-  formatPercentPoints,
-  formatDelta,
-  deltaDirection,
-  relativeDaysAgo,
-} from "@/lib/dashboard/v2/data";
+import { FunnelBars } from "@/components/dashboard/v2/FunnelBars";
+import { BarList, type BarListItem } from "@/components/dashboard/v2/BarList";
+import { ScrollReach } from "@/components/dashboard/v2/ScrollReach";
+import { MonthlyBars, type MonthlyDatum } from "@/components/dashboard/v2/MonthlyBars";
+import { ReleaseTicker } from "@/components/dashboard/v2/ReleaseTicker";
+import { loadReportData, fmtDuration, pctDelta, type MonthRow } from "@/lib/dashboard/v2/report-metrics";
+import { formatDelta, deltaDirection, relativeDaysAgo } from "@/lib/dashboard/v2/data";
 import { classifyValue, thresholds } from "@/lib/dashboard/v2/tokens";
 import { RELEASES } from "@/lib/dashboard/releases";
 
-export const dynamic = "force-dynamic";
+// Corrected numbers are computed from the bot-filtered stream at request time,
+// then cached for 30 min (paginated reads are heavier than a single view read).
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
-  title: "Dashboard · MCB",
-  description: "MCB owner dashboard.",
+  title: "Performance · MCB",
+  description: "MCB owner + marketing performance report.",
   robots: { index: false, follow: false },
 };
 
 export default async function DashboardHome() {
-  const [{ current, prior }, botSummary, citationSummary, staleContent, pendingReviews] =
-    await Promise.all([
-      fetchLeadsHeroData(),
-      fetchBotCrawlSummary(),
-      fetchAiCitationSummary(),
-      fetchStaleContent(3),
-      fetchPendingReviews(3),
-    ]);
+  const data = await loadReportData();
+  const { current: cur, prior } = data.kpis;
 
-  // ---------- Hero: Leads 28d ----------
-  const leadsCurrent = sumColumn(current, "leads");
-  const leadsPrior = sumColumn(prior, "leads");
-  const leadsDelta = leadsCurrent - leadsPrior;
-  const leadsSeries = current.map((d) => ({
-    date: d.metric_date,
-    value: d.leads,
+  if (data.unavailable) {
+    return (
+      <div className="space-y-8">
+        <PageHeader title="Performance" subtitle="Last 30 days · Melbourne time" />
+        <p className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6 text-sm text-[var(--color-mcb-warm-grey)]">
+          Analytics data source isn&rsquo;t configured in this environment.
+        </p>
+      </div>
+    );
+  }
+
+  // ---------- headline delta helpers (rolling 30d vs previous 30d) ----------
+  const moreIsBetter = (c: number, p: number): "good" | "attention" => (c >= p ? "good" : "attention");
+  const deltaLabel = (c: number, p: number) =>
+    p === 0 ? (c > 0 ? "new" : "flat") : `${formatDelta(c - p)} vs prev 30d`;
+
+  const leadRateFrac = cur.leadRatePct / 100;
+  const leadRatePp = cur.leadRatePct - prior.leadRatePct;
+
+  // ---------- calendar month-on-month ----------
+  const months = data.months.slice(-4);
+  const leadsMonthly: MonthlyDatum[] = months.map((m) => ({
+    label: m.label,
+    total: m.leads,
+    partial: m.partial,
+    segments: [
+      { value: m.organicLeads, kind: "organic" },
+      { value: m.adsLeads, kind: "ads" },
+    ],
+  }));
+  const visitorsMonthly: MonthlyDatum[] = months.map((m) => ({
+    label: m.label,
+    total: m.visitors,
+    partial: m.partial,
   }));
 
-  // ---------- Secondary KPIs ----------
-  const visitorsCurrent = sumColumn(current, "visitors");
-  const visitorsPrior = sumColumn(prior, "visitors");
-  const leadRateCurrent = visitorsCurrent > 0 ? leadsCurrent / visitorsCurrent : 0;
-  const leadRatePrior = visitorsPrior > 0 ? leadsPrior / visitorsPrior : 0;
-  const leadRateDelta = leadRateCurrent - leadRatePrior;
-  const leadRateState = classifyValue(leadRateCurrent, thresholds.leadRate);
+  // ---------- traffic & engagement ----------
+  const topPages: BarListItem[] = data.topPages.slice(0, 8).map((p) => ({
+    label: p.path,
+    value: p.views,
+    href: p.path,
+    hint:
+      p.avgEngagedSec != null || p.avgScrollPct != null
+        ? [p.avgEngagedSec != null ? fmtDuration(p.avgEngagedSec) : null, p.avgScrollPct != null ? `${p.avgScrollPct}% scroll` : null]
+            .filter(Boolean)
+            .join(" · ")
+        : undefined,
+  }));
+  const deviceItems: BarListItem[] = data.devices.map((d) => ({
+    label: titleCase(d.label),
+    value: d.value,
+  }));
 
-  const aiSovState = classifyValue(citationSummary.share_of_voice_7d, thresholds.aiCitationSov);
+  // ---------- locations ----------
+  const loc = data.locations;
+  const locItems: BarListItem[] = loc.top.map((l) => ({ label: l.label, value: l.visitors }));
 
-  const botCrawlState = botSummary.total7d === 0 ? "critical" : "neutral";
-  const botCrawlDeltaDir = deltaDirection(botSummary.total7d, botSummary.prior7d);
+  // ---------- funnel ----------
+  const funnelStages = data.funnel.current.map((s) => ({ label: s.label, count: s.count }));
+  const biggestDrop = findBiggestDrop(data.funnel.current);
 
-  // ---------- Attention strip ----------
-  const attention: AttentionItem[] = [];
-  for (const r of pendingReviews) {
-    const ago = r.review_created_at
-      ? relativeDaysAgo(r.review_created_at)
-      : "recently";
-    attention.push({
-      id: `review-${r.id}`,
-      message: (
-        <>
-          GBP review from <strong>{r.reviewer_name ?? "anonymous"}</strong>
-          {r.rating ? ` (${r.rating}★)` : ""} pending response · {ago}
-        </>
-      ),
-      href: "/dashboard/reputation",
-    });
-  }
-  for (const s of staleContent.filter((c) => (c.days_stale ?? 0) > 90)) {
-    attention.push({
-      id: `stale-${s.url}`,
-      message: (
-        <>
-          Stale: <code className="font-mono text-xs">{s.url}</code> · {s.days_stale}d ·{" "}
-          {s.ai_citations_30d} AI citations / 30d
-        </>
-      ),
-      href: "/dashboard/content",
-    });
-  }
-  for (const b of botSummary.byBot.filter((b) => b.hits_7d === 0)) {
-    attention.push({
-      id: `bot-${b.bot_id}`,
-      message: <>{b.bot_id} 0 hits in 7 days</>,
-      href: "/dashboard/ai-presence",
-    });
-  }
-
-  // ---------- This week panel ----------
-  // Built from the same data sources for now — once PR 3 ships content_backlog
-  // ranking and brief generation, the queue will be ranked from a richer
-  // priority function. For now: stale-content refresh and pending reviews.
-  const weeklyActions = buildWeeklyActions(staleContent, pendingReviews);
-
-  // ---------- Release ticker ----------
+  // ---------- plain-english callout ----------
+  const leadsPct = pctDelta(cur.leads, prior.leads);
+  const visitorsPct = pctDelta(cur.visitors, prior.visitors);
+  const topArea = loc.top[0];
   const lastRelease = RELEASES[0];
 
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Home"
-        subtitle="The state of the business in one screen. Defaults: 28-day window for leads, 7-day for AI signals."
-        meta={new Date().toLocaleDateString("en-AU", {
-          weekday: "short",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}
+        title="Performance"
+        subtitle="Last 30 days vs the previous 30 days · real visitors only (bots filtered), Melbourne time."
+        meta={new Date().toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })}
+        actions={
+          <a
+            href="/dashboard/compare"
+            className="rounded-lg border border-[var(--color-mcb-charcoal)] px-3 py-1.5 text-xs font-medium text-[var(--color-mcb-charcoal)] transition-colors hover:bg-[var(--color-mcb-sand)]"
+          >
+            Compare custom periods →
+          </a>
+        }
       />
 
-      {/* Hero row: Leads + This Week */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-3">
-          <HeroMetric
-            label="Leads · 28 days"
-            value={leadsCurrent}
-            series={leadsSeries}
-            deltaLabel={`${formatDelta(leadsDelta)} vs prior 28d`}
-            deltaDirection={deltaDirection(leadsCurrent, leadsPrior)}
-            state={leadsCurrent >= leadsPrior ? "good" : "attention"}
-            cta={{ label: "View funnel", href: "/dashboard/leads" }}
-            footer={`vs ${leadsPrior} in prior 28d · ${visitorsCurrent.toLocaleString("en-AU")} visitors`}
-          />
-        </div>
-        <div className="lg:col-span-2 rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
-              This week · {weeklyActions.length} {weeklyActions.length === 1 ? "action" : "actions"}
-            </h2>
-            <a
-              href="/dashboard/content"
-              className="text-xs font-medium text-[var(--color-mcb-terracotta-deep)] hover:text-[#6F4218]"
-            >
-              See queue →
-            </a>
-          </div>
-          <div className="mt-4 space-y-3">
-            {weeklyActions.length === 0 ? (
-              <p className="text-sm text-[var(--color-mcb-warm-grey)]">
-                Nothing in the queue. Once content_freshness, gbp_reviews and
-                content_backlog start filling (PR 3 wires the crons), this
-                panel will rank actions by impact × ease.
-              </p>
-            ) : (
-              weeklyActions.map((a, i) => (
-                <ActionCard
-                  key={a.id}
-                  priority={i + 1}
-                  title={a.title}
-                  reason={a.reason}
-                  estimate={a.estimate}
-                  cta={a.cta}
-                />
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Secondary KPIs */}
-      <section aria-labelledby="secondary-kpi-heading">
-        <h2 id="secondary-kpi-heading" className="sr-only">
-          Secondary KPIs
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Headline KPIs — rolling 30d vs prior 30d */}
+      <section aria-label="Headline metrics">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <KpiCard
-            label="Lead rate · 28d"
-            value={formatPercent(leadRateCurrent)}
-            state={leadRateState}
-            deltaLabel={leadRateDelta === 0 ? "flat" : formatPercentPoints(leadRateDelta)}
-            deltaDirection={leadRateDelta > 0 ? "up" : leadRateDelta < 0 ? "down" : "flat"}
-            footer="leads ÷ visitors"
+            label="Real visitors · 30d"
+            value={cur.visitors.toLocaleString("en-AU")}
+            state={moreIsBetter(cur.visitors, prior.visitors)}
+            deltaLabel={deltaLabel(cur.visitors, prior.visitors)}
+            deltaDirection={deltaDirection(cur.visitors, prior.visitors)}
+            sparklineData={data.visitorsDaily.map((d) => d.value)}
+            footer={`${cur.pageViews.toLocaleString("en-AU")} page views · ${cur.sessions.toLocaleString("en-AU")} sessions`}
+          />
+          <KpiCard
+            label="Verified leads · 30d"
+            value={cur.leads.toLocaleString("en-AU")}
+            state={moreIsBetter(cur.leads, prior.leads)}
+            deltaLabel={deltaLabel(cur.leads, prior.leads)}
+            deltaDirection={deltaDirection(cur.leads, prior.leads)}
+            sparklineData={data.leadsDaily.map((d) => d.value)}
+            footer={`vs ${prior.leads} in the prior 30 days`}
             href="/dashboard/leads"
           />
           <KpiCard
-            label="AI citation SoV · 7d"
-            value={
-              citationSummary.total_probes_7d === 0
-                ? "—"
-                : formatPercent(citationSummary.share_of_voice_7d)
-            }
-            state={citationSummary.total_probes_7d === 0 ? "neutral" : aiSovState}
-            footer={
-              citationSummary.total_probes_7d === 0
-                ? "no probes logged yet"
-                : `${citationSummary.mcb_cited_count_7d} of ${citationSummary.total_probes_7d} probes`
-            }
-            href="/dashboard/ai-presence"
+            label="Lead rate · 30d"
+            value={`${cur.leadRatePct.toFixed(1)}%`}
+            state={classifyValue(leadRateFrac, thresholds.leadRate)}
+            deltaLabel={Math.abs(leadRatePp) < 0.05 ? "flat" : `${leadRatePp > 0 ? "+" : ""}${leadRatePp.toFixed(1)}pp`}
+            deltaDirection={leadRatePp > 0.05 ? "up" : leadRatePp < -0.05 ? "down" : "flat"}
+            footer="leads ÷ real visitors"
+            href="/dashboard/leads"
           />
           <KpiCard
-            label="AI bot crawls · 7d"
-            value={botSummary.total7d.toLocaleString("en-AU")}
-            state={botCrawlState}
-            deltaLabel={
-              botSummary.prior7d === 0
-                ? botSummary.total7d > 0
-                  ? "new"
-                  : undefined
-                : formatDelta(botSummary.total7d - botSummary.prior7d)
-            }
-            deltaDirection={botCrawlDeltaDir}
-            footer={
-              botSummary.byBot.length === 0
-                ? "no bot hits yet — middleware logs from PR 1 deploy"
-                : `${botSummary.byBot.length} distinct bots`
-            }
-            href="/dashboard/ai-presence"
-          />
-          <KpiCard
-            label="Brand search · 28d"
-            value="—"
-            state="neutral"
-            footer="awaiting GSC sync (see audits/SEARCH_CONSOLE_SETUP.md)"
-            href="/dashboard/reputation"
+            label="Phone taps · 30d"
+            value={cur.phoneTaps.toLocaleString("en-AU")}
+            state={moreIsBetter(cur.phoneTaps, prior.phoneTaps)}
+            deltaLabel={deltaLabel(cur.phoneTaps, prior.phoneTaps)}
+            deltaDirection={deltaDirection(cur.phoneTaps, prior.phoneTaps)}
+            footer="tap-to-call actions"
+            href="/dashboard/leads"
           />
         </div>
       </section>
 
-      {/* Attention strip */}
-      <AttentionStrip items={attention} />
+      {/* Plain-English summary */}
+      <section
+        aria-label="Summary"
+        className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-[var(--color-mcb-sand)] p-6"
+      >
+        <h2 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+          What&rsquo;s happening
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--color-mcb-charcoal)]">
+          Over the last 30 days the site drew <strong>{cur.visitors.toLocaleString("en-AU")}</strong> real
+          visitors{describeChange(visitorsPct)} and produced <strong>{cur.leads}</strong>{" "}
+          verified {cur.leads === 1 ? "lead" : "leads"}{describeChange(leadsPct)}, a{" "}
+          <strong>{cur.leadRatePct.toFixed(1)}%</strong> lead rate.{" "}
+          {topArea && (
+            <>
+              <strong>{topArea.label}</strong> is your top area ({topArea.visitors} visitors), and visitors
+              spend a median <strong>{fmtDuration(data.engagement.medianSec)}</strong> actively on the site.
+            </>
+          )}
+        </p>
+      </section>
 
-      {/* Release ticker */}
+      {/* Calendar month-on-month */}
+      <Section title="Month on month" subtitle="Calendar months, Melbourne time. The current month is dashed — it's still in progress.">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Card title="Leads by month" hint="Google Ads vs organic & direct">
+            <MonthlyBars data={leadsMonthly} showLegend />
+          </Card>
+          <Card title="Real visitors by month">
+            <MonthlyBars data={visitorsMonthly} />
+          </Card>
+        </div>
+        <div className="mt-6">
+          <MonthTable months={months} />
+        </div>
+      </Section>
+
+      {/* Traffic & engagement */}
+      <Section title="Traffic & engagement" subtitle="Last 30 days — where attention goes and how deep it runs.">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <Card title="Most-visited pages" className="lg:col-span-2">
+            <BarList items={topPages} />
+          </Card>
+          <div className="space-y-6">
+            <Card title="Active time on site">
+              <div className="flex items-baseline gap-3">
+                <span className="font-serif text-4xl font-medium tabular-nums text-[var(--color-mcb-charcoal)]">
+                  {fmtDuration(data.engagement.avgSec)}
+                </span>
+                <span className="text-xs text-[var(--color-mcb-warm-grey)]">avg</span>
+              </div>
+              <p className="mt-1 text-xs text-[var(--color-mcb-warm-grey)]">
+                median {fmtDuration(data.engagement.medianSec)} · {data.engagement.sessions.toLocaleString("en-AU")} sessions
+              </p>
+            </Card>
+            <Card title="Scroll depth">
+              <ScrollReach reach={data.scrollReach} />
+            </Card>
+            <Card title="Device">
+              <BarList items={deviceItems} accent="var(--color-mcb-clay)" />
+            </Card>
+          </div>
+        </div>
+      </Section>
+
+      {/* Locations */}
+      <Section title="Key locations" subtitle="Last 30 days, by real visitors.">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <Card title="Top areas">
+            <BarList items={locItems} />
+          </Card>
+          <Card title="Reach by region">
+            <div className="space-y-3">
+              <RegionRow label="Melbourne / VIC" value={loc.melbourneVisitors} total={loc.totalVisitors} accent="var(--color-mcb-sage-dark)" />
+              <RegionRow label="Rest of Australia" value={loc.otherAuVisitors} total={loc.totalVisitors} accent="var(--color-mcb-terracotta-deep)" />
+              <RegionRow label="International / unknown" value={loc.intlOrUnknownVisitors} total={loc.totalVisitors} accent="var(--color-mcb-warm-grey-light)" />
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-[var(--color-mcb-warm-grey)]">
+              MCB serves Melbourne. International/unknown is mostly residual datacenter traffic the bot filter
+              can&rsquo;t fully catch — treat it as noise, not customers.
+            </p>
+          </Card>
+        </div>
+      </Section>
+
+      {/* Quote funnel */}
+      <Section title="Quote form funnel" subtitle="Last 30 days — where people drop between clicking a quote button and a saved lead.">
+        <Card>
+          <FunnelBars
+            stages={funnelStages}
+            note={
+              biggestDrop ? (
+                <>
+                  Biggest leak: <strong>{biggestDrop.from}</strong> → <strong>{biggestDrop.to}</strong> loses{" "}
+                  {biggestDrop.pct.toFixed(0)}% ({biggestDrop.lost}). Once people start the form, most finish —
+                  the largest opportunity is getting more CTA-clickers to begin.
+                </>
+              ) : undefined
+            }
+          />
+        </Card>
+      </Section>
+
       <ReleaseTicker
         lastReleaseTitle={lastRelease?.title}
         lastReleaseAgoLabel={lastRelease ? relativeDaysAgo(lastRelease.releasedAt) : undefined}
       />
+
+      <p className="text-[11px] text-[var(--color-mcb-warm-grey)]">
+        Bot-filtered, Melbourne time. Numbers differ from the old dashboard, which counted bots as visitors.
+        Updated {relativeDaysAgo(data.generatedAt)}.
+      </p>
     </div>
   );
 }
 
-interface WeeklyAction {
-  id: string;
-  title: string;
-  reason: string;
-  estimate: string;
-  cta: { label: string; href: string };
+// ---------------------------------------------------------------------
+// Local presentational helpers
+// ---------------------------------------------------------------------
+
+function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
+  return (
+    <section className="space-y-4">
+      <div>
+        <h2 className="font-serif text-[22px] font-medium leading-tight text-[var(--color-mcb-charcoal)]">{title}</h2>
+        {subtitle && <p className="mt-1 text-sm text-[var(--color-mcb-warm-grey)]">{subtitle}</p>}
+      </div>
+      {children}
+    </section>
+  );
 }
 
-function buildWeeklyActions(
-  staleContent: Awaited<ReturnType<typeof fetchStaleContent>>,
-  pendingReviews: Awaited<ReturnType<typeof fetchPendingReviews>>,
-): WeeklyAction[] {
-  const actions: WeeklyAction[] = [];
+function Card({
+  title,
+  hint,
+  className = "",
+  children,
+}: {
+  title?: string;
+  hint?: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <article className={`rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6 ${className}`}>
+      {title && (
+        <div className="mb-4 flex items-baseline justify-between gap-3">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">{title}</h3>
+          {hint && <span className="text-[11px] text-[var(--color-mcb-warm-grey)]">{hint}</span>}
+        </div>
+      )}
+      {children}
+    </article>
+  );
+}
 
-  for (const s of staleContent.filter((c) => (c.days_stale ?? 0) > 90)) {
-    actions.push({
-      id: `refresh-${s.url}`,
-      title: `Refresh ${s.title ?? s.url}`,
-      reason: `Stale ${s.days_stale}d · ${s.ai_citations_30d} AI cites · ${s.visits_30d} visits/30d`,
-      estimate: "45 min",
-      cta: { label: "Open", href: "/dashboard/content" },
-    });
+function RegionRow({ label, value, total, accent }: { label: string; value: number; total: number; accent: string }) {
+  const pct = total > 0 ? Math.round((value / total) * 100) : 0;
+  return (
+    <div>
+      <div className="flex items-baseline justify-between text-sm">
+        <span className="text-[var(--color-mcb-charcoal)]">{label}</span>
+        <span className="tabular-nums text-[var(--color-mcb-charcoal)]">
+          {value.toLocaleString("en-AU")}
+          <span className="ml-2 text-xs text-[var(--color-mcb-warm-grey)]">{pct}%</span>
+        </span>
+      </div>
+      <div className="mt-1 h-1.5 w-full rounded-full bg-[var(--color-mcb-sand)]">
+        <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, backgroundColor: accent }} />
+      </div>
+    </div>
+  );
+}
+
+function MonthTable({ months }: { months: MonthRow[] }) {
+  return (
+    <div className="overflow-x-auto rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b border-[var(--color-mcb-sand-deep)] text-left text-[11px] uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+            <th className="px-4 py-3 font-semibold">Month</th>
+            <th className="px-4 py-3 text-right font-semibold">Visitors</th>
+            <th className="px-4 py-3 text-right font-semibold">Leads</th>
+            <th className="px-4 py-3 text-right font-semibold">Lead rate</th>
+            <th className="px-4 py-3 text-right font-semibold">Phone taps</th>
+          </tr>
+        </thead>
+        <tbody>
+          {months.map((m) => (
+            <tr key={m.month} className="border-b border-[var(--color-mcb-sand-deep)] last:border-0">
+              <td className="px-4 py-3 text-[var(--color-mcb-charcoal)]">
+                {m.label}
+                {m.partial && <span className="ml-2 text-[11px] text-[var(--color-mcb-warm-grey)]">so far</span>}
+              </td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">{m.visitors.toLocaleString("en-AU")}</td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">{m.leads}</td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">{m.leadRatePct.toFixed(1)}%</td>
+              <td className="px-4 py-3 text-right tabular-nums text-[var(--color-mcb-charcoal)]">{m.phoneTaps}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function describeChange(pct: number | null): ReactNode {
+  if (pct === null) return "";
+  if (Math.abs(pct) < 1) return " (flat vs the prior 30 days)";
+  const dir = pct > 0 ? "up" : "down";
+  return ` (${dir} ${Math.abs(Math.round(pct))}% vs the prior 30 days)`;
+}
+
+function findBiggestDrop(stages: { label: string; count: number }[]) {
+  let worst: { from: string; to: string; pct: number; lost: number } | null = null;
+  for (let i = 1; i < stages.length; i++) {
+    const prev = stages[i - 1].count;
+    const curr = stages[i].count;
+    if (prev <= 0) continue;
+    const pct = ((prev - curr) / prev) * 100;
+    if (!worst || pct > worst.pct) worst = { from: stages[i - 1].label, to: stages[i].label, pct, lost: prev - curr };
   }
+  return worst;
+}
 
-  for (const r of pendingReviews) {
-    actions.push({
-      id: `review-${r.id}`,
-      title: `Respond to GBP review from ${r.reviewer_name ?? "anonymous"}${r.rating ? ` (${r.rating}★)` : ""}`,
-      reason: r.review_created_at
-        ? `Pending ${relativeDaysAgo(r.review_created_at)}`
-        : "Pending response",
-      estimate: "5 min",
-      cta: { label: "Review", href: "/dashboard/reputation" },
-    });
-  }
-
-  return actions.slice(0, 5);
+function titleCase(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }

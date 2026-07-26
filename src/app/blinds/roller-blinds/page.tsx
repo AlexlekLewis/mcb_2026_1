@@ -8,7 +8,7 @@ export const metadata = content.metadata;
 export default function RollerBlindsPage() {
     return (
         <ProductTemplate
-            title="Roller Blinds"
+            title="Roller Blinds Melbourne"
             subtitle="The modern standard for simplicity and control."
             heroImage="/assets/roller_blinds_interior.png"
             description="Our custom-made Roller Blinds offer a sleek, architectural look that fits perfectly into any modern home. Simple to operate and incredibly durable, they come in an extensive range of fabrics including blockout, light-filtering, and screen options."

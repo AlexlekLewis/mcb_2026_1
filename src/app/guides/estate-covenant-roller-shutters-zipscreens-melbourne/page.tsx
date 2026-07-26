@@ -5,7 +5,7 @@ import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
   title:
-    "Estate covenant rules for roller shutters, zipscreens and awnings in Melbourne | Modern Curtains and Blinds",
+    "Estate covenant rules for roller shutters, zipscreens and awnings in Melbourne",
   description:
     "Which Melbourne growth-corridor estates restrict external roller shutters, zipscreens and awnings — and what's allowed instead. A walkthrough for buyers in Smiths Lane, Aurora, Riverdale, Cloverton and the rest of the south-east, north and west corridors.",
   alternates: {

@@ -10,9 +10,17 @@ import { getProductCanonicalPath } from '@/lib/product-canonicals'
 const CORE_LAST_MODIFIED = new Date('2026-05-01')
 const PRODUCT_LAST_MODIFIED = new Date('2026-05-01')
 const LOCATION_LAST_MODIFIED = new Date('2026-01-01')
+// The /guides tier is genuinely hand-written and was last revised for the
+// 2026-07 growth audit. Bump when a guide is materially rewritten.
+const GUIDE_LAST_MODIFIED = new Date('2026-07-01')
+
+// Every canonical on the site is www. The apex 307-redirects, so an unset
+// NEXT_PUBLIC_BASE_URL previously flipped all 89 sitemap URLs to a redirecting
+// host. Fallback is now the canonical www origin (2026-07 growth audit).
+const CANONICAL_ORIGIN = 'https://www.moderncurtainsandblinds.com.au'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://moderncurtainsandblinds.com.au'
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || CANONICAL_ORIGIN
 
     // Core pages
     const routes = [
@@ -73,6 +81,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/awnings/wire-guide-awnings',
         '/privacy',
         '/terms',
+        '/pricing-policy',
+    ]
+
+    // Hand-written guide tier. These six pages were live, indexable and
+    // self-canonical but absent from the sitemap and unlinked from anywhere in
+    // the nav — effectively unpublished. Surfaced by the 2026-07 growth audit.
+    const guideSlugs = [
+        'estate-covenant-roller-shutters-zipscreens-melbourne',
+        'pooja-prayer-room-blackout-curtains-australia',
+        'new-build-window-furnishings-not-included',
+        'window-furnishings-northern-growth-corridor',
+        'window-furnishings-western-growth-corridor',
+        'window-furnishings-south-east-growth-corridor',
     ]
 
     const coreRoutes = routes.map((route) => ({
@@ -103,5 +124,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.7,
         }))
 
-    return [...coreRoutes, ...productRoutes, ...locationRoutes]
+    const guideRoutes = [
+        {
+            url: `${baseUrl}/guides`,
+            lastModified: GUIDE_LAST_MODIFIED,
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        },
+        ...guideSlugs.map((slug) => ({
+            url: `${baseUrl}/guides/${slug}`,
+            lastModified: GUIDE_LAST_MODIFIED,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        })),
+    ]
+
+    return [...coreRoutes, ...productRoutes, ...locationRoutes, ...guideRoutes]
 }

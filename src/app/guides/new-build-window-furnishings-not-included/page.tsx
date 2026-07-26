@@ -6,7 +6,7 @@ import { WovenQuestion } from "@/components/WovenQuestion";
 
 export const metadata: Metadata = {
   title:
-    "Are window furnishings included in a new build? | Modern Curtains and Blinds",
+    "Are window furnishings included in a new build?",
   description:
     "If you're building a new home in Melbourne, your builder contract probably doesn't include curtains, blinds or shutters. Here's what's standard, what to budget, and how to avoid paying premium prices for entry-tier product.",
   alternates: {

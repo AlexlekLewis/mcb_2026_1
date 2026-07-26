@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Pricing Policy | Modern Curtains and Blinds",
+  title: "Pricing Policy",
   description:
     "How Modern Curtains and Blinds publishes indicative pricing — what's included, what changes the price, how to get a binding written quote, and how often the published ranges are refreshed.",
   alternates: { canonical: "/pricing-policy" },

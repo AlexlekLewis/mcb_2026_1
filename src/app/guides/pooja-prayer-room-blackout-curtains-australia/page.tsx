@@ -5,7 +5,7 @@ import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
   title:
-    "Blackout curtains for pooja & prayer rooms in Melbourne | Modern Curtains and Blinds",
+    "Blackout curtains for pooja & prayer rooms in Melbourne",
   description:
     "How to choose blackout window furnishings for a pooja room, mandir corner or prayer space in a Melbourne home. Sheer + blockout layering, triple-pass blockout, parents' suite privacy, and what we fit across the northern and western growth corridors.",
   alternates: {

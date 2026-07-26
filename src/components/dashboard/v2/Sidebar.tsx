@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   Target,
+  CalendarRange,
   Sparkles,
   FileText,
   Star,
@@ -35,6 +36,7 @@ const SECTIONS: NavSection[] = [
     label: "Operations",
     items: [
       { href: "/dashboard",            label: "Home",        icon: Home },
+      { href: "/dashboard/compare",    label: "Compare",     icon: CalendarRange },
       { href: "/dashboard/leads",      label: "Leads",       icon: Target },
       { href: "/dashboard/reputation", label: "Reputation",  icon: Star },
       { href: "/dashboard/releases",   label: "Releases",    icon: Rocket },

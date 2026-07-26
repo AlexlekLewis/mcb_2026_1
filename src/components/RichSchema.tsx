@@ -1,5 +1,4 @@
 import { SITE } from "@/lib/site";
-import { CURATED_REVIEWS, REVIEW_AGGREGATE } from "@/lib/customer-reviews";
 
 export function OrganizationSchema() {
   const schema = {
@@ -52,12 +51,8 @@ export function OrganizationSchema() {
     sameAs: [
       "https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9",
     ],
-    // NOTE: aggregateRating + review are intentionally NOT included here.
-    // OrganizationSchema is mounted in the global layout (every URL). Emitting
-    // ratings/reviews on all ~33k URLs is the schema-spam pattern CLAUDE.md
-    // forbids, and risks Google's "review snippet not on page" policy. The
-    // rating/reviews are emitted once, on the homepage only, via
-    // OrganizationReviewSchema below (merged into this node by shared @id).
+    // NOTE: aggregateRating + review are intentionally NOT included here, and
+    // are no longer emitted anywhere on the site. See the removal note below.
   };
 
   return (
@@ -69,45 +64,30 @@ export function OrganizationSchema() {
 }
 
 /**
- * Homepage-only review/rating node. Uses the SAME @id as OrganizationSchema so
- * Google merges it into the single business entity, while keeping the review
- * markup scoped to one page instead of stamping it across every URL.
+ * REMOVED 2026-07-27 (growth audit) — `OrganizationReviewSchema`.
  *
- * Reviews are MCB's genuine Google Business Profile reviews (src/lib/customer-reviews.ts).
- * Per the 2026-06-14 audit this is the "scope-only" step; rendering the reviews
- * as visible on-page HTML (so the snippet is policy-clean) is still pending.
+ * It emitted `aggregateRating` + 6 `Review` nodes on the homepage. Two problems,
+ * either of which is enough to warrant removal:
+ *
+ *  1. **Self-serving review markup.** Google does not support review /
+ *     aggregateRating markup for reviews *about the business itself* placed on
+ *     that business's own site under LocalBusiness / Organization. This is the
+ *     classic structured-data manual-action trigger. The 2026-06-14 "scope it to
+ *     the homepage" step reduced the blast radius but did not make it eligible.
+ *  2. **No visible counterpart.** The reviews render client-side via the Elfsight
+ *     widget, so the server-rendered DOM only ever said "Loading Google reviews…".
+ *     Marked-up content must be present on the page. `reviewCount` was also a
+ *     hardcoded literal that never tracked the real GBP total.
+ *
+ * The reviews themselves are genuine — this is a markup-eligibility issue, not an
+ * authenticity one. Star ratings still surface through the Google Business Profile,
+ * where they ARE eligible, and the Elfsight widget still shows them to humans.
+ * `CURATED_REVIEWS` / `REVIEW_AGGREGATE` remain in use for *visible* on-page trust
+ * copy in QuoteForm.tsx, which is policy-clean.
+ *
+ * Do not reintroduce review markup without rendering the reviews as server-side
+ * HTML *and* confirming current Google eligibility for self-hosted reviews.
  */
-export function OrganizationReviewSchema() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": SITE.url,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: REVIEW_AGGREGATE.rating.toFixed(1),
-      reviewCount: REVIEW_AGGREGATE.count,
-      bestRating: REVIEW_AGGREGATE.best,
-      worstRating: REVIEW_AGGREGATE.worst,
-    },
-    review: CURATED_REVIEWS.slice(0, 6).map((r) => ({
-      "@type": "Review",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: r.rating,
-        bestRating: 5,
-      },
-      author: { "@type": "Person", name: r.author },
-      reviewBody: r.text,
-    })),
-  };
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
-}
 
 export function ContactPageSchema() {
   const schema = {

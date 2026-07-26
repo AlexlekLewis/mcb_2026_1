@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/dashboard/v2/PageHeader";
 import { KpiCard } from "@/components/dashboard/v2/KpiCard";
 import {
   fetchLeadsHeroData,
-  fetchFunnelRows,
   fetchRecentPhoneTaps,
   fetchRecentLeads,
   sumColumn,
@@ -16,8 +15,15 @@ import {
   type RecentPhoneTap,
   type RecentLead,
 } from "@/lib/dashboard/v2/data";
+import {
+  fetchQuoteFunnel,
+  fetchLeadSourceSplit,
+  fetchLeadSourceMonthly,
+} from "@/lib/dashboard/v2/report-metrics";
 import { classifyValue, thresholds } from "@/lib/dashboard/v2/tokens";
 import { MetricTrendChart } from "@/components/dashboard/v2/MetricTrendChart";
+import { FunnelBars } from "@/components/dashboard/v2/FunnelBars";
+import { MonthlyBars, type MonthlyDatum } from "@/components/dashboard/v2/MonthlyBars";
 import { RELEASES } from "@/lib/dashboard/releases";
 import { resolveLocation } from "@/lib/dashboard/v2/location-resolve";
 
@@ -46,12 +52,26 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
   const windowDays = resolveWindowDays(params.window);
   const windowLabel = WINDOW_OPTIONS.find((o) => o.days === windowDays)?.label ?? "28d";
 
-  const [{ current, prior }, funnel, recentPhoneTaps, recentLeads] = await Promise.all([
-    fetchLeadsHeroData(windowDays),
-    fetchFunnelRows(),
-    fetchRecentPhoneTaps(25),
-    fetchRecentLeads(25),
-  ]);
+  const [{ current, prior }, funnelStages, sourceSplit, sourceMonthly, recentPhoneTaps, recentLeads] =
+    await Promise.all([
+      fetchLeadsHeroData(windowDays),
+      fetchQuoteFunnel(windowDays),
+      fetchLeadSourceSplit(windowDays),
+      fetchLeadSourceMonthly(4),
+      fetchRecentPhoneTaps(25),
+      fetchRecentLeads(25),
+    ]);
+
+  const leadsMonthly: MonthlyDatum[] = sourceMonthly.map((m) => ({
+    label: m.label,
+    total: m.total,
+    partial: m.partial,
+    segments: [
+      { value: m.organic, kind: "organic" },
+      { value: m.ads, kind: "ads" },
+    ],
+  }));
+  const adsPct = sourceSplit.total > 0 ? Math.round((sourceSplit.ads / sourceSplit.total) * 100) : 0;
 
   const leadsCurrent = sumColumn(current, "leads");
   const leadsPrior = sumColumn(prior, "leads");
@@ -160,41 +180,61 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
 
         <article className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
           <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
-            Conversion funnel · 30d
+            Quote funnel · {windowLabel}
           </h3>
-          {funnel.length === 0 ? (
-            <p className="mt-4 text-sm text-[var(--color-mcb-warm-grey)]">
-              No funnel data available.
-            </p>
+          <div className="mt-4">
+            <FunnelBars
+              stages={funnelStages}
+              note="Steps 1–3 are the multi-step form sections. Most drop happens before the form (CTA click → start); once started, the majority finish."
+            />
+          </div>
+        </article>
+      </section>
+
+      {/* Where leads come from */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <article className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
+          <div className="flex items-baseline justify-between gap-3">
+            <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+              Where leads come from · {windowLabel}
+            </h3>
+            <span className="text-[11px] text-[var(--color-mcb-warm-grey)]">{adsPct}% ads</span>
+          </div>
+          {sourceSplit.total === 0 ? (
+            <p className="mt-4 text-sm text-[var(--color-mcb-warm-grey)]">No leads in this window.</p>
           ) : (
-            <ol className="mt-4 space-y-3">
-              {funnel.map((row, i) => {
-                const prev = i > 0 ? funnel[i - 1].total : null;
-                const drop = prev && prev > 0 ? (1 - row.total / prev) * 100 : null;
-                const max = funnel[0]?.total || 1;
-                const widthPct = (row.total / max) * 100;
-                return (
-                  <li key={row.stage}>
-                    <div className="flex items-baseline justify-between text-sm">
-                      <span className="text-[var(--color-mcb-charcoal)]">{row.stage}</span>
-                      <span className="tabular-nums font-medium">{row.total.toLocaleString("en-AU")}</span>
-                    </div>
-                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-[var(--color-mcb-sand)]">
-                      <div
-                        style={{ width: `${widthPct}%` }}
-                        className="h-full rounded-full bg-[var(--color-mcb-terracotta-deep)]"
-                      />
-                    </div>
-                    {drop !== null && (
-                      <p className="mt-1 text-[11px] text-[var(--color-mcb-warm-grey)]">
-                        −{drop.toFixed(1)}% from previous stage
-                      </p>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
+            <div className="mt-4 space-y-3">
+              <SourceRow
+                label="Organic &amp; direct"
+                value={sourceSplit.organic}
+                total={sourceSplit.total}
+                accent="var(--color-mcb-sage-dark)"
+              />
+              <SourceRow
+                label="Google Ads"
+                value={sourceSplit.ads}
+                total={sourceSplit.total}
+                accent="var(--color-mcb-terracotta-deep)"
+              />
+              <p className="pt-1 text-[11px] leading-relaxed text-[var(--color-mcb-warm-grey)]">
+                Ads = leads carrying a Google click ID (reliable). Everything else is organic search, direct,
+                or untagged social/GBP — social &amp; GBP are undercounted until those links carry UTMs.
+              </p>
+            </div>
           )}
+        </article>
+
+        <article className="rounded-xl border border-[var(--color-mcb-sand-deep)] bg-white p-6">
+          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-mcb-warm-grey)]">
+            Leads by month · organic vs ads
+          </h3>
+          <div className="mt-4">
+            {leadsMonthly.length === 0 ? (
+              <p className="text-sm text-[var(--color-mcb-warm-grey)]">No monthly data yet.</p>
+            ) : (
+              <MonthlyBars data={leadsMonthly} showLegend />
+            )}
+          </div>
         </article>
       </section>
 
@@ -336,6 +376,24 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
           </div>
         )}
       </article>
+    </div>
+  );
+}
+
+function SourceRow({ label, value, total, accent }: { label: string; value: number; total: number; accent: string }) {
+  const pct = total > 0 ? Math.round((value / total) * 100) : 0;
+  return (
+    <div>
+      <div className="flex items-baseline justify-between text-sm">
+        <span className="text-[var(--color-mcb-charcoal)]">{label}</span>
+        <span className="tabular-nums text-[var(--color-mcb-charcoal)]">
+          {value.toLocaleString("en-AU")}
+          <span className="ml-2 text-xs text-[var(--color-mcb-warm-grey)]">{pct}%</span>
+        </span>
+      </div>
+      <div className="mt-1 h-2 w-full rounded-full bg-[var(--color-mcb-sand)]">
+        <div className="h-2 rounded-full" style={{ width: `${pct}%`, backgroundColor: accent }} />
+      </div>
     </div>
   );
 }

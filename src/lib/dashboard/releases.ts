@@ -32,6 +32,50 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-07-27-seo-week1-quick-wins",
+    title: "SEO/AEO week-1: publish the guides tier, recover legacy 404s, remove ineligible review schema",
+    releasedAt: "2026-07-27T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "Week-1 fixes from the 2026-07-26 SEO/AEO/GEO audit. (1) The six hand-written /guides pages were live, indexable and self-canonical but absent from the sitemap, had no index page (/guides 404'd) and zero internal links — effectively unpublished. Added a /guides hub, listed all six + /pricing-policy in the sitemap, and linked both from the footer. (2) Legacy pre-2026 URLs (/tcs, /blogs-articles/*, /about-us, /faq, /gallery, /terms-and-conditions) were 404ing with NO redirect rules at all while still taking ~87 sessions/month from stale index entries and old backlinks — now 301'd to their closest live equivalent, with a catch-all for unmapped blog slugs. (3) Added a branded not-found.tsx: the site was serving the unstyled Next.js default 404, which also inherited the homepage meta description (soft-404 signal). (4) REMOVED aggregateRating + 6 Review nodes from the homepage JSON-LD — self-serving review markup under LocalBusiness/Organization is not supported by Google and had no visible server-rendered counterpart (Elfsight renders client-side, so the DOM only said 'Loading Google reviews…'); reviewCount was also a hardcoded literal. Reviews are genuine — this is a markup-eligibility fix, not an authenticity one; stars still surface via GBP and the widget still shows them to humans. This also removes the duplicate HomeAndConstructionBusiness node on the homepage. (5) llms.txt + llms-full.txt: all internal URLs apex → www (apex 307-redirects and several AI crawlers don't follow), and dropped the unverifiable 'consistently 5-star' aggregate claim. (6) sitemap.ts baseUrl fallback hardcoded to the www origin so an unset NEXT_PUBLIC_BASE_URL can't silently flip all URLs to a redirecting host. (7) Stripped the doubled brand suffix from the six guide titles + /pricing-policy (root layout template already appends it). (8) Roller-blinds H1 'Roller Blinds' → 'Roller Blinds Melbourne' (title tag already carried the geo, H1 didn't). Watch: /guides impressions + clicks from zero, recovered sessions on the 301'd legacy paths, and that no rich-result loss follows the review-schema removal.",
+    items: [
+      "src/app/guides/page.tsx — NEW /guides hub (route previously 404'd); cards for all six guides + quote CTA.",
+      "src/app/sitemap.ts — added /guides hub + 6 guide URLs + /pricing-policy; new GUIDE_LAST_MODIFIED; baseUrl fallback hardcoded to https://www.moderncurtainsandblinds.com.au.",
+      "src/components/Footer.tsx — Company column now links Buyer's Guides + Pricing Policy (first internal links to the guides tier).",
+      "next.config.ts — 15 new legacy 301s: /tcs→/terms, /terms-and-conditions→/terms, /about-us→/about, /gallery→/projects, /faq→/guides, 8 mapped /blogs-articles/* slugs, plus /blogs-articles/:slug* and /blog/:slug* catch-alls→/guides.",
+      "src/app/not-found.tsx — NEW branded 404 with nav chips, quote CTA, phone, and noindex,follow metadata.",
+      "src/components/RichSchema.tsx — REMOVED OrganizationReviewSchema (aggregateRating + Review nodes) with a do-not-reintroduce note; src/app/page.tsx unmounts it. CURATED_REVIEWS/REVIEW_AGGREGATE still power visible trust copy in QuoteForm.tsx.",
+      "public/llms.txt + public/llms-full.txt — apex→www throughout; removed the 'consistently 5-star' claim and the AggregateRating/Review advertisement from the schema list.",
+      "src/app/guides/*/page.tsx + src/app/pricing-policy/page.tsx — removed the doubled ' | Modern Curtains and Blinds' title suffix.",
+      "src/app/blinds/roller-blinds/page.tsx — H1 now 'Roller Blinds Melbourne'.",
+    ],
+    affectsGrowthCorridor: true,
+  },
+  {
+    id: "2026-07-27-footer-service-partners",
+    title: "Footer — Service Partners block with Tricoat Painting backlink",
+    releasedAt: "2026-07-27T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "Added a 'Service Partners' section to the global footer (between the four-column link grid and the copyright bar), carrying one entry: Tricoat Painting & Decorating with a two-sentence description and a followed outbound link to https://www.tricoatpainting.com.au. Editorial partner link, not paid — so no rel=nofollow, just target=_blank + rel=noopener noreferrer. Grid is 2-up on desktop so further partners can be added without a layout change. Watch: this is the first outbound link in the footer, so keep an eye on pages-per-session and exit rate; if footer exits climb noticeably, consider dropping target=_blank or moving the block behind /our-story.",
+    items: [
+      "src/components/Footer.tsx — NEW 'Service Partners' block above the bottom bar; heading styled to match the existing footer column headings (font-serif, mcb-clay-light); partner name links to https://www.tricoatpainting.com.au in a new tab with rel=noopener noreferrer; description in stone-400 text-sm.",
+    ],
+  },
+  {
+    id: "2026-07-12-dashboard-botfilter-redesign-phase1",
+    title: "Dashboard Phase 1 — bot-filtered numbers + owner performance report (Home)",
+    releasedAt: "2026-07-12T00:00:00Z", // TODO: set to actual deploy time when shipped
+    summary:
+      "Internal analytics correctness + legibility fix (dashboard only — no customer-facing change). The headline traffic views (dashboard_daily_metrics / _top_pages_30d / _conversion_funnel_30d) still read RAW analytics_events bucketed by UTC, so bots inflated visitors/sessions (visitors > page_views on some days — impossible) and 'today' started at 10am Melbourne; the 20260601 fix migration was never applied and there's no DDL path from the app. Fixed in APP CODE instead: new src/lib/dashboard/v2/report-metrics.ts computes every headline metric from the bot-filtered analytics_events_clean view, bucketed to Australia/Melbourne, with visitor/session distincts scoped to page_view (so visitors <= page_views always) — paginated to beat PostgREST's 1000-row cap, head-counts where possible, cache()-wrapped, route revalidate=1800. Repointed data.ts fetchers (fetchDailyMetrics/fetchLeadsHeroData/fetchFunnelRows) at the clean computation so the Leads page and weekly-digest email inherit correct numbers too. Rebuilt /dashboard Home into an owner+marketing performance report: rolling-30d-vs-prev-30d headline tiles (real visitors, verified leads, lead rate, phone taps), calendar month-on-month (leads split organic vs ads + visitors), traffic & engagement (top pages, active time on site, scroll reach, device), key locations (Melbourne-led, international/datacenter noise called out honestly), and the quote-form funnel with per-stage drop-off. Validated live: June ~693 visitors / 47 leads / 6.8% / 22 taps. Since these are dashboard-internal, there's no on-site metric to move — the 'result' is that every downstream KPI on other pages is now bot-free and Melbourne-bucketed.",
+    items: [
+      "src/lib/dashboard/v2/report-metrics.ts — NEW: paginated, Melbourne-bucketed, bot-filtered aggregators (traffic, engagement/time-on-site, scroll reach, locations, rolling-30d deltas, calendar-month series, quote funnel, organic-vs-ads lead source) + clean replacements fetchDailyMetricsClean/fetchLeadsHeroDataClean/fetchFunnelRowsClean.",
+      "src/lib/dashboard/v2/data.ts — fetchDailyMetrics/fetchLeadsHeroData/fetchFunnelRows repointed at the clean computation (fixes Leads page + weekly-digest email numbers too).",
+      "src/app/dashboard/(with-sidebar)/page.tsx — rebuilt Home into the performance report; export revalidate=1800 (was force-dynamic).",
+      "src/components/dashboard/v2/{FunnelBars,BarList,ScrollReach,MonthlyBars}.tsx — NEW v2 primitives (tokens palette; legacy DashboardCharts left untouched).",
+      "src/lib/dashboard/growth-corridor-metrics.ts — fixed countScrollDepth filtering non-existent `depth` column (real column is `scroll_percent`); corridor scroll heatmap was silently always 0.",
+      "src/lib/analytics.ts — documented quote_step_1_complete / quote_step_2_complete / quote_error in the event-vocabulary docblock.",
+    ],
+  },
+  {
     id: "2026-07-03-google-reviews-widget-compress",
     title: "Compress Google Reviews widget (homepage + all product/location pages)",
     releasedAt: "2026-07-03T00:00:00Z", // TODO: set to actual deploy time when shipped

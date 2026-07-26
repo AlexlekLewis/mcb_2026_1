@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react";
+import { Facebook, Instagram, MapPin, Mail, Phone } from "lucide-react";
 import { quoteHref, SITE } from "@/lib/site";
 
 export function Footer() {
@@ -31,7 +31,6 @@ export function Footer() {
                         <div className="flex gap-4">
                             <SocialIcon href="https://facebook.com/moderncurtains" icon={<Facebook size={18} />} />
                             <SocialIcon href="https://instagram.com/moderncurtains" icon={<Instagram size={18} />} />
-                            <SocialIcon href="https://linkedin.com" icon={<Linkedin size={18} />} />
                         </div>
                     </div>
 
@@ -54,6 +53,8 @@ export function Footer() {
                         <ul className="space-y-4 text-stone-300">
                             <li><Link href="/our-story" className="hover:text-white transition-colors">Our Story</Link></li>
                             <li><Link href="/projects" className="hover:text-white transition-colors">Project Gallery</Link></li>
+                            <li><Link href="/guides" className="hover:text-white transition-colors">Buyer&apos;s Guides</Link></li>
+                            <li><Link href="/pricing-policy" className="hover:text-white transition-colors">Pricing Policy</Link></li>
                             <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
                             <li><Link href={quoteHref()} className="hover:text-white transition-colors">Book Consultation</Link></li>
                             <li><Link href="/locations" className="hover:text-white transition-colors">Service Areas</Link></li>
@@ -79,6 +80,29 @@ export function Footer() {
                                 <a href={`mailto:${SITE.email}`} className="hover:text-white transition-colors">{SITE.email}</a>
                             </li>
                         </ul>
+                    </div>
+                </div>
+
+                {/* Service Partners */}
+                <div className="border-t border-white/10 pt-10 pb-10">
+                    <h4 className="font-serif text-lg mb-6 text-mcb-clay-light">Service Partners</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <a
+                                href="https://www.tricoatpainting.com.au"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white font-medium hover:text-mcb-terracotta transition-colors"
+                            >
+                                Tricoat Painting &amp; Decorating
+                            </a>
+                            <p className="text-stone-400 text-sm leading-relaxed mt-2 max-w-md">
+                                Interior, exterior and heritage house painting across Melbourne&apos;s northern and
+                                eastern suburbs. Proper preparation, premium paint and a site left clean at the end of
+                                every day &mdash; worth lining up before new curtains or blinds go on freshly painted
+                                walls.
+                            </p>
+                        </div>
                     </div>
                 </div>
 

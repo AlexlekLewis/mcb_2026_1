@@ -11,6 +11,12 @@
  */
 
 import { getSupabaseAdmin, hasSupabaseAdminConfig } from "@/lib/supabase/admin";
+import { AI_BOT_IDS, NON_CRAWLER_BOT_IDS } from "@/lib/bots";
+import {
+  fetchDailyMetricsClean,
+  fetchLeadsHeroDataClean,
+  fetchFunnelRowsClean,
+} from "@/lib/dashboard/v2/report-metrics";
 
 // ---------------------------------------------------------------------
 // Types
@@ -68,22 +74,11 @@ export interface GbpReviewPending {
 // ---------------------------------------------------------------------
 
 export async function fetchDailyMetrics(days = 28): Promise<DailyMetric[]> {
-  if (!hasSupabaseAdminConfig()) return [];
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return [];
-
-  const since = new Date();
-  since.setUTCDate(since.getUTCDate() - days);
-  const sinceIso = since.toISOString().slice(0, 10);
-
-  const { data, error } = await supabase
-    .from("dashboard_daily_metrics")
-    .select("*")
-    .gte("metric_date", sinceIso)
-    .order("metric_date", { ascending: true });
-
-  if (error || !data) return [];
-  return data as DailyMetric[];
+  // Repointed 2026-07-12: the dashboard_daily_metrics view still reads raw
+  // analytics_events (bot-inflated) and buckets UTC — it produced impossible
+  // visitors > page_views days. Now computed from the bot-filtered stream,
+  // Melbourne-bucketed, page_view-scoped. See report-metrics.ts.
+  return (await fetchDailyMetricsClean(days)) as DailyMetric[];
 }
 
 /**
@@ -97,36 +92,10 @@ export async function fetchLeadsHeroData(days: number = 28): Promise<{
   current: DailyMetric[];
   prior: DailyMetric[];
 }> {
-  if (!hasSupabaseAdminConfig()) return { current: [], prior: [] };
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return { current: [], prior: [] };
-
-  const window = Math.max(1, Math.floor(days));
-  const today = new Date();
-  const start = new Date(today);
-  start.setUTCDate(start.getUTCDate() - window);
-  const priorStart = new Date(today);
-  priorStart.setUTCDate(priorStart.getUTCDate() - window * 2);
-
-  const startIso = start.toISOString().slice(0, 10);
-  const priorStartIso = priorStart.toISOString().slice(0, 10);
-  const priorEndIso = start.toISOString().slice(0, 10);
-
-  const [{ data: current }, { data: prior }] = await Promise.all([
-    supabase
-      .from("dashboard_daily_metrics")
-      .select("*")
-      .gte("metric_date", startIso)
-      .order("metric_date", { ascending: true }),
-    supabase
-      .from("dashboard_daily_metrics")
-      .select("*")
-      .gte("metric_date", priorStartIso)
-      .lt("metric_date", priorEndIso)
-      .order("metric_date", { ascending: true }),
-  ]);
-
-  return { current: (current as DailyMetric[]) ?? [], prior: (prior as DailyMetric[]) ?? [] };
+  // Repointed 2026-07-12 to the bot-filtered, Melbourne-bucketed computation
+  // (see report-metrics.ts). Same {current, prior} shape as before.
+  const { current, prior } = await fetchLeadsHeroDataClean(days);
+  return { current: current as DailyMetric[], prior: prior as DailyMetric[] };
 }
 
 // ---------------------------------------------------------------------
@@ -134,17 +103,8 @@ export async function fetchLeadsHeroData(days: number = 28): Promise<{
 // ---------------------------------------------------------------------
 
 export async function fetchFunnelRows(): Promise<FunnelRow[]> {
-  if (!hasSupabaseAdminConfig()) return [];
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return [];
-
-  const { data, error } = await supabase
-    .from("dashboard_conversion_funnel_30d")
-    .select("*")
-    .order("sort_order", { ascending: true });
-
-  if (error || !data) return [];
-  return data as FunnelRow[];
+  // Repointed 2026-07-12 to bot-filtered clean counts (see report-metrics.ts).
+  return (await fetchFunnelRowsClean()) as FunnelRow[];
 }
 
 // ---------------------------------------------------------------------
@@ -241,40 +201,63 @@ export async function fetchBotCrawlSummary(): Promise<{
   const supabase = getSupabaseAdmin();
   if (!supabase) return { total7d: 0, prior7d: 0, byBot: [] };
 
-  const now = new Date();
-  const sevenAgo = new Date(now);
+  const sevenAgo = new Date();
   sevenAgo.setUTCDate(sevenAgo.getUTCDate() - 7);
-  const fourteenAgo = new Date(now);
+  const fourteenAgo = new Date();
   fourteenAgo.setUTCDate(fourteenAgo.getUTCDate() - 14);
+  const sevenAgoIso = sevenAgo.toISOString();
+  const fourteenAgoIso = fourteenAgo.toISOString();
+
+  // Count server-side with head:true so NO rows are transferred. The previous
+  // implementation fetched every matching row and counted them client-side,
+  // which silently capped at PostgREST's 1000-row response limit. At MCB's bot
+  // volume (~60k crawls / 7d) the "AI bot crawls · 7d" KPI froze at exactly
+  // 1,000 while prior7d (already a count) read the true ~90k — so the tile
+  // rendered a phantom ~98% collapse and looked like crawls had stopped.
+  // `_digest_sent` and any other internal markers are excluded so the metric
+  // is real AI-bot crawls only.
+  const excludeMarkers = `(${NON_CRAWLER_BOT_IDS.join(",")})`;
+  const countWindow = (fromIso: string, toIso?: string) => {
+    let q = supabase
+      .from("bot_crawls")
+      .select("id", { count: "exact", head: true })
+      .not("bot_id", "in", excludeMarkers)
+      .gte("created_at", fromIso);
+    if (toIso) q = q.lt("created_at", toIso);
+    return q;
+  };
+
+  // Per-bot 7d counts. Middleware only ever writes ids from AI_BOT_IDS, so
+  // iterating that list yields a complete breakdown — each is a head-count
+  // (index-only on idx_bot_crawls_bot_id, no rows transferred), all issued in
+  // parallel alongside the window counts below.
+  const countBot = (botId: string) =>
+    supabase
+      .from("bot_crawls")
+      .select("id", { count: "exact", head: true })
+      .eq("bot_id", botId)
+      .gte("created_at", sevenAgoIso);
 
   try {
-    const [recent, prior] = await Promise.all([
-      supabase
-        .from("bot_crawls")
-        .select("bot_id, created_at")
-        .gte("created_at", sevenAgo.toISOString()),
-      supabase
-        .from("bot_crawls")
-        .select("id", { count: "exact", head: true })
-        .gte("created_at", fourteenAgo.toISOString())
-        .lt("created_at", sevenAgo.toISOString()),
+    const [recent, prior, ...perBot] = await Promise.all([
+      countWindow(sevenAgoIso),
+      countWindow(fourteenAgoIso, sevenAgoIso),
+      ...AI_BOT_IDS.map((id) => countBot(id)),
     ]);
 
-    const recentRows = (recent.data ?? []) as Array<{ bot_id: string; created_at: string }>;
-    const byBotMap = new Map<string, { hits: number; lastSeen: string | null }>();
-    for (const row of recentRows) {
-      const cur = byBotMap.get(row.bot_id) ?? { hits: 0, lastSeen: null };
-      cur.hits += 1;
-      if (!cur.lastSeen || row.created_at > cur.lastSeen) cur.lastSeen = row.created_at;
-      byBotMap.set(row.bot_id, cur);
-    }
-
-    const byBot: BotCrawlSummary[] = Array.from(byBotMap.entries())
-      .map(([bot_id, v]) => ({ bot_id, hits_7d: v.hits, last_seen: v.lastSeen }))
+    const byBot: BotCrawlSummary[] = AI_BOT_IDS.map((bot_id, i) => ({
+      bot_id,
+      hits_7d: perBot[i]?.count ?? 0,
+      // last_seen isn't rendered in any current surface (dashboard, ai-presence,
+      // digest all read bot_id + hits_7d only); kept for type compatibility.
+      // Populating it would mean a second query per bot.
+      last_seen: null as string | null,
+    }))
+      .filter((b) => b.hits_7d > 0)
       .sort((a, b) => b.hits_7d - a.hits_7d);
 
     return {
-      total7d: recentRows.length,
+      total7d: recent.count ?? 0,
       prior7d: prior.count ?? 0,
       byBot,
     };

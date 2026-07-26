@@ -469,7 +469,11 @@ async function countScrollDepth(
     .select("*", COUNT_OPTS)
     .eq("event_name", "scroll_depth")
     .eq("page_path", pagePath)
-    .eq("depth", threshold)
+    // Fixed 2026-07-12: the threshold lives in the real `scroll_percent`
+    // column (see 20260508 migration), not `depth`. The old `.eq("depth", …)`
+    // filter matched a non-existent column, so every count silently returned 0
+    // and the corridor scroll-depth heatmap was always empty.
+    .eq("scroll_percent", threshold)
     .gte("created_at", sinceIso)
     .lt("created_at", untilIso)
     .neq("device_type", "bot");
@@ -478,8 +482,7 @@ async function countScrollDepth(
     const result = await q;
     return result.count ?? 0;
   } catch {
-    // scroll_depth events may use a different column name in some schemas;
-    // gracefully degrade rather than crash the whole dashboard.
+    // Degrade gracefully rather than crash the whole dashboard.
     return 0;
   }
 }

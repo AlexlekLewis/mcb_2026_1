@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { buildSignal } from "./scoring";
 import type { Signal } from "./types";
 import { crawlPages } from "./crawler";
+import { fetchQuoteFunnel, countCleanEvent } from "@/lib/dashboard/v2/report-metrics";
 
 interface CollectorInput {
     supabase: SupabaseClient;
@@ -117,8 +118,10 @@ async function collectCrawlability(baseUrl: string, samplePaths: string[]) {
 // ---------- engagement (from dashboard views) ----------
 
 async function collectEngagement(supabase: SupabaseClient): Promise<Signal[]> {
+    // Bot-filtered variant. The non-clean view reads raw analytics_events and
+    // returned bot-inflated garbage (e.g. 5,677 sessions, 0.92 pages/session).
     const { data } = await supabase
-        .from("dashboard_engagement_totals_30d")
+        .from("dashboard_engagement_totals_30d_clean")
         .select("avg_engaged_seconds, avg_pages_per_session, avg_max_scroll_percent, bounced_sessions, total_sessions")
         .maybeSingle();
 
@@ -137,18 +140,25 @@ async function collectEngagement(supabase: SupabaseClient): Promise<Signal[]> {
 // ---------- conversion ----------
 
 async function collectConversion(supabase: SupabaseClient): Promise<Signal[]> {
-    const { data: funnel } = await supabase
-        .from("dashboard_conversion_funnel_30d")
-        .select("stage, total")
-        .order("sort_order", { ascending: true });
+    // Bot-filtered, keyed by event name. The old code read the raw
+    // dashboard_conversion_funnel_30d view AND looked up stage keys
+    // ("page_view", "quote_step_1_complete") that never matched the view's
+    // human labels ("Page views") — so every conversion rate was silently 0.
+    const [funnel, { data: eng }] = await Promise.all([
+        fetchQuoteFunnel(30),
+        supabase
+            .from("dashboard_engagement_totals_30d_clean")
+            .select("total_sessions")
+            .maybeSingle(),
+    ]);
 
-    const stageTotal = new Map<string, number>();
-    for (const row of funnel ?? []) stageTotal.set(row.stage, row.total);
+    const byKey = new Map<string, number>();
+    for (const s of funnel) byKey.set(s.key, s.count);
 
-    const sessions = stageTotal.get("sessions") ?? stageTotal.get("page_view") ?? 0;
-    const step1 = stageTotal.get("quote_step_1_complete") ?? stageTotal.get("quote_step_1") ?? 0;
-    const step2 = stageTotal.get("quote_step_2_complete") ?? stageTotal.get("quote_step_2") ?? 0;
-    const submitted = stageTotal.get("quote_submitted") ?? stageTotal.get("lead_submitted") ?? stageTotal.get("quote_success") ?? 0;
+    const sessions = eng?.total_sessions ?? 0;
+    const step1 = byKey.get("quote_step_1_complete") ?? 0;
+    const step2 = byKey.get("quote_step_2_complete") ?? 0;
+    const submitted = byKey.get("quote_step_3_submit") ?? byKey.get("quote_success") ?? 0;
 
     const { count: storedLeads } = await supabase
         .from("lead_submissions")
@@ -165,12 +175,7 @@ async function collectConversion(supabase: SupabaseClient): Promise<Signal[]> {
     const step2ToSubmit = step2 > 0 ? submitted / step2 : 0;
     const submitToStored = submitted > 0 ? Math.min(1, leadCount / submitted) : (leadCount > 0 ? 1 : 0);
 
-    const { data: phoneEvents } = await supabase
-        .from("analytics_events")
-        .select("id", { count: "exact", head: true })
-        .eq("event_name", "phone_tap")
-        .gte("created_at", new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString());
-    const phoneCount = (phoneEvents as unknown as { count?: number })?.count ?? 0;
+    const phoneCount = await countCleanEvent("phone_tap", 30);
     const phoneRate = sessions > 0 ? phoneCount / sessions : 0;
 
     return [

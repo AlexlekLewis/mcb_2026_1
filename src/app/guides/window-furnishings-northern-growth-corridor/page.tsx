@@ -5,7 +5,7 @@ import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
   title:
-    "Window furnishings — Northern growth corridor buyer's guide | Modern Curtains and Blinds",
+    "Window furnishings — Northern growth corridor buyer's guide",
   description:
     "Authoritative buyer's guide for window furnishings across Melbourne's northern growth corridor — Wollert, Donnybrook, Beveridge, Mickleham, Greenvale. Build profile, builder mix, pricing, covenants, multigenerational households, pooja room blackout, Aurora / Lyndarum / Cloverton estates.",
   alternates: {

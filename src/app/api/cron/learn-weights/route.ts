@@ -121,9 +121,12 @@ export async function GET(request: Request) {
 
 async function convRate(supabase: ReturnType<typeof getSupabaseAdmin>, fromIso: string, toIso: string): Promise<number> {
     if (!supabase) return 0;
+    // Bot-filtered + page_view-scoped so the conversion-rate denominator is
+    // real human sessions, not bot event noise (was raw analytics_events).
     const { count: sessions } = await supabase
-        .from("analytics_events")
+        .from("analytics_events_clean")
         .select("session_id", { count: "exact", head: true })
+        .eq("event_name", "page_view")
         .gte("created_at", fromIso).lt("created_at", toIso);
 
     const { count: leads } = await supabase
