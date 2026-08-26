@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Motorised Blinds & Curtains Melbourne | Modern Curtains and Blinds",
+  title: "Motorised Blinds & Curtains Melbourne",
   description:
     "Motorisation for blinds and curtains across Melbourne. Battery retrofit from $180–$280 per blind. Smart-home integration. Free measure and quote.",
   alternates: { canonical: "/motorisation" },

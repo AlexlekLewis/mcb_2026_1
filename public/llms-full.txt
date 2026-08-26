@@ -75,6 +75,72 @@ Live reviews source: https://maps.app.goo.gl/zRBNX1LBoTc2DK2g9.
 - **Australian Made and Owned.**
 - **Free quote, no obligation, written pricing.**
 
+## Q: How much heat does a home lose through its windows?
+
+Glass is the weakest thermal point of almost every Australian home — a single pane insulates
+poorly compared with an insulated wall. Up to 40% of a home's heating energy can be lost
+through its windows in winter, and bare glass is also the main path for unwanted heat gain in
+summer. Covering the glass properly with lined curtains or close-fitting blinds is the fastest
+and cheapest way to close that gap, and far cheaper than replacing the glazing itself. Full
+guide: https://www.moderncurtainsandblinds.com.au/guides/energy-efficient-curtains-blinds-melbourne
+
+## Q: Do blockout curtains actually keep heat in during winter?
+
+Yes — meaningfully. A lined blockout curtain traps a layer of still air between the fabric and
+the glass, and still air is one of the best insulators there is. The catch is coverage: the
+curtain needs to run wider than the window frame, drop below the sill (to the floor is better)
+and sit close to the glass. A skimpy curtain that floats mid-air with gaps around every edge
+lets warm room air slide behind it, chill against the glass and pour back out the bottom, so a
+poorly fitted curtain can do very little. Fit is most of the result — which is why Modern
+Curtains and Blinds measures in the home rather than selling off a shelf.
+
+## Q: What are the best blinds to keep a Melbourne home warm?
+
+Honeycomb (cellular) blinds are the strongest insulating blind — their hexagon cells trap air
+in pockets across the whole window. A quality blockout roller blind, measured snug inside the
+reveal so the gaps around the edges are small, is the value pick and delivers a lot of the same
+benefit for less. A double roller adds a sunscreen layer for daytime use, and layering any
+blind with a curtain over the top performs better than either alone. What matters more than the
+product name is the fit: a blind with daylight showing around all four edges is barely
+insulating anything.
+
+## Q: What do window coverings need in order to actually insulate?
+
+- Curtains fitted wider than the window frame and dropping to the floor where the room allows.
+- Blinds measured snug inside the reveal so edge gaps are minimal.
+- A pelmet, or a closed-off track top, so warm air cannot dive in over the rail and circulate
+  down the cold glass — the most commonly overlooked detail.
+- Coverings closed at dusk while the heating is running; opened during the day to let winter
+  sun in.
+- Layering (blind at the glass plus a lined curtain over it) for the best-performing windows.
+
+## Q: Are honeycomb blinds worth the extra cost over roller blinds?
+
+It depends on the room. Honeycomb cells trap air across the glass and are the best insulating
+blind available. But a well-made blockout roller, measured tight to the opening, closes most of
+the same gap at a lower price. For a bedroom used every night on a cold side of the house,
+honeycombs earn their keep; for a spare room, a snug blockout roller is the smarter spend.
+Modern Curtains and Blinds supplies both.
+
+## Q: Do motorised blinds save energy?
+
+Motorisation is a convenience product first — remotes, schedules, app and voice control — not
+an insulation product. Where it helps in winter is timing: a schedule that closes every blind
+and curtain at dusk means the insulation is actually deployed before the evening chill,
+whether anyone is home or not. Choose motorisation for the convenience; the warmth discipline
+is a bonus.
+
+## Q: Is it worth improving a Melbourne home instead of selling right now?
+
+Melbourne dwelling values have been flat to slightly lower through 2026 and forecasters are
+split on when that turns. With prices not running, the cost of trading houses — stamp duty,
+agent fees, moving costs — is harder to justify, and more owners are choosing to improve the
+home they already own. Custom window furnishings sit well on that list: they change how every
+room looks and feels, do real thermal work morning and night, and are fitted in days rather
+than renovation months. Note also that for most Australian family homes the main residence is
+generally exempt from capital gains tax on sale, unlike an investment property — homeowners
+should confirm their own position with their accountant.
+
 ## Canonical structured data
 
-JSON-LD on the site declares: `HomeAndConstructionBusiness`, per-suburb `LocalBusiness`, `FAQPage`, `Service` and `Product` types. Crawlers can rely on the schema for structured fact extraction.
+JSON-LD on the site declares: `HomeAndConstructionBusiness`, per-suburb `LocalBusiness`, `FAQPage`, `Article` (on the buyer's guides), `Service` and `Product` types. Crawlers can rely on the schema for structured fact extraction.

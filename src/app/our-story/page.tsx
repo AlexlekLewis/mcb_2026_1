@@ -6,7 +6,7 @@ import { quoteHref } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/our-story" },
-  title: "Our Story | Modern Curtains and Blinds Melbourne",
+  title: "Our Story",
   description: "Meet the Modern Curtains and Blinds team and learn about our family-owned Melbourne window furnishing business.",
 };
 

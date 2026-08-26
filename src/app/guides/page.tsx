@@ -17,7 +17,7 @@ import { PrimaryCTA } from "@/components/PrimaryCTA";
 export const metadata: Metadata = {
   title: "Window Furnishing Guides for Melbourne Homes",
   description:
-    "Practical buyer's guides for Melbourne homes — new-build inclusions, estate covenant rules for roller shutters and zipscreens, pooja and prayer room blackout, and corridor-by-corridor guidance for the north, west and south-east.",
+    "Practical buyer's guides for Melbourne homes — energy-efficient curtains and blinds for winter, new-build inclusions, estate covenant rules for roller shutters and zipscreens, pooja and prayer room blackout, and corridor-by-corridor guidance for the north, west and south-east.",
   alternates: { canonical: "/guides" },
   openGraph: {
     title: "Window furnishing guides for Melbourne homes",
@@ -96,6 +96,27 @@ export default function GuidesHub() {
             the people who measure and fit them.
           </p>
         </header>
+
+        {/* Featured seasonal guide — flagship editorial, winter–spring 2026. */}
+        <Link
+          href="/guides/energy-efficient-curtains-blinds-melbourne"
+          className="group mb-8 block overflow-hidden rounded-lg bg-mcb-charcoal p-8 text-white transition-all hover:-translate-y-1 hover:shadow-xl md:p-10"
+        >
+          <span className="mb-3 block text-xs font-bold uppercase tracking-widest text-mcb-clay-light">
+            Featured · Seasonal guide
+          </span>
+          <h2 className="mb-4 max-w-2xl font-serif text-3xl leading-tight group-hover:text-mcb-clay-light md:text-4xl">
+            The warmest thing you&apos;ll do for your home this year
+          </h2>
+          <p className="mb-5 max-w-2xl leading-relaxed text-stone-300">
+            Up to 40% of your heating can escape through bare glass. How the
+            right curtains and blinds keep the warmth you&apos;ve paid for — and
+            why this is the year to improve the home you own instead of moving.
+          </p>
+          <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-mcb-clay-light">
+            Read the guide →
+          </span>
+        </Link>
 
         <div className="grid gap-6 sm:grid-cols-2">
           {GUIDES.map((g) => (

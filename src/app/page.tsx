@@ -34,7 +34,9 @@ export default function Home() {
               Made for your home.<br className="hidden md:block" /> Made in Melbourne.
             </h1>
             <p className="mb-6 max-w-3xl text-base leading-relaxed text-stone-100 md:mb-9 md:text-2xl">
-              Custom curtains, blinds, shutters, security doors and outdoor — designed for your home, measured by us. Free in-home quote across Melbourne.
+              Curtains, blinds, shutters, security doors and outdoor — made to
+              fit your home exactly. We come to you, we measure, we install.
+              The quote is free.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <PrimaryCTA

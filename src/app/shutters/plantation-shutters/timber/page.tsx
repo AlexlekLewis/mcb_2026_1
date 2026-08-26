@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Timber Plantation Shutters Melbourne | Modern Curtains and Blinds",
+  title: "Timber Plantation Shutters Melbourne",
   description:
     "Custom timber plantation shutters, supplied and installed across Melbourne. $100–$1,000 per window, ~$299/sqm average. Free in-home measure and quote.",
   alternates: { canonical: "/shutters/plantation-shutters/timber" },

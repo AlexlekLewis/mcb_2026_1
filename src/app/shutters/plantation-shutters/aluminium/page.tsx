@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Element 13 Aluminium Plantation Shutters Melbourne | Modern Curtains and Blinds",
+  title: "Element 13 Aluminium Plantation Shutters Melbourne",
   description:
     "Element 13 aluminium plantation shutters for external alfresco, balconies and covenant-restricted facades. $100–$1,000 per window. Free Melbourne measure and quote.",
   alternates: { canonical: "/shutters/plantation-shutters/aluminium" },

@@ -10,9 +10,10 @@ import { getProductCanonicalPath } from '@/lib/product-canonicals'
 const CORE_LAST_MODIFIED = new Date('2026-05-01')
 const PRODUCT_LAST_MODIFIED = new Date('2026-05-01')
 const LOCATION_LAST_MODIFIED = new Date('2026-01-01')
-// The /guides tier is genuinely hand-written and was last revised for the
-// 2026-07 growth audit. Bump when a guide is materially rewritten.
-const GUIDE_LAST_MODIFIED = new Date('2026-07-01')
+// The /guides tier is genuinely hand-written and was last revised when the
+// energy-efficiency seasonal guide shipped. Bump when a guide is materially
+// rewritten.
+const GUIDE_LAST_MODIFIED = new Date('2026-08-13')
 
 // Every canonical on the site is www. The apex 307-redirects, so an unset
 // NEXT_PUBLIC_BASE_URL previously flipped all 89 sitemap URLs to a redirecting
@@ -88,6 +89,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // self-canonical but absent from the sitemap and unlinked from anywhere in
     // the nav — effectively unpublished. Surfaced by the 2026-07 growth audit.
     const guideSlugs = [
+        'energy-efficient-curtains-blinds-melbourne',
         'estate-covenant-roller-shutters-zipscreens-melbourne',
         'pooja-prayer-room-blackout-curtains-australia',
         'new-build-window-furnishings-not-included',

@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "External Roller Shutters Melbourne | Modern Curtains and Blinds",
+  title: "External Roller Shutters Melbourne",
   description:
     "External roller shutters for security, thermal performance and afternoon sun control. $500–$1,200 per window with motor. Free Melbourne measure and quote.",
   alternates: { canonical: "/shutters/roller-shutters" },

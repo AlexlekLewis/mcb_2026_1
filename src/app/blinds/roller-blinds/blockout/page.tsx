@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Blockout Roller Blinds Melbourne | Modern Curtains and Blinds",
+  title: "Blockout Roller Blinds Melbourne",
   description:
     "Quality blockout roller blinds measured and installed across Melbourne. Indicative pricing $1,200–$2,900 whole-house, custom fit for new-build and renovated homes. Free in-home measure and quote.",
   alternates: { canonical: "/blinds/roller-blinds/blockout" },

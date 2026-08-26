@@ -24,37 +24,37 @@ export const trustItems = [
 export const needCards = [
   {
     title: "Better Sleep",
-    description: "Blockout Curtains, Blockout Blinds and Roller Shutters for darker, quieter Rooms.",
+    description: "Blockout curtains, blinds and roller shutters that make bedrooms dark and quiet.",
     href: "/curtains/blockout",
     icon: Sparkles,
   },
   {
     title: "Daytime Privacy",
-    description: "Sheers, Sunscreen Blinds, Translucent Blinds and Double Rollers that soften Light without closing the Room in.",
+    description: "Sheers and soft blinds that stop people seeing in — without blocking your light.",
     href: "/blinds/translucent-blinds",
     icon: Home,
   },
   {
     title: "Heat and Glare Control",
-    description: "Honeycomb Blinds, Sunscreen Fabrics and Awnings for hot or west-facing Windows.",
+    description: "Keep summer heat out and winter warmth in. Honeycomb blinds, sunscreen fabrics and awnings.",
     href: "/blinds/honeycomb-blinds",
     icon: ThermometerSun,
   },
   {
     title: "Security and Airflow",
-    description: "Security Doors, Pet Mesh and Fly Screens measured to fit.",
+    description: "Security doors, pet mesh and fly screens made to fit. Fresh air, no worry.",
     href: "/security",
     icon: ShieldCheck,
   },
   {
     title: "Outdoor Entertaining",
-    description: "Zipscreens, Roller Shutters, Folding Arm Awnings and Exterior Shade Systems for Alfresco Comfort.",
+    description: "Zipscreens, awnings and outdoor blinds so your alfresco works all year round.",
     href: "/awnings",
     icon: SunMedium,
   },
   {
     title: "Smart Control",
-    description: "Motorised Blinds, Curtains and Hubs for Schedules, Remotes, Apps and Voice Control.",
+    description: "Motorised blinds and curtains you run from a remote, an app, or your voice.",
     href: "/motorisation",
     icon: Wand2,
   },

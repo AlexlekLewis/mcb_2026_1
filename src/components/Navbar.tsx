@@ -47,7 +47,7 @@ export function Navbar() {
                 alt="Modern Curtains and Blinds"
                 width={1188}
                 height={340}
-                className="h-auto w-[172px] object-contain md:w-[190px] lg:w-[220px] xl:w-[250px]"
+                className="h-auto w-[172px] object-contain md:w-[180px] lg:w-[200px] xl:w-[220px]"
                 priority
               />
             </Link>

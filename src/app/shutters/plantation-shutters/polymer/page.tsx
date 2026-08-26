@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Fusion+ Polymer Plantation Shutters Melbourne | Modern Curtains and Blinds",
+  title: "Fusion+ Polymer Plantation Shutters Melbourne",
   description:
     "Fusion+ polymer plantation shutters for bathrooms, west-facing windows and covenant-restricted facades. $100–$1,000 per window. Free Melbourne measure and quote.",
   alternates: { canonical: "/shutters/plantation-shutters/polymer" },

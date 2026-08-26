@@ -33,7 +33,7 @@ export function BrowseByNeed() {
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Start With The Problem</span>
           <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">What Do You Need Help With?</h2>
           <p className="text-lg leading-relaxed text-stone-500">
-            If you are not sure which product is right, choose the outcome you want and we will guide you from there.
+            Not sure what to pick? Start with the problem. We&apos;ll show you what fixes it.
           </p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -65,7 +65,7 @@ export function ExpandedCategoryGrid() {
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Full service range</span>
           <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Every Window and Doorway Covered</h2>
           <p className="text-lg leading-relaxed text-stone-500">
-            Curtains, blinds, shutters, security screens, outdoor shade and motorisation can all be planned in one visit.
+            One visit covers the lot — curtains, blinds, shutters, security, outdoor shade and motorisation.
           </p>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -103,7 +103,7 @@ export function ProcessStrip() {
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">How it works</span>
           <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A Clear Path from Idea to Install</h2>
-          <p className="text-lg leading-relaxed text-stone-500">No pressure, no guesswork. We help you compare the right products before anything is ordered.</p>
+          <p className="text-lg leading-relaxed text-stone-500">No pressure. No guesswork. You see the samples, the options and the written price before anything is ordered.</p>
         </div>
         <div className="grid gap-5 md:grid-cols-4">
           {processSteps.map((step, index) => (
@@ -145,10 +145,10 @@ export function FamilyBusinessStory() {
           </h2>
           <div className="space-y-5 text-lg leading-relaxed text-stone-600">
             <p>
-              Modern Curtains and Blinds is run by real people, not a call centre. You get practical guidance from a local team that understands Melbourne homes, tricky windows, changing light and the details that make custom window furnishings feel finished.
+              Modern Curtains and Blinds is run by Deane and Dee — real people, not a call centre. They&apos;ve measured Melbourne windows for more than 30 years. They know the tricky frames, the harsh western sun, and the small details that make a room look properly finished.
             </p>
             <p>
-              From the first measure to the final install, the focus is simple: clear advice, careful measuring, quality products and a result the family would be happy to put in their own home.
+              From the first measure to the final install, the promise is simple: honest advice, careful measuring, quality products, and a result we&apos;d be happy to hang in our own home.
             </p>
           </div>
           <Link
@@ -171,7 +171,7 @@ export function SecurityMoat() {
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB Advantage</span>
           <h2 className="mb-6 font-serif text-3xl md:text-5xl">Curtains, Blinds and Security Products from Our Melbourne Team</h2>
           <p className="mb-8 max-w-2xl text-lg leading-relaxed text-stone-300">
-            While we are measuring your windows, we can also quote security doors, fly screens and pet mesh so every opening in your home is covered properly.
+            While we&apos;re there measuring your windows, we can quote security doors, fly screens and pet mesh too. One visit, every opening covered.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <PrimaryCTA
@@ -207,7 +207,7 @@ export function FinalCTA({ product }: { product?: string }) {
       <div className="container mx-auto px-4 text-center">
         <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Book Your Free In-Home Measure and Quote</h2>
         <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-stone-500">
-          No obligation. We bring samples, measure your windows, explain your options and provide a clear written quote.
+          No pressure. We bring samples, measure up, walk you through the options, and put the price in writing.
         </p>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <PrimaryCTA

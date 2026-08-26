@@ -3,7 +3,7 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blockout Curtains Melbourne | Modern Curtains and Blinds",
+  title: "Blockout Curtains Melbourne",
   description:
     "Custom blockout curtains supplied and installed across Melbourne. Triple-pass blockout, sheer + blockout layered, indicative pricing $600–$2,000 per bedroom. Free in-home measure and quote.",
   alternates: { canonical: "/curtains/blockout" },

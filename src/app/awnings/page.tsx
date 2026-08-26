@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Folding-Arm Awnings Melbourne | Modern Curtains and Blinds",
+  title: "Folding-Arm Awnings Melbourne",
   description:
     "Quality folding-arm awnings supplied and installed across Melbourne. Built for Australian conditions with proper wind ratings. $2,500–$4,000 per opening. Free measure and quote.",
   alternates: { canonical: "/awnings" },

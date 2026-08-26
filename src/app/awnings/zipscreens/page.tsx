@@ -4,7 +4,7 @@ import { FaqPageSchema } from "@/components/RichSchema";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
 export const metadata: Metadata = {
-  title: "Zipscreen Outdoor Blinds Melbourne | Modern Curtains and Blinds",
+  title: "Zipscreen Outdoor Blinds Melbourne",
   description:
     "Zipscreen outdoor blinds for alfresco areas. Manual $1,500–$2,000, motorised $2,000–$2,500 per opening. Free Melbourne measure and quote.",
   alternates: { canonical: "/awnings/zipscreens" },

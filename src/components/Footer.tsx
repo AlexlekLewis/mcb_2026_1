@@ -72,12 +72,17 @@ export function Footer() {
                                 <span>Melbourne, Victoria, Australia <br />(We come to you)</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Phone className="text-mcb-terracotta" size={18} />
+                                <Phone className="text-mcb-terracotta shrink-0" size={18} />
                                 <a href={SITE.phoneHref} className="hover:text-white transition-colors">{SITE.phoneDisplay}</a>
                             </li>
-                            <li className="flex items-center gap-3">
-                                <Mail className="text-mcb-terracotta" size={18} />
-                                <a href={`mailto:${SITE.email}`} className="hover:text-white transition-colors">{SITE.email}</a>
+                            <li className="flex items-start gap-3">
+                                <Mail className="text-mcb-terracotta mt-1 shrink-0" size={18} />
+                                <a
+                                    href={`mailto:${SITE.email}`}
+                                    className="min-w-0 break-words transition-colors hover:text-white"
+                                >
+                                    {SITE.email}
+                                </a>
                             </li>
                         </ul>
                     </div>

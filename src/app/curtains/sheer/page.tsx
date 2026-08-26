@@ -3,7 +3,7 @@ import { getNearbyLocations } from "@/lib/locations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sheer Curtains Melbourne | Modern Curtains and Blinds",
+  title: "Sheer Curtains Melbourne",
   description:
     "Custom sheer curtains supplied and installed across Melbourne. S-fold and wave-fold sheer curtains, indicative pricing $3,000–$4,000 whole-house. Free in-home measure and quote.",
   alternates: { canonical: "/curtains/sheer" },

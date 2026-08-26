@@ -172,6 +172,51 @@ export function FaqPageSchema({
   );
 }
 
+export function ArticleSchema({
+  headline,
+  description,
+  path,
+  datePublished,
+  dateModified,
+}: {
+  headline: string;
+  description: string;
+  /** Site-relative path, e.g. "/guides/energy-efficient-curtains-blinds-melbourne" */
+  path: string;
+  /** ISO date, e.g. "2026-08-13" */
+  datePublished: string;
+  dateModified?: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${SITE.url}${path}#article`,
+    headline,
+    description,
+    datePublished,
+    dateModified: dateModified ?? datePublished,
+    inLanguage: "en-AU",
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE.url}${path}` },
+    image: `${SITE.url}/assets/curtain_hero.png`,
+    author: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export function LocalBusinessSchema({
   suburb,
 }: {
