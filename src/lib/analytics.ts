@@ -38,6 +38,11 @@
  *                          Fired ONCE per session per question_id. Feeds the question-level
  *                          engagement panel on /dashboard/growth-corridors.
  *                          payload: { question_id, page_url, corridor?, category? }
+ *   promo_modal_shown      seasonal promotion modal displayed (once per visitor per promo).
+ *                          payload: { promo_id }
+ *   promo_modal_dismissed  modal closed without converting.
+ *                          payload: { promo_id, reason: "close" | "backdrop" | "escape" | "cta" }
+ *   promo_modal_cta_click  modal CTA clicked through to the quote flow. payload: { promo_id }
  *   question_section_dwell first heartbeat dwell event for a Q&A section — fires after the
  *                          section has been ≥50% in-viewport for 8 continuous seconds, and
  *                          again on section exit with total dwell time.

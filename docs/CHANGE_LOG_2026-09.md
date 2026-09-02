@@ -11,7 +11,7 @@ Running log of Alex's requested changes. Tick off as shipped.
 | 5 | **Product Guide** — subtle button + hover modal on all pages; cut its footprint | ✅ Done | `feat(product-guide): button + modal` |
 | 6 | **Page spacing** — reduce padding ~50% for a tighter layout | ✅ Done | `style: halve vertical rhythm` |
 | 7 | **Booking page** — Payright / payment options on the right-hand side | ✅ Done | `feat(quote): payment options sidebar` |
-| 8 | **Spring Sale** — marketing plan + spring-feel modal on all landing pages | ☐ Pending | — |
+| 8 | **Spring Sale** — marketing plan + spring-feel modal on all landing pages | 🟡 Built, awaiting sign-off | `feat(promo): spring sale modal` |
 
 ## Indexing audit result (item 1)
 792 built pages: 663 noindex, 129 indexable, 98 in sitemap. **No indexing defects found** — the gap is deliberate and correct (661 thin suburb hubs noindexed by the June growth-audit decision; 26 `/products/*` cross-canonicalised; 6 permanent redirect stubs; `/quote` dynamic). Review schema removal held, FAQPage present on all 41 product pages, llms.txt all-www.

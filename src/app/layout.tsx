@@ -10,6 +10,7 @@ import { Analytics, AnalyticsNoScript } from "@/components/Analytics";
 import { EventTracker } from "@/components/EventTracker";
 import { EngagementTracker } from "@/components/EngagementTracker";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { SpringPromoModal } from "@/components/SpringPromoModal";
 import { SITE } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -83,6 +84,7 @@ export default function RootLayout({
         <Footer />
         <ChatWidget />
         <StickyMobileCTA />
+        <SpringPromoModal />
         <OrganizationSchema />
         <Analytics />
         <EventTracker />
