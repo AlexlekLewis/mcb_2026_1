@@ -254,36 +254,6 @@ export function ProductTemplate({
                 </motion.div>
             </section>
 
-            <GoogleReviewsWidget />
-
-            {/* Introduction with scroll reveal */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="py-24 container mx-auto px-6"
-            >
-                <div className="max-w-3xl mx-auto text-center">
-                        <motion.span
-                        variants={itemVariants}
-                        className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-6 block"
-                    >
-                        {intentLabel}
-                    </motion.span>
-                    <motion.p
-                        variants={itemVariants}
-                        className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 leading-tight"
-                    >
-                        {description}
-                    </motion.p>
-                    <motion.div
-                        variants={itemVariants}
-                        className="w-24 h-1 bg-mcb-sage mx-auto rounded-full"
-                    />
-                </div>
-            </motion.section>
-
             {/* Product Types / Collection with alternating slide animations */}
             <section className="py-24 container mx-auto px-6">
                 <motion.h2
@@ -365,6 +335,92 @@ export function ProductTemplate({
                 </div>
             </section>
 
+            {/* Decision Guide */}
+            {decisionGuide && decisionGuide.length > 0 && (
+                <section className="py-20 bg-white">
+                    <div className="container mx-auto px-6">
+                        <div className="max-w-3xl mx-auto text-center mb-12">
+                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
+                                Choose with confidence
+                            </span>
+                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
+                                Which option is right for you?
+                            </h2>
+                            <p className="text-stone-500 text-lg">
+                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {decisionGuide.map((item) => (
+                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
+                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Benefits Section */}
+            {benefits && benefits.length > 0 && (
+                <section className="py-20 bg-stone-50">
+                    <div className="container mx-auto px-6">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
+                            Why Choose {title.replace("Custom ", "")}?
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {benefits.map((benefit, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="flex items-start gap-4 p-6 bg-white rounded-sm shadow-sm"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-mcb-sage/20 flex items-center justify-center flex-shrink-0 text-mcb-olive">
+                                        <Check size={16} />
+                                    </div>
+                                    <p className="font-medium text-mcb-charcoal">{benefit}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            <GoogleReviewsWidget />
+
+            {/* Introduction with scroll reveal */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={containerVariants}
+                className="py-24 container mx-auto px-6"
+            >
+                <div className="max-w-3xl mx-auto text-center">
+                        <motion.span
+                        variants={itemVariants}
+                        className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-6 block"
+                    >
+                        {intentLabel}
+                    </motion.span>
+                    <motion.p
+                        variants={itemVariants}
+                        className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 leading-tight"
+                    >
+                        {description}
+                    </motion.p>
+                    <motion.div
+                        variants={itemVariants}
+                        className="w-24 h-1 bg-mcb-sage mx-auto rounded-full"
+                    />
+                </div>
+            </motion.section>
+
             {/* Features Grid with staggered animations */}
             <section className="py-20 bg-mcb-paper">
                 <div className="container mx-auto px-6">
@@ -394,6 +450,31 @@ export function ProductTemplate({
                     </motion.div>
                 </div>
             </section>
+
+            {/* FAQ Section */}
+            {effectiveFaq.length > 0 && (
+                <section className="py-20 bg-white">
+                    <div className="container mx-auto px-6 max-w-4xl">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
+                            Common Questions
+                        </h2>
+                        <div className="space-y-6">
+                            {effectiveFaq.map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="border-b border-stone-200 pb-6 last:border-0"
+                                >
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-2">{item.question}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.answer}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* Comparison Table */}
             {comparisonRows && comparisonRows.length > 0 && (
@@ -428,8 +509,6 @@ export function ProductTemplate({
                 </section>
             )}
 
-            <ProcessTimeline />
-
             {/* Fit Promise */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-6">
@@ -461,86 +540,7 @@ export function ProductTemplate({
                 </div>
             </section>
 
-            {/* Benefits Section */}
-            {benefits && benefits.length > 0 && (
-                <section className="py-20 bg-stone-50">
-                    <div className="container mx-auto px-6">
-                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
-                            Why Choose {title.replace("Custom ", "")}?
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {benefits.map((benefit, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    className="flex items-start gap-4 p-6 bg-white rounded-sm shadow-sm"
-                                >
-                                    <div className="w-8 h-8 rounded-full bg-mcb-sage/20 flex items-center justify-center flex-shrink-0 text-mcb-olive">
-                                        <Check size={16} />
-                                    </div>
-                                    <p className="font-medium text-mcb-charcoal">{benefit}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* FAQ Section */}
-            {effectiveFaq.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6 max-w-4xl">
-                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
-                            Common Questions
-                        </h2>
-                        <div className="space-y-6">
-                            {effectiveFaq.map((item, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    className="border-b border-stone-200 pb-6 last:border-0"
-                                >
-                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-2">{item.question}</h3>
-                                    <p className="text-stone-500 leading-relaxed">{item.answer}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* Decision Guide */}
-            {decisionGuide && decisionGuide.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6">
-                        <div className="max-w-3xl mx-auto text-center mb-12">
-                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
-                                Choose with confidence
-                            </span>
-                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
-                                Which option is right for you?
-                            </h2>
-                            <p className="text-stone-500 text-lg">
-                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
-                            </p>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                            {decisionGuide.map((item) => (
-                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
-                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
-                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
-                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
+            <ProcessTimeline />
 
             {internalLinks && internalLinks.links.length > 0 && (
                 <section className="bg-white py-20">
