@@ -48,7 +48,7 @@ export default function ProjectGallery({ projects }: Props) {
         })}
       </div>
 
-      <div className="container mx-auto px-4 pb-20">
+      <div className="container mx-auto px-4 pb-10">
         <motion.div
           layout
           className="columns-1 gap-5 sm:columns-2 lg:columns-3 [column-fill:_balance]"

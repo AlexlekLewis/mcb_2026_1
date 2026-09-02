@@ -255,7 +255,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
 
   if (status === "success") {
     return (
-      <section className="min-h-screen bg-mcb-paper px-4 py-28">
+      <section className="min-h-screen bg-mcb-paper px-4 py-14">
         <div className="container mx-auto max-w-3xl rounded-sm bg-white p-8 text-center shadow-xl md:p-12">
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-green-700">
             <Check className="h-10 w-10" />
@@ -273,7 +273,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
   }
 
   return (
-    <section className="min-h-screen bg-mcb-paper px-4 py-28">
+    <section className="min-h-screen bg-mcb-paper px-4 py-14">
       <div className="container mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.72fr]">
         <div className="rounded-sm bg-white p-6 shadow-xl md:p-10">
           <div className="mb-6">

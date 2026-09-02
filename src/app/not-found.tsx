@@ -33,7 +33,7 @@ const LINKS = [
 export default function NotFound() {
   return (
     <main className="min-h-screen bg-mcb-paper">
-      <div className="container mx-auto max-w-2xl px-4 py-24 text-center">
+      <div className="container mx-auto max-w-2xl px-4 py-12 text-center">
         <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">
           Page not found
         </span>
@@ -45,7 +45,7 @@ export default function NotFound() {
           people are heading — or give us a call and we&apos;ll point you the right way.
         </p>
 
-        <nav aria-label="Popular sections" className="mb-12 flex flex-wrap justify-center gap-3">
+        <nav aria-label="Popular sections" className="mb-6 flex flex-wrap justify-center gap-3">
           {LINKS.map((l) => (
             <Link
               key={l.href}

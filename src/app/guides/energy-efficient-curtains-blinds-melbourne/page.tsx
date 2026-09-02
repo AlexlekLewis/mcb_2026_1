@@ -139,7 +139,7 @@ export default function EnergyEfficiencyGuide() {
       <article className="min-h-screen bg-mcb-paper">
         {/* ————— Editorial hero ————— */}
         <header className="bg-mcb-charcoal text-white">
-          <div className="container mx-auto max-w-4xl px-4 pb-16 pt-20 md:pb-20 md:pt-28">
+          <div className="container mx-auto max-w-4xl px-4 pb-8 pt-10 md:pb-10 md:pt-14">
             {/* Deliberately NOT wrapped in <Reveal>: the h1 here is the LCP
                 element, and an opacity-0 entrance delays Largest Contentful
                 Paint. Motion starts below the fold. */}
@@ -167,7 +167,7 @@ export default function EnergyEfficiencyGuide() {
 
         {/* ————— Pull stat ————— */}
         <section className="border-b border-stone-200 bg-white">
-          <div className="container mx-auto max-w-4xl px-4 py-12 md:py-16">
+          <div className="container mx-auto max-w-4xl px-4 py-6 md:py-8">
             <Reveal>
               <div className="grid items-center gap-8 md:grid-cols-[auto_1fr]">
                 <p className="font-serif text-7xl leading-none text-mcb-terracotta md:text-8xl">
@@ -190,7 +190,7 @@ export default function EnergyEfficiencyGuide() {
           </div>
         </section>
 
-        <div className="container mx-auto max-w-3xl px-4 py-16">
+        <div className="container mx-auto max-w-3xl px-4 py-8">
           <div className="space-y-16 text-stone-700">
             {/* ————— Why glass ————— */}
             <WovenQuestion questionId="q-energy-why-windows-lose-heat">

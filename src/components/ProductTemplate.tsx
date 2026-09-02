@@ -250,17 +250,17 @@ export function ProductTemplate({
             </section>
 
             {/* Product Types / Collection with alternating slide animations */}
-            <section className="py-24 container mx-auto px-6">
+            <section className="py-12 container mx-auto px-6">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-16 text-center"
+                    className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 text-center"
                 >
                     Choose with confidence
                 </motion.h2>
                 {comparisonRows && comparisonRows.length > 0 && (
-                    <div className="-mt-10 mb-16 flex justify-center">
+                    <div className="-mt-4 mb-8 flex justify-center">
                         <ProductGuideModal rows={comparisonRows} title={title} />
                     </div>
                 )}
@@ -333,9 +333,9 @@ export function ProductTemplate({
 
             {/* Decision Guide */}
             {decisionGuide && decisionGuide.length > 0 && (
-                <section className="py-20 bg-white">
+                <section className="py-10 bg-white">
                     <div className="container mx-auto px-6">
-                        <div className="max-w-3xl mx-auto text-center mb-12">
+                        <div className="max-w-3xl mx-auto text-center mb-6">
                             <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
                                 Choose with confidence
                             </span>
@@ -365,9 +365,9 @@ export function ProductTemplate({
 
             {/* Benefits Section */}
             {benefits && benefits.length > 0 && (
-                <section className="py-20 bg-stone-50">
+                <section className="py-10 bg-stone-50">
                     <div className="container mx-auto px-6">
-                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-6 text-center">
                             Why Choose {title.replace("Custom ", "")}?
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -399,7 +399,7 @@ export function ProductTemplate({
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={containerVariants}
-                className="py-24 container mx-auto px-6"
+                className="py-12 container mx-auto px-6"
             >
                 <div className="max-w-3xl mx-auto text-center">
                         <motion.span
@@ -422,7 +422,7 @@ export function ProductTemplate({
             </motion.section>
 
             {/* Features Grid with staggered animations */}
-            <section className="py-20 bg-mcb-paper">
+            <section className="py-10 bg-mcb-paper">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial="hidden"
@@ -453,9 +453,9 @@ export function ProductTemplate({
 
             {/* FAQ Section */}
             {effectiveFaq.length > 0 && (
-                <section className="py-20 bg-white">
+                <section className="py-10 bg-white">
                     <div className="container mx-auto px-6 max-w-4xl">
-                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-6 text-center">
                             Common Questions
                         </h2>
                         <div className="space-y-6">
@@ -477,7 +477,7 @@ export function ProductTemplate({
             )}
 
             {/* Fit Promise */}
-            <section className="py-16 bg-white">
+            <section className="py-8 bg-white">
                 <div className="container mx-auto px-6">
                     <div className="rounded-sm border border-mcb-clay/40 bg-mcb-paper p-8 md:p-10">
                         <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
@@ -510,7 +510,7 @@ export function ProductTemplate({
             <ProcessTimeline />
 
             {internalLinks && internalLinks.links.length > 0 && (
-                <section className="bg-white py-20">
+                <section className="bg-white py-10">
                     <div className="container mx-auto px-6">
                         <div className="mx-auto mb-10 max-w-3xl text-center">
                             <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">
@@ -549,7 +549,7 @@ export function ProductTemplate({
             )}
 
             {/* CTA Section with enhanced animations */}
-            <section className="bg-mcb-charcoal text-white py-24 relative overflow-hidden">
+            <section className="bg-mcb-charcoal text-white py-12 relative overflow-hidden">
                 <motion.div
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 10, repeat: Infinity }}

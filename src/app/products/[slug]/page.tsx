@@ -65,7 +65,7 @@ export default async function ProductPage({ params }: Props) {
                 }}
             />
             {/* Product Header / Hero */}
-            <section className="bg-stone-100 py-28 px-4">
+            <section className="bg-stone-100 py-14 px-4">
                 <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
                     <div className="aspect-square bg-white rounded-sm shadow-xl overflow-hidden relative group">
                         <Image
@@ -129,8 +129,8 @@ export default async function ProductPage({ params }: Props) {
             </section>
 
             {/* Features Grid */}
-            <section className="py-24 container mx-auto px-4 max-w-5xl">
-                <div className="text-center mb-16">
+            <section className="py-12 container mx-auto px-4 max-w-5xl">
+                <div className="text-center mb-8">
                     <h2 className="text-3xl font-serif font-bold mb-4">Why Choose {product.category}?</h2>
                     <div className="w-20 h-1 bg-stone-900 mx-auto rounded-full"></div>
                 </div>
@@ -152,9 +152,9 @@ export default async function ProductPage({ params }: Props) {
 
             {/* FAQs SEO Section */}
             {product.faq.length > 0 && (
-                <section className="bg-stone-50 py-24 px-4">
+                <section className="bg-stone-50 py-12 px-4">
                     <div className="container mx-auto max-w-3xl">
-                        <h2 className="text-3xl font-serif font-bold mb-12 text-center">Frequently Asked Questions</h2>
+                        <h2 className="text-3xl font-serif font-bold mb-6 text-center">Frequently Asked Questions</h2>
 
                         <div className="space-y-4">
                             {product.faq.map((item, idx) => (
@@ -174,7 +174,7 @@ export default async function ProductPage({ params }: Props) {
             )}
 
             {/* Bottom CTA */}
-            <section className="py-24 px-4 bg-stone-900 text-white text-center">
+            <section className="py-12 px-4 bg-stone-900 text-white text-center">
                 <div className="container mx-auto max-w-2xl">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Book Your Free In-Home Measure and Quote</h2>
                     <p className="text-stone-400 mb-10 text-lg">We bring samples, measure your windows, explain your options and provide a clear written quote.</p>

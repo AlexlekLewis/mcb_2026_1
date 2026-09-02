@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-mcb-paper pt-36">
-      <section className="container mx-auto grid gap-8 px-4 py-20 lg:grid-cols-[1fr_0.8fr]">
+      <section className="container mx-auto grid gap-8 px-4 py-10 lg:grid-cols-[1fr_0.8fr]">
         <div className="rounded-sm bg-white p-8 shadow-sm md:p-12">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Contact</span>
           <h1 className="mb-6 font-serif text-4xl text-mcb-charcoal md:text-6xl">Book Advice for Your Home</h1>

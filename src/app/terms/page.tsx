@@ -550,11 +550,11 @@ const customerServiceSections: Section[] = [
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-mcb-paper px-4 py-28">
+    <div className="min-h-screen bg-mcb-paper px-4 py-14">
       <div className="container mx-auto max-w-5xl">
         <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Customer policy</span>
         <h1 className="mb-5 font-serif text-4xl text-mcb-charcoal md:text-5xl">Terms &amp; Conditions, Warranty &amp; Privacy Policy</h1>
-        <p className="mb-12 max-w-3xl text-lg leading-relaxed text-stone-600">
+        <p className="mb-6 max-w-3xl text-lg leading-relaxed text-stone-600">
           The following terms summarise the policies for custom curtains, blinds, shutters, awnings, security screens, motorisation, installation and customer enquiries with Modern Curtains and Blinds.
         </p>
 

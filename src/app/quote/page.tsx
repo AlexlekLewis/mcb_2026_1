@@ -25,7 +25,7 @@ export default async function QuotePage({
       : undefined;
 
   return (
-    <div className="pt-28">
+    <div className="pt-14">
       <ContactPageSchema />
       <QuoteServiceSchema />
       <QuoteForm initialProductParam={productParam} />
