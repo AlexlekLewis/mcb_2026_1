@@ -10,7 +10,7 @@ Running log of Alex's requested changes. Tick off as shipped.
 | 4 | **Product page structure** — Hero → Choose with Confidence → Which Option Is Right for You? → Benefits → Reviews → Product spiel → Common Questions | ✅ Done | `feat(product): new section order` |
 | 5 | **Product Guide** — subtle button + hover modal on all pages; cut its footprint | ✅ Done | `feat(product-guide): button + modal` |
 | 6 | **Page spacing** — reduce padding ~50% for a tighter layout | ✅ Done | `style: halve vertical rhythm` |
-| 7 | **Booking page** — Payright / payment options on the right-hand side | ☐ Pending | — |
+| 7 | **Booking page** — Payright / payment options on the right-hand side | ✅ Done | `feat(quote): payment options sidebar` |
 | 8 | **Spring Sale** — marketing plan + spring-feel modal on all landing pages | ☐ Pending | — |
 
 ## Notes

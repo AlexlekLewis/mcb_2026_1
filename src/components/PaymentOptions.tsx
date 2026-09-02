@@ -7,7 +7,7 @@ import { ArrowRight, BadgeCheck, CreditCard } from "lucide-react";
 import { quoteHref } from "@/lib/site";
 
 interface PaymentOptionsProps {
-  variant?: "banner" | "section";
+  variant?: "banner" | "section" | "sidebar";
 }
 
 const disclaimer = "Finance is subject to Payright approval. Fees, terms and conditions apply.";
@@ -54,6 +54,41 @@ export function PaymentOptions({ variant = "section" }: PaymentOptionsProps) {
           </div>
         </div>
       </section>
+    );
+  }
+
+  if (variant === "sidebar") {
+    return (
+      <div className="rounded-sm border border-stone-200 bg-white p-7 shadow-sm">
+        <div className="relative mb-4 h-9 w-36">
+          <Image
+            src="/assets/payright/payright-corporate.png"
+            alt="Payright"
+            fill
+            sizes="144px"
+            className="object-contain object-left"
+          />
+        </div>
+        <h3 className="mb-3 font-serif text-2xl text-mcb-charcoal">
+          Interest free payment plans
+        </h3>
+        <p className="mb-5 leading-relaxed text-stone-500">
+          Prefer to spread the cost? Mention Payright when we visit and we will walk you
+          through it alongside your written quote.
+        </p>
+        <div className="mb-5 grid gap-2">
+          {["Flexible payment option", "Set up after your quote"].map((item) => (
+            <div key={item} className="flex items-center gap-2 text-sm font-semibold text-mcb-charcoal">
+              <BadgeCheck className="h-4 w-4 shrink-0 text-mcb-terracotta" />
+              {item}
+            </div>
+          ))}
+        </div>
+        <div className="flex items-start gap-2 border-t border-stone-100 pt-4 text-xs leading-relaxed text-stone-400">
+          <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-mcb-terracotta" />
+          <span>{disclaimer}</span>
+        </div>
+      </div>
     );
   }
 

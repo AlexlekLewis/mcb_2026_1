@@ -10,6 +10,7 @@ import {
 } from "@/lib/cro-data";
 import { CURATED_REVIEWS, REVIEW_AGGREGATE } from "@/lib/customer-reviews";
 import { SITE } from "@/lib/site";
+import { PaymentOptions } from "@/components/PaymentOptions";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { hashUserData } from "@/lib/conversion-hashing";
 import { classifySuburbInput, extractPostcode } from "@/lib/postcodes";
@@ -497,6 +498,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
               ))}
             </div>
           </div>
+          <PaymentOptions variant="sidebar" />
           <div className="rounded-sm border border-stone-200 bg-white p-7 shadow-sm">
             <ShieldCheck className="mb-4 h-8 w-8 text-mcb-terracotta" />
             <h3 className="mb-3 font-serif text-2xl text-mcb-charcoal">No pressure. Just clear advice.</h3>
