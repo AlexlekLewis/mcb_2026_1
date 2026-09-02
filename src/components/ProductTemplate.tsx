@@ -7,6 +7,7 @@ import { ArrowRight, Check, Phone } from "lucide-react";
 import { GoogleReviewsWidget } from "./GoogleReviewsWidget";
 import { ProcessTimeline } from "./ProcessTimeline";
 import { PaymentOptions } from "./PaymentOptions";
+import { ComparisonRow, ProductGuideModal } from "./ProductGuideModal";
 import { useRef } from "react";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
@@ -20,12 +21,6 @@ interface ProductType {
     description: string;
     image?: string;
     href?: string;
-}
-
-interface ComparisonRow {
-    label: string;
-    bestFor: string;
-    notes: string;
 }
 
 interface InternalLinkGroup {
@@ -264,6 +259,11 @@ export function ProductTemplate({
                 >
                     Choose with confidence
                 </motion.h2>
+                {comparisonRows && comparisonRows.length > 0 && (
+                    <div className="-mt-10 mb-16 flex justify-center">
+                        <ProductGuideModal rows={comparisonRows} title={title} />
+                    </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                     {types.map((type, idx) => (
                         <motion.div
@@ -470,39 +470,6 @@ export function ProductTemplate({
                                     <h3 className="font-serif text-xl text-mcb-charcoal mb-2">{item.question}</h3>
                                     <p className="text-stone-500 leading-relaxed">{item.answer}</p>
                                 </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* Comparison Table */}
-            {comparisonRows && comparisonRows.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6">
-                        <div className="max-w-3xl mx-auto text-center mb-12">
-                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
-                                Compare options
-                            </span>
-                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
-                                Product Guide
-                            </h2>
-                            <p className="text-stone-500 text-lg">
-                                A quick view of the most common choices before we bring samples to your home.
-                            </p>
-                        </div>
-                        <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
-                            <div className="grid grid-cols-3 bg-mcb-charcoal text-white text-sm font-bold uppercase tracking-wider">
-                                <div className="p-4">Option</div>
-                                <div className="p-4">Best For</div>
-                                <div className="p-4">Notes</div>
-                            </div>
-                            {comparisonRows.map((row) => (
-                                <div key={row.label} className="grid grid-cols-1 border-t border-stone-200 md:grid-cols-3">
-                                    <div className="p-4 font-semibold text-mcb-charcoal">{row.label}</div>
-                                    <div className="p-4 text-stone-600">{row.bestFor}</div>
-                                    <div className="p-4 text-stone-600">{row.notes}</div>
-                                </div>
                             ))}
                         </div>
                     </div>
