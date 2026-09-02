@@ -105,10 +105,10 @@ export function SpringPromoModal() {
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={`promo-${promo.id}-title`}
-                className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-sm bg-mcb-paper shadow-2xl motion-safe:animate-[promoIn_320ms_cubic-bezier(0.16,1,0.3,1)] sm:rounded-sm"
+                className="relative flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-sm bg-mcb-paper shadow-2xl motion-safe:animate-[promoIn_320ms_cubic-bezier(0.16,1,0.3,1)] sm:rounded-sm"
             >
                 {/* Spring band — sage gradient with a soft blossom motif. */}
-                <div className="relative h-24 overflow-hidden bg-gradient-to-br from-mcb-sage to-mcb-sage-dark">
+                <div className="relative h-24 shrink-0 overflow-hidden bg-gradient-to-br from-mcb-sage to-mcb-sage-dark">
                     <svg
                         aria-hidden
                         viewBox="0 0 400 96"
@@ -152,7 +152,7 @@ export function SpringPromoModal() {
                     </button>
                 </div>
 
-                <div className="px-6 py-6 sm:px-8">
+                <div className="flex-1 overflow-y-auto px-6 pb-5 pt-6 sm:px-8">
                     <h2
                         id={`promo-${promo.id}-title`}
                         className="font-serif text-2xl leading-tight text-mcb-charcoal sm:text-3xl"
@@ -206,13 +206,21 @@ export function SpringPromoModal() {
                         <span>{promo.availabilityNote}</span>
                     </p>
 
+                    <p className="mt-5 border-t border-stone-200 pt-4 text-xs leading-relaxed text-stone-400">
+                        {promo.terms}
+                    </p>
+                </div>
+
+                {/* Pinned footer. The CTA must never depend on scrolling — on a
+                    1366x650 laptop it previously sat 250px below the fold. */}
+                <div className="shrink-0 border-t border-stone-200 bg-mcb-paper px-6 py-4 sm:px-8">
                     <Link
                         href={promo.ctaHref}
                         onClick={() => {
                             trackEvent("promo_modal_cta_click", { promo_id: promo.id });
                             dismiss("cta");
                         }}
-                        className="mt-6 flex h-12 w-full items-center justify-center rounded-sm bg-mcb-terracotta px-6 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-terracotta-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mcb-terracotta"
+                        className="flex h-12 w-full items-center justify-center rounded-sm bg-mcb-terracotta px-6 text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-mcb-terracotta-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mcb-terracotta"
                     >
                         {promo.ctaLabel}
                     </Link>
@@ -220,14 +228,10 @@ export function SpringPromoModal() {
                     <button
                         type="button"
                         onClick={() => dismiss("close")}
-                        className="mt-3 w-full text-center text-sm font-semibold text-stone-500 transition-colors hover:text-mcb-charcoal"
+                        className="mt-2.5 w-full text-center text-sm font-semibold text-stone-500 transition-colors hover:text-mcb-charcoal"
                     >
                         No thanks
                     </button>
-
-                    <p className="mt-5 border-t border-stone-200 pt-4 text-xs leading-relaxed text-stone-400">
-                        {promo.terms}
-                    </p>
                 </div>
             </div>
         </div>

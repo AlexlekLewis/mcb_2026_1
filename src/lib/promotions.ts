@@ -59,7 +59,7 @@ export const SPRING_PROMOTION: Promotion = {
     eyebrow: "Pre-Christmas installation",
     headline: "Order in time to be installed before Christmas",
     body:
-        "Custom window furnishings are made to your measurements, so the calendar decides what we can still fit in. Book your free in-home measure now and we will tell you honestly what is achievable before Christmas.",
+        "Everything is made to your measurements, so the calendar decides what we can still fit in. Book a free measure and we will tell you straight what is achievable before Christmas.",
 
     deadlines: [
         { label: "Plantation shutters", orderBy: "2026-09-30" },
