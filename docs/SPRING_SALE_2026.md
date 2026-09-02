@@ -1,10 +1,26 @@
 # Spring Sale 2026 — plan and proposal
 
-**Status:** proposal. The modal is built and mounted but ships with `enabled: false`
-in `src/lib/promotions.ts`. Nothing is live until Deane/Dee confirm the offer and terms.
+**Status:** SIGNED OFF 2026-09-02. Offer locked to **Option C — pre-Christmas
+installation urgency, no discount**. The modal is live in code (`enabled: true` in
+`src/lib/promotions.ts`) and goes live on the site at the next deploy.
 
-**Window:** 1 Sept – 30 Nov 2026 (Australian spring).
-Note the brief said "August sale" — August is gone, so this is scoped as a spring campaign.
+**Window:** 1 Sept 2026 until the last order-by date passes.
+
+## The locked offer
+
+| Product group | Order by | Why |
+|---|---|---|
+| **Plantation shutters** | **Tue 30 September 2026** | Longer production lead time, so it has to close first |
+| **All other products** | **Mon 30 November 2026** | Shorter lead time |
+
+Both are conditional: **installation dates are allocated as orders are confirmed, and
+pre-Christmas spots are filling fast.** Meeting an order-by date does not on its own
+guarantee a pre-Christmas installation — that is confirmed in writing after the on-site
+measure.
+
+The modal filters out a deadline the moment it passes, so from 1 October the shutters
+line disappears rather than advertising a cut-off that has been and gone, and the whole
+campaign self-retires on 1 December.
 
 ---
 
@@ -52,7 +68,7 @@ Melbourne spring gives three real triggers, in order of strength:
 
 Ranked. Option A is the recommendation.
 
-### A. Free upgrade, not money off *(recommended)*
+### A. Free upgrade, not money off *(not taken)*
 > "Book your measure this spring and we'll upgrade one room to motorised at no charge."
 
 - Protects the headline price and the positioning.
@@ -68,7 +84,7 @@ Ranked. Option A is the recommendation.
 - Suits the growth-corridor new-build buyer doing a whole house at once.
 - Needs a floor (e.g. minimum order value) so it can't be gamed on three tiny windows.
 
-### C. Deadline-only, no offer at all
+### C. Deadline-only, no offer at all *(SELECTED)*
 > "Order by [date] for pre-Christmas installation."
 
 - Zero margin cost, fully on-brand, no terms to police.
@@ -150,9 +166,13 @@ placeholder `headline` / `body` / `points` / `terms` with the signed-off offer.
 
 ## 7. What still needs a decision
 
-1. **Which offer** — A, B, C or D.
-2. **The pre-Christmas order-by date.** Needs real lead times from the installers;
-   the campaign's main lever is worthless if the date is wrong.
-3. **Terms.** The placeholder terms in `promotions.ts` are generic. Whatever is
-   promised needs conditions Deane/Dee are happy to honour in November.
-4. **Whether to email past customers**, and from which list.
+1. ~~Which offer~~ — **decided: C, deadline-only.**
+2. ~~The pre-Christmas order-by dates~~ — **decided: 30 Sept shutters, 30 Nov everything else.**
+3. ~~Terms~~ — **written, conditional on installer availability.** Worth a read-through
+   before deploy so Deane/Dee are happy to honour them in November.
+4. **Whether to email past customers**, and from which list. Still open.
+
+### Worth sanity-checking
+The 30 November date leaves roughly three and a half weeks to make and install before
+Christmas. If the installers say that is too tight for anything in particular, pull that
+date forward in `promotions.ts` — it is a one-line change and the modal updates itself.

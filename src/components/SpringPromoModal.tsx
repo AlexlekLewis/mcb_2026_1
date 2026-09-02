@@ -3,27 +3,34 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Check, X } from "lucide-react";
-import { SPRING_PROMOTION, isPromotionLive } from "@/lib/promotions";
+import { CalendarClock, X } from "lucide-react";
+import {
+    SPRING_PROMOTION,
+    formatDeadline,
+    daysBetween,
+    isPromotionLive,
+    melbourneToday,
+    openDeadlines,
+    urgencyLabel,
+} from "@/lib/promotions";
 import { trackEvent } from "@/lib/analytics";
 
 const dismissKey = (id: string) => `mcb_promo_dismissed_${id}`;
 
 /**
- * Seasonal promotion modal.
+ * Seasonal promotion modal — currently the pre-Christmas installation deadline.
  *
  * Deliberately restrained for a site at MCB's traffic level: it shows once per
  * visitor per promotion, never on the quote flow (no interrupting someone who
  * is already converting), and only after a long enough delay that it can't
  * land on top of a first read. Nothing renders at all when the promotion is
- * switched off or out of its date window.
+ * switched off or every order-by date has passed.
  */
 export function SpringPromoModal() {
     const promo = SPRING_PROMOTION;
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
     const closeRef = useRef<HTMLButtonElement>(null);
-    const dialogRef = useRef<HTMLDivElement>(null);
 
     const excluded = promo.excludedPaths.some((p) => pathname?.startsWith(p));
 
@@ -77,7 +84,10 @@ export function SpringPromoModal() {
         };
     }, [open, dismiss]);
 
-    if (!isPromotionLive(promo) || excluded || !open) return null;
+    const today = melbourneToday();
+    const deadlines = openDeadlines(promo, today);
+
+    if (!isPromotionLive(promo, today) || excluded || !open) return null;
 
     return (
         <div
@@ -92,27 +102,25 @@ export function SpringPromoModal() {
             />
 
             <div
-                ref={dialogRef}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={`promo-${promo.id}-title`}
-                className="relative w-full max-w-lg overflow-hidden rounded-t-sm bg-mcb-paper shadow-2xl motion-safe:animate-[promoIn_320ms_cubic-bezier(0.16,1,0.3,1)] sm:rounded-sm"
+                className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-sm bg-mcb-paper shadow-2xl motion-safe:animate-[promoIn_320ms_cubic-bezier(0.16,1,0.3,1)] sm:rounded-sm"
             >
-                {/* Spring band — sage through clay, with a soft botanical wash. */}
-                <div className="relative h-28 overflow-hidden bg-gradient-to-br from-mcb-sage via-mcb-sage-dark to-mcb-olive">
+                {/* Spring band — sage gradient with a soft blossom motif. */}
+                <div className="relative h-24 overflow-hidden bg-gradient-to-br from-mcb-sage to-mcb-sage-dark">
                     <svg
                         aria-hidden
-                        viewBox="0 0 400 112"
+                        viewBox="0 0 400 96"
                         preserveAspectRatio="xMidYMid slice"
                         className="absolute inset-0 h-full w-full opacity-30"
                     >
-                        {/* Loose blossom shapes — decorative only. */}
                         {[
-                            [40, 78, 22],
-                            [120, 34, 15],
-                            [206, 84, 27],
-                            [292, 40, 18],
-                            [356, 88, 21],
+                            [40, 68, 22],
+                            [120, 28, 15],
+                            [206, 74, 27],
+                            [292, 34, 18],
+                            [356, 78, 21],
                         ].map(([cx, cy, r], i) => (
                             <g key={i}>
                                 {[0, 72, 144, 216, 288].map((deg) => (
@@ -153,14 +161,50 @@ export function SpringPromoModal() {
                     </h2>
                     <p className="mt-3 leading-relaxed text-stone-600">{promo.body}</p>
 
-                    <div className="mt-5 grid gap-2">
-                        {promo.points.map((point) => (
-                            <div key={point} className="flex items-center gap-2 text-sm font-semibold text-mcb-charcoal">
-                                <Check className="h-4 w-4 shrink-0 text-mcb-sage-dark" />
-                                {point}
-                            </div>
-                        ))}
+                    {/* Order-by dates. Passed deadlines are already filtered out, so the
+                        modal can never advertise a cut-off that has been and gone. */}
+                    <div className="mt-5 overflow-hidden rounded-sm border border-stone-200 bg-white">
+                        <div className="border-b border-stone-200 bg-mcb-sand px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-mcb-charcoal">
+                            Order by
+                        </div>
+                        {deadlines.map((deadline, idx) => {
+                            const daysLeft = daysBetween(today, deadline.orderBy);
+                            const urgency = urgencyLabel(daysLeft);
+                            const soonest = idx === 0;
+                            return (
+                                <div
+                                    key={deadline.label}
+                                    className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-stone-200 px-4 py-3 last:border-b-0"
+                                >
+                                    <span className="text-sm font-semibold text-mcb-charcoal">
+                                        {deadline.label}
+                                    </span>
+                                    <span className="flex items-baseline gap-2">
+                                        <span className="text-sm text-stone-600">
+                                            {formatDeadline(deadline.orderBy)}
+                                        </span>
+                                        {urgency ? (
+                                            <span
+                                                className={`rounded-sm px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wider ${
+                                                    soonest
+                                                        ? "bg-mcb-terracotta-deep text-white"
+                                                        : "bg-mcb-sand text-stone-600"
+                                                }`}
+                                            >
+                                                {urgency}
+                                            </span>
+                                        ) : null}
+                                    </span>
+                                </div>
+                            );
+                        })}
                     </div>
+
+                    {/* The condition. Availability is the honest scarcity — no slot counts. */}
+                    <p className="mt-4 flex items-start gap-2 rounded-sm bg-mcb-clay-light/40 px-4 py-3 text-sm leading-relaxed text-mcb-charcoal">
+                        <CalendarClock className="mt-0.5 h-4 w-4 shrink-0 text-mcb-terracotta-deep" aria-hidden />
+                        <span>{promo.availabilityNote}</span>
+                    </p>
 
                     <Link
                         href={promo.ctaHref}
@@ -181,7 +225,7 @@ export function SpringPromoModal() {
                         No thanks
                     </button>
 
-                    <p className="mt-5 border-t border-mcb-sand-deep pt-4 text-xs leading-relaxed text-stone-400">
+                    <p className="mt-5 border-t border-stone-200 pt-4 text-xs leading-relaxed text-stone-400">
                         {promo.terms}
                     </p>
                 </div>
