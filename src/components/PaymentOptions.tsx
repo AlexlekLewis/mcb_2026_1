@@ -7,22 +7,21 @@ import { ArrowRight, BadgeCheck, CreditCard } from "lucide-react";
 import { quoteHref } from "@/lib/site";
 
 interface PaymentOptionsProps {
-  topOffset?: boolean;
   variant?: "banner" | "section";
 }
 
 const disclaimer = "Finance is subject to Payright approval. Fees, terms and conditions apply.";
 
-export function PaymentOptions({ topOffset = false, variant = "section" }: PaymentOptionsProps) {
+export function PaymentOptions({ variant = "section" }: PaymentOptionsProps) {
   const pathname = usePathname();
   if (pathname?.startsWith("/dashboard")) return null;
 
   if (variant === "banner") {
     return (
-      <section className={`bg-mcb-charcoal text-white ${topOffset ? "pt-[112px] md:pt-[116px] lg:pt-[120px]" : ""}`}>
-        <div className="mx-auto w-full max-w-7xl px-2 py-1 md:px-6 md:py-2">
+      <section className="bg-mcb-charcoal text-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 md:px-6 md:py-10">
           <div className="overflow-hidden rounded-sm border border-white/15 bg-gradient-to-r from-[#332165] via-[#4a2574] to-[#ff3157] p-[1px] shadow-lg">
-            <div className="grid grid-cols-[auto_1fr] items-center gap-2 bg-mcb-charcoal/90 px-2 py-1 backdrop-blur md:grid-cols-[auto_1fr_auto] md:gap-4 md:px-4 md:py-2">
+            <div className="grid grid-cols-[auto_1fr] items-center gap-3 bg-mcb-charcoal/90 px-4 py-4 backdrop-blur md:grid-cols-[auto_1fr_auto] md:gap-6 md:px-6 md:py-5">
               <div className="relative h-5 w-[76px] shrink-0 md:h-7 md:w-36">
                 <Image
                   src="/assets/payright/payright-corporate-tight.png"

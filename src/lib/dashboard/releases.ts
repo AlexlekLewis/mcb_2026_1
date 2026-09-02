@@ -32,6 +32,21 @@ export interface Release {
 
 export const RELEASES: Release[] = [
   {
+    id: "2026-09-02-product-structure-plus-single-payright",
+    title: "Product page restructure + Payright cut to one placement",
+    releasedAt: "2026-09-02T00:00:00Z",
+    summary:
+      "Two requested changes shipped together. (1) STRUCTURE: every ProductTemplate-driven page (~41 routes across blinds, curtains, shutters, awnings, security and locations/[suburb]) reordered to Hero -> Choose with Confidence -> Which Option Is Right for You? -> Benefits -> Reviews -> Product spiel/overview -> Common Questions. Buyers now hit the product choices and the decision guide before any prose; social proof follows the choice rather than preceding it. Sections not named in the brief (features grid, Product Guide comparison table, fit promise, process timeline, internal links, closing CTA) keep their relative order below the FAQ. (2) PAYRIGHT: the finance banner was rendering at the top of EVERY page, directly under the fixed nav and above the hero, plus a second white Payright card mid-page on every product page, plus an unprompted brand mention in the chat fallback — three touches per product page. Cut to exactly one: a single full-bleed banner anchored immediately below the 'Which option is right for you?' decision guide, where finance is a live question rather than an interruption. Watch: scroll depth past the decision guide, quote CTA clicks, bounce on product pages, and whether hero engagement improves now that the banner no longer pushes it ~40px down the fold.",
+    items: [
+      "src/components/ProductTemplate.tsx — sibling JSX blocks reordered to the requested a-g sequence. No markup or copy changed in the move itself.",
+      "src/app/layout.tsx — removed the site-wide <PaymentOptions variant=\"banner\" topOffset />. It also doubled as the spacer clearing the fixed announcement bar + nav, so an explicit aria-hidden spacer div replaces it at identical heights (112/116/120px) — no layout shift on any page.",
+      "src/components/ProductTemplate.tsx — removed the mid-page white Payright card from the 'Choose with confidence' grid; added the single <PaymentOptions variant=\"banner\" /> directly after the decision guide. Rendered unconditionally so pages without a decisionGuide still carry exactly one finance placement.",
+      "src/components/PaymentOptions.tsx — banner variant reworked from a compressed top-of-page strip into an in-page band: dropped the now-unused topOffset prop, outer padding py-1/py-2 -> py-8/py-10, inner padding px-2 py-1 -> px-4 py-4 (md px-6 py-5). Disclaimer and approval wording untouched.",
+      "src/components/ChatWidget.tsx — the unprompted capability fallback named 'Payright'; now says 'finance' to match the opening message. The direct finance answer and its 'subject to Payright approval' disclaimer are unchanged.",
+      "NOTE: Payright now appears on ProductTemplate pages only. The homepage, /guides, /locations, /contact and the other non-product routes no longer carry it — flagged to Alex in case he wants a placement there.",
+    ],
+  },
+  {
     id: "2026-08-13-energy-guide-plus-plain-language-home",
     title: "Seasonal energy-efficiency guide + plain-language homepage + site hygiene fixes",
     releasedAt: "2026-08-26T13:55:59Z",

@@ -560,7 +560,7 @@ function getAssistantAnswer(question: string, productContext: string) {
     return getProductAdvice(productContext, normalized);
   }
 
-  return "I can help with product choice, price expectations, appointment timing, warranty, Payright, service area, repairs and what happens during the free measure.\n\nFor a detailed answer about your exact windows, the best next step is to book the free in-home measure or call MCB so the team can ask the right follow-up questions.";
+  return "I can help with product choice, price expectations, appointment timing, warranty, finance, service area, repairs and what happens during the free measure.\n\nFor a detailed answer about your exact windows, the best next step is to book the free in-home measure or call MCB so the team can ask the right follow-up questions.";
 }
 
 function getProductAdvice(productContext: string, normalizedQuestion: string) {

@@ -10,7 +10,6 @@ import { Analytics, AnalyticsNoScript } from "@/components/Analytics";
 import { EventTracker } from "@/components/EventTracker";
 import { EngagementTracker } from "@/components/EngagementTracker";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
-import { PaymentOptions } from "@/components/PaymentOptions";
 import { SITE } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -75,7 +74,9 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-mcb-paper text-mcb-charcoal selection:bg-mcb-terracotta selection:text-white">
         <AnalyticsNoScript />
         <Navbar />
-        <PaymentOptions variant="banner" topOffset />
+        {/* Spacer clearing the fixed announcement bar + nav. Previously supplied by
+            the Payright banner's topOffset, which has since moved down the page. */}
+        <div aria-hidden className="h-[112px] bg-mcb-charcoal md:h-[116px] lg:h-[120px]" />
         <main className="min-h-screen">
           {children}
         </main>

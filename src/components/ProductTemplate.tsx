@@ -329,10 +329,6 @@ export function ProductTemplate({
                     ))}
                 </div>
 
-                {/* Payment Options Integration */}
-                <div className="max-w-4xl mx-auto mt-16">
-                    <PaymentOptions />
-                </div>
             </section>
 
             {/* Decision Guide */}
@@ -362,6 +358,10 @@ export function ProductTemplate({
                     </div>
                 </section>
             )}
+
+            {/* Payright — the site's single finance placement, anchored to the
+                "Which option is right for you?" decision guide above. */}
+            <PaymentOptions variant="banner" />
 
             {/* Benefits Section */}
             {benefits && benefits.length > 0 && (

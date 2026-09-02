@@ -6,7 +6,7 @@ Running log of Alex's requested changes. Tick off as shipped.
 |---|--------|--------|--------|
 | 1 | **Indexing** — all pages indexable by search + answer engines (SEO/AEO) | ☐ Pending | — |
 | 2 | **Hero images** — swap in new photos | ⛔ Blocked — awaiting labelled Google Drive assets | — |
-| 3 | **Payright placement & messaging** — one banner only, at the "Which option is right for you?" section with adequate padding; strip all repetitive Payright mentions | ☐ Pending | — |
+| 3 | **Payright placement & messaging** — one banner only, at the "Which option is right for you?" section with adequate padding; strip all repetitive Payright mentions | ✅ Done | `refactor(payright): single placement` |
 | 4 | **Product page structure** — Hero → Choose with Confidence → Which Option Is Right for You? → Benefits → Reviews → Product spiel → Common Questions | ✅ Done | `feat(product): new section order` |
 | 5 | **Product Guide** — subtle button + hover modal on all pages; cut its footprint | ☐ Pending | — |
 | 6 | **Page spacing** — reduce padding ~50% for a tighter layout | ☐ Pending | — |
