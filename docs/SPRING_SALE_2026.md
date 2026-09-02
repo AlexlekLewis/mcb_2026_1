@@ -66,7 +66,7 @@ Melbourne spring gives three real triggers, in order of strength:
 
 ## 3. Offer options
 
-Ranked. Option A is the recommendation.
+As presented. **C was selected.**
 
 ### A. Free upgrade, not money off *(not taken)*
 > "Book your measure this spring and we'll upgrade one room to motorised at no charge."
@@ -124,7 +124,7 @@ Where the volume actually has to come from, in priority order:
 
 | Week | Action | Owner |
 |---|---|---|
-| 1 | Lock the offer + terms. Flip `enabled: true` in `src/lib/promotions.ts` | Deane/Dee |
+| 1 | ~~Lock the offer + terms~~ — done, modal is enabled. Deploy the branch | Dev |
 | 1 | GBP offer post + 5 fresh install photos | MCB |
 | 2 | Past-customer email — "second room" angle | MCB |
 | 2 | Google Ads: spring RSA headlines + seasonal sitelink | Ads workstream |
@@ -132,7 +132,8 @@ Where the volume actually has to come from, in priority order:
 | 3 | Corridor estate pages: spring callout above the fold | Dev |
 | 4 | Mid-campaign read on the dashboard — leads vs the 4/30d baseline | Dev |
 | 5 | Push the pre-Christmas install deadline hard across all channels | All |
-| 6 | Close. Flip `enabled: false`. Log the result | Dev |
+| — | **Watch 30 Sept** — the shutters cut-off. Push shutters hardest in weeks 1–4 | All |
+| 6 | Log the result. The campaign closes itself on 1 Dec | Dev |
 
 ---
 
@@ -141,9 +142,9 @@ Where the volume actually has to come from, in priority order:
 Built at `src/components/SpringPromoModal.tsx`, configured entirely from
 `src/lib/promotions.ts`.
 
-**Spring feel:** sage-through-olive gradient header with a soft blossom motif, drawn
-as inline SVG in the existing MCB palette — seasonal without going saccharine or
-importing a stock illustration.
+**Spring feel:** sage gradient header with a soft blossom motif, drawn as inline SVG
+in the existing MCB palette — seasonal without going saccharine or importing a stock
+illustration.
 
 **Deliberately restrained**, because an annoying modal on 92 visitors a month costs
 more than it earns:
@@ -154,13 +155,18 @@ more than it earns:
 - Appears after a **12-second delay**, so it can't land on top of a first read.
 - Esc, backdrop click, close button and "No thanks" all dismiss it.
 - Respects `prefers-reduced-motion`; body scroll locks while open.
-- Renders **nothing at all** when disabled or outside its date window — zero markup
-  ships today.
+- Shows a **live days-remaining count** against each order-by date, with the soonest
+  deadline emphasised.
+- **Retires each deadline the day after it passes**, so it can never advertise a
+  cut-off that has been and gone. The campaign ends itself when the last one closes.
+- Runs on the **Melbourne calendar date**, so days-remaining reads the same from Perth
+  or overseas — and the AEST/AEDT switch on 4 Oct, which falls between the two
+  deadlines, can't skew it.
 - Fires `promo_modal_shown`, `promo_modal_dismissed` (with reason) and
   `promo_modal_cta_click`, all registered in the analytics vocabulary.
 
-**To launch:** set `enabled: true`, confirm `startsAt` / `endsAt`, and replace the
-placeholder `headline` / `body` / `points` / `terms` with the signed-off offer.
+**Live in code.** To change a date, edit `deadlines` in `src/lib/promotions.ts` — the
+modal updates itself. To pull the campaign early, set `enabled: false`.
 
 ---
 
