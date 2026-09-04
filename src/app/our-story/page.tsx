@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function OurStoryPage() {
   return (
     <main className="bg-white pt-36">
-      <section className="container mx-auto grid items-center gap-12 px-4 py-20 lg:grid-cols-[0.8fr_1fr]">
+      <section className="container mx-auto grid items-center gap-12 px-4 py-10 lg:grid-cols-[0.8fr_1fr]">
         <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-sm bg-mcb-paper">
           <Image
             src="/assets/mcb-owners.jpg"

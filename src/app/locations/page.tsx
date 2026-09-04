@@ -12,9 +12,9 @@ export default function LocationsIndex() {
     const sortedLocations = [...LOCATIONS].sort((a, b) => a.name.localeCompare(b.name));
 
     return (
-        <div className="bg-white min-h-screen pt-32 pb-24">
+        <div className="bg-white min-h-screen pt-16 pb-12">
             <div className="container mx-auto px-6 max-w-4xl">
-                <div className="text-center mb-16">
+                <div className="text-center mb-8">
                     <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">Service Areas</span>
                     <h1 className="font-serif text-4xl md:text-5xl text-mcb-charcoal mb-6">Curtains and Blinds Across Melbourne and the Mornington Peninsula</h1>
                     <p className="text-stone-500 text-lg">

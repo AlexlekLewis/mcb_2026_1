@@ -81,8 +81,8 @@ export default function ClydeNorthPage() {
       <FaqPageSchema items={faqItems} />
 
       <article className="min-h-screen bg-mcb-paper">
-        <div className="container mx-auto max-w-3xl px-4 py-20">
-          <header className="mb-12">
+        <div className="container mx-auto max-w-3xl px-4 py-10">
+          <header className="mb-6">
             <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">
               Clyde North 3978 · Casey
             </span>

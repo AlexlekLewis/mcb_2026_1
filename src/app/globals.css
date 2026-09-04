@@ -63,3 +63,15 @@ h1, h2, h3, h4, h5, h6 {
    rule had been blanket-applied to p, h1-h6, and summary; a
    data-surface="dashboard-v2" override existed to undo it for the admin
    surface, but is no longer needed since the global rule is gone. */
+
+/* Seasonal promotion modal entrance. Both are wrapped in motion-safe: at the
+   call site, so prefers-reduced-motion skips them entirely. */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes promoIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}

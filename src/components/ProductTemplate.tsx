@@ -7,6 +7,7 @@ import { ArrowRight, Check, Phone } from "lucide-react";
 import { GoogleReviewsWidget } from "./GoogleReviewsWidget";
 import { ProcessTimeline } from "./ProcessTimeline";
 import { PaymentOptions } from "./PaymentOptions";
+import { ComparisonRow, ProductGuideModal } from "./ProductGuideModal";
 import { useRef } from "react";
 import { PrimaryCTA } from "@/components/PrimaryCTA";
 
@@ -20,12 +21,6 @@ interface ProductType {
     description: string;
     image?: string;
     href?: string;
-}
-
-interface ComparisonRow {
-    label: string;
-    bestFor: string;
-    notes: string;
 }
 
 interface InternalLinkGroup {
@@ -254,46 +249,21 @@ export function ProductTemplate({
                 </motion.div>
             </section>
 
-            <GoogleReviewsWidget />
-
-            {/* Introduction with scroll reveal */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={containerVariants}
-                className="py-24 container mx-auto px-6"
-            >
-                <div className="max-w-3xl mx-auto text-center">
-                        <motion.span
-                        variants={itemVariants}
-                        className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-6 block"
-                    >
-                        {intentLabel}
-                    </motion.span>
-                    <motion.p
-                        variants={itemVariants}
-                        className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 leading-tight"
-                    >
-                        {description}
-                    </motion.p>
-                    <motion.div
-                        variants={itemVariants}
-                        className="w-24 h-1 bg-mcb-sage mx-auto rounded-full"
-                    />
-                </div>
-            </motion.section>
-
             {/* Product Types / Collection with alternating slide animations */}
-            <section className="py-24 container mx-auto px-6">
+            <section className="py-12 container mx-auto px-6">
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-16 text-center"
+                    className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 text-center"
                 >
                     Choose with confidence
                 </motion.h2>
+                {comparisonRows && comparisonRows.length > 0 && (
+                    <div className="-mt-4 mb-8 flex justify-center">
+                        <ProductGuideModal rows={comparisonRows} title={title} />
+                    </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                     {types.map((type, idx) => (
                         <motion.div
@@ -359,14 +329,100 @@ export function ProductTemplate({
                     ))}
                 </div>
 
-                {/* Payment Options Integration */}
-                <div className="max-w-4xl mx-auto mt-16">
-                    <PaymentOptions />
-                </div>
             </section>
 
+            {/* Decision Guide */}
+            {decisionGuide && decisionGuide.length > 0 && (
+                <section className="py-10 bg-white">
+                    <div className="container mx-auto px-6">
+                        <div className="max-w-3xl mx-auto text-center mb-6">
+                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
+                                Choose with confidence
+                            </span>
+                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
+                                Which option is right for you?
+                            </h2>
+                            <p className="text-stone-500 text-lg">
+                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {decisionGuide.map((item) => (
+                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
+                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* Payright — the site's single finance placement, anchored to the
+                "Which option is right for you?" decision guide above. */}
+            <PaymentOptions variant="banner" />
+
+            {/* Benefits Section */}
+            {benefits && benefits.length > 0 && (
+                <section className="py-10 bg-stone-50">
+                    <div className="container mx-auto px-6">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-6 text-center">
+                            Why Choose {title.replace("Custom ", "")}?
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {benefits.map((benefit, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="flex items-start gap-4 p-6 bg-white rounded-sm shadow-sm"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-mcb-sage/20 flex items-center justify-center flex-shrink-0 text-mcb-olive">
+                                        <Check size={16} />
+                                    </div>
+                                    <p className="font-medium text-mcb-charcoal">{benefit}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            <GoogleReviewsWidget />
+
+            {/* Introduction with scroll reveal */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={containerVariants}
+                className="py-12 container mx-auto px-6"
+            >
+                <div className="max-w-3xl mx-auto text-center">
+                        <motion.span
+                        variants={itemVariants}
+                        className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-6 block"
+                    >
+                        {intentLabel}
+                    </motion.span>
+                    <motion.p
+                        variants={itemVariants}
+                        className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-8 leading-tight"
+                    >
+                        {description}
+                    </motion.p>
+                    <motion.div
+                        variants={itemVariants}
+                        className="w-24 h-1 bg-mcb-sage mx-auto rounded-full"
+                    />
+                </div>
+            </motion.section>
+
             {/* Features Grid with staggered animations */}
-            <section className="py-20 bg-mcb-paper">
+            <section className="py-10 bg-mcb-paper">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial="hidden"
@@ -395,43 +451,33 @@ export function ProductTemplate({
                 </div>
             </section>
 
-            {/* Comparison Table */}
-            {comparisonRows && comparisonRows.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6">
-                        <div className="max-w-3xl mx-auto text-center mb-12">
-                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
-                                Compare options
-                            </span>
-                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
-                                Product Guide
-                            </h2>
-                            <p className="text-stone-500 text-lg">
-                                A quick view of the most common choices before we bring samples to your home.
-                            </p>
-                        </div>
-                        <div className="overflow-hidden rounded-sm border border-stone-200 bg-white shadow-sm">
-                            <div className="grid grid-cols-3 bg-mcb-charcoal text-white text-sm font-bold uppercase tracking-wider">
-                                <div className="p-4">Option</div>
-                                <div className="p-4">Best For</div>
-                                <div className="p-4">Notes</div>
-                            </div>
-                            {comparisonRows.map((row) => (
-                                <div key={row.label} className="grid grid-cols-1 border-t border-stone-200 md:grid-cols-3">
-                                    <div className="p-4 font-semibold text-mcb-charcoal">{row.label}</div>
-                                    <div className="p-4 text-stone-600">{row.bestFor}</div>
-                                    <div className="p-4 text-stone-600">{row.notes}</div>
-                                </div>
+            {/* FAQ Section */}
+            {effectiveFaq.length > 0 && (
+                <section className="py-10 bg-white">
+                    <div className="container mx-auto px-6 max-w-4xl">
+                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-6 text-center">
+                            Common Questions
+                        </h2>
+                        <div className="space-y-6">
+                            {effectiveFaq.map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="border-b border-stone-200 pb-6 last:border-0"
+                                >
+                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-2">{item.question}</h3>
+                                    <p className="text-stone-500 leading-relaxed">{item.answer}</p>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </section>
             )}
 
-            <ProcessTimeline />
-
             {/* Fit Promise */}
-            <section className="py-16 bg-white">
+            <section className="py-8 bg-white">
                 <div className="container mx-auto px-6">
                     <div className="rounded-sm border border-mcb-clay/40 bg-mcb-paper p-8 md:p-10">
                         <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
@@ -461,89 +507,10 @@ export function ProductTemplate({
                 </div>
             </section>
 
-            {/* Benefits Section */}
-            {benefits && benefits.length > 0 && (
-                <section className="py-20 bg-stone-50">
-                    <div className="container mx-auto px-6">
-                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
-                            Why Choose {title.replace("Custom ", "")}?
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {benefits.map((benefit, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    className="flex items-start gap-4 p-6 bg-white rounded-sm shadow-sm"
-                                >
-                                    <div className="w-8 h-8 rounded-full bg-mcb-sage/20 flex items-center justify-center flex-shrink-0 text-mcb-olive">
-                                        <Check size={16} />
-                                    </div>
-                                    <p className="font-medium text-mcb-charcoal">{benefit}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* FAQ Section */}
-            {effectiveFaq.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6 max-w-4xl">
-                        <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-12 text-center">
-                            Common Questions
-                        </h2>
-                        <div className="space-y-6">
-                            {effectiveFaq.map((item, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    className="border-b border-stone-200 pb-6 last:border-0"
-                                >
-                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-2">{item.question}</h3>
-                                    <p className="text-stone-500 leading-relaxed">{item.answer}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* Decision Guide */}
-            {decisionGuide && decisionGuide.length > 0 && (
-                <section className="py-20 bg-white">
-                    <div className="container mx-auto px-6">
-                        <div className="max-w-3xl mx-auto text-center mb-12">
-                            <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">
-                                Choose with confidence
-                            </span>
-                            <h2 className="font-serif text-3xl md:text-4xl text-mcb-charcoal mb-5">
-                                Which option is right for you?
-                            </h2>
-                            <p className="text-stone-500 text-lg">
-                                We will confirm the best fit during your free in-home measure, but this guide helps narrow the decision.
-                            </p>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                            {decisionGuide.map((item) => (
-                                <div key={item.title} className="rounded-sm border border-stone-200 bg-mcb-paper p-6">
-                                    <Check className="w-6 h-6 text-mcb-terracotta mb-4" />
-                                    <h3 className="font-serif text-xl text-mcb-charcoal mb-3">{item.title}</h3>
-                                    <p className="text-stone-500 leading-relaxed">{item.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
+            <ProcessTimeline />
 
             {internalLinks && internalLinks.links.length > 0 && (
-                <section className="bg-white py-20">
+                <section className="bg-white py-10">
                     <div className="container mx-auto px-6">
                         <div className="mx-auto mb-10 max-w-3xl text-center">
                             <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">
@@ -582,7 +549,7 @@ export function ProductTemplate({
             )}
 
             {/* CTA Section with enhanced animations */}
-            <section className="bg-mcb-charcoal text-white py-24 relative overflow-hidden">
+            <section className="bg-mcb-charcoal text-white py-12 relative overflow-hidden">
                 <motion.div
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 10, repeat: Infinity }}

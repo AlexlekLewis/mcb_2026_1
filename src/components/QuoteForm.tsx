@@ -10,6 +10,7 @@ import {
 } from "@/lib/cro-data";
 import { CURATED_REVIEWS, REVIEW_AGGREGATE } from "@/lib/customer-reviews";
 import { SITE } from "@/lib/site";
+import { PaymentOptions } from "@/components/PaymentOptions";
 import { getClientTrackingContext, trackEvent } from "@/lib/analytics";
 import { hashUserData } from "@/lib/conversion-hashing";
 import { classifySuburbInput, extractPostcode } from "@/lib/postcodes";
@@ -255,7 +256,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
 
   if (status === "success") {
     return (
-      <section className="min-h-screen bg-mcb-paper px-4 py-28">
+      <section className="min-h-screen bg-mcb-paper px-4 py-14">
         <div className="container mx-auto max-w-3xl rounded-sm bg-white p-8 text-center shadow-xl md:p-12">
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-green-700">
             <Check className="h-10 w-10" />
@@ -273,7 +274,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
   }
 
   return (
-    <section className="min-h-screen bg-mcb-paper px-4 py-28">
+    <section className="min-h-screen bg-mcb-paper px-4 py-14">
       <div className="container mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.72fr]">
         <div className="rounded-sm bg-white p-6 shadow-xl md:p-10">
           <div className="mb-6">
@@ -497,6 +498,7 @@ export default function QuoteForm({ initialProductParam }: { initialProductParam
               ))}
             </div>
           </div>
+          <PaymentOptions variant="sidebar" />
           <div className="rounded-sm border border-stone-200 bg-white p-7 shadow-sm">
             <ShieldCheck className="mb-4 h-8 w-8 text-mcb-terracotta" />
             <h3 className="mb-3 font-serif text-2xl text-mcb-charcoal">No pressure. Just clear advice.</h3>

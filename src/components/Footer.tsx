@@ -11,9 +11,9 @@ export function Footer() {
     if (pathname?.startsWith("/dashboard")) return null;
 
     return (
-        <footer className="bg-mcb-charcoal text-white pt-20 pb-10">
+        <footer className="bg-mcb-charcoal text-white pt-10 pb-10">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-8">
                     {/* Brand Column */}
                     <div className="space-y-6">
                         <Link href="/" className="block">

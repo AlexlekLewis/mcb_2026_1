@@ -76,7 +76,7 @@ const sections: Array<{ title: string; body: string[]; bullets?: string[] }> = [
 
 export default function PricingPolicyPage() {
   return (
-    <div className="min-h-screen bg-mcb-paper px-4 py-28">
+    <div className="min-h-screen bg-mcb-paper px-4 py-14">
       <div className="container mx-auto max-w-4xl">
         <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">
           Policy

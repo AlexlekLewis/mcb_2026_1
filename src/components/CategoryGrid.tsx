@@ -14,9 +14,9 @@ const CATEGORIES = [
 
 export function CategoryGrid() {
     return (
-        <section className="py-20 bg-white">
+        <section className="py-10 bg-white">
             <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
+                <div className="text-center mb-8">
                     <span className="text-mcb-terracotta font-bold tracking-widest uppercase text-sm mb-4 block">Our Collection</span>
                     <h2 className="font-serif text-4xl md:text-5xl text-mcb-charcoal mb-6">Tailored to Your Home</h2>
                     <p className="text-stone-500 max-w-2xl mx-auto text-lg">Explore our range of premium window furnishings, custom-made to elevate your interior style and comfort.</p>

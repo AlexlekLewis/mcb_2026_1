@@ -42,7 +42,7 @@ const privacySections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-mcb-paper px-4 py-28">
+    <div className="min-h-screen bg-mcb-paper px-4 py-14">
       <div className="container mx-auto max-w-4xl">
         <span className="mb-3 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Policy</span>
         <h1 className="mb-5 font-serif text-4xl text-mcb-charcoal md:text-5xl">Modern Curtains and Blinds Privacy Policy</h1>

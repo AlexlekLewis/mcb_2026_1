@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       <HeroScroll>
-        <div className="container mx-auto px-4 pb-20 pt-4 md:pt-36">
+        <div className="container mx-auto px-4 pb-10 pt-4 md:pt-36">
           <div className="max-w-4xl">
             <span className="mb-3 hidden rounded-sm border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-mcb-clay-light backdrop-blur md:mb-5 md:inline-flex md:px-4 md:py-2 md:text-xs">
               Free in-home measure and quote across Melbourne

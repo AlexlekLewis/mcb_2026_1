@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="bg-white pt-36">
-      <section className="container mx-auto px-4 py-20 text-center">
+      <section className="container mx-auto px-4 py-10 text-center">
         <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">About Modern Curtains and Blinds</span>
         <h1 className="mx-auto mb-6 max-w-4xl font-serif text-4xl text-mcb-charcoal md:text-6xl">
           Are We the Right Choice for You?

@@ -27,9 +27,9 @@ export function ProofBar({ className = "" }: { className?: string }) {
 
 export function BrowseByNeed() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-10">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="mx-auto mb-6 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Start With The Problem</span>
           <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">What Do You Need Help With?</h2>
           <p className="text-lg leading-relaxed text-stone-500">
@@ -59,9 +59,9 @@ export function BrowseByNeed() {
 
 export function ExpandedCategoryGrid() {
   return (
-    <section className="bg-mcb-paper py-20">
+    <section className="bg-mcb-paper py-10">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="mx-auto mb-6 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">Full service range</span>
           <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Every Window and Doorway Covered</h2>
           <p className="text-lg leading-relaxed text-stone-500">
@@ -98,9 +98,9 @@ export function ExpandedCategoryGrid() {
 
 export function ProcessStrip() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-10">
       <div className="container mx-auto px-4">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <div className="mx-auto mb-6 max-w-3xl text-center">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-terracotta">How it works</span>
           <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">A Clear Path from Idea to Install</h2>
           <p className="text-lg leading-relaxed text-stone-500">No pressure. No guesswork. You see the samples, the options and the written price before anything is ordered.</p>
@@ -121,7 +121,7 @@ export function ProcessStrip() {
 
 export function FamilyBusinessStory() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-10">
       <div className="container mx-auto grid items-center gap-12 px-4 lg:grid-cols-[0.78fr_1fr]">
         <div className="mx-auto w-full max-w-sm">
           <div className="relative mx-auto aspect-square w-full max-w-[19rem] overflow-hidden rounded-full border-8 border-mcb-paper shadow-xl shadow-stone-200/80">
@@ -165,7 +165,7 @@ export function FamilyBusinessStory() {
 
 export function SecurityMoat() {
   return (
-    <section className="bg-mcb-charcoal py-20 text-white">
+    <section className="bg-mcb-charcoal py-10 text-white">
       <div className="container mx-auto grid items-center gap-10 px-4 lg:grid-cols-[1fr_0.9fr]">
         <div>
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-mcb-clay-light">The MCB Advantage</span>
@@ -203,7 +203,7 @@ export function SecurityMoat() {
 
 export function FinalCTA({ product }: { product?: string }) {
   return (
-    <section className="bg-mcb-paper py-20">
+    <section className="bg-mcb-paper py-10">
       <div className="container mx-auto px-4 text-center">
         <h2 className="mb-5 font-serif text-3xl text-mcb-charcoal md:text-5xl">Book Your Free In-Home Measure and Quote</h2>
         <p className="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-stone-500">
@@ -228,7 +228,7 @@ export function FinalCTA({ product }: { product?: string }) {
 
 export function ModernFitPromise() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-8">
       <div className="container mx-auto px-4">
         <div className="rounded-sm border border-mcb-clay/40 bg-mcb-paper p-8 md:p-10">
           <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-center">
@@ -258,7 +258,7 @@ export function ModernFitPromise() {
 
 export function FAQBlock({ items = defaultFaq }: { items?: { question: string; answer: string }[] }) {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

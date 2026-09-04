@@ -17,7 +17,7 @@ export default async function ProjectsPage() {
 
   return (
     <main className="bg-mcb-paper pt-36">
-      <section className="container mx-auto px-4 py-16 text-center md:py-20">
+      <section className="container mx-auto px-4 py-8 text-center md:py-10">
         <span className="mb-4 block text-sm font-bold uppercase tracking-[0.22em] text-mcb-terracotta">
           Project gallery
         </span>
@@ -31,7 +31,7 @@ export default async function ProjectsPage() {
       </section>
 
       {projects.length === 0 ? (
-        <section className="container mx-auto px-4 pb-20">
+        <section className="container mx-auto px-4 pb-10">
           <div className="mx-auto max-w-xl rounded-sm border border-stone-200 bg-white p-8 text-center">
             <h2 className="mb-3 font-serif text-2xl text-mcb-charcoal">Gallery Loading Soon</h2>
             <p className="text-sm text-stone-500 normal-case">

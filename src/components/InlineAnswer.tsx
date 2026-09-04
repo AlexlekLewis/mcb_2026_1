@@ -160,7 +160,7 @@ export function InlineAnswer({
 
   return (
     <section
-      className={`bg-white py-12 md:py-16 ${className}`.trim()}
+      className={`bg-white py-6 md:py-8 ${className}`.trim()}
       aria-labelledby="inline-answer-heading"
     >
       <script
