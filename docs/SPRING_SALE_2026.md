@@ -10,7 +10,7 @@ installation urgency, no discount**. The modal is live in code (`enabled: true` 
 
 | Product group | Order by | Why |
 |---|---|---|
-| **Plantation shutters** | **Tue 30 September 2026** | Longer production lead time, so it has to close first |
+| **Plantation shutters** | **Wed 30 September 2026** | Longer production lead time, so it has to close first |
 | **All other products** | **Mon 30 November 2026** | Shorter lead time |
 
 Both are conditional: **installation dates are allocated as orders are confirmed, and
