@@ -34,7 +34,7 @@ export const RELEASES: Release[] = [
   {
     id: "2026-09-02-product-structure-plus-single-payright",
     title: "Product page restructure, single Payright placement, Product Guide modal, 50% tighter spacing",
-    releasedAt: "2026-09-02T00:00:00Z",
+    releasedAt: "2026-09-04T03:20:00Z",
     summary:
       "Two requested changes shipped together. (1) STRUCTURE: every ProductTemplate-driven page (~41 routes across blinds, curtains, shutters, awnings, security and locations/[suburb]) reordered to Hero -> Choose with Confidence -> Which Option Is Right for You? -> Benefits -> Reviews -> Product spiel/overview -> Common Questions. Buyers now hit the product choices and the decision guide before any prose; social proof follows the choice rather than preceding it. Sections not named in the brief (features grid, Product Guide comparison table, fit promise, process timeline, internal links, closing CTA) keep their relative order below the FAQ. (2) PAYRIGHT: the finance banner was rendering at the top of EVERY page, directly under the fixed nav and above the hero, plus a second white Payright card mid-page on every product page, plus an unprompted brand mention in the chat fallback — three touches per product page. Cut to exactly one: a single full-bleed banner anchored immediately below the 'Which option is right for you?' decision guide, where finance is a live question rather than an interruption. Watch: scroll depth past the decision guide, quote CTA clicks, bounce on product pages, and whether hero engagement improves now that the banner no longer pushes it ~40px down the fold.",
     items: [
